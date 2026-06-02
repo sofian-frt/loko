@@ -1,0 +1,3028 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lokoo V1.1 — Relevé & Chiffrage Locaux Commerciaux</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ═══ RESET & VARIABLES — Pennylane DA ═══ */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F8FA;
+  --surface:#FFFFFF;
+  --surface2:#F4F5F7;
+  --border:#E8EAED;
+  --border2:#D1D5DB;
+  --ink:#1A1F36;
+  --ink2:#374151;
+  --mid:#6B7280;
+  --muted:#9CA3AF;
+  --primary:#00C896;
+  --primary-dark:#00A87E;
+  --primary-light:#E6FAF5;
+  --primary-border:#A7F3D8;
+  --cyan:#0EA5E9;
+  --cyan-light:#F0F9FF;
+  --success:#00C896;
+  --success-light:#E6FAF5;
+  --warn:#F59E0B;
+  --warn-light:#FFFBEB;
+  --danger:#EF4444;
+  --danger-light:#FEF2F2;
+  --orange:#F97316;
+  --orange-light:#FFF7ED;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.04),0 1px 2px rgba(0,0,0,.03);
+  --shadow:0 2px 8px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);
+  --shadow-md:0 4px 16px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.04);
+  --shadow-lg:0 12px 32px rgba(0,0,0,.1),0 4px 8px rgba(0,0,0,.04);
+  --radius-sm:8px;
+  --radius:10px;
+  --radius-lg:14px;
+  --radius-xl:18px;
+  --font:'Inter',-apple-system,sans-serif;
+}
+html{font-size:15px;scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);min-height:100vh;line-height:1.5}
+input,select,textarea,button{font-family:var(--font)}
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
+input[type=number]{-moz-appearance:textfield}
+
+/* ═══ LAYOUT ═══ */
+.app{display:flex;min-height:100vh}
+.sidebar{
+  width:230px;flex-shrink:0;background:var(--surface);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;height:100vh;
+  z-index:200;overflow-y:auto;
+  transition:transform .25s ease;
+}
+.sidebar-header{
+  padding:22px 18px 18px;
+  border-bottom:1px solid var(--border);
+}
+.nav-group{padding:10px 10px 0}
+.nav-label{
+  font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted);padding:10px 10px 6px;display:block;
+}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:var(--radius-sm);
+  cursor:pointer;font-size:13px;font-weight:500;
+  color:var(--mid);border:none;background:none;
+  width:100%;text-align:left;transition:all .15s;
+  margin-bottom:2px;position:relative;
+}
+.nav-item:hover{background:var(--bg);color:var(--ink)}
+.nav-item.active{background:var(--primary-light);color:var(--primary-dark);font-weight:600}
+.nav-item.active .nav-icon{color:var(--primary)}
+.nav-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0;color:var(--muted)}
+.nav-item.active .nav-icon{color:var(--primary)}
+.nav-badge{
+  margin-left:auto;font-size:10px;font-weight:700;
+  background:var(--primary);color:white;
+  padding:2px 7px;border-radius:20px;min-width:20px;text-align:center;
+}
+.nav-badge.warn{background:var(--danger)}
+.sidebar-footer{
+  margin-top:auto;padding:14px 18px;
+  border-top:1px solid var(--border);
+}
+.version-tag{
+  font-size:11px;color:var(--muted);
+  background:var(--bg);border:1px solid var(--border);
+  padding:3px 10px;border-radius:20px;display:inline-block;
+}
+/* MAIN */
+.main{margin-left:230px;flex:1;min-height:100vh;display:flex;flex-direction:column;}
+/* TOPBAR */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:0 28px;height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.topbar-title{font-size:15px;font-weight:600;color:var(--ink)}
+.topbar-step{
+  font-size:11px;color:var(--muted);
+  background:var(--bg);border:1px solid var(--border);
+  padding:3px 10px;border-radius:20px;font-weight:500;
+}
+.topbar-actions{display:flex;gap:8px;align-items:center}
+/* CONTENT */
+.content{padding:28px;flex:1}
+
+/* ═══ PAGES ═══ */
+.page{display:none}
+.page.active{display:block;animation:fadeUp .2s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ═══ BUTTONS ═══ */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 18px;border-radius:var(--radius);
+  font-size:13px;font-weight:600;cursor:pointer;
+  border:1.5px solid transparent;transition:all .15s;
+  line-height:1;white-space:nowrap;
+}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:var(--radius-sm)}
+.btn-lg{padding:12px 24px;font-size:14px;border-radius:var(--radius-lg)}
+.btn-primary{background:var(--primary);color:white;border-color:var(--primary)}
+.btn-primary:hover{background:var(--primary-dark);border-color:var(--primary-dark)}
+.btn-secondary{background:white;color:var(--ink2);border-color:var(--border2)}
+.btn-secondary:hover{background:var(--bg);border-color:var(--border2)}
+.btn-ghost{background:none;color:var(--mid);border-color:transparent}
+.btn-ghost:hover{background:var(--bg);color:var(--ink2)}
+.btn-danger{background:var(--danger);color:white;border-color:var(--danger)}
+.btn-success{background:var(--success);color:white;border-color:var(--success)}
+.btn-cyan{background:var(--cyan);color:white;border-color:var(--cyan)}
+.btn-full{width:100%;justify-content:center}
+
+/* ═══ PAGE HEADER ═══ */
+.page-header{margin-bottom:28px}
+.page-header h2{font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.4px;margin-bottom:4px}
+.page-header p{font-size:13px;color:var(--mid);line-height:1.6}
+.page-header-actions{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
+
+/* ═══ CARDS ═══ */
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:24px;
+  box-shadow:var(--shadow-sm);
+}
+.card-sm{padding:16px;border-radius:var(--radius)}
+.card-flat{box-shadow:none}
+.card-title{
+  font-size:11px;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:16px;
+}
+.section-title{
+  font-size:13px;font-weight:600;color:var(--ink);
+  margin-bottom:12px;padding-bottom:10px;
+  border-bottom:1px solid var(--border);
+}
+
+/* ═══ GRIDS ═══ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.g-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+
+/* ═══ FORMS ═══ */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+.form-row-1{margin-bottom:14px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-label{font-size:12px;font-weight:500;color:var(--ink2)}
+.form-label .req{color:var(--danger)}
+.form-input{
+  padding:9px 13px;border:1.5px solid var(--border2);
+  border-radius:var(--radius-sm);font-size:13px;
+  color:var(--ink);background:white;outline:none;
+  transition:border-color .15s,box-shadow .15s;width:100%;
+}
+.form-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,200,150,.12)}
+.form-input.filled{border-color:var(--primary);background:var(--primary-light)}
+.form-select{
+  padding:9px 36px 9px 13px;border:1.5px solid var(--border2);
+  border-radius:var(--radius-sm);font-size:13px;
+  color:var(--ink);background:white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;
+  appearance:none;outline:none;cursor:pointer;width:100%;transition:border-color .15s;
+}
+.form-select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,200,150,.12)}
+.form-textarea{
+  padding:9px 13px;border:1.5px solid var(--border2);
+  border-radius:var(--radius-sm);font-size:13px;
+  color:var(--ink);background:white;outline:none;
+  resize:vertical;min-height:80px;width:100%;transition:border-color .15s;
+}
+.form-textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,200,150,.12)}
+.form-hint{font-size:11px;color:var(--muted)}
+.form-section{margin-bottom:24px}
+.form-section-title{
+  font-size:13px;font-weight:600;color:var(--ink);
+  margin-bottom:14px;display:flex;align-items:center;gap:8px;
+}
+.form-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ═══ CHECKBOXES ═══ */
+.check-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.check-item{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 12px;border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);cursor:pointer;
+  transition:all .15s;font-size:12px;font-weight:500;color:var(--ink2);background:white;
+}
+.check-item:hover{border-color:var(--primary-border);background:var(--primary-light)}
+.check-item input{accent-color:var(--primary);width:14px;height:14px;flex-shrink:0}
+.check-item.checked{border-color:var(--primary-border);background:var(--primary-light);color:var(--primary-dark)}
+
+/* ═══ RADIO CARDS ═══ */
+.radio-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.radio-card{
+  padding:12px 14px;border:1.5px solid var(--border);
+  border-radius:var(--radius);cursor:pointer;
+  transition:all .15s;background:white;
+}
+.radio-card:hover{border-color:var(--primary-border);background:var(--primary-light)}
+.radio-card.selected{border-color:var(--primary);background:var(--primary-light)}
+.radio-card-icon{font-size:20px;margin-bottom:6px}
+.radio-card-label{font-size:12px;font-weight:600;color:var(--ink)}
+.radio-card-sub{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* ═══ KPI CARDS ═══ */
+.kpi{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
+.kpi-val{font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-.5px}
+.kpi-val-sm{font-size:18px}
+.kpi-label{font-size:11px;color:var(--muted);font-weight:500;margin-bottom:6px}
+.kpi-sub{font-size:11px;color:var(--mid);margin-top:4px}
+.kpi-trend{font-size:11px;font-weight:600;margin-top:6px;padding:2px 8px;border-radius:10px;display:inline-block}
+.kpi-trend.good{background:var(--success-light);color:var(--success)}
+.kpi-trend.warn{background:var(--warn-light);color:var(--warn)}
+.kpi-trend.danger{background:var(--danger-light);color:var(--danger)}
+
+/* ═══ ALERTS ═══ */
+.alert{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;border-radius:var(--radius);margin-bottom:8px;border:1.5px solid}
+.alert-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.alert-title{font-size:12px;font-weight:600;margin-bottom:2px}
+.alert-desc{font-size:11px;opacity:.85;line-height:1.5}
+.alert.critique{background:var(--danger-light);border-color:#FCA5A5;color:var(--danger)}
+.alert.important{background:var(--orange-light);border-color:#FED7AA;color:var(--orange)}
+.alert.vigilance{background:var(--warn-light);border-color:#FDE68A;color:var(--warn)}
+.alert.info{background:var(--primary-light);border-color:var(--primary-border);color:var(--primary-dark)}
+.alert.success{background:var(--success-light);border-color:#A7F3D8;color:var(--primary-dark)}
+
+/* ═══ BADGES ═══ */
+.badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;display:inline-block}
+.badge-primary{background:var(--primary-light);color:var(--primary-dark);border:1px solid var(--primary-border)}
+.badge-success{background:var(--success-light);color:var(--primary-dark)}
+.badge-danger{background:var(--danger-light);color:var(--danger)}
+.badge-warn{background:var(--warn-light);color:var(--warn)}
+.badge-orange{background:var(--orange-light);color:var(--orange)}
+.badge-muted{background:var(--bg);color:var(--mid);border:1px solid var(--border)}
+
+/* ═══ TABS ═══ */
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:24px;gap:2px;overflow-x:auto}
+.tab{padding:10px 18px;font-size:13px;font-weight:500;color:var(--mid);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .15s;font-family:var(--font)}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--primary-dark);border-bottom-color:var(--primary);font-weight:600}
+
+/* ═══ TABLE ═══ */
+.table{width:100%;border-collapse:collapse}
+.table th{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding:8px 14px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;background:var(--bg)}
+.table td{padding:11px 14px;border-bottom:1px solid var(--border);font-size:13px;color:var(--ink2);vertical-align:top}
+.table tr:last-child td{border-bottom:none}
+.table tr:hover td{background:var(--bg)}
+.table td.num{font-weight:600;color:var(--ink);text-align:right}
+.table td.label{font-weight:600;color:var(--ink)}
+
+/* ═══ DIVIDERS ═══ */
+.divider{height:1px;background:var(--border);margin:20px 0}
+.divider-label{display:flex;align-items:center;gap:12px;margin:20px 0 16px}
+.divider-label span{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+.divider-label::before,.divider-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* ═══ PIECE CARD ═══ */
+.piece-card{background:white;border:1.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:12px}
+.piece-header{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border);background:var(--surface)}
+.piece-header:hover{background:var(--bg)}
+.piece-header-left{flex:1;display:flex;align-items:center;gap:10px}
+.piece-icon{width:36px;height:36px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.piece-name{font-size:14px;font-weight:600;color:var(--ink)}
+.piece-meta{font-size:11px;color:var(--mid);margin-top:2px}
+.piece-actions{display:flex;gap:6px}
+.piece-body{padding:20px;display:none}
+.piece-body.open{display:block;animation:fadeUp .15s ease}
+
+/* ═══ PROGRESS ═══ */
+.progress-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;background:var(--primary);transition:width .4s ease}
+.progress-fill.success{background:var(--success)}
+.progress-fill.warn{background:var(--warn)}
+.progress-fill.danger{background:var(--danger)}
+
+/* ═══ SLIDER ═══ */
+.slider-wrap{display:flex;align-items:center;gap:10px}
+.slider-wrap input[type=range]{flex:1;accent-color:var(--primary);height:4px}
+.slider-display{min-width:54px;text-align:center;font-size:13px;font-weight:600;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:5px 8px;color:var(--ink)}
+
+/* ═══ TOTAUX ═══ */
+.totaux-block{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px}
+.totaux-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed var(--border)}
+.totaux-row:last-child{border-bottom:none;padding-bottom:0}
+.totaux-label{font-size:12px;color:var(--mid)}
+.totaux-val{font-size:13px;font-weight:600;color:var(--ink2)}
+.totaux-big{border-top:2px solid var(--ink);margin-top:8px;padding-top:14px}
+.totaux-big .totaux-label{font-size:14px;font-weight:700;color:var(--ink)}
+.totaux-big .totaux-val{font-size:24px;font-weight:800;color:var(--primary)}
+
+/* ═══ LOTS TABLE ═══ */
+.lots-table{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px}
+.lots-header{display:grid;grid-template-columns:1fr 50px 120px;padding:10px 18px;background:var(--ink)}
+.lots-header span{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8}
+.lots-header span:last-child,.lots-header span:nth-child(2){text-align:right}
+.lot-row{display:grid;grid-template-columns:1fr 50px 120px;padding:12px 18px;border-bottom:1px solid var(--border);align-items:start;transition:background .1s}
+.lot-row:last-child{border-bottom:none}
+.lot-row:hover{background:var(--bg)}
+.lot-name{font-size:12px;font-weight:600;color:var(--ink)}
+.lot-detail{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.5}
+.lot-alert{display:inline-block;margin-top:4px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px}
+.lot-alert.warn{background:var(--warn-light);color:var(--warn);border:1px solid #FDE68A}
+.lot-alert.erp{background:var(--danger-light);color:var(--danger);border:1px solid #FCA5A5}
+.lot-pct{text-align:right;font-size:12px;font-weight:700;color:var(--primary-dark);padding-top:1px}
+.lot-amt{text-align:right;font-size:12px;font-weight:600;color:var(--ink2);padding-top:1px}
+.lot-amt.dim{color:var(--border2)}
+.lots-sep{display:grid;grid-template-columns:1fr 50px 120px;padding:8px 18px;background:#1E293B}
+.lots-sep span{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#64748B}
+.lot-row.comp{background:#F0FDF9}
+.lot-row.comp:hover{background:#DCFCE7}
+.lot-pct.comp-pct{color:var(--warn)}
+
+/* ═══ SYNTHESE ═══ */
+.synth-section{margin-bottom:24px}
+.synth-title{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary-dark);padding:8px 16px;background:var(--primary-light);border-radius:var(--radius-sm);border-left:3px solid var(--primary);margin-bottom:12px}
+.synth-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.synth-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px}
+.synth-item-label{font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px}
+.synth-item-val{font-size:15px;font-weight:700;color:var(--ink)}
+
+/* ═══ MOBILE ═══ */
+.mobile-topbar{display:none;position:fixed;top:0;left:0;right:0;background:white;border-bottom:1px solid var(--border);padding:0 16px;height:54px;z-index:300;align-items:center;justify-content:space-between}
+.hamburger{background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:var(--ink)}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:199}
+.fab{display:none;position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--primary);color:white;font-size:24px;border:none;cursor:pointer;box-shadow:var(--shadow-lg);z-index:150;align-items:center;justify-content:center}
+
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.mobile-open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
+  .main{margin-left:0;padding-top:54px}
+  .mobile-topbar{display:flex}
+  .content{padding:16px}
+  .g2,.g3,.g4,.g-auto{grid-template-columns:1fr}
+  .form-row,.form-row-3{grid-template-columns:1fr}
+  .fab{display:flex}
+  .topbar{display:none}
+  .radio-cards{grid-template-columns:repeat(2,1fr)}
+  .check-grid{grid-template-columns:1fr 1fr}
+}
+@media print{
+  .sidebar,.topbar,.mobile-topbar,.fab,.topbar-actions{display:none!important}
+  .main{margin-left:0}
+  .page{display:block!important}
+  .card{box-shadow:none;border:1px solid #ddd}
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE TOPBAR -->
+<div class="mobile-topbar">
+  <button class="hamburger" onclick="toggleMobileSidebar()" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
+  <div class="logo-text" id="mobile-page-title">Lokoo.io</div>
+  <button class="btn btn-sm btn-primary" onclick="saveCurrentChiffrage()" style="padding:6px 10px;font-size:11px">💾</button>
+</div>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div style="display:flex;align-items:center;gap:10px">
+      <svg width="36" height="36" viewBox="0 0 50 50" style="flex-shrink:0">
+        <rect x="0" y="0" width="50" height="50" rx="7" fill="#00C896"/>
+        <rect x="13" y="11" width="10" height="28" rx="2" fill="white"/>
+        <rect x="13" y="29" width="24" height="10" rx="2" fill="white"/>
+      </svg>
+      <div>
+        <div style="font-size:17px;font-weight:800;color:var(--ink);letter-spacing:-.5px">lokoo<span style="font-weight:300">.io</span></div>
+        <div style="font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:1px">Relevé & Chiffrage</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-group">
+    <span class="nav-label">Projet</span>
+    <button class="nav-item active" onclick="showPage('init')" id="nav-init">
+      <span class="nav-icon">📋</span> Initialisation
+    </button>
+    <button class="nav-item" onclick="showPage('releves')" id="nav-releves">
+      <span class="nav-icon">📐</span> Relevés & Pièces
+      <span class="nav-badge" id="nb-pieces-nav">0</span>
+    </button>
+  </div>
+
+  <div class="nav-group">
+    <span class="nav-label">Technique</span>
+    <button class="nav-item" onclick="showPage('eclairage')" id="nav-eclairage">
+      <span class="nav-icon">💡</span> Éclairage
+    </button>
+    <button class="nav-item" onclick="showPage('electricite')" id="nav-electricite">
+      <span class="nav-icon">⚡</span> Électricité
+    </button>
+    <button class="nav-item" onclick="showPage('plomberie')" id="nav-plomberie">
+      <span class="nav-icon">🚿</span> Plomberie
+    </button>
+    <button class="nav-item" onclick="showPage('ventilation')" id="nav-ventilation">
+      <span class="nav-icon">🌀</span> Ventilation
+    </button>
+    <button class="nav-item" onclick="showPage('clim')" id="nav-clim">
+      <span class="nav-icon">❄️</span> Climatisation
+    </button>
+    <button class="nav-item" onclick="showPage('facade')" id="nav-facade">
+      <span class="nav-icon">🏪</span> Façade & Études
+    </button>
+  </div>
+
+  <div class="nav-group">
+    <span class="nav-label">Chiffrage</span>
+    <button class="nav-item" onclick="showPage('prechiffrage')" id="nav-prechiffrage">
+      <span class="nav-icon">⚡</span> Pré-chiffrage
+    </button>
+    <button class="nav-item" onclick="showPage('chiffrage')" id="nav-chiffrage">
+      <span class="nav-icon">📊</span> Chiffrage détaillé
+    </button>
+    <button class="nav-item" onclick="showPage('synthese')" id="nav-synthese">
+      <span class="nav-icon">📄</span> Synthèse
+      <span class="nav-badge warn" id="nb-alertes-nav" style="display:none">!</span>
+    </button>
+  </div>
+
+  <div class="nav-group">
+    <span class="nav-label">Base de données</span>
+    <button class="nav-item" onclick="showPage('bibliotheque')" id="nav-bibliotheque">
+      <span class="nav-icon">📚</span> Bibliothèque de prix
+      <span class="nav-badge" id="nb-prix">0</span>
+    </button>
+    <button class="nav-item" onclick="showPage('chantiers')" id="nav-chantiers">
+      <span class="nav-icon">🏗️</span> Chantiers
+      <span class="nav-badge" id="nb-chantiers">0</span>
+    </button>
+    <button class="nav-item" onclick="showPage('dashboard')" id="nav-dashboard">
+      <span class="nav-icon">📈</span> Tableau de bord
+    </button>
+  </div>
+
+  <div class="sidebar-footer">
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <span class="version-tag">V1.2 · Stable</span>
+      <button class="btn btn-sm btn-ghost" onclick="exportPrint()" style="font-size:11px">🖨️</button>
+    </div>
+  </div>
+</aside>
+
+<!-- FAB mobile synthèse -->
+<button class="fab" onclick="showPage('synthese')" title="Synthèse">📄</button>
+
+
+<div class="app">
+<div class="main">
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-title" id="topbar-title">Initialisation du projet</div>
+    <div class="topbar-step" id="topbar-step">Étape 1/8</div>
+  </div>
+  <div class="topbar-actions">
+    <button class="btn btn-secondary btn-sm" onclick="exportPrint()">🖨️ Imprimer</button>
+    <button class="btn btn-secondary btn-sm" onclick="exportJSON()">📥 Exporter</button>
+    <button class="btn btn-primary btn-sm" onclick="saveCurrentChiffrage()">💾 Sauvegarder</button>
+  </div>
+</div>
+<div class="content">
+
+
+<!-- ══ PAGE INITIALISATION ══ -->
+<div class="page active" id="page-init">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Initialisation du projet</h2>
+      <p>Renseignez les informations générales avant de commencer les relevés sur site</p>
+    </div>
+    <button class="btn btn-primary" onclick="showPage('releves')">
+      Commencer les relevés →
+    </button>
+  </div>
+
+  <div class="g2" style="align-items:start;gap:20px">
+    <!-- COL GAUCHE -->
+    <div>
+      <!-- INFORMATIONS GÉNÉRALES -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Informations générales</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nom du projet <span class="req">*</span></label>
+            <input id="proj-nom" class="form-input" placeholder="Ex : Restaurant Le Marais" oninput="updateProjectHeader()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Client <span class="req">*</span></label>
+            <div style="display:flex;gap:8px;margin-bottom:6px">
+              <input id="proj-siren" class="form-input" placeholder="N° SIREN (9 chiffres)"
+                style="font-family:monospace;letter-spacing:.05em"
+                maxlength="9" oninput="rechercherSiren(this.value)">
+              <div id="siret-status" style="flex-shrink:0;width:32px;display:flex;align-items:center;justify-content:center;font-size:16px"></div>
+            </div>
+            <input id="proj-client" class="form-input" placeholder="Nom du client ou société (rempli automatiquement)">
+            <div id="siret-info" style="display:none;margin-top:6px;padding:10px 12px;background:var(--success-light);border:1px solid #A7F3D0;border-radius:6px;font-size:12px;color:var(--success)"></div>
+          </div>
+        </div>
+        <div class="form-row-1">
+          <div class="form-group">
+            <label class="form-label">Adresse du chantier</label>
+            <div style="position:relative">
+              <input id="proj-adresse" class="form-input" placeholder="Commencez à taper l'adresse..."
+                autocomplete="off"
+                oninput="searchAdresse(this.value)"
+                onblur="setTimeout(hideAdresseSugg, 200)"
+                onkeydown="handleAdresseKey(event)">
+              <div id="adresse-suggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:white;border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);box-shadow:var(--shadow-md);z-index:999;max-height:220px;overflow-y:auto"></div>
+            </div>
+            <div id="satellite-btn-wrap" style="display:none;margin-top:8px">
+              <button type="button" onclick="openSatelliteModal()" class="btn btn-secondary btn-sm" style="font-size:11px;gap:5px">
+                🛰️ Vue satellite
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Date de visite</label>
+            <input id="proj-date" type="date" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Releveur / Chargé d'affaire</label>
+            <input id="proj-releveur" class="form-input" placeholder="Prénom NOM">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Type de local</label>
+            <select id="proj-type-local" class="form-select" onchange="updateTypeLocal()">
+              <option value="restaurant">🍽️ Restaurant</option>
+              <option value="cafe">☕ Café / Coffee shop</option>
+              <option value="boulangerie">🥖 Boulangerie</option>
+              <option value="bureau">💼 Bureaux</option>
+              <option value="boutique">🛍️ Boutique</option>
+              <option value="cabinet">🏥 Cabinet médical</option>
+              <option value="salon">✂️ Salon de coiffure</option>
+              <option value="institut">💆 Institut de beauté</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Activité prévue</label>
+            <input id="proj-activite" class="form-input" placeholder="Ex : Pizzeria italienne, 80 couverts">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Surface totale (m²)</label>
+            <input id="proj-surface" type="number" class="form-input" placeholder="180" oninput="updateProjectHeader()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Hauteur sous plafond (m)</label>
+            <input id="proj-hauteur" type="number" step="0.1" class="form-input" placeholder="2.70">
+          </div>
+        </div>
+        <div class="form-row-1">
+          <div class="form-group">
+            <label class="form-label">Notes libres / Observations générales</label>
+            <textarea id="proj-notes" class="form-textarea" placeholder="Observations importantes, contexte, points d'attention..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ÉTAT DU LOCAL -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">État initial du local</div>
+        <div class="form-section-title">Type de local</div>
+        <div class="radio-cards" id="etat-type-local" style="margin-bottom:16px">
+          <div class="radio-card selected" onclick="selectEtat('type','brut',this)" data-coeff="1.0">
+            <div class="radio-card-icon">🧱</div>
+            <div class="radio-card-label">Local brut béton</div>
+            <div class="radio-card-sub">Aucun aménagement</div>
+          </div>
+          <div class="radio-card" onclick="selectEtat('type','semi',this)" data-coeff="0.85">
+            <div class="radio-card-icon">🔨</div>
+            <div class="radio-card-label">Semi-aménagé</div>
+            <div class="radio-card-sub">Partiellement réalisé</div>
+          </div>
+          <div class="radio-card" onclick="selectEtat('type','ancien-commerce',this)" data-coeff="0.9">
+            <div class="radio-card-icon">🏪</div>
+            <div class="radio-card-label">Ancien commerce</div>
+            <div class="radio-card-sub">Curage nécessaire</div>
+          </div>
+          <div class="radio-card" onclick="selectEtat('type','ancien-restaurant',this)" data-coeff="0.88">
+            <div class="radio-card-icon">🍽️</div>
+            <div class="radio-card-label">Ancien restaurant</div>
+            <div class="radio-card-sub">Réseaux potentiels</div>
+          </div>
+          <div class="radio-card" onclick="selectEtat('type','ancien-bureau',this)" data-coeff="0.92">
+            <div class="radio-card-icon">💼</div>
+            <div class="radio-card-label">Ancien bureau</div>
+            <div class="radio-card-sub">Faux plafonds existants</div>
+          </div>
+          <div class="radio-card" onclick="selectEtat('type','a-curer',this)" data-coeff="1.05">
+            <div class="radio-card-icon">⛏️</div>
+            <div class="radio-card-label">Local à curer</div>
+            <div class="radio-card-sub">Curage lourd prévu</div>
+          </div>
+        </div>
+
+        <div class="form-section-title">Réseaux existants</div>
+        <div class="radio-cards" id="etat-reseaux" style="margin-bottom:16px">
+          <div class="radio-card" onclick="selectEtat('reseaux','complets',this)" data-coeff="0.75">
+            <div class="radio-card-icon">✅</div>
+            <div class="radio-card-label">Réseaux complets</div>
+            <div class="radio-card-sub">Utilisables ou adaptables</div>
+          </div>
+          <div class="radio-card selected" onclick="selectEtat('reseaux','partiels',this)" data-coeff="0.88">
+            <div class="radio-card-icon">⚠️</div>
+            <div class="radio-card-label">Réseaux partiels</div>
+            <div class="radio-card-sub">Complément à prévoir</div>
+          </div>
+          <div class="radio-card" onclick="selectEtat('reseaux','aucun',this)" data-coeff="1.0">
+            <div class="radio-card-icon">❌</div>
+            <div class="radio-card-label">Aucun réseau</div>
+            <div class="radio-card-sub">Tout à créer</div>
+          </div>
+        </div>
+
+        <div class="form-section-title">Équipements existants</div>
+        <div class="check-grid" id="etat-equipements">
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="eq-elec"> Électricité existante</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="eq-plomb"> Plomberie existante</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="eq-vmc"> Ventilation existante</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="eq-extraction"> Extraction existante</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="eq-clim"> Climatisation existante</label>
+        </div>
+
+        <div class="form-section-title" style="margin-top:14px">Accès et contraintes</div>
+        <div class="check-grid">
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="acc-toiture"> Accès toiture</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="acc-facade"> Accès façade</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="acc-local-tech"> Local technique disponible</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="acc-passage"> Passage technique dispo</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="acc-nacelle"> Accès nacelle possible</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL DROITE -->
+    <div>
+      <!-- RÉCAP PROJET -->
+      <div class="card" style="margin-bottom:16px;border:2px solid var(--primary-border)">
+        <div class="card-title">Récapitulatif projet</div>
+        <div id="proj-recap">
+          <div class="alert info">
+            <div class="alert-icon">ℹ️</div>
+            <div class="alert-body">
+              <div class="alert-title">Commencez à remplir le formulaire</div>
+              <div class="alert-desc">Le récapitulatif s'affichera ici</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ÉTUDES & AUTORISATIONS -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Études et autorisations</div>
+        <div class="check-grid">
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="aut-archi"> Architecte</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="aut-bet-fluides"> BET fluides</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="aut-bet-struct"> BET structure</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="aut-bc"> Bureau de contrôle</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="aut-sps"> Coordonnateur SPS</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="aut-amiante"> Diagnostic amiante</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="aut-plomb"> Diagnostic plomb</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="aut-acoustique"> Étude acoustique</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="aut-dp"> Déclaration préalable</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="aut-erp"> Autorisation ERP</label>
+        </div>
+        <div style="margin-top:12px">
+          <div class="form-group">
+            <label class="form-label">Budget études estimé (€ HT)</label>
+            <input type="number" id="budget-etudes" class="form-input" placeholder="5000" oninput="recalculate()">
+          </div>
+        </div>
+      </div>
+
+      <!-- CHANTIER PROVISOIRE -->
+      <div class="card">
+        <div class="card-title">Alimentation provisoire chantier</div>
+        <div class="radio-cards" id="elec-prov-type">
+          <div class="radio-card selected" onclick="selectEtat('elec-prov','aucune',this)">
+            <div class="radio-card-icon">🔌</div>
+            <div class="radio-card-label">Aucune</div>
+            <div class="radio-card-sub">Local déjà alimenté</div>
+          </div>
+          <div class="radio-card" onclick="selectEtat('elec-prov','enedis',this)">
+            <div class="radio-card-icon">🏭</div>
+            <div class="radio-card-label">Branchement Enedis</div>
+            <div class="radio-card-sub">~1 500 – 4 000 € · 3 sem.</div>
+          </div>
+          <div class="radio-card" onclick="selectEtat('elec-prov','sous-compteur',this)">
+            <div class="radio-card-icon">📊</div>
+            <div class="radio-card-label">Sous-compteur</div>
+            <div class="radio-card-sub">~500 – 1 200 €</div>
+          </div>
+          <div class="radio-card" onclick="selectEtat('elec-prov','groupe',this)">
+            <div class="radio-card-icon">🔋</div>
+            <div class="radio-card-label">Groupe électrogène</div>
+            <div class="radio-card-sub">~300 – 800 €/sem.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:flex-end;margin-top:20px">
+    <button class="btn btn-primary btn-lg" onclick="showPage('releves')">
+      Passer aux relevés →
+    </button>
+  </div>
+</div>
+
+
+<!-- ══ PAGE RELEVÉS ══ -->
+<div class="page" id="page-releves">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Relevés & Métrés</h2>
+      <p>Ajoutez chaque pièce · Les métrés sont calculés automatiquement</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary btn-lg" id="btn-add-piece" onclick="addPiece()">
+        + Ajouter une pièce
+      </button>
+    </div>
+  </div>
+
+  <!-- Totaux métrés -->
+  <div class="g4" id="metres-totaux" style="margin-bottom:20px">
+    <div class="kpi"><div class="kpi-label">Surface totale</div><div class="kpi-val" id="tot-surface">0 m²</div></div>
+    <div class="kpi"><div class="kpi-label">Surface murs</div><div class="kpi-val" id="tot-murs">0 m²</div></div>
+    <div class="kpi"><div class="kpi-label">Surface faïence</div><div class="kpi-val" id="tot-faience">0 m²</div></div>
+    <div class="kpi"><div class="kpi-label">Surface peinture</div><div class="kpi-val" id="tot-peinture">0 m²</div></div>
+  </div>
+
+  <div id="pieces-container">
+    <div class="alert info" id="empty-pieces">
+      <div class="alert-icon">📐</div>
+      <div class="alert-body">
+        <div class="alert-title">Aucune pièce ajoutée</div>
+        <div class="alert-desc">Cliquez sur "Ajouter une pièce" pour commencer les relevés</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;margin-top:24px;gap:12px">
+    <button class="btn btn-secondary" onclick="showPage('init')">← Retour</button>
+    <button class="btn btn-primary btn-lg" onclick="addPiece()">+ Ajouter une pièce</button>
+    <button class="btn btn-cyan" onclick="showPage('eclairage')">Pré-dimensionnement →</button>
+  </div>
+</div>
+
+
+<!-- ══ PAGE ÉCLAIRAGE ══ -->
+<div class="page" id="page-eclairage">
+  <div class="page-header">
+    <h2>Pré-dimensionnement Éclairage</h2>
+    <p>Calcul automatique basé sur les métrés saisis · Normes NF EN 12464</p>
+  </div>
+  <div id="eclairage-content">
+    <div class="alert info">
+      <div class="alert-icon">💡</div>
+      <div class="alert-body">
+        <div class="alert-title">Ajoutez des pièces dans l'onglet Relevés</div>
+        <div class="alert-desc">Le pré-dimensionnement s'affichera automatiquement</div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-top:24px">
+    <button class="btn btn-secondary" onclick="showPage('releves')">← Relevés</button>
+    <button class="btn btn-primary" onclick="showPage('electricite')">Électricité →</button>
+  </div>
+</div>
+
+
+<!-- ══ PAGE ÉLECTRICITÉ ══ -->
+<div class="page" id="page-electricite">
+  <div class="page-header">
+    <h2>Électricité</h2>
+    <p>Bilan de puissance · Tableau · Circuits par pièce</p>
+  </div>
+
+  <div class="g2" style="gap:20px;align-items:start">
+    <div>
+      <!-- TABLEAU EXISTANT -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Tableau et alimentation existants</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Tableau existant</label>
+            <select id="elec-tableau" class="form-select" onchange="calcElec()">
+              <option value="aucun">Aucun — À créer</option>
+              <option value="mono">Monophasé existant</option>
+              <option value="tri">Triphasé existant</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Puissance disponible (kVA)</label>
+            <input type="number" id="elec-puissance-dispo" class="form-input" placeholder="Ex : 24" oninput="calcElec()">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Commentaires tableau / branchement</label>
+          <textarea id="elec-notes" class="form-textarea" placeholder="Observations sur le tableau existant, contraintes ERDF..."></textarea>
+        </div>
+      </div>
+
+      <!-- BESOINS PAR PIÈCE -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Prises et équipements par pièce</div>
+        <div id="elec-pieces-content">
+          <div class="alert info" style="margin:0">
+            <div class="alert-icon">⚡</div>
+            <div class="alert-body"><div class="alert-title">Ajoutez des pièces dans l'onglet Relevés pour saisir les besoins électriques</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <!-- BILAN PUISSANCE -->
+      <div class="card" style="margin-bottom:16px;border:2px solid var(--primary-border)">
+        <div class="card-title">Bilan de puissance estimé</div>
+        <div id="elec-bilan">
+          <div style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Renseignez les pièces pour calculer</div>
+        </div>
+      </div>
+
+      <!-- ALERTES ÉLEC -->
+      <div id="elec-alertes"></div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-top:24px">
+    <button class="btn btn-secondary" onclick="showPage('eclairage')">← Éclairage</button>
+    <button class="btn btn-primary" onclick="showPage('plomberie')">Plomberie →</button>
+  </div>
+</div>
+
+
+<!-- ══ PAGE PLOMBERIE ══ -->
+<div class="page" id="page-plomberie">
+  <div class="page-header">
+    <h2>Plomberie</h2>
+    <p>Points d'eau · Évacuations · ECS · Bac à graisse</p>
+  </div>
+
+  <div class="g2" style="gap:20px;align-items:start">
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Paramètres généraux</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Ballon ECS (litres)</label>
+            <select id="plomb-ecs" class="form-select" onchange="calcPlomberie()">
+              <option value="0">Aucun</option>
+              <option value="50">50L — Points d'eau simples</option>
+              <option value="150">150L — Cuisine légère</option>
+              <option value="300">300L — Restaurant / labo</option>
+              <option value="500">500L — Boulangerie / cuisine lourde</option>
+              <option value="custom">Autre (saisir ci-dessous)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Volume ECS personnalisé (L)</label>
+            <input type="number" id="plomb-ecs-custom" class="form-input" placeholder="0">
+          </div>
+        </div>
+        <div class="check-grid" style="margin-bottom:14px">
+          <label class="check-item" onclick="toggleCheck(this);calcPlomberie()"><input type="checkbox" id="plomb-bac-graisse"> Bac à graisse</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="plomb-sprinklage"> Sprinklage</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="plomb-adoucisseur"> Adoucisseur eau</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="plomb-filtration"> Filtration / osmose</label>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Points d'eau par pièce</div>
+        <div id="plomb-pieces-content">
+          <div class="alert info" style="margin:0">
+            <div class="alert-icon">🚿</div>
+            <div class="alert-body"><div class="alert-title">Ajoutez des pièces dans l'onglet Relevés</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom:16px;border:2px solid var(--primary-border)">
+        <div class="card-title">Bilan plomberie</div>
+        <div id="plomb-bilan">
+          <div style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Renseignez les pièces pour calculer</div>
+        </div>
+      </div>
+      <div id="plomb-alertes"></div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-top:24px">
+    <button class="btn btn-secondary" onclick="showPage('electricite')">← Électricité</button>
+    <button class="btn btn-primary" onclick="showPage('ventilation')">Ventilation →</button>
+  </div>
+</div>
+
+
+<!-- ══ PAGE VENTILATION ══ -->
+<div class="page" id="page-ventilation">
+  <div class="page-header">
+    <h2>Ventilation & Extraction</h2>
+    <p>Calcul des débits · Cuisine professionnelle · Désenfumage</p>
+  </div>
+
+  <div class="g2" style="gap:20px;align-items:start">
+    <div>
+      <!-- CUISINE PRO -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Cuisine professionnelle</div>
+        <div class="check-grid" style="margin-bottom:14px">
+          <label class="check-item" onclick="toggleCheck(this);calcVentilation()"><input type="checkbox" id="cuis-actif"> Cuisine professionnelle</label>
+          <label class="check-item" onclick="toggleCheck(this);calcVentilation()"><input type="checkbox" id="cuis-gaz"> Cuisson gaz</label>
+          <label class="check-item" onclick="toggleCheck(this);calcVentilation()"><input type="checkbox" id="cuis-friteuse"> Friteuse</label>
+          <label class="check-item" onclick="toggleCheck(this);calcVentilation()"><input type="checkbox" id="cuis-grill"> Grill / Plancha</label>
+          <label class="check-item" onclick="toggleCheck(this);calcVentilation()"><input type="checkbox" id="cuis-braise" style="accent-color:var(--danger)"> Braise / Charbon ⚠️</label>
+          <label class="check-item" onclick="toggleCheck(this);calcVentilation()"><input type="checkbox" id="cuis-four-pizza"> Four à pizza</label>
+          <label class="check-item" onclick="toggleCheck(this);calcVentilation()"><input type="checkbox" id="cuis-four-boul"> Four boulangerie</label>
+        </div>
+
+        <div class="form-row" id="hotte-params">
+          <div class="form-group">
+            <label class="form-label">Longueur hotte (m)</label>
+            <input type="number" step="0.1" id="hotte-l" class="form-input" placeholder="2.0" oninput="calcVentilation()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Profondeur hotte (m)</label>
+            <input type="number" step="0.1" id="hotte-p" class="form-input" placeholder="1.2" oninput="calcVentilation()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Puissance cuisson estimée (kW)</label>
+            <input type="number" id="hotte-puissance" class="form-input" placeholder="30" oninput="calcVentilation()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Longueur gaine extraction (m)</label>
+            <input type="number" id="gaine-long" class="form-input" placeholder="8" oninput="calcVentilation()">
+          </div>
+        </div>
+      </div>
+
+      <!-- PASSAGES TECHNIQUES -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Passages techniques & Gaines</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Largeur passage disponible (cm)</label>
+            <input type="number" id="passage-l" class="form-input" placeholder="60" oninput="calcPassage()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Hauteur passage disponible (cm)</label>
+            <input type="number" id="passage-h" class="form-input" placeholder="40" oninput="calcPassage()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Longueur passage (m)</label>
+            <input type="number" id="passage-long" class="form-input" placeholder="12" oninput="calcPassage()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre de coudes</label>
+            <input type="number" id="passage-coudes" class="form-input" placeholder="2" oninput="calcPassage()">
+          </div>
+        </div>
+        <div id="passage-result" style="margin-top:8px"></div>
+      </div>
+    </div>
+
+    <div>
+      <!-- BILAN VENTILATION PAR PIÈCE -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Débit par pièce (m³/h)</div>
+        <div id="vent-pieces-content">
+          <div class="alert info" style="margin:0">
+            <div class="alert-icon">🌀</div>
+            <div class="alert-body"><div class="alert-title">Ajoutez des pièces dans l'onglet Relevés</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;border:2px solid var(--primary-border)">
+        <div class="card-title">Bilan ventilation</div>
+        <div id="vent-bilan">
+          <div style="text-align:center;padding:20px;color:var(--muted);font-size:12px">En attente de données...</div>
+        </div>
+      </div>
+
+      <div id="vent-alertes"></div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-top:24px">
+    <button class="btn btn-secondary" onclick="showPage('plomberie')">← Plomberie</button>
+    <button class="btn btn-primary" onclick="showPage('clim')">Climatisation →</button>
+  </div>
+</div>
+
+
+<!-- ══ PAGE CLIMATISATION ══ -->
+<div class="page" id="page-clim">
+  <div class="page-header">
+    <h2>Climatisation</h2>
+    <p>Choix de système · Unités extérieures · Liaisons frigorifiques</p>
+  </div>
+
+  <div class="g2" style="gap:20px;align-items:start">
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Type de système</div>
+        <div class="radio-cards">
+          <div class="radio-card selected" onclick="selectEtat('clim-sys','split',this)">
+            <div class="radio-card-icon">💨</div>
+            <div class="radio-card-label">Split mural</div>
+            <div class="radio-card-sub">1 unité ext. / pièce</div>
+          </div>
+          <div class="radio-card" onclick="selectEtat('clim-sys','cassette',this)">
+            <div class="radio-card-icon">🔲</div>
+            <div class="radio-card-label">Cassette plafond</div>
+            <div class="radio-card-sub">Encastrée en faux plafond</div>
+          </div>
+          <div class="radio-card" onclick="selectEtat('clim-sys','gainable',this)">
+            <div class="radio-card-icon">📦</div>
+            <div class="radio-card-label">Gainable</div>
+            <div class="radio-card-sub">Discret, en gaine</div>
+          </div>
+          <div class="radio-card" onclick="selectEtat('clim-sys','vrv',this)">
+            <div class="radio-card-icon">⚙️</div>
+            <div class="radio-card-label">VRV / VRF</div>
+            <div class="radio-card-sub">Multi-split évolué</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Unités extérieures</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Emplacement</label>
+            <select id="clim-ext-empl" class="form-select" onchange="calcClim()">
+              <option value="toiture">Toiture terrasse</option>
+              <option value="facade">Façade</option>
+              <option value="cour">Cour intérieure</option>
+              <option value="local">Local technique</option>
+              <option value="fenetre">Fenêtre condamnée + grille</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre d'unités extérieures</label>
+            <input type="number" id="clim-nb-ext" class="form-input" placeholder="1" oninput="calcClim()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Distance maxi liaison (m)</label>
+            <input type="number" id="clim-dist" class="form-input" placeholder="15" oninput="calcClim()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Dénivelé (m)</label>
+            <input type="number" id="clim-denivele" class="form-input" placeholder="0" oninput="calcClim()">
+          </div>
+        </div>
+        <div class="check-grid">
+          <label class="check-item" onclick="toggleCheck(this);calcClim()"><input type="checkbox" id="clim-carottage"> Carottage mur nécessaire</label>
+          <label class="check-item" onclick="toggleCheck(this);calcClim()"><input type="checkbox" id="clim-support"> Support anti-vibratile</label>
+          <label class="check-item" onclick="toggleCheck(this);calcClim()"><input type="checkbox" id="clim-maintenance"> Accès maintenance difficile</label>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <!-- PUISSANCE PAR PIÈCE -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Puissance estimée par pièce</div>
+        <div id="clim-pieces-content">
+          <div class="alert info" style="margin:0">
+            <div class="alert-icon">❄️</div>
+            <div class="alert-body"><div class="alert-title">Ajoutez des pièces dans l'onglet Relevés</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;border:2px solid var(--primary-border)">
+        <div class="card-title">Bilan climatisation</div>
+        <div id="clim-bilan">
+          <div style="text-align:center;padding:20px;color:var(--muted);font-size:12px">En attente...</div>
+        </div>
+      </div>
+      <div id="clim-alertes"></div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-top:24px">
+    <button class="btn btn-secondary" onclick="showPage('ventilation')">← Ventilation</button>
+    <button class="btn btn-primary" onclick="showPage('facade')">Façade & Études →</button>
+  </div>
+</div>
+
+
+<!-- ══ PAGE FAÇADE ══ -->
+<div class="page" id="page-facade">
+  <div class="page-header">
+    <h2>Façade & Conformité ERP</h2>
+    <p>Façade · Capacité d'accueil · Conformité PMR · Dégagements</p>
+  </div>
+
+  <div class="g2" style="gap:20px;align-items:start">
+    <div>
+      <!-- FAÇADE -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Façade & Vitrine</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Largeur vitrine (m)</label>
+            <input type="number" step="0.1" id="facade-l" class="form-input" placeholder="5.0" oninput="calcFacade()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Hauteur vitrine (m)</label>
+            <input type="number" step="0.1" id="facade-h" class="form-input" placeholder="3.2" oninput="calcFacade()">
+          </div>
+        </div>
+        <div class="check-grid" style="margin-bottom:12px">
+          <label class="check-item" onclick="toggleCheck(this);calcFacade()"><input type="checkbox" id="facade-rideau"> Rideau métallique</label>
+          <label class="check-item" onclick="toggleCheck(this);calcFacade()"><input type="checkbox" id="facade-enseigne"> Enseigne en façade</label>
+          <label class="check-item" onclick="toggleCheck(this);calcFacade()"><input type="checkbox" id="facade-grille-vent"> Grilles ventilation façade</label>
+          <label class="check-item" onclick="toggleCheck(this);calcFacade()"><input type="checkbox" id="facade-modification"> Modification façade prévue</label>
+          <label class="check-item" onclick="toggleCheck(this);calcFacade()"><input type="checkbox" id="facade-copro"> Copropriété</label>
+        </div>
+        <div id="facade-alertes"></div>
+      </div>
+
+      <!-- ERP & CAPACITÉ -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Capacité d'accueil & ERP</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Surface salle / accueil (m²)</label>
+            <input type="number" id="erp-surface-salle" class="form-input" placeholder="120" oninput="calcERP()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Surface circulation (m²)</label>
+            <input type="number" id="erp-surface-circu" class="form-input" placeholder="20" oninput="calcERP()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Largeur portes (cm)</label>
+            <input type="number" id="erp-largeur-porte" class="form-input" placeholder="90" oninput="calcERP()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre d'issues de secours</label>
+            <input type="number" id="erp-issues" class="form-input" placeholder="2" oninput="calcERP()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Largeur dégagements mini (cm)</label>
+            <input type="number" id="erp-degagement" class="form-input" placeholder="140" oninput="calcERP()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Type ERP prévu</label>
+            <select id="erp-type" class="form-select" onchange="calcERP()">
+              <option value="N">N — Restaurants</option>
+              <option value="M">M — Magasins</option>
+              <option value="W">W — Bureaux</option>
+              <option value="U">U — Établissements de soins</option>
+              <option value="J">J — Petites structures</option>
+            </select>
+          </div>
+        </div>
+        <div class="check-grid">
+          <label class="check-item" onclick="toggleCheck(this);calcERP()"><input type="checkbox" id="erp-pmr-wc"> WC PMR prévu</label>
+          <label class="check-item" onclick="toggleCheck(this);calcERP()"><input type="checkbox" id="erp-giration"> Giration fauteuil OK (1.50m)</label>
+          <label class="check-item" onclick="toggleCheck(this);calcERP()"><input type="checkbox" id="erp-rampe"> Rampe d'accès si besoin</label>
+          <label class="check-item" onclick="toggleCheck(this);calcERP()"><input type="checkbox" id="erp-baes-prevu"> BAES prévu</label>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <!-- RÉSULTATS ERP -->
+      <div class="card" style="margin-bottom:16px;border:2px solid var(--primary-border)">
+        <div class="card-title">Capacité & Catégorie ERP</div>
+        <div id="erp-result">
+          <div style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Renseignez la surface salle</div>
+        </div>
+      </div>
+      <div id="erp-alertes"></div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-top:24px">
+    <button class="btn btn-secondary" onclick="showPage('clim')">← Climatisation</button>
+    <button class="btn btn-primary" onclick="showPage('prechiffrage')">Pré-chiffrage →</button>
+  </div>
+</div>
+
+
+<!-- ══ PAGE PRÉ-CHIFFRAGE ══ -->
+<div class="page" id="page-prechiffrage">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Pré-chiffrage</h2>
+      <p>Budget rapide · Répartition par lot · Comparaison projets similaires</p>
+    </div>
+    <button class="btn btn-success" onclick="showPage('synthese')">Voir la synthèse →</button>
+  </div>
+
+  <div class="g2" style="gap:20px;align-items:start">
+    <!-- PARAMÈTRES -->
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Type de local & Gamme</div>
+        <div id="type-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px"></div>
+        <div class="card-title" style="margin-top:8px">Niveau de gamme</div>
+        <div id="gamme-row" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"></div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Paramètres du projet</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Surface (m²)</label>
+            <input type="number" id="inp-surface" class="form-input" placeholder="150" oninput="recalculate()">
+            <div class="form-hint" id="hint-taux">—</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" id="lbl-places">Places assises</label>
+            <input type="number" id="inp-places" class="form-input" placeholder="60" oninput="recalculate()">
+            <div class="form-hint" id="hint-places">Pour calcul mobilier</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Ville / Région</label>
+            <select id="inp-region" class="form-select" onchange="recalculate()">
+              <option value="idf">Île-de-France (+15 %)</option>
+              <option value="paca">PACA (+8 %)</option>
+              <option value="std" selected>Autres régions (base)</option>
+              <option value="rural">Zone rurale (−5 %)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Niveau de rénovation</label>
+            <select id="inp-renov" class="form-select" onchange="recalculate()">
+              <option value="0.7">Rafraîchissement (×0,7)</option>
+              <option value="1" selected>Rénovation standard (×1,0)</option>
+              <option value="1.3">Restructuration (×1,3)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Frais généraux</label>
+            <div class="slider-wrap">
+              <input type="range" min="0" max="25" value="8" id="sl-fg" oninput="syncSlider('fg');recalculate()">
+              <div class="slider-display" id="sv-fg">8 %</div>
+            </div>
+            <div class="form-hint" id="hint-fg">= — €</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Marge nette</label>
+            <div class="slider-wrap">
+              <input type="range" min="0" max="35" value="10" id="sl-marge" oninput="syncSlider('marge');recalculate()">
+              <div class="slider-display" id="sv-marge">10 %</div>
+            </div>
+            <div class="form-hint" id="hint-marge">= — €</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Complexité chantier</label>
+          <div class="slider-wrap">
+            <input type="range" min="1" max="5" value="3" id="sl-complexite" oninput="syncSlider('complexite');recalculate()">
+            <div class="slider-display" id="sv-complexite">3/5</div>
+          </div>
+          <div class="form-hint" id="hint-complexite">Aléas : 5 %</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Contraintes spécifiques</div>
+        <div class="check-grid">
+          <label class="check-item" onclick="toggleCheck(this);recalculate()"><input type="checkbox" id="chk-erp"> Contraintes ERP</label>
+          <label class="check-item" onclick="toggleCheck(this);recalculate()"><input type="checkbox" id="chk-cuisine"> Cuisine professionnelle</label>
+          <label class="check-item" onclick="toggleCheck(this);recalculate()"><input type="checkbox" id="chk-pmr"> Accessibilité PMR</label>
+          <label class="check-item" onclick="toggleCheck(this);recalculate()"><input type="checkbox" id="chk-amiante"> Suspicion amiante</label>
+        </div>
+      </div>
+
+      <!-- KPI -->
+      <div class="g4" id="kpi-grid">
+        <div class="kpi"><div class="kpi-label">€/m² Travaux</div><div class="kpi-val kpi-val-sm" id="kpi-m2-trav">—</div></div>
+        <div class="kpi"><div class="kpi-label">€/m² Total</div><div class="kpi-val kpi-val-sm" id="kpi-m2-total">—</div></div>
+        <div class="kpi"><div class="kpi-label">Semaines</div><div class="kpi-val kpi-val-sm" id="kpi-duree">—</div></div>
+        <div class="kpi" id="kpi-risque-card"><div class="kpi-label">Risque</div><div class="kpi-val kpi-val-sm" id="kpi-risque">—</div></div>
+      </div>
+    </div>
+
+    <!-- RÉSULTATS -->
+    <div>
+      <div class="g3" style="margin-bottom:16px">
+        <div class="card card-flat" style="border-top:3px solid var(--border2);text-align:center;padding:16px">
+          <div class="card-title" style="margin-bottom:8px">Budget bas</div>
+          <div style="font-size:18px;font-weight:700;color:var(--mid)" id="bud-bas">—</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px" id="bud-bas-m2">—</div>
+        </div>
+        <div class="card card-flat" style="border-top:3px solid var(--primary);text-align:center;padding:16px">
+          <div class="card-title" style="margin-bottom:8px">Budget moyen</div>
+          <div style="font-size:18px;font-weight:700;color:var(--primary)" id="bud-moy">—</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px" id="bud-moy-m2">—</div>
+        </div>
+        <div class="card card-flat" style="border-top:3px solid var(--danger);text-align:center;padding:16px">
+          <div class="card-title" style="margin-bottom:8px">Budget haut</div>
+          <div style="font-size:18px;font-weight:700;color:var(--danger)" id="bud-haut">—</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px" id="bud-haut-m2">—</div>
+        </div>
+      </div>
+
+      <div class="lots-table" id="lots-container">
+        <div class="lots-header">
+          <span>Lot de travaux</span><span>%</span><span>Montant HT</span>
+        </div>
+        <div id="lots-body"></div>
+        <div class="lots-sep" id="comps-header" style="display:none">
+          <span>Budgets complémentaires</span><span></span><span></span>
+        </div>
+        <div id="comps-body"></div>
+        <div id="totaux-block" style="padding:16px 18px;background:var(--bg);border-top:1px solid var(--border)"></div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Répartition par lot</div>
+        <div id="bars-container"></div>
+      </div>
+
+      <div id="similar-box" style="display:none" class="card" style="margin-bottom:16px">
+        <div class="card-title" id="similar-title">Projets similaires</div>
+        <div id="similar-content"></div>
+      </div>
+
+      <div style="background:var(--warn-light);border:1px solid #FDE68A;border-left:3px solid var(--warn);border-radius:var(--radius);padding:14px 16px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--warn);margin-bottom:8px">❌ Toujours exclus</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px 18px">
+          <span style="font-size:11px;color:var(--mid)">— Désamiantage</span>
+          <span style="font-size:11px;color:var(--mid)">— Gros œuvre structurel</span>
+          <span style="font-size:11px;color:var(--mid)">— Architecte / BET</span>
+          <span style="font-size:11px;color:var(--mid)">— Bureau de contrôle / SPS</span>
+          <span style="font-size:11px;color:var(--mid)">— Chambres froides &gt; 4 m²</span>
+          <span style="font-size:11px;color:var(--mid)">— Sprinklage</span>
+          <span style="font-size:11px;color:var(--mid)">— Désenfumage motorisé</span>
+          <span style="font-size:11px;color:var(--mid)">— Taxes et raccordements</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ PAGE CHIFFRAGE DÉTAILLÉ ══ -->
+<div class="page" id="page-chiffrage">
+  <div class="page-header">
+    <h2>Chiffrage détaillé</h2>
+    <p>Déboursé sec · Main-d'œuvre · Matériaux · Sous-traitance · FG · Aléas · Marge</p>
+  </div>
+  <div class="alert info" style="margin-bottom:20px">
+    <div class="alert-icon">ℹ️</div>
+    <div class="alert-body">
+      <div class="alert-title">Basé sur le pré-chiffrage en cours</div>
+      <div class="alert-desc">Renseignez les paramètres dans le pré-chiffrage pour calculer le détail</div>
+    </div>
+  </div>
+  <div id="detail-content"></div>
+</div>
+
+
+<!-- ══ PAGE SYNTHÈSE ══ -->
+<div class="page" id="page-synthese">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Synthèse du projet</h2>
+      <p>Récapitulatif complet · Alertes · Chiffrage global</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-secondary" onclick="exportPrint()">🖨️ Imprimer</button>
+      <button class="btn btn-primary" onclick="saveCurrentChiffrage()">💾 Sauvegarder</button>
+    </div>
+  </div>
+  <div id="synthese-content">
+    <div class="alert info">
+      <div class="alert-icon">📄</div>
+      <div class="alert-body">
+        <div class="alert-title">Renseignez les onglets pour générer la synthèse</div>
+        <div class="alert-desc">Commencez par l'initialisation, puis les relevés et les modules techniques</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ PAGE BIBLIOTHÈQUE ══ -->
+<div class="page" id="page-bibliotheque">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Bibliothèque de prix</h2>
+      <p>Référentiel interne · V2 : alimentation automatique par IA via cloud</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-secondary" onclick="exportBiblioCSV()">📥 CSV</button>
+      <button class="btn btn-primary" onclick="openModalPrix()">+ Ajouter</button>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+    <select id="filtre-lot" class="form-select" style="width:200px" onchange="renderBibliotheque()">
+      <option value="">Tous les lots</option>
+    </select>
+    <input type="text" id="filtre-search" class="form-input" style="width:220px" placeholder="Rechercher..." oninput="renderBibliotheque()">
+  </div>
+  <div class="card card-flat">
+    <div id="biblio-table-container" style="overflow-x:auto">
+      <table class="table">
+        <thead><tr>
+          <th>Désignation</th><th>Lot</th><th>Unité</th>
+          <th>Min</th><th>Moyen</th><th>Max</th>
+          <th>Occ.</th><th>Source</th><th></th>
+        </tr></thead>
+        <tbody id="biblio-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE CHANTIERS ══ -->
+<div class="page" id="page-chantiers">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Chantiers</h2>
+      <p>Projets en cours et terminés · Base de comparaison</p>
+    </div>
+    <button class="btn btn-primary" onclick="openModalChantier()">+ Nouveau chantier</button>
+  </div>
+  <div style="display:flex;gap:8px;margin-bottom:16px">
+    <button class="btn btn-secondary btn-sm active" onclick="filterChantiers('tous',this)">Tous</button>
+    <button class="btn btn-secondary btn-sm" onclick="filterChantiers('en_cours',this)">En cours</button>
+    <button class="btn btn-secondary btn-sm" onclick="filterChantiers('termine',this)">Terminés</button>
+  </div>
+  <div class="g2" id="chantiers-grid"></div>
+</div>
+
+<!-- ══ PAGE DASHBOARD ══ -->
+<div class="page" id="page-dashboard">
+  <div class="page-header">
+    <h2>Tableau de bord</h2>
+    <p>Indicateurs globaux · Ratios · Historique</p>
+  </div>
+  <div id="dashboard-content"></div>
+</div>
+
+
+</div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /app -->
+
+
+<!-- MODAL PRIX -->
+<div id="modal-prix" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;align-items:center;justify-content:center">
+  <div style="background:white;border-radius:var(--radius-xl);padding:28px;max-width:640px;width:90%;max-height:85vh;overflow-y:auto;box-shadow:var(--shadow-lg)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+      <div><div style="font-size:17px;font-weight:700">Ajouter un prix</div><div style="font-size:12px;color:var(--muted);margin-top:2px">Bibliothèque versionnée — historique conservé</div></div>
+      <button onclick="closeModal('modal-prix')" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="grid-column:1/-1">
+        <label class="form-label">Désignation</label>
+        <input type="text" id="px-designation" class="form-input" placeholder="Ex : Cloison BA13 72/48 simple peau">
+      </div>
+      <div class="form-group"><label class="form-label">Lot</label><select id="px-lot" class="form-select"></select></div>
+      <div class="form-group"><label class="form-label">Unité</label>
+        <select id="px-unite" class="form-select"><option>m²</option><option>ml</option><option>U</option><option>forfait</option><option>heure</option><option>m³</option><option>kg</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Prix min (€)</label><input type="number" id="px-min" class="form-input" placeholder="0"></div>
+      <div class="form-group"><label class="form-label">Prix moyen (€)</label><input type="number" id="px-moy" class="form-input" placeholder="0"></div>
+      <div class="form-group"><label class="form-label">Prix max (€)</label><input type="number" id="px-max" class="form-input" placeholder="0"></div>
+      <div class="form-group"><label class="form-label">Source</label><input type="text" id="px-source" class="form-input" placeholder="Devis XY — 02/2025"></div>
+      <div class="form-group"><label class="form-label">Région</label>
+        <select id="px-region" class="form-select"><option>Île-de-France</option><option>PACA</option><option>Auvergne-Rhône-Alpes</option><option>Occitanie</option><option>Nouvelle-Aquitaine</option><option>Grand Est</option><option>Hauts-de-France</option><option selected>Toutes régions</option></select>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;border-top:1px solid var(--border);padding-top:16px">
+      <button class="btn btn-secondary" onclick="closeModal('modal-prix')">Annuler</button>
+      <button class="btn btn-primary" onclick="savePrix()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CHANTIER -->
+<div id="modal-chantier" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;align-items:center;justify-content:center">
+  <div style="background:white;border-radius:var(--radius-xl);padding:28px;max-width:700px;width:90%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+      <div><div style="font-size:17px;font-weight:700">Nouveau chantier</div></div>
+      <button onclick="closeModal('modal-chantier')" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)">✕</button>
+    </div>
+    <div class="form-row">
+      <div class="form-group" style="grid-column:1/-1"><label class="form-label">Nom du chantier</label><input type="text" id="ch-nom" class="form-input" placeholder="Restaurant La Belle Époque — Paris 11e"></div>
+      <div class="form-group"><label class="form-label">Type de local</label><select id="ch-type" class="form-select"></select></div>
+      <div class="form-group"><label class="form-label">Surface (m²)</label><input type="number" id="ch-surface" class="form-input" placeholder="200"></div>
+      <div class="form-group"><label class="form-label">Ville</label><input type="text" id="ch-ville" class="form-input" placeholder="Paris"></div>
+      <div class="form-group"><label class="form-label">Gamme</label><select id="ch-gamme" class="form-select"><option value="eco">Économique</option><option value="std" selected>Standard</option><option value="premium">Premium</option><option value="luxe">Luxe</option></select></div>
+      <div class="form-group"><label class="form-label">Budget prévu HT (€)</label><input type="number" id="ch-budget-prevu" class="form-input" placeholder="180000"></div>
+      <div class="form-group"><label class="form-label">Budget réel HT (€)</label><input type="number" id="ch-budget-reel" class="form-input" placeholder="195000"></div>
+      <div class="form-group"><label class="form-label">Durée prévue (sem.)</label><input type="number" id="ch-duree-prevue" class="form-input" placeholder="10"></div>
+      <div class="form-group"><label class="form-label">Durée réelle (sem.)</label><input type="number" id="ch-duree-reelle" class="form-input" placeholder="12"></div>
+      <div class="form-group"><label class="form-label">Statut</label><select id="ch-statut" class="form-select"><option value="en_cours">En cours</option><option value="termine">Terminé</option></select></div>
+      <div class="form-group" style="grid-column:1/-1"><label class="form-label">Notes</label><textarea id="ch-notes" class="form-textarea" placeholder="Difficultés, points d'attention..."></textarea></div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;border-top:1px solid var(--border);padding-top:16px">
+      <button class="btn btn-secondary" onclick="closeModal('modal-chantier')">Annuler</button>
+      <button class="btn btn-primary" onclick="saveChantier()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+'use strict';
+// ── REFS ─────────────────────────────────────────────────────
+const REGIONS={idf:1.15,paca:1.08,std:1.0,rural:0.95};
+const GAMMES=[
+  {key:'eco',label:'Économique',coeff:0.80},
+  {key:'std',label:'Standard',coeff:1.00},
+  {key:'premium',label:'Premium',coeff:1.30},
+  {key:'luxe',label:'Luxe',coeff:1.65},
+];
+const LOTS_REF=['Démolition / Curage','Cloisons / Doublages','Faux plafonds',
+  'Sols','Carrelage / Faïence','Peinture','Électricité','Plomberie',
+  'Ventilation / Extraction','Climatisation','Menuiserie intérieure',
+  'Menuiserie extérieure','Serrurerie','Gros œuvre',
+  'Sécurité incendie / ERP','Accessibilité PMR','Cuisine professionnelle',
+  'Sanitaires','Mobilier','Agencement','Éclairage décoratif','Signalétique',
+  'Nettoyage fin de chantier','CVC','Autres'];
+const LUX_REF={Cuisine:500,Salle:200,Réserve:150,Stockage:150,Comptoir:300,
+  Plonge:300,Bureau:400,Vestiaire:150,WC:150,'WC PMR':150,
+  'Local technique':200,Terrasse:100,Circulation:100,Autre:200};
+const PERS_M2={Salle:0.5,Cuisine:0.15,Réserve:0.05,Stockage:0.05,Comptoir:0.3,
+  Plonge:0.1,Bureau:0.1,Vestiaire:0.15,WC:0.1,'WC PMR':0.05,
+  'Local technique':0.05,Terrasse:0.4,Circulation:0.2,Autre:0.15};
+const AIR_NEUF={Salle:25,Cuisine:35,Réserve:5,Stockage:5,Comptoir:20,
+  Plonge:20,Bureau:25,Vestiaire:15,WC:30,'WC PMR':30,
+  'Local technique':5,Terrasse:0,Circulation:8,Autre:15};
+const CLIM_WM2={Salle:100,Cuisine:150,Réserve:60,Stockage:60,Comptoir:120,
+  Plonge:100,Bureau:80,Vestiaire:60,WC:50,'WC PMR':50,
+  'Local technique':40,Terrasse:0,Circulation:40,Autre:80};
+const PIECE_ICONS={Cuisine:'🍳',Salle:'🪑',Réserve:'📦',Stockage:'📦',
+  Comptoir:'🍺',Plonge:'🚿',Bureau:'💼',Vestiaire:'👕',
+  WC:'🚻','WC PMR':'♿','Local technique':'⚙️',Terrasse:'☀️',Circulation:'🚶',Autre:'📌'};
+const PIECE_TYPES=['Salle','Cuisine','Réserve','Stockage','Comptoir','Plonge',
+  'Bureau','Vestiaire','WC','WC PMR','Local technique','Terrasse','Circulation','Autre'];
+const TYPES={
+restaurant:{label:'Restaurant',icon:'🍽️',taux:980,placesLabel:'Places assises',placesRatio:1.6,mobilierTaux:290,comptoirRatio:85,dureeRatio:0.045,
+  lots:[
+    {nom:'Démolition / Curage',pct:3,detail:"Dépose revêtements, cloisons, plafonds · évacuation gravats"},
+    {nom:'Cloisons / Doublages',pct:8,detail:"Ossature métallique, BA13, BA13 hydro, isolation, enduits"},
+    {nom:'Faux plafonds',pct:4,detail:"Ossature, dalles acoustiques ou BA13, trappes de visite"},
+    {nom:'Sols',pct:10,detail:"Ragréage, carrelage commercial, colle, joints, plinthes",alert:'Majorer si résine / béton ciré',alertType:'warn'},
+    {nom:'Carrelage / Faïence',pct:6,detail:"Faïence murale cuisine, plonge, sanitaires",alert:'Hors grand format',alertType:'warn'},
+    {nom:'Peinture',pct:3,detail:"Préparation, impression, deux couches murs et plafonds"},
+    {nom:'Électricité',pct:18,detail:"Tableau, câblage, prises, éclairages, BAES",alert:'Lot structurant',alertType:'warn'},
+    {nom:'Plomberie',pct:12,detail:"EF/EC, évacuations, sanitaires, ECS",alert:'Hors bac à graisse',alertType:'warn'},
+    {nom:'Ventilation / Extraction',pct:14,detail:"Gaines, bouches, grilles, caisson",alert:'Hors hotte pro et désenfumage',alertType:'warn'},
+    {nom:'Climatisation',pct:9,detail:"Multi-split, liaisons frigorifiques, mise en service"},
+    {nom:'Menuiserie intérieure',pct:6,detail:"Portes intérieures, habillages, plinthes, trappes"},
+    {nom:'Serrurerie',pct:3,detail:"Main courante, protections métalliques"},
+    {nom:'Sécurité incendie / ERP',pct:2,detail:"BAES complémentaires, signalétique, adaptations PMR",alert:'ERP — réglementation stricte',alertType:'erp'},
+    {nom:'Nettoyage fin de chantier',pct:2,detail:"Protections, consommables, nettoyage et réception"},
+  ],
+  comps:[
+    {nom:'Décoration',calcType:'m2',taux:130,detail:"Éclairage d'ambiance, végétaux, habillages"},
+    {nom:'Mobilier & Comptoir',calcType:'mobilier',detail:"Tables, chaises, banquettes, bar sur mesure"},
+    {nom:'Enseigne',calcType:'forfait',montant:5500,detail:"Enseigne lumineuse, vitrophanie, signalétique"},
+    {nom:'Matériel de cuisine',calcType:'cuisine',detail:"Fourneau, four, réfrigération pro, lave-vaisselle"},
+    {nom:'Bornes & Écrans',calcType:'forfait',montant:21000,detail:"Bornes commande, écrans dynamiques, caisse"},
+    {nom:'Caméras / Sécurité',calcType:'m2',taux:22,detail:"Caméras IP HD, NVR, câblage"},
+  ]
+},
+cafe:{label:'Café / Coffee Shop',icon:'☕',taux:660,placesLabel:'Places assises',placesRatio:2.0,mobilierTaux:340,comptoirRatio:130,dureeRatio:0.038,
+  lots:[
+    {nom:'Démolition / Curage',pct:3,detail:"Déposes diverses et évacuation"},
+    {nom:'Cloisons / Doublages',pct:9,detail:"Cloisons BA13 et isolation"},
+    {nom:'Faux plafonds',pct:5,detail:"Dalles ou BA13"},
+    {nom:'Sols',pct:11,detail:"Sols commerciaux finitions soignées",alert:'Majorer si parquet',alertType:'warn'},
+    {nom:'Carrelage / Faïence',pct:2,detail:"Sanitaires et points d'eau uniquement"},
+    {nom:'Peinture',pct:4,detail:"Murs et plafonds, finitions soignées"},
+    {nom:'Électricité',pct:22,detail:"Éclairage décoratif, prises clientèle, tableau",alert:'Lot très structurant',alertType:'warn'},
+    {nom:'Plomberie',pct:11,detail:"Sanitaires, points d'eau, ECS"},
+    {nom:'Ventilation',pct:10,detail:"Renouvellement d'air et extraction"},
+    {nom:'Climatisation',pct:11,detail:"Multi-split ou équivalent"},
+    {nom:'Menuiserie intérieure',pct:6,detail:"Portes et habillages intérieurs"},
+    {nom:'Serrurerie',pct:2,detail:"Petits ouvrages métalliques"},
+    {nom:'Sécurité incendie / ERP',pct:2,detail:"PMR, signalétique, BAES",alert:'ERP — réglementation stricte',alertType:'erp'},
+    {nom:'Nettoyage fin de chantier',pct:2,detail:"Protections et nettoyage"},
+  ],
+  comps:[
+    {nom:'Décoration',calcType:'m2',taux:190,detail:"Luminaires design, végétaux, mobilier décoratif"},
+    {nom:'Mobilier & Comptoir',calcType:'mobilier',detail:"Tables, chaises, tabourets, banquettes, bar sur mesure"},
+    {nom:'Enseigne',calcType:'forfait',montant:4200,detail:"Enseigne lumineuse, vitrophanie"},
+    {nom:'Matériel café',calcType:'cuisine',detail:"Machine à café pro, broyeur, réfrigération, vitrine"},
+    {nom:'Caisse & Terminal',calcType:'forfait',montant:4200,detail:"Caisse tactile, TPE, logiciel caisse"},
+    {nom:'Caméras / Sécurité',calcType:'m2',taux:22,detail:"Caméras IP HD, NVR, câblage"},
+  ]
+},
+boulangerie:{label:'Boulangerie',icon:'🥖',taux:1180,placesLabel:'Places boutique',placesRatio:6.0,mobilierTaux:240,comptoirRatio:110,dureeRatio:0.055,
+  lots:[
+    {nom:'Démolition / Curage',pct:2,detail:"Curage et évacuation"},
+    {nom:'Cloisons / Doublages',pct:7,detail:"BA13, hydro, isolation thermique et acoustique laboratoire"},
+    {nom:'Faux plafonds',pct:4,detail:"Plafonds lavables laboratoire"},
+    {nom:'Sols',pct:10,detail:"Antidérapants labo, carrelage boutique"},
+    {nom:'Carrelage / Faïence',pct:6,detail:"Fournil, labo, plonge — surfaces importantes"},
+    {nom:'Peinture',pct:3,detail:"Murs et plafonds boutique"},
+    {nom:'Électricité',pct:21,detail:"Forte puissance, tableaux dédiés équipements",alert:'Bilan de puissance obligatoire',alertType:'warn'},
+    {nom:'Plomberie',pct:10,detail:"Réseaux EF/EC, évacuations, ECS dimensionné"},
+    {nom:'Ventilation / Extraction',pct:15,detail:"Ventilation renforcée laboratoire + boutique",alert:'Lot lourd — prévoir marge',alertType:'warn'},
+    {nom:'Climatisation',pct:8,detail:"Climatisation boutique, hors froid labo"},
+    {nom:'Menuiserie intérieure',pct:5,detail:"Portes et habillages"},
+    {nom:'Serrurerie',pct:2,detail:"Petits ouvrages métalliques"},
+    {nom:'Sécurité incendie / ERP',pct:2,detail:"PMR, sécurité incendie, signalétique",alert:'ERP — réglementation stricte',alertType:'erp'},
+    {nom:'Nettoyage fin de chantier',pct:5,detail:"Logistique lourde, nettoyage"},
+  ],
+  comps:[
+    {nom:'Décoration boutique',calcType:'m2',taux:105,detail:"Boiseries, éclairage, signalétique"},
+    {nom:'Mobilier & Comptoir',calcType:'mobilier',detail:"Comptoir vitré, présentoirs, mobilier attente"},
+    {nom:'Enseigne',calcType:'forfait',montant:4800,detail:"Enseigne lumineuse, vitrophanie, ardoises"},
+    {nom:'Matériel boulangerie',calcType:'cuisine',detail:"Four, chambre de pousse, pétrin, diviseuse, chambre froide"},
+    {nom:'Caisse & Terminal',calcType:'forfait',montant:4800,detail:"Caisse tactile, TPE, logiciel boulangerie"},
+    {nom:'Caméras / Sécurité',calcType:'m2',taux:22,detail:"Caméras IP HD, NVR, câblage"},
+  ]
+},
+bureau:{label:'Bureaux',icon:'💼',taux:520,placesLabel:'Postes de travail',placesRatio:8.0,mobilierTaux:1200,comptoirRatio:0,dureeRatio:0.030,
+  lots:[
+    {nom:'Démolition / Curage',pct:4,detail:"Dépose cloisons, faux plafonds, revêtements"},
+    {nom:'Cloisons / Doublages',pct:14,detail:"Cloisons vitrées, cloisons plâtre, bureaux privatifs",alert:'Lot majeur en open space',alertType:'warn'},
+    {nom:'Faux plafonds',pct:10,detail:"Faux plafonds acoustiques, trappes"},
+    {nom:'Sols',pct:9,detail:"Moquette, vinyl, parquet flottant, ragréage"},
+    {nom:'Peinture',pct:5,detail:"Murs et plafonds, finitions propres"},
+    {nom:'Électricité',pct:20,detail:"Tableau, câblage data+courant, prises plancher, éclairage LED"},
+    {nom:'Plomberie',pct:4,detail:"Kitchenette, sanitaires, ECS réduit"},
+    {nom:'Ventilation',pct:8,detail:"VMC double flux, bouches, gaines"},
+    {nom:'Climatisation',pct:12,detail:"VRV ou multi-split, gestion centralisée"},
+    {nom:'Menuiserie intérieure',pct:8,detail:"Portes vitrées, cloisons amovibles, placards"},
+    {nom:'Accessibilité PMR',pct:2,detail:"Adaptations PMR, signalétique, toilettes adaptées",alert:'Obligatoire ERP cat. 5+',alertType:'erp'},
+    {nom:'Éclairage décoratif',pct:2,detail:"Luminaires design, éclairage zones"},
+    {nom:'Nettoyage fin de chantier',pct:2,detail:"Nettoyage et réception"},
+  ],
+  comps:[
+    {nom:'Mobilier bureau',calcType:'mobilier',detail:"Bureaux, fauteuils, caissons, tables de réunion"},
+    {nom:'Décoration',calcType:'m2',taux:60,detail:"Végétaux, tableaux, habillages, signalétique"},
+    {nom:'IT / Réseau',calcType:'m2',taux:35,detail:"Baie réseau, câblage RJ45, Wi-Fi, téléphonie IP"},
+    {nom:'Caméras / Contrôle accès',calcType:'m2',taux:28,detail:"Caméras, badges, interphonie"},
+  ]
+},
+boutique:{label:'Boutique',icon:'🛍️',taux:740,placesLabel:'Cabines essayage',placesRatio:20.0,mobilierTaux:400,comptoirRatio:100,dureeRatio:0.040,
+  lots:[
+    {nom:'Démolition / Curage',pct:3,detail:"Dépose revêtements et agencement existant"},
+    {nom:'Cloisons / Doublages',pct:7,detail:"Cabines, réserve, bureau"},
+    {nom:'Faux plafonds',pct:5,detail:"Plafond tendu ou plâtre"},
+    {nom:'Sols',pct:12,detail:"Revêtement commercial premium",alert:'Finitions importantes pour image marque',alertType:'warn'},
+    {nom:'Peinture',pct:5,detail:"Murs et plafonds, finitions haute qualité"},
+    {nom:'Électricité',pct:18,detail:"Éclairage produits (spots, rails), prises, tableau",alert:'Éclairage = élément clé',alertType:'warn'},
+    {nom:'Plomberie',pct:3,detail:"Sanitaires, point d'eau réserve"},
+    {nom:'Climatisation',pct:10,detail:"Confort clientèle et protection marchandise"},
+    {nom:'Menuiserie intérieure',pct:8,detail:"Cabines, vitrine intérieure, mobilier fixe"},
+    {nom:'Menuiserie extérieure',pct:10,detail:"Vitrine, devanture, entrée",alert:'Vitrine = identité visuelle',alertType:'warn'},
+    {nom:'Éclairage décoratif',pct:7,detail:"Luminaires, éclairage ambiance et produit"},
+    {nom:'Sécurité incendie / ERP',pct:2,detail:"BAES, détection, PMR",alert:'ERP — réglementation stricte',alertType:'erp'},
+    {nom:'Nettoyage fin de chantier',pct:2,detail:"Nettoyage et réception"},
+  ],
+  comps:[
+    {nom:'Agencement / Mobilier',calcType:'mobilier',detail:"Présentoirs, gondoles, caisse, vitrines"},
+    {nom:'Décoration',calcType:'m2',taux:140,detail:"Habillages muraux, éléments décoratifs"},
+    {nom:'Enseigne',calcType:'forfait',montant:6500,detail:"Enseigne, vitrophanie, packaging visuel façade"},
+    {nom:'Système caisse / TPE',calcType:'forfait',montant:5000,detail:"Caisse tactile, TPE, logiciel retail"},
+    {nom:'Antivol / Sécurité',calcType:'m2',taux:30,detail:"Portiques antivol, caméras, alarme"},
+  ]
+},
+cabinet:{label:'Cabinet médical',icon:'🏥',taux:640,placesLabel:'Postes de soins',placesRatio:25.0,mobilierTaux:2000,comptoirRatio:0,dureeRatio:0.035,
+  lots:[
+    {nom:'Démolition / Curage',pct:3,detail:"Dépose revêtements et cloisons"},
+    {nom:'Cloisons / Doublages',pct:12,detail:"Salles de soins, accueil, sanitaires",alert:'Isolation phonique renforcée',alertType:'warn'},
+    {nom:'Faux plafonds',pct:6,detail:"Plafonds lavables dans les salles de soins"},
+    {nom:'Sols',pct:10,detail:"PVC médicaux anti-bactériens, pose couture",alert:'PVC médical homologué obligatoire',alertType:'erp'},
+    {nom:'Carrelage / Faïence',pct:4,detail:"Sanitaires et vestiaires"},
+    {nom:'Peinture',pct:4,detail:"Peintures lessivables, finitions sanitaires"},
+    {nom:'Électricité',pct:18,detail:"Éclairage médical, prises spécialisées",alert:'Mise à la terre renforcée',alertType:'warn'},
+    {nom:'Plomberie',pct:10,detail:"Points d'eau nombreux, ECS, évacuations, lave-mains"},
+    {nom:'Ventilation',pct:8,detail:"VMC hygiénique, renouvellement d'air réglementaire"},
+    {nom:'Climatisation',pct:7,detail:"Confort patients et praticiens"},
+    {nom:'Menuiserie intérieure',pct:6,detail:"Portes larg. 90 cm min, poignées hygiéniques"},
+    {nom:'Accessibilité PMR',pct:8,detail:"Accès PMR complet, toilettes adaptées, rampes",alert:'ERP — non négociable',alertType:'erp'},
+    {nom:'Nettoyage fin de chantier',pct:4,detail:"Nettoyage désinfectant et réception"},
+  ],
+  comps:[
+    {nom:'Mobilier médical',calcType:'mobilier',detail:"Tables d'examen, bureaux, salle d'attente"},
+    {nom:'Signalétique / Plaques',calcType:'forfait',montant:2500,detail:"Plaques professionnelles, directionnels"},
+    {nom:'Système de gestion',calcType:'forfait',montant:6000,detail:"Logiciel médical, écrans salle d'attente"},
+    {nom:'Alarme / Sécurité',calcType:'m2',taux:20,detail:"Alarme intrusion, accès sécurisé"},
+  ]
+},
+salon:{label:'Salon de coiffure',icon:'✂️',taux:720,placesLabel:'Postes coiffure',placesRatio:12.0,mobilierTaux:2500,comptoirRatio:120,dureeRatio:0.042,
+  lots:[
+    {nom:'Démolition / Curage',pct:3,detail:"Dépose mobilier, revêtements, cloisons"},
+    {nom:'Cloisons / Doublages',pct:6,detail:"Zone cabines, toilettes, réserve"},
+    {nom:'Faux plafonds',pct:5,detail:"Faux plafond décoratif, éclairage intégré"},
+    {nom:'Sols',pct:10,detail:"Revêtement antidérapant, facile d'entretien"},
+    {nom:'Carrelage / Faïence',pct:3,detail:"Bac à shampoing, toilettes"},
+    {nom:'Peinture',pct:4,detail:"Peinture décorative, finitions soignées"},
+    {nom:'Électricité',pct:18,detail:"Prises casques, séchoirs, éclairage miroirs",alert:'Nombreuses prises spécifiques',alertType:'warn'},
+    {nom:'Plomberie',pct:14,detail:"Bacs à shampoing, eau chaude, ECS important",alert:'ECS dimensionné pour les bacs',alertType:'warn'},
+    {nom:'Ventilation',pct:6,detail:"Extraction produits chimiques",alert:'Extraction renforcée obligatoire',alertType:'warn'},
+    {nom:'Climatisation',pct:8,detail:"Confort clientèle"},
+    {nom:'Menuiserie intérieure',pct:5,detail:"Portes, placards, comptoir d'accueil"},
+    {nom:'Éclairage décoratif',pct:8,detail:"Miroirs éclairés, ambiance"},
+    {nom:'Nettoyage fin de chantier',pct:2,detail:"Nettoyage et réception"},
+  ],
+  comps:[
+    {nom:'Mobilier coiffure',calcType:'mobilier',detail:"Bacs, fauteuils, miroirs, chariots, bac accueil"},
+    {nom:'Décoration',calcType:'m2',taux:160,detail:"Habillages muraux, végétaux, éclairage ambiance"},
+    {nom:'Enseigne',calcType:'forfait',montant:3800,detail:"Enseigne lumineuse, vitrophanie, signalétique"},
+    {nom:'Caisse & Logiciel',calcType:'forfait',montant:3500,detail:"Caisse tactile, logiciel salon, planning"},
+    {nom:'Alarme / Sécurité',calcType:'m2',taux:18,detail:"Alarme, caméras, accès"},
+  ]
+},
+institut:{label:'Institut de beauté',icon:'💆',taux:760,placesLabel:'Cabines soins',placesRatio:15.0,mobilierTaux:3500,comptoirRatio:130,dureeRatio:0.045,
+  lots:[
+    {nom:'Démolition / Curage',pct:3,detail:"Dépose revêtements et cloisonnements"},
+    {nom:'Cloisons / Doublages',pct:10,detail:"Cabines de soins (isolation phonique et thermique)",alert:'Isolation phonique cabines — priorité',alertType:'warn'},
+    {nom:'Faux plafonds',pct:6,detail:"Finitions soignées, éclairage doux intégré"},
+    {nom:'Sols',pct:9,detail:"Revêtements doux et faciles d'entretien"},
+    {nom:'Carrelage / Faïence',pct:4,detail:"Sanitaires, douches, zone humide"},
+    {nom:'Peinture',pct:4,detail:"Peintures douces, ambiance apaisante"},
+    {nom:'Électricité',pct:16,detail:"Éclairage doux par zone, prises appareils esthétique"},
+    {nom:'Plomberie',pct:10,detail:"Douches, lavabos, ECS abondant",alert:'ECS important — cabines douches',alertType:'warn'},
+    {nom:'Ventilation',pct:7,detail:"Ventilation douce, sans courant d'air"},
+    {nom:'Climatisation',pct:8,detail:"Confort thermique précis dans les cabines"},
+    {nom:'Menuiserie intérieure',pct:7,detail:"Portes insonorisées, rangements intégrés"},
+    {nom:'Éclairage décoratif',pct:8,detail:"Lumière chaude, dimmable, miroirs lumineux"},
+    {nom:'Nettoyage fin de chantier',pct:2,detail:"Nettoyage désinfectant et réception"},
+  ],
+  comps:[
+    {nom:'Mobilier esthétique',calcType:'mobilier',detail:"Tables de soins, chaises cosmétologie, mobilier accueil"},
+    {nom:'Décoration / Ambiance',calcType:'m2',taux:200,detail:"Végétaux, diffuseurs, habillages, art"},
+    {nom:'Enseigne',calcType:'forfait',montant:3500,detail:"Enseigne lumineuse, vitrophanie"},
+    {nom:'Logiciel / Caisse',calcType:'forfait',montant:3200,detail:"Logiciel salon spa, réservations, caisse"},
+    {nom:'Alarme / Sécurité',calcType:'m2',taux:18,detail:"Alarme, caméras, accès"},
+  ]
+},
+};
+const getCuisineTaux=s=>{if(!s||s<=0)return 0;if(s<=150)return 467;if(s<=400)return 467-0.568*(s-150);return Math.max(240,325-0.34*(s-400));};
+// ── STATE & DB ────────────────────────────────────────────────
+const state={
+  activeType:'restaurant',activeGamme:'std',
+  surface:0,places:0,fg:8,marge:10,complexite:3,
+  region:'std',renov:1.0,_etatCoeff:1.0,
+  pieces:[],pieceCounter:0,alertes:[],
+  etat:{type:'brut',reseaux:'partiels'},
+};
+const DB={
+  prix:JSON.parse(localStorage.getItem('rt_prix')||'[]'),
+  chantiers:JSON.parse(localStorage.getItem('rt_chantiers')||'[]'),
+  chiffrages:JSON.parse(localStorage.getItem('rt_chiffrages')||'[]'),
+};
+function saveDB(){
+  localStorage.setItem('rt_prix',JSON.stringify(DB.prix));
+  localStorage.setItem('rt_chantiers',JSON.stringify(DB.chantiers));
+  localStorage.setItem('rt_chiffrages',JSON.stringify(DB.chiffrages));
+  _set('nb-prix',DB.prix.length);
+  _set('nb-chantiers',DB.chantiers.length);
+}
+// ── HELPERS ───────────────────────────────────────────────────
+const fmt=n=>n?Math.round(n).toLocaleString('fr-FR')+' €':'—';
+const fmtN=n=>Math.round(n).toLocaleString('fr-FR');
+function _set(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
+function _get(id){return document.getElementById(id);}
+function _val(id,def=''){const e=_get(id);return e?e.value:def;}
+function _chk(id){const e=_get(id);return e?e.checked:false;}
+// ── NAVIGATION ────────────────────────────────────────────────
+const PAGE_META={
+  init:{title:'Initialisation du projet',step:'Étape 1/8'},
+  releves:{title:'Relevés & Métrés',step:'Étape 2/8'},
+  eclairage:{title:'Éclairage',step:'Étape 3/8'},
+  electricite:{title:'Électricité',step:'Étape 4/8'},
+  plomberie:{title:'Plomberie',step:'Étape 5/8'},
+  ventilation:{title:'Ventilation & Extraction',step:'Étape 6/8'},
+  clim:{title:'Climatisation',step:'Étape 7/8'},
+  facade:{title:'Façade & Conformité ERP',step:'Étape 8/8'},
+  prechiffrage:{title:'Pré-chiffrage rapide',step:'Chiffrage'},
+  chiffrage:{title:'Chiffrage détaillé',step:'Chiffrage'},
+  synthese:{title:'Synthèse du projet',step:'Synthèse'},
+  bibliotheque:{title:'Bibliothèque de prix',step:'Base'},
+  chantiers:{title:'Chantiers',step:'Base'},
+  dashboard:{title:'Tableau de bord',step:'Base'},
+};
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const page=_get('page-'+id);if(page)page.classList.add('active');
+  const nav=_get('nav-'+id);if(nav)nav.classList.add('active');
+  const meta=PAGE_META[id]||{title:id,step:''};
+  _set('topbar-title',meta.title);_set('topbar-step',meta.step);_set('mobile-page-title',meta.title);
+  if(id==='releves')renderPieces();
+  if(id==='eclairage')renderEclairage();
+  if(id==='electricite'){renderElecPieces();calcElec();}
+  if(id==='plomberie'){renderPlombPieces();calcPlomberie();}
+  if(id==='ventilation'){renderVentPieces();calcVentilation();}
+  if(id==='clim'){renderClimPieces();calcClim();}
+  if(id==='facade'){calcFacade();calcERP();}
+  if(id==='prechiffrage')recalculate();
+  if(id==='chiffrage')renderChiffrageDetail();
+  if(id==='synthese')renderSynthese();
+  if(id==='bibliotheque')renderBibliotheque();
+  if(id==='chantiers')renderChantiers();
+  if(id==='dashboard')renderDashboard();
+  _get('sidebar').classList.remove('mobile-open');
+  _get('sidebar-overlay').classList.remove('open');
+  window.scrollTo(0,0);
+}
+function toggleMobileSidebar(){
+  _get('sidebar').classList.toggle('mobile-open');
+  _get('sidebar-overlay').classList.toggle('open');
+}
+// ── INIT PROJET ───────────────────────────────────────────────
+function updateProjectHeader(){
+  const surf=_val('proj-surface');
+  if(surf){const i=_get('inp-surface');if(i)i.value=surf;state.surface=parseFloat(surf)||0;recalculate();}
+  updateRecap();
+}
+function updateTypeLocal(){
+  const v=_val('proj-type-local','restaurant');
+  state.activeType=v;
+  document.querySelectorAll('#type-grid > div').forEach((c,i)=>{
+    const isA=Object.keys(TYPES)[i]===v;
+    c.style.borderColor=isA?'var(--primary)':'var(--border)';
+    c.style.background=isA?'var(--primary-light)':'white';
+  });
+  recalculate();updateRecap();
+}
+function updateRecap(){
+  const nom=_val('proj-nom'),client=_val('proj-client'),adresse=_val('proj-adresse');
+  const surface=_val('proj-surface'),hauteur=_val('proj-hauteur'),dateV=_val('proj-date');
+  const t=TYPES[_val('proj-type-local','restaurant')]||{icon:'🏪'};
+  const r=_get('proj-recap');if(!r)return;
+  if(!nom){r.innerHTML='<div class="alert info"><div class="alert-icon">ℹ️</div><div class="alert-body"><div class="alert-title">Renseignez le nom du projet</div><div class="alert-desc">Le récapitulatif s\'affichera ici</div></div></div>';return;}
+  r.innerHTML=`<div style="display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:14px">
+    <div style="font-size:32px">${t.icon}</div>
+    <div><div style="font-size:16px;font-weight:700">${nom}</div><div style="font-size:12px;color:var(--mid)">${client||'—'}</div></div>
+  </div>
+  ${adresse?`<div style="font-size:12px;color:var(--mid);margin-bottom:12px">📍 ${adresse}</div>`:''}
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+    <div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center">
+      <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">Surface</div>
+      <div style="font-size:20px;font-weight:800">${surface||'—'} <span style="font-size:12px;font-weight:400">m²</span></div>
+    </div>
+    <div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center">
+      <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">Hauteur</div>
+      <div style="font-size:20px;font-weight:800">${hauteur||'—'} <span style="font-size:12px;font-weight:400">m</span></div>
+    </div>
+  </div>
+  ${dateV?`<div style="font-size:11px;color:var(--muted)">📅 Visite : ${dateV}</div>`:''}`;
+}
+function selectEtat(cat,val,el){
+  state.etat[cat]=val;
+  el.closest('.radio-cards').querySelectorAll('.radio-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  if(cat==='type'){state._etatCoeff=parseFloat(el.dataset.coeff)||1.0;recalculate();}
+}
+function toggleCheck(el){
+  const cb=el.querySelector('input[type=checkbox]');
+  if(!cb)return;cb.checked=!cb.checked;el.classList.toggle('checked',cb.checked);
+}
+// ── PIÈCES ────────────────────────────────────────────────────
+function addPiece(){
+  state.pieceCounter++;
+  const id='p'+state.pieceCounter;
+  state.pieces.push({id,nom:'Pièce '+state.pieceCounter,type:'Salle',
+    surface:0,hauteur:2.7,lineaire:0,portes:1.8,vitrages:0,ouvertures:0,
+    fauxPlafond:true,faience:false,hauteurFaience:1.8,nbMursFaience:0,
+    prises:4,prisesDouble:2,prisesSpec:0,prisesTri:0,rj45:0,camElec:0,bornesWifi:0,ecrans:0,
+    eauFroide:0,eauChaude:0,evacuation:0,wc:0,wcPMR:0,laveMains:0,plonge:0,sipholSol:0,
+    nbPersonnes:0,notes:'',_mursB:0,_mursN:0,_faience:0});
+  _get('empty-pieces')?.remove();
+  renderPieceCard(id);
+  computeMetresTotaux();
+  updateNbPieces();
+  setTimeout(()=>{const b=_get('piece-body-'+id);if(b)b.classList.add('open');},50);
+}
+function removePiece(id){
+  if(!confirm('Supprimer cette pièce ?'))return;
+  state.pieces=state.pieces.filter(p=>p.id!==id);
+  _get('piece-card-'+id)?.remove();
+  computeMetresTotaux();updateNbPieces();
+  if(!state.pieces.length){
+    const c=_get('pieces-container');
+    if(c)c.innerHTML='<div class="alert info" id="empty-pieces"><div class="alert-icon">📐</div><div class="alert-body"><div class="alert-title">Aucune pièce</div><div class="alert-desc">Cliquez sur "+ Ajouter une pièce"</div></div></div>';
+  }
+}
+function updateNbPieces(){_set('nb-pieces-nav',state.pieces.length);}
+function getPiece(id){return state.pieces.find(p=>p.id===id);}
+function renderPieces(){
+  const c=_get('pieces-container');if(!c)return;
+  c.innerHTML='';
+  if(!state.pieces.length){c.innerHTML='<div class="alert info" id="empty-pieces"><div class="alert-icon">📐</div><div class="alert-body"><div class="alert-title">Aucune pièce ajoutée</div><div class="alert-desc">Cliquez sur "+ Ajouter une pièce" pour commencer</div></div></div>';return;}
+  state.pieces.forEach(p=>renderPieceCard(p.id));
+  computeMetresTotaux();updateNbPieces();
+}
+function renderPieceCard(id){
+  const p=getPiece(id);if(!p)return;
+  const c=_get('pieces-container');if(!c)return;
+  _get('piece-card-'+id)?.remove();
+  const icon=PIECE_ICONS[p.type]||'📌';
+  const typeOpts=PIECE_TYPES.map(t=>`<option${t===p.type?' selected':''}>${t}</option>`).join('');
+  const div=document.createElement('div');div.className='piece-card';div.id='piece-card-'+id;
+  div.innerHTML=`
+<div class="piece-header" onclick="togglePiece('${id}')">
+  <div class="piece-header-left">
+    <div class="piece-icon" id="picon-${id}">${icon}</div>
+    <div>
+      <div class="piece-name" id="pname-${id}">${p.nom}</div>
+      <div class="piece-meta" id="pmeta-${id}">${p.type} · ${p.surface} m² · H ${p.hauteur} m</div>
+    </div>
+  </div>
+  <div class="piece-actions">
+    <span class="badge badge-primary" id="pbadge-${id}">${p.surface} m²</span>
+    <button onclick="event.stopPropagation();removePiece('${id}')" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;padding:4px 8px">✕</button>
+  </div>
+</div>
+<div class="piece-body" id="piece-body-${id}">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+    <div class="form-group"><label class="form-label">Nom</label>
+      <input class="form-input" value="${p.nom}" oninput="upP('${id}','nom',this.value)">
+    </div>
+    <div class="form-group"><label class="form-label">Type</label>
+      <select class="form-select" onchange="upP('${id}','type',this.value)">${typeOpts}</select>
+    </div>
+  </div>
+  <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:8px">📐 Métrés<div style="flex:1;height:1px;background:var(--border)"></div></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px">
+    <div class="form-group"><label class="form-label">Surface (m²)</label><input type="number" class="form-input" value="${p.surface}" placeholder="0" oninput="upP('${id}','surface',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Hauteur (m)</label><input type="number" step="0.05" class="form-input" value="${p.hauteur}" placeholder="2.70" oninput="upP('${id}','hauteur',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Linéaire murs (ml)</label><input type="number" step="0.1" class="form-input" value="${p.lineaire}" placeholder="0" oninput="upP('${id}','lineaire',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Portes (m²)</label><input type="number" step="0.1" class="form-input" value="${p.portes}" oninput="upP('${id}','portes',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Vitrages (m²)</label><input type="number" step="0.1" class="form-input" value="${p.vitrages}" oninput="upP('${id}','vitrages',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Ouvertures (m²)</label><input type="number" step="0.1" class="form-input" value="${p.ouvertures}" oninput="upP('${id}','ouvertures',+this.value)"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">
+    <div style="background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--primary);font-weight:600;text-transform:uppercase">Sol</div><div style="font-size:16px;font-weight:800;color:var(--primary)">${p.surface} m²</div></div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Murs bruts</div><div style="font-size:15px;font-weight:700" id="smurs-${id}">— m²</div></div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Murs nets</div><div style="font-size:15px;font-weight:700" id="snet-${id}">— m²</div></div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Faïence</div><div style="font-size:15px;font-weight:700" id="sfaience-${id}">— m²</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">
+    <div class="form-group"><label class="form-label">Faux plafond</label>
+      <select class="form-select" onchange="upP('${id}','fauxPlafond',this.value==='Oui')">
+        <option${p.fauxPlafond?' selected':''}>Oui</option><option${!p.fauxPlafond?' selected':''}>Non</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Faïence murale</label>
+      <select class="form-select" onchange="upP('${id}','faience',this.value==='Oui')">
+        <option${p.faience?' selected':''}>Oui</option><option${!p.faience?' selected':''}>Non</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Hauteur faïence (m)</label><input type="number" step="0.1" class="form-input" value="${p.hauteurFaience}" oninput="upP('${id}','hauteurFaience',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Nb murs faïencés</label><input type="number" class="form-input" value="${p.nbMursFaience}" min="0" max="4" oninput="upP('${id}','nbMursFaience',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Sol souhaité</label>
+      <select class="form-select" onchange="upP('${id}','solSouhaite',this.value)">
+        <option>Carrelage</option><option>Parquet</option><option>Béton ciré</option><option>Résine</option><option>PVC</option><option>Grand format</option>
+      </select>
+    </div>
+  </div>
+  <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:8px">⚡ Électricité<div style="flex:1;height:1px;background:var(--border)"></div></div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px">
+    <div class="form-group"><label class="form-label">Prises simples</label><input type="number" class="form-input" value="${p.prises}" min="0" oninput="upP('${id}','prises',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Prises doubles</label><input type="number" class="form-input" value="${p.prisesDouble}" min="0" oninput="upP('${id}','prisesDouble',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Prises spéc.</label><input type="number" class="form-input" value="${p.prisesSpec}" min="0" oninput="upP('${id}','prisesSpec',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Prises tri.</label><input type="number" class="form-input" value="${p.prisesTri}" min="0" oninput="upP('${id}','prisesTri',+this.value)"></div>
+    <div class="form-group"><label class="form-label">RJ45</label><input type="number" class="form-input" value="${p.rj45}" min="0" oninput="upP('${id}','rj45',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Caméras</label><input type="number" class="form-input" value="${p.camElec}" min="0" oninput="upP('${id}','camElec',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Bornes WiFi</label><input type="number" class="form-input" value="${p.bornesWifi}" min="0" oninput="upP('${id}','bornesWifi',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Écrans</label><input type="number" class="form-input" value="${p.ecrans}" min="0" oninput="upP('${id}','ecrans',+this.value)"></div>
+  </div>
+  <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:8px">🚿 Plomberie<div style="flex:1;height:1px;background:var(--border)"></div></div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px">
+    <div class="form-group"><label class="form-label">Eau froide</label><input type="number" class="form-input" value="${p.eauFroide}" min="0" oninput="upP('${id}','eauFroide',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Eau chaude</label><input type="number" class="form-input" value="${p.eauChaude}" min="0" oninput="upP('${id}','eauChaude',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Évacuations</label><input type="number" class="form-input" value="${p.evacuation}" min="0" oninput="upP('${id}','evacuation',+this.value)"></div>
+    <div class="form-group"><label class="form-label">WC</label><input type="number" class="form-input" value="${p.wc}" min="0" oninput="upP('${id}','wc',+this.value)"></div>
+    <div class="form-group"><label class="form-label">WC PMR</label><input type="number" class="form-input" value="${p.wcPMR}" min="0" oninput="upP('${id}','wcPMR',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Lave-mains</label><input type="number" class="form-input" value="${p.laveMains}" min="0" oninput="upP('${id}','laveMains',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Plonge</label><input type="number" class="form-input" value="${p.plonge}" min="0" oninput="upP('${id}','plonge',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Siphon sol</label><input type="number" class="form-input" value="${p.sipholSol}" min="0" oninput="upP('${id}','sipholSol',+this.value)"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <div class="form-group"><label class="form-label">Nb personnes (max)</label>
+      <input type="number" class="form-input" value="${p.nbPersonnes}" min="0" oninput="upP('${id}','nbPersonnes',+this.value)">
+      <div class="form-hint">0 = calcul automatique</div>
+    </div>
+    <div class="form-group"><label class="form-label">Notes</label>
+      <input class="form-input" value="${p.notes||''}" placeholder="Observations..." oninput="upP('${id}','notes',this.value)">
+    </div>
+  </div>
+</div>`;
+  c.appendChild(div);
+  computePieceMetres(id);
+}
+function togglePiece(id){const b=_get('piece-body-'+id);if(b)b.classList.toggle('open');}
+function upP(id,field,v){
+  const p=getPiece(id);if(!p)return;p[field]=v;
+  const nm=_get('pname-'+id);if(nm&&field==='nom')nm.textContent=v;
+  const ic=_get('picon-'+id);if(ic&&field==='type')ic.textContent=PIECE_ICONS[v]||'📌';
+  const meta=_get('pmeta-'+id);if(meta)meta.textContent=`${p.type} · ${p.surface} m² · H ${p.hauteur} m`;
+  const badge=_get('pbadge-'+id);if(badge&&field==='surface')badge.textContent=v+' m²';
+  computePieceMetres(id);
+}
+function computePieceMetres(id){
+  const p=getPiece(id);if(!p)return;
+  const mB=(p.lineaire||0)*(p.hauteur||2.7);
+  const op=(p.portes||0)+(p.vitrages||0)+(p.ouvertures||0);
+  const mN=Math.max(0,mB-op);
+  const fa=p.faience?(p.hauteurFaience||1.8)*(p.nbMursFaience||0)*((p.lineaire||0)/Math.max(1,4)):0;
+  p._mursB=mB;p._mursN=mN;p._faience=fa;
+  const sm=_get('smurs-'+id);if(sm)sm.textContent=mB.toFixed(1)+' m²';
+  const sn=_get('snet-'+id);if(sn)sn.textContent=mN.toFixed(1)+' m²';
+  const sf=_get('sfaience-'+id);if(sf)sf.textContent=fa.toFixed(1)+' m²';
+  computeMetresTotaux();
+}
+function computeMetresTotaux(){
+  const tS=state.pieces.reduce((a,p)=>a+(p.surface||0),0);
+  const tM=state.pieces.reduce((a,p)=>a+(p._mursN||0),0);
+  const tF=state.pieces.reduce((a,p)=>a+(p._faience||0),0);
+  const tP=state.pieces.reduce((a,p)=>a+(p._mursN||0)+(p.fauxPlafond?p.surface:0),0);
+  _set('tot-surface',fmtN(tS)+' m²');_set('tot-murs',fmtN(tM)+' m²');
+  _set('tot-faience',fmtN(tF)+' m²');_set('tot-peinture',fmtN(tP)+' m²');
+  computeAlertes();
+}
+// ── ÉCLAIRAGE ─────────────────────────────────────────────────
+function renderEclairage(){
+  const c=_get('eclairage-content');if(!c)return;
+  if(!state.pieces.length){c.innerHTML='<div class="alert info"><div class="alert-icon">💡</div><div class="alert-body"><div class="alert-title">Ajoutez des pièces dans l\'onglet Relevés</div></div></div>';return;}
+  const isERP=_chk('chk-erp');
+  let tL=0,tB=0,tC=0,tW=0;
+  const cards=state.pieces.filter(p=>p.surface>0).map(p=>{
+    const lux=LUX_REF[p.type]||200;
+    const wm2=lux>300?20:lux>150?15:10;
+    const pW=Math.round(p.surface*wm2);
+    const nbL=Math.max(1,Math.round(p.surface/8));
+    const nbC=Math.max(1,Math.ceil(nbL/8));
+    const nbB=(['WC','WC PMR'].includes(p.type))?0:Math.max(0,Math.ceil(p.surface/60));
+    tL+=nbL;tB+=nbB;tC+=nbC;tW+=pW;
+    const warn=isERP&&nbB===0&&!['WC','WC PMR'].includes(p.type);
+    return `<div class="card card-sm" style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <span style="font-size:20px">${PIECE_ICONS[p.type]||'📌'}</span>
+        <div style="flex:1"><div style="font-size:13px;font-weight:700">${p.nom}</div><div style="font-size:11px;color:var(--muted)">${p.type} · ${p.surface} m²</div></div>
+        <span class="badge badge-primary">${lux} lux</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+        <div style="text-align:center;background:var(--bg);border-radius:6px;padding:8px"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Luminaires</div><div style="font-size:18px;font-weight:800">${nbL}</div></div>
+        <div style="text-align:center;background:var(--bg);border-radius:6px;padding:8px"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Circuits</div><div style="font-size:18px;font-weight:800">${nbC}</div></div>
+        <div style="text-align:center;background:${nbB>0?'var(--primary-light)':'var(--bg)'};border-radius:6px;padding:8px"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">BAES</div><div style="font-size:18px;font-weight:800;color:${nbB>0?'var(--primary)':'var(--muted)'}">${nbB}</div></div>
+        <div style="text-align:center;background:var(--bg);border-radius:6px;padding:8px"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Puiss.</div><div style="font-size:14px;font-weight:700">${pW}W</div></div>
+      </div>
+      ${warn?'<div class="alert critique" style="margin-top:10px;padding:8px 10px"><div class="alert-icon" style="font-size:12px">🔴</div><div class="alert-body"><div class="alert-title" style="font-size:11px">ERP — BAES requis</div></div></div>':''}
+    </div>`;
+  }).join('');
+  c.innerHTML=cards+`<div class="card" style="border:2px solid var(--primary-border)">
+    <div class="card-title">Bilan éclairage total</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+      <div class="kpi"><div class="kpi-label">Luminaires</div><div class="kpi-val">${tL}</div></div>
+      <div class="kpi"><div class="kpi-label">BAES</div><div class="kpi-val" style="color:var(--primary)">${tB}</div></div>
+      <div class="kpi"><div class="kpi-label">Circuits</div><div class="kpi-val">${tC}</div></div>
+      <div class="kpi"><div class="kpi-label">Puissance</div><div class="kpi-val" style="font-size:18px">${(tW/1000).toFixed(1)} kW</div></div>
+    </div>
+  </div>`;
+}
+// ── ÉLECTRICITÉ ───────────────────────────────────────────────
+function renderElecPieces(){
+  const c=_get('elec-pieces-content');if(!c)return;
+  if(!state.pieces.length){c.innerHTML='<div class="alert info" style="margin:0"><div class="alert-icon">⚡</div><div class="alert-body"><div class="alert-title">Ajoutez des pièces dans Relevés</div></div></div>';return;}
+  c.innerHTML=state.pieces.map(p=>`<div style="border-bottom:1px solid var(--border);padding:10px 0">
+    <div style="font-size:13px;font-weight:600;margin-bottom:4px">${PIECE_ICONS[p.type]||'📌'} ${p.nom}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">
+      ${p.prises?`<span class="badge badge-muted">${p.prises} prises</span>`:''}
+      ${p.prisesDouble?`<span class="badge badge-muted">${p.prisesDouble} doubles</span>`:''}
+      ${p.prisesTri?`<span class="badge badge-warn">${p.prisesTri} tri.</span>`:''}
+      ${p.rj45?`<span class="badge badge-muted">${p.rj45} RJ45</span>`:''}
+    </div>
+  </div>`).join('');
+}
+function calcElec(){
+  const tP=state.pieces.reduce((a,p)=>a+(p.prises||0)+(p.prisesDouble||0)+(p.prisesSpec||0),0);
+  const tT=state.pieces.reduce((a,p)=>a+(p.prisesTri||0),0);
+  const tR=state.pieces.reduce((a,p)=>a+(p.rj45||0),0);
+  const pD=parseFloat(_val('elec-puissance-dispo'))||0;
+  const circ=Math.max(1,Math.ceil(tP/8));
+  const pE=12+circ*0.8+tT*3.5;
+  const renf=pD>0&&pE>pD;
+  const b=_get('elec-bilan');
+  if(b)b.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+    <div class="kpi"><div class="kpi-label">Total prises</div><div class="kpi-val kpi-val-sm">${tP}</div></div>
+    <div class="kpi"><div class="kpi-label">Prises tri.</div><div class="kpi-val kpi-val-sm">${tT}</div></div>
+    <div class="kpi"><div class="kpi-label">RJ45</div><div class="kpi-val kpi-val-sm">${tR}</div></div>
+    <div class="kpi"><div class="kpi-label">Circuits</div><div class="kpi-val kpi-val-sm">${circ+tT}</div></div>
+  </div>
+  <div style="background:var(--bg);border-radius:8px;padding:14px">
+    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Puissance estimée</span><span style="font-size:14px;font-weight:700">${pE.toFixed(1)} kVA</span></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-size:12px;color:var(--mid)">Puissance disponible</span><span style="font-size:14px;font-weight:700">${pD||'?'} kVA</span></div>
+  </div>
+  ${renf?'<div class="alert critique" style="margin-top:12px"><div class="alert-icon">🔴</div><div class="alert-body"><div class="alert-title">Renforcement compteur nécessaire</div><div class="alert-desc">Puissance estimée '+pE.toFixed(0)+' kVA > disponible '+pD+' kVA</div></div></div>':''}`;
+  computeAlertes();
+}
+// ── PLOMBERIE ─────────────────────────────────────────────────
+function renderPlombPieces(){
+  const c=_get('plomb-pieces-content');if(!c)return;
+  if(!state.pieces.length){c.innerHTML='<div class="alert info" style="margin:0"><div class="alert-icon">🚿</div><div class="alert-body"><div class="alert-title">Ajoutez des pièces dans Relevés</div></div></div>';return;}
+  c.innerHTML=state.pieces.map(p=>`<div style="border-bottom:1px solid var(--border);padding:10px 0">
+    <div style="font-size:13px;font-weight:600;margin-bottom:4px">${PIECE_ICONS[p.type]||'📌'} ${p.nom}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">
+      ${p.eauFroide?`<span class="badge badge-muted">EF: ${p.eauFroide}</span>`:''}
+      ${p.eauChaude?`<span class="badge badge-muted">EC: ${p.eauChaude}</span>`:''}
+      ${p.wc?`<span class="badge badge-muted">WC: ${p.wc}</span>`:''}
+      ${p.wcPMR?`<span class="badge badge-success">WC PMR: ${p.wcPMR}</span>`:''}
+      ${p.plonge?`<span class="badge badge-warn">Plonge: ${p.plonge}</span>`:''}
+    </div>
+  </div>`).join('');
+}
+function calcPlomberie(){
+  const tEF=state.pieces.reduce((a,p)=>a+(p.eauFroide||0),0);
+  const tEC=state.pieces.reduce((a,p)=>a+(p.eauChaude||0),0);
+  const tWC=state.pieces.reduce((a,p)=>a+(p.wc||0)+(p.wcPMR||0),0);
+  const tPMR=state.pieces.reduce((a,p)=>a+(p.wcPMR||0),0);
+  const tPl=state.pieces.reduce((a,p)=>a+(p.plonge||0),0);
+  const bg=_chk('plomb-bac-graisse');
+  const ecsV=_val('plomb-ecs','0');
+  const ecs=ecsV==='custom'?parseFloat(_val('plomb-ecs-custom'))||0:parseFloat(ecsV)||0;
+  const b=_get('plomb-bilan');
+  if(b)b.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+    <div class="kpi"><div class="kpi-label">Points eau froide</div><div class="kpi-val kpi-val-sm">${tEF}</div></div>
+    <div class="kpi"><div class="kpi-label">Points eau chaude</div><div class="kpi-val kpi-val-sm">${tEC}</div></div>
+    <div class="kpi"><div class="kpi-label">WC total</div><div class="kpi-val kpi-val-sm">${tWC}</div></div>
+    <div class="kpi" style="border:1px solid ${tPMR>0?'var(--success)':'var(--danger)'}"><div class="kpi-label">WC PMR</div><div class="kpi-val kpi-val-sm" style="color:${tPMR>0?'var(--success)':'var(--danger)'}">${tPMR}</div></div>
+  </div>
+  <div style="background:var(--bg);border-radius:8px;padding:14px">
+    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Plonges</span><span style="font-size:13px;font-weight:700">${tPl}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Bac à graisse</span><span style="font-size:13px;font-weight:700;color:${bg?'var(--success)':'var(--danger)'}">${bg?'✓ Prévu':'✗ Non prévu'}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-size:12px;color:var(--mid)">Volume ECS</span><span style="font-size:13px;font-weight:700">${ecs} L</span></div>
+  </div>`;
+  const al=[];
+  if(['restaurant','cafe','boulangerie'].includes(state.activeType)&&!bg)
+    al.push({l:'critique',m:'Bac à graisse obligatoire',d:'Réglementation sanitaire pour les établissements de restauration.'});
+  if(tPMR===0&&_chk('chk-pmr'))
+    al.push({l:'important',m:'Aucun WC PMR renseigné',d:'Cochez WC PMR dans les relevés de pièce concernée.'});
+  const el=_get('plomb-alertes');
+  if(el)el.innerHTML=al.map(a=>`<div class="alert ${a.l}"><div class="alert-icon">${a.l==='critique'?'🔴':'⚠️'}</div><div class="alert-body"><div class="alert-title">${a.m}</div><div class="alert-desc">${a.d}</div></div></div>`).join('');
+  computeAlertes();
+}
+// ── VENTILATION ───────────────────────────────────────────────
+function renderVentPieces(){
+  const c=_get('vent-pieces-content');if(!c)return;
+  if(!state.pieces.length){c.innerHTML='<div class="alert info" style="margin:0"><div class="alert-icon">🌀</div><div class="alert-body"><div class="alert-title">Ajoutez des pièces dans Relevés</div></div></div>';return;}
+  c.innerHTML=`<table class="table"><thead><tr><th>Pièce</th><th style="text-align:right">Volume m³</th><th style="text-align:right">Débit m³/h</th></tr></thead><tbody>${
+    state.pieces.map(p=>{
+      const vol=(p.surface||0)*(p.hauteur||2.7);
+      const pr=p.nbPersonnes||((p.surface||0)*(PERS_M2[p.type]||0.15));
+      const d=Math.round(pr*(AIR_NEUF[p.type]||15));
+      return `<tr><td class="label">${PIECE_ICONS[p.type]||'📌'} ${p.nom}</td><td class="num">${vol.toFixed(0)}</td><td class="num">${d}</td></tr>`;
+    }).join('')
+  }</tbody></table>`;
+}
+function calcVentilation(){
+  const tD=state.pieces.reduce((a,p)=>{const pr=p.nbPersonnes||((p.surface||0)*(PERS_M2[p.type]||0.15));return a+Math.round(pr*(AIR_NEUF[p.type]||15));},0);
+  const cuisOk=_chk('cuis-actif');
+  const braise=_chk('cuis-braise');
+  const hL=parseFloat(_val('hotte-l'))||2;
+  const hP=parseFloat(_val('hotte-p'))||1.2;
+  const hPu=parseFloat(_val('hotte-puissance'))||0;
+  const dH=cuisOk?Math.max(3600*hL*hP*0.6,hPu*100):0;
+  const b=_get('vent-bilan');
+  if(b)b.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+    <div class="kpi"><div class="kpi-label">Débit air neuf</div><div class="kpi-val kpi-val-sm">${fmtN(tD)} m³/h</div></div>
+    <div class="kpi"><div class="kpi-label">Extraction cuisine</div><div class="kpi-val kpi-val-sm">${fmtN(dH)} m³/h</div></div>
+  </div>
+  <div style="background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;padding:14px;text-align:center">
+    <div style="font-size:11px;color:var(--primary);font-weight:600;margin-bottom:4px">DÉBIT TOTAL ESTIMÉ</div>
+    <div style="font-size:24px;font-weight:800;color:var(--primary)">${fmtN(tD+dH)} m³/h</div>
+  </div>
+  ${cuisOk?`<div class="alert info" style="margin-top:12px"><div class="alert-icon">ℹ️</div><div class="alert-body"><div class="alert-title">Cuisine pro : hotte ${hL}m × ${hP}m</div><div class="alert-desc">Compensation : ${fmtN(Math.round(dH*0.9))} m³/h · Caisson 400°C/1h recommandé</div></div></div>`:''}`;
+  const al=[];
+  if(braise)al.push({l:'critique',m:'Braise / Charbon — étude obligatoire',d:'Gaine dédiée 400°C/1h. Traitement fumées. Réglementation spécifique.'});
+  const el=_get('vent-alertes');
+  if(el)el.innerHTML=al.map(a=>`<div class="alert ${a.l}"><div class="alert-icon">🔴</div><div class="alert-body"><div class="alert-title">${a.m}</div><div class="alert-desc">${a.d}</div></div></div>`).join('');
+  calcPassage();computeAlertes();
+}
+function calcPassage(){
+  const l=parseFloat(_val('passage-l'))||0;
+  const h=parseFloat(_val('passage-h'))||0;
+  const long=parseFloat(_val('passage-long'))||0;
+  const co=parseInt(_val('passage-coudes'))||0;
+  const r=_get('passage-result');if(!r||!l||!h)return;
+  const s=(l*h)/10000;const u=s*0.7;const ok=u>0.2;
+  r.innerHTML=`<div class="alert ${ok?'info':'vigilance'}"><div class="alert-icon">${ok?'✅':'⚠️'}</div><div class="alert-body"><div class="alert-title">Section ${s.toFixed(2)} m² · Utile ${u.toFixed(2)} m² · ${long}m · ${co} coude(s)</div><div class="alert-desc">${ok?'Section a priori suffisante':'Section insuffisante — risque encombrement'}</div></div></div>`;
+}
+// ── CLIMATISATION ─────────────────────────────────────────────
+function renderClimPieces(){
+  const c=_get('clim-pieces-content');if(!c)return;
+  if(!state.pieces.length){c.innerHTML='<div class="alert info" style="margin:0"><div class="alert-icon">❄️</div><div class="alert-body"><div class="alert-title">Ajoutez des pièces dans Relevés</div></div></div>';return;}
+  c.innerHTML=`<table class="table"><thead><tr><th>Pièce</th><th style="text-align:right">Surface</th><th style="text-align:right">Puissance</th></tr></thead><tbody>${
+    state.pieces.filter(p=>!['WC','WC PMR','Circulation'].includes(p.type)&&p.surface>0).map(p=>{
+      const pw=Math.round((p.surface||0)*(CLIM_WM2[p.type]||80));
+      return `<tr><td class="label">${PIECE_ICONS[p.type]||'📌'} ${p.nom}</td><td class="num">${p.surface} m²</td><td class="num">${pw} W</td></tr>`;
+    }).join('')
+  }</tbody></table>`;
+}
+function calcClim(){
+  const tP=state.pieces.filter(p=>!['WC','WC PMR','Circulation'].includes(p.type)).reduce((a,p)=>a+Math.round((p.surface||0)*(CLIM_WM2[p.type]||80)),0);
+  const nb=parseInt(_val('clim-nb-ext'))||1;
+  const dist=parseFloat(_val('clim-dist'))||15;
+  const den=parseFloat(_val('clim-denivele'))||0;
+  const li=nb*(dist+den*1.5);
+  const b=_get('clim-bilan');
+  if(b)b.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+    <div class="kpi"><div class="kpi-label">Puissance estimée</div><div class="kpi-val kpi-val-sm">${(tP/1000).toFixed(1)} kW</div></div>
+    <div class="kpi"><div class="kpi-label">Liaisons frigo</div><div class="kpi-val kpi-val-sm">${li.toFixed(0)} ml</div></div>
+  </div>
+  <div style="background:var(--bg);border-radius:8px;padding:14px">
+    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Unités ext.</span><span style="font-size:13px;font-weight:700">${nb}</span></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-size:12px;color:var(--mid)">Emplacement</span><span style="font-size:13px;font-weight:700">${_val('clim-ext-empl','—')}</span></div>
+  </div>`;
+  const al=[];
+  if(dist>25)al.push('Distance liaisons importante ('+dist+'m) — vérifier limites fabricant');
+  if(den>15)al.push('Dénivelé important ('+den+'m) — impact performance');
+  const el=_get('clim-alertes');
+  if(el)el.innerHTML=al.map(a=>`<div class="alert vigilance"><div class="alert-icon">⚠️</div><div class="alert-body"><div class="alert-title">${a}</div></div></div>`).join('');
+}
+// ── FAÇADE & ERP ──────────────────────────────────────────────
+function calcFacade(){
+  const m=_chk('facade-modification'),co=_chk('facade-copro'),en=_chk('facade-enseigne');
+  const al=[];
+  if(m)al.push({t:'vigilance',m:'Modification façade — déclaration préalable obligatoire',d:'Délai ~2 mois en mairie.'});
+  if(co&&m)al.push({t:'important',m:'Copropriété + modification façade',d:'Autorisation AG copropriétaires obligatoire avant travaux.'});
+  if(en)al.push({t:'info',m:'Enseigne en façade',d:'Déclaration préalable ou permis selon dimensions. Vérifier RLP.'});
+  const el=_get('facade-alertes');
+  if(el)el.innerHTML=al.map(a=>`<div class="alert ${a.t}"><div class="alert-icon">${a.t==='info'?'ℹ️':'⚠️'}</div><div class="alert-body"><div class="alert-title">${a.m}</div><div class="alert-desc">${a.d}</div></div></div>`).join('');
+}
+function calcERP(){
+  const surf=parseFloat(_val('erp-surface-salle'))||0;
+  const lp=parseFloat(_val('erp-largeur-porte'))||90;
+  const iss=parseInt(_val('erp-issues'))||2;
+  const deg=parseFloat(_val('erp-degagement'))||140;
+  const type=_val('erp-type','N');
+  const pmrWC=_chk('erp-pmr-wc'),baes=_chk('erp-baes-prevu'),gir=_chk('erp-giration');
+  const r=_get('erp-result');
+  if(!surf){if(r)r.innerHTML='<div style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Renseignez la surface salle</div>';return;}
+  const ratios={N:1.0,M:3.0,W:8.0,U:10.0,J:5.0};
+  const ratio=ratios[type]||1.0;
+  const pT=Math.floor(surf/ratio);
+  const pC=Math.floor(pT*0.85);
+  const pPMR=Math.max(1,Math.ceil(pC*0.02));
+  const eff=pC+Math.round(surf*0.1);
+  let cat='5ème catégorie';
+  if(eff>=1500)cat='1ère catégorie';else if(eff>=700)cat='2ème catégorie';
+  else if(eff>=300)cat='3ème catégorie';else if(eff>=200)cat='4ème catégorie';
+  if(r)r.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+    <div class="kpi"><div class="kpi-label">Places théoriques</div><div class="kpi-val">${pT}</div></div>
+    <div class="kpi"><div class="kpi-label">Places conseillées</div><div class="kpi-val">${pC}</div></div>
+    <div class="kpi"><div class="kpi-label">Places PMR min</div><div class="kpi-val">${pPMR}</div></div>
+    <div class="kpi"><div class="kpi-label">Effectif estimé</div><div class="kpi-val">${eff}</div></div>
+  </div>
+  <div style="background:var(--primary-light);border:2px solid var(--primary-border);border-radius:8px;padding:16px;text-align:center">
+    <div style="font-size:11px;color:var(--primary);font-weight:600;margin-bottom:4px">CATÉGORIE ERP PROBABLE</div>
+    <div style="font-size:22px;font-weight:800;color:var(--primary)">${cat}</div>
+    <div style="font-size:11px;color:var(--mid);margin-top:4px">Type ${type} · ${eff} pers.</div>
+  </div>`;
+  const al=[];
+  if(lp<90)al.push({l:'critique',m:'Largeur porte < 90 cm',d:'Minimum obligatoire pour les ERP.'});
+  if(!pmrWC)al.push({l:'important',m:'WC PMR non coché',d:'Obligatoire dans les ERP accessibles au public.'});
+  if(!baes)al.push({l:'critique',m:'BAES non prévu',d:'Obligatoire dans tout ERP.'});
+  if(!gir)al.push({l:'vigilance',m:'Giration fauteuil non vérifiée',d:'Espace 1.50m requis.'});
+  if(iss<2&&eff>50)al.push({l:'critique',m:'Issues insuffisantes',d:`${eff} personnes nécessitent au moins 2 issues.`});
+  const el=_get('erp-alertes');
+  if(el)el.innerHTML=al.map(a=>`<div class="alert ${a.l}"><div class="alert-icon">${a.l==='critique'?'🔴':a.l==='important'?'🟠':'⚠️'}</div><div class="alert-body"><div class="alert-title">${a.m}</div><div class="alert-desc">${a.d}</div></div></div>`).join('');
+  computeAlertes();
+}
+// ── ALERTES GLOBALES ──────────────────────────────────────────
+function computeAlertes(){
+  const al=[];
+  if(['restaurant','cafe','boulangerie'].includes(state.activeType)&&!_chk('eq-extraction')&&!_chk('cuis-actif'))
+    al.push({level:'important',title:'Extraction non identifiée',desc:'Vérifier présence extraction ou prévoir création.'});
+  if(_chk('cuis-braise'))
+    al.push({level:'critique',title:'Cuisson braise / charbon',desc:'Étude spécifique obligatoire. Gaine dédiée 400°C/1h.'});
+  if(_chk('chk-pmr')&&!state.pieces.some(p=>p.wcPMR>0))
+    al.push({level:'important',title:'PMR cochée sans WC PMR saisi',desc:'Renseignez le WC PMR dans les relevés.'});
+  if(_chk('chk-erp')&&!_chk('erp-baes-prevu'))
+    al.push({level:'critique',title:'ERP sans BAES prévu',desc:'Obligatoire dans tout ERP.'});
+  state.alertes=al;
+  const badge=_get('nb-alertes-nav');
+  if(badge){const cr=al.filter(a=>a.level==='critique').length;if(cr>0){badge.textContent=cr;badge.style.display='inline-block';}else badge.style.display='none';}
+}
+// ── PRÉ-CHIFFRAGE ─────────────────────────────────────────────
+function initPrechiffrage(){
+  const tg=_get('type-grid');
+  if(tg){
+    tg.innerHTML='';
+    Object.entries(TYPES).forEach(([k,v])=>{
+      const btn=document.createElement('div');
+      const isA=k===state.activeType;
+      btn.style.cssText=`background:${isA?'var(--primary-light)':'white'};border:${isA?'2px solid var(--primary)':'1.5px solid var(--border)'};border-radius:var(--radius);padding:10px 6px;text-align:center;cursor:pointer;transition:all .15s;`;
+      btn.innerHTML=`<div style="font-size:20px;margin-bottom:4px">${v.icon}</div><div style="font-size:10px;font-weight:700">${v.label}</div><div style="font-family:monospace;font-size:9px;color:var(--muted);margin-top:2px">${fmtN(v.taux)}€/m²</div>`;
+      btn.onclick=()=>{
+        document.querySelectorAll('#type-grid > div').forEach(c=>{c.style.borderColor='var(--border)';c.style.borderWidth='1.5px';c.style.background='white';});
+        btn.style.borderColor='var(--primary)';btn.style.borderWidth='2px';btn.style.background='var(--primary-light)';
+        state.activeType=k;const lp=_get('lbl-places');if(lp)lp.textContent=v.placesLabel;recalculate();
+      };
+      tg.appendChild(btn);
+    });
+  }
+  const gr=_get('gamme-row');
+  if(gr){
+    gr.innerHTML='';
+    GAMMES.forEach(g=>{
+      const btn=document.createElement('div');const isA=g.key===state.activeGamme;
+      btn.style.cssText=`padding:10px;border:${isA?'2px solid var(--primary)':'1.5px solid var(--border)'};border-radius:var(--radius);text-align:center;cursor:pointer;transition:all .15s;background:${isA?'var(--primary-light)':'white'};`;
+      btn.innerHTML=`<div style="font-size:12px;font-weight:700">${g.label}</div><div style="font-size:10px;color:var(--muted);margin-top:2px">×${g.coeff.toFixed(2)}</div>`;
+      btn.id='gamme-'+g.key;
+      btn.onclick=()=>{
+        document.querySelectorAll('#gamme-row > div').forEach(c=>{c.style.borderColor='var(--border)';c.style.borderWidth='1.5px';c.style.background='white';});
+        btn.style.borderColor='var(--primary)';btn.style.borderWidth='2px';btn.style.background='var(--primary-light)';
+        state.activeGamme=g.key;recalculate();
+      };
+      gr.appendChild(btn);
+    });
+  }
+}
+function syncSlider(id){
+  const sl=_get('sl-'+id);const sv=_get('sv-'+id);
+  if(!sl||!sv)return;sv.textContent=id==='complexite'?sl.value+'/5':sl.value+' %';
+}
+function recalculate(){
+  const cur=TYPES[state.activeType];if(!cur)return;
+  const s=parseFloat(_val('inp-surface'))||0;
+  const p=parseFloat(_val('inp-places'))||0;
+  const fg=parseFloat(_get('sl-fg')?.value)||8;
+  const marge=parseFloat(_get('sl-marge')?.value)||10;
+  const cx=parseFloat(_get('sl-complexite')?.value)||3;
+  const region=_val('inp-region','std');
+  const renov=parseFloat(_val('inp-renov'))||1;
+  const amiante=_chk('chk-amiante');
+  const gamme=GAMMES.find(g=>g.key===state.activeGamme)||GAMMES[1];
+  const eC=state._etatCoeff||1.0;
+  const pDef=s>0?Math.round(s/cur.placesRatio):0;
+  const th=_get('hint-taux');if(th)th.textContent=fmtN(cur.taux)+' €/m² base '+gamme.label.toLowerCase();
+  const ph=_get('hint-places');if(ph)ph.textContent=s>0?'Suggestion : '+pDef+' '+(cur.placesLabel||'').toLowerCase():'Pour calcul mobilier';
+  if(s<=0){renderEmptyChiffrage();return;}
+  const cR=REGIONS[region]||1;
+  const cG=gamme.coeff;
+  const cA=0.02+(cx-1)*0.02+(amiante?0.05:0);
+  const bB=s*cur.taux*cG*cR*renov*eC;
+  const mFG=bB*fg/100;
+  const mAl=(bB+mFG)*cA;
+  const bM=bB+mFG+mAl;
+  const mMa=bM*(marge/100)/(1-marge/100);
+  const tT=bM+mMa;
+  const nb=p||pDef;
+  const gM=()=>Math.round((nb*cur.mobilierTaux+s*(cur.comptoirRatio||0))/500)*500;
+  const gC=comp=>{
+    let raw;
+    if(comp.calcType==='m2')raw=s*comp.taux*cG;
+    else if(comp.calcType==='mobilier')raw=gM();
+    else if(comp.calcType==='cuisine')raw=s*getCuisineTaux(s);
+    else if(comp.calcType==='forfait')return comp.montant;
+    else return 0;
+    return raw<10000?Math.round(raw/500)*500:Math.round(raw/1000)*1000;
+  };
+  let tC=0;const cDs=cur.comps.map(c=>{const m=gC(c);tC+=m;return{...c,montant:m};});
+  const tP=tT+tC;const m2T=Math.round(tT/s);const m2P=Math.round(tP/s);
+  _set('bud-bas',fmt(tT*0.85));_set('bud-moy',fmt(tT));_set('bud-haut',fmt(tT*1.20));
+  _set('bud-bas-m2',fmtN(Math.round(m2T*0.85))+' €/m²');_set('bud-moy-m2',fmtN(m2T)+' €/m²');_set('bud-haut-m2',fmtN(Math.round(m2T*1.20))+' €/m²');
+  _set('hint-fg','= '+fmt(mFG));_set('hint-marge','= '+fmt(mMa));
+  _set('hint-complexite','Aléas : '+Math.round(cA*100)+' %'+(amiante?' (+5% amiante)':''));
+  _set('kpi-m2-trav',fmtN(m2T)+' €');_set('kpi-m2-total',fmtN(m2P)+' €');
+  const sem=Math.max(4,Math.round(s*cur.dureeRatio*(1+(cx-3)*0.1)));_set('kpi-duree',sem+' sem.');
+  let ri=0;
+  if(_chk('chk-erp'))ri+=2;if(_chk('chk-cuisine'))ri+=2;if(_chk('chk-pmr'))ri+=1;if(amiante)ri+=3;if(cx>=4)ri+=1;if(renov>=1.3)ri+=1;
+  const rc=_get('kpi-risque-card');const re=_get('kpi-risque');
+  if(re){
+    const rL=['Faible','Faible','Modéré','Modéré','Élevé','Élevé','Critique'];
+    const rC=['var(--success)','var(--success)','var(--warn)','var(--warn)','var(--danger)','var(--danger)','var(--danger)'];
+    const rI=Math.min(ri,6);re.textContent=rL[rI];if(rc)rc.style.borderLeft='3px solid '+rC[rI];
+  }
+  renderLotsTable(cur,tT,cDs,bB,mFG,mAl,mMa,tC,tP,m2T,m2P);
+  renderBarsChart(cur,tT,cDs);
+  renderSimilarBox(s,m2T);
+  Object.assign(state,{surface:s,places:p||pDef,fg,marge,complexite:cx,region,renov,amiante});
+}
+function renderEmptyChiffrage(){
+  ['bud-bas','bud-moy','bud-haut','kpi-m2-trav','kpi-m2-total','kpi-duree','kpi-risque'].forEach(id=>_set(id,'—'));
+  ['lots-body','comps-body','totaux-block','bars-container'].forEach(id=>{const e=_get(id);if(e)e.innerHTML='';});
+  const ch=_get('comps-header');if(ch)ch.style.display='none';
+  const sb=_get('similar-box');if(sb)sb.style.display='none';
+}
+function renderLotsTable(cur,tT,cDs,bB,mFG,mAl,mMa,tC,tP,m2T,m2P){
+  const tb=_get('lots-body');if(!tb)return;
+  tb.innerHTML=cur.lots.map(l=>{
+    const m=Math.round(tT*l.pct/100);
+    return `<div class="lot-row"><div><div class="lot-name">${l.nom}</div>${l.alert?`<span class="lot-alert ${l.alertType||'warn'}">${l.alertType==='erp'?'🔴 ':'⚠️ '}${l.alert}</span>`:''}<div class="lot-detail">${l.detail}</div></div><div class="lot-pct">${l.pct}%</div><div class="lot-amt">${fmt(m)}</div></div>`;
+  }).join('');
+  const ch=_get('comps-header');if(ch)ch.style.display='grid';
+  const cb=_get('comps-body');
+  if(cb)cb.innerHTML=cDs.map(c=>{const pct=bB>0?Math.round(c.montant/bB*100):0;return `<div class="lot-row comp"><div><div class="lot-name">${c.nom}</div><div class="lot-detail">${c.detail}</div></div><div class="lot-pct comp-pct">${pct?pct+'%':'—'}</div><div class="lot-amt">${fmt(c.montant)}</div></div>`;}).join('');
+  const to=_get('totaux-block');
+  if(to)to.innerHTML=`
+    <div class="totaux-row"><span class="totaux-label">Déboursé sec</span><span class="totaux-val">${fmt(bB)}</span></div>
+    <div class="totaux-row"><span class="totaux-label">Frais généraux (${_get('sl-fg')?.value||8} %)</span><span class="totaux-val">+ ${fmt(mFG)}</span></div>
+    <div class="totaux-row"><span class="totaux-label">Aléas et imprévus</span><span class="totaux-val">+ ${fmt(mAl)}</span></div>
+    <div class="totaux-row"><span class="totaux-label">Marge nette (${_get('sl-marge')?.value||10} %)</span><span class="totaux-val">+ ${fmt(mMa)}</span></div>
+    <div class="totaux-row totaux-big"><div><div style="font-weight:700">Prix vente HT — Travaux</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${fmtN(m2T)} €/m²</div></div><span style="font-size:20px;font-weight:800;color:var(--primary)">${fmt(tT)}</span></div>
+    <div class="totaux-row"><span class="totaux-label">Budgets complémentaires</span><span class="totaux-val">+ ${fmt(tC)}</span></div>
+    <div class="totaux-row" style="border-top:2px solid var(--ink);padding-top:14px;margin-top:4px">
+      <div><div style="font-size:14px;font-weight:800">TOTAL PROJET HT</div><div style="font-size:12px;font-weight:600;color:var(--primary);margin-top:2px">${fmtN(m2P)} €/m²</div></div>
+      <span style="font-size:26px;font-weight:800;color:var(--primary)">${fmt(tP)}</span>
+    </div>`;
+}
+function renderBarsChart(cur,tT,cDs){
+  const bc=_get('bars-container');if(!bc)return;
+  const mx=Math.max(...cur.lots.map(l=>l.pct),5);
+  bc.innerHTML=cur.lots.map(l=>`<div style="margin-bottom:8px">
+    <div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:11px;font-weight:600">${l.nom}</span><span style="font-size:10px;color:var(--muted)">${l.pct}%&nbsp;&nbsp;${fmt(Math.round(tT*l.pct/100))}</span></div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${(l.pct/mx)*100}%"></div></div>
+  </div>`).join('')+
+  '<div style="height:1px;background:var(--border);margin:12px 0"></div>'+
+  cDs.map(c=>{const pct=tT>0?c.montant/tT*100:0;return `<div style="margin-bottom:8px">
+    <div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:11px;font-weight:600">${c.nom}</span><span style="font-size:10px;color:var(--muted)">${pct.toFixed(1)}%&nbsp;&nbsp;${fmt(c.montant)}</span></div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${Math.min(100,(pct/mx)*100)}%;background:var(--warn)"></div></div>
+  </div>`;}).join('');
+}
+function renderSimilarBox(surface,m2A){
+  const sb=_get('similar-box');if(!sb)return;
+  const sim=DB.chantiers.filter(c=>c.type===state.activeType&&c.surface>=surface*0.6&&c.surface<=surface*1.4&&c.budget_reel>0);
+  if(!sim.length){sb.style.display='none';return;}
+  sb.style.display='block';
+  const m2M=Math.round(sim.reduce((a,c)=>a+c.budget_reel/c.surface,0)/sim.length);
+  const ec=Math.round((m2A-m2M)/m2M*100);
+  _set('similar-title',sim.length+' projet'+(sim.length>1?'s':'')+' similaire'+(sim.length>1?'s':'')+' en base');
+  const sc=_get('similar-content');
+  if(sc)sc.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)"><span style="font-size:12px;color:var(--mid)">Coût moyen observé</span><span style="font-size:13px;font-weight:700">${fmtN(m2M)} €/m² <span class="badge ${ec>10?'badge-danger':ec<-10?'badge-success':'badge-muted'}">${ec>0?'+':''}${ec}%</span></span></div><div style="display:flex;justify-content:space-between;padding:8px 0"><span style="font-size:12px;color:var(--mid)">Surface moyenne</span><span style="font-size:13px;font-weight:700">${Math.round(sim.reduce((a,c)=>a+c.surface,0)/sim.length)} m²</span></div>`;
+}
+// ── CHIFFRAGE DÉTAILLÉ ────────────────────────────────────────
+function renderChiffrageDetail(){
+  const dc=_get('detail-content');if(!dc)return;
+  if(!state.surface||state.surface<=0){dc.innerHTML='<div class="alert info"><div class="alert-icon">📋</div><div class="alert-body"><div class="alert-title">Renseignez les paramètres dans le pré-chiffrage</div></div></div>';return;}
+  const cur=TYPES[state.activeType];
+  const gam=GAMMES.find(g=>g.key===state.activeGamme)||GAMMES[1];
+  const bB=state.surface*cur.taux*gam.coeff*(REGIONS[state.region]||1)*(state.renov||1)*(state._etatCoeff||1);
+  dc.innerHTML=`<div class="card" style="overflow-x:auto">
+    <div class="card-title">Décomposition par lot — Déboursé sec</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:16px">${cur.label} · ${state.surface} m² · Gamme ${gam.label}</p>
+    <table class="table">
+      <thead><tr><th>Lot</th><th>%</th><th style="text-align:right">Matériaux</th><th style="text-align:right">Main-d'œuvre</th><th style="text-align:right">Sous-trait.</th><th style="text-align:right">DS Total</th></tr></thead>
+      <tbody>${cur.lots.map((l,i)=>{const ds=Math.round(bB*l.pct/100);return `<tr style="background:${i%2?'var(--bg)':'white'}"><td class="label">${l.nom}</td><td><span class="badge badge-primary">${l.pct}%</span></td><td class="num">${fmt(Math.round(ds*0.55))}</td><td class="num">${fmt(Math.round(ds*0.35))}</td><td class="num" style="color:var(--muted)">${fmt(Math.round(ds*0.10))}</td><td class="num" style="font-size:14px;font-weight:800">${fmt(ds)}</td></tr>`;}).join('')}</tbody>
+      <tfoot><tr style="background:var(--ink);color:white"><td style="padding:10px 14px;font-weight:700" colspan="2">TOTAL DS</td><td style="padding:10px 14px;text-align:right">${fmt(Math.round(bB*0.55))}</td><td style="padding:10px 14px;text-align:right">${fmt(Math.round(bB*0.35))}</td><td style="padding:10px 14px;text-align:right;color:#94A3B8">${fmt(Math.round(bB*0.10))}</td><td style="padding:10px 14px;text-align:right;font-size:18px;font-weight:800">${fmt(bB)}</td></tr></tfoot>
+    </table>
+  </div>`;
+}
+// ── SYNTHÈSE ──────────────────────────────────────────────────
+function renderSynthese(){
+  const sc=_get('synthese-content');if(!sc)return;
+  computeAlertes();
+  const cur=TYPES[state.activeType];if(!cur){sc.innerHTML='<div class="alert info"><div class="alert-icon">📄</div><div class="alert-body"><div class="alert-title">Renseignez les onglets pour générer la synthèse</div></div></div>';return;}
+  const gam=GAMMES.find(g=>g.key===state.activeGamme)||GAMMES[1];
+  const tS=state.pieces.reduce((a,p)=>a+(p.surface||0),0);
+  const tVol=state.pieces.reduce((a,p)=>a+(p.surface||0)*(p.hauteur||2.7),0);
+  const tLum=state.pieces.reduce((a,p)=>a+Math.max(1,Math.round((p.surface||0)/8)),0);
+  const tBAES=state.pieces.reduce((a,p)=>a+(['WC','WC PMR'].includes(p.type)?0:Math.max(0,Math.ceil((p.surface||0)/60))),0);
+  const tPri=state.pieces.reduce((a,p)=>a+(p.prises||0)+(p.prisesDouble||0)+(p.prisesSpec||0),0);
+  const tRJ=state.pieces.reduce((a,p)=>a+(p.rj45||0),0);
+  const tWC=state.pieces.reduce((a,p)=>a+(p.wc||0)+(p.wcPMR||0),0);
+  const tDeb=state.pieces.reduce((a,p)=>{const pr=p.nbPersonnes||((p.surface||0)*(PERS_M2[p.type]||0.15));return a+Math.round(pr*(AIR_NEUF[p.type]||15));},0);
+  const tCl=state.pieces.filter(p=>!['WC','WC PMR','Circulation'].includes(p.type)).reduce((a,p)=>a+Math.round((p.surface||0)*(CLIM_WM2[p.type]||80)),0);
+  const surf=state.surface||tS||0;
+  const bB=surf>0?surf*cur.taux*gam.coeff*(REGIONS[state.region]||1)*(state.renov||1)*(state._etatCoeff||1):0;
+  const fg=state.fg||8;const mg=state.marge||10;
+  const al=0.02+((state.complexite||3)-1)*0.02+(state.amiante?0.05:0);
+  const mFG=bB*fg/100;const mAl=(bB+mFG)*al;
+  const bM=bB+mFG+mAl;const mMa=bM*(mg/100)/(1-mg/100);const tT=bM+mMa;
+  const bEt=parseFloat(_val('budget-etudes'))||0;
+  const tHT=tT+bEt;const tva=tHT*0.10;const tTTC=tHT+tva;
+  const nom=_val('proj-nom','Projet'),client=_val('proj-client',''),adresse=_val('proj-adresse','');
+  sc.innerHTML=`
+  <div class="card" style="margin-bottom:20px;border:2px solid var(--primary-border);background:linear-gradient(135deg,var(--primary-light) 0%,white 60%)">
+    <div style="display:flex;align-items:center;gap:16px">
+      <div style="font-size:44px">${cur.icon}</div>
+      <div style="flex:1"><div style="font-size:20px;font-weight:800">${nom}</div>${client?`<div style="font-size:13px;color:var(--mid);margin-top:2px">${client}</div>`:''}${adresse?`<div style="font-size:12px;color:var(--muted);margin-top:2px">📍 ${adresse}</div>`:''}
+        <div style="margin-top:8px;display:flex;gap:6px"><span class="badge badge-primary">${cur.label}</span><span class="badge badge-muted">${gam.label}</span>${surf?`<span class="badge badge-muted">${surf} m²</span>`:''}</div>
+      </div>
+      <div style="text-align:right"><div style="font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">Budget HT</div><div style="font-size:32px;font-weight:800;color:var(--primary)">${fmt(tHT)}</div><div style="font-size:12px;color:var(--mid);margin-top:2px">TTC : ${fmt(tTTC)}</div></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:20px">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary);padding:8px 14px;background:var(--primary-light);border-radius:6px;border-left:3px solid var(--primary);margin-bottom:12px">📐 Surfaces & Métrés</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px">
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Surface totale</div><div style="font-size:16px;font-weight:700">${surf} m²</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Volume total</div><div style="font-size:16px;font-weight:700">${fmtN(tVol)} m³</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Nb pièces</div><div style="font-size:16px;font-weight:700">${state.pieces.length}</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Hauteur moy.</div><div style="font-size:16px;font-weight:700">${_val('proj-hauteur','2.70')} m</div></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:20px">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary);padding:8px 14px;background:var(--primary-light);border-radius:6px;border-left:3px solid var(--primary);margin-bottom:12px">⚡ Bilan technique</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px">
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Luminaires</div><div style="font-size:16px;font-weight:700">${tLum}</div></div>
+      <div style="background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--primary);font-weight:500;margin-bottom:4px">BAES</div><div style="font-size:16px;font-weight:700;color:var(--primary)">${tBAES}</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Prises</div><div style="font-size:16px;font-weight:700">${tPri}</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">RJ45</div><div style="font-size:16px;font-weight:700">${tRJ}</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Points WC</div><div style="font-size:16px;font-weight:700">${tWC}</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Ventilation</div><div style="font-size:14px;font-weight:700">${fmtN(tDeb)} m³/h</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Climatisation</div><div style="font-size:14px;font-weight:700">${(tCl/1000).toFixed(1)} kW</div></div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:20px">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary);padding:8px 14px;background:var(--primary-light);border-radius:6px;border-left:3px solid var(--primary);margin-bottom:12px">💶 Chiffrage</div>
+    ${surf>0?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:18px">
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Déboursé sec</span><span style="font-size:13px;font-weight:600">${fmt(bB)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Frais généraux ${fg}%</span><span style="font-size:13px;font-weight:600">+ ${fmt(mFG)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Aléas ${Math.round(al*100)}%</span><span style="font-size:13px;font-weight:600">+ ${fmt(mAl)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0"><span style="font-size:12px;color:var(--mid)">Marge ${mg}%</span><span style="font-size:13px;font-weight:600">+ ${fmt(mMa)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0 0;border-top:2px solid var(--border);margin-top:8px"><span style="font-size:14px;font-weight:700">Travaux HT</span><span style="font-size:16px;font-weight:800;color:var(--primary)">${fmt(tT)}</span></div>
+      </div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:18px">
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Travaux HT</span><span style="font-size:13px;font-weight:600">${fmt(tT)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:2px solid var(--ink);margin-bottom:8px"><span style="font-size:12px;color:var(--mid)">Études & autorisations</span><span style="font-size:13px;font-weight:600">${fmt(bEt)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--border)"><span style="font-size:14px;font-weight:800">Total HT</span><span style="font-size:16px;font-weight:800">${fmt(tHT)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">TVA 10%</span><span style="font-size:13px;font-weight:600">+ ${fmt(tva)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:12px 0 0;margin-top:4px"><span style="font-size:15px;font-weight:800">TOTAL TTC</span><span style="font-size:22px;font-weight:800;color:var(--primary)">${fmt(tTTC)}</span></div>
+      </div>
+    </div>`:'<div class="alert vigilance"><div class="alert-icon">⚠️</div><div class="alert-body"><div class="alert-title">Renseignez la surface dans le pré-chiffrage</div></div></div>'}
+  </div>
+
+  ${state.alertes.length?`<div style="margin-bottom:20px">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--danger);padding:8px 14px;background:var(--danger-light);border-radius:6px;border-left:3px solid var(--danger);margin-bottom:12px">⚠️ Alertes (${state.alertes.length})</div>
+    ${state.alertes.map(a=>`<div class="alert ${a.level}"><div class="alert-icon">${a.level==='critique'?'🔴':a.level==='important'?'🟠':'⚠️'}</div><div class="alert-body"><div class="alert-title">${a.title}</div><div class="alert-desc">${a.desc}</div></div></div>`).join('')}
+  </div>`:'<div class="alert success"><div class="alert-icon">✅</div><div class="alert-body"><div class="alert-title">Aucune alerte détectée</div></div></div>'}`;
+}
+// ── BIBLIOTHÈQUE ──────────────────────────────────────────────
+function renderBibliotheque(){
+  const tbody=_get('biblio-tbody');if(!tbody)return;
+  const fl=_val('filtre-lot',''),fs=_val('filtre-search','').toLowerCase();
+  let data=DB.prix;
+  if(fl)data=data.filter(p=>p.lot===fl);
+  if(fs)data=data.filter(p=>p.designation.toLowerCase().includes(fs));
+  if(!data.length){tbody.innerHTML=`<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--muted);font-size:12px">Aucun prix enregistré · Cliquez sur "+ Ajouter" pour commencer</td></tr>`;return;}
+  tbody.innerHTML=data.map((p,i)=>`<tr><td class="label">${p.designation}</td><td><span class="badge badge-muted">${p.lot}</span></td><td style="color:var(--mid);font-size:12px">${p.unite}</td><td class="num" style="color:var(--muted)">${p.prix_min?fmt(p.prix_min):'—'}</td><td class="num" style="font-weight:800">${fmt(p.prix_moyen)}</td><td class="num" style="color:var(--muted)">${p.prix_max?fmt(p.prix_max):'—'}</td><td style="text-align:center;font-size:12px">${p.occurrences||1}</td><td style="color:var(--muted);font-size:11px">${p.source||'—'}</td><td><button onclick="deletePrix(${i})" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px 8px">✕</button></td></tr>`).join('');
+}
+function openModalPrix(){
+  ['px-designation','px-source'].forEach(id=>{const e=_get(id);if(e)e.value='';});
+  ['px-min','px-moy','px-max'].forEach(id=>{const e=_get(id);if(e)e.value='';});
+  const m=_get('modal-prix');if(m)m.style.display='flex';
+}
+function savePrix(){
+  const des=_val('px-designation','').trim(),moy=parseFloat(_val('px-moy',''));
+  if(!des||!moy){alert('Désignation et prix moyen obligatoires.');return;}
+  DB.prix.push({id:Date.now(),designation:des,lot:_val('px-lot',''),unite:_val('px-unite','m²'),
+    prix_min:parseFloat(_val('px-min',''))||null,prix_moyen:moy,prix_max:parseFloat(_val('px-max',''))||null,
+    occurrences:1,source:_val('px-source',''),region:_val('px-region',''),version:1,date:new Date().toLocaleDateString('fr-FR')});
+  saveDB();closeModal('modal-prix');renderBibliotheque();
+}
+function deletePrix(idx){if(!confirm('Supprimer ce prix ?'))return;DB.prix.splice(idx,1);saveDB();renderBibliotheque();}
+function exportBiblioCSV(){
+  if(!DB.prix.length){alert('Aucun prix à exporter.');return;}
+  const h=['Désignation','Lot','Unité','Prix min','Prix moyen','Prix max','Occ.','Source','Région','Date'];
+  const r=DB.prix.map(p=>[p.designation,p.lot,p.unite,p.prix_min||'',p.prix_moyen,p.prix_max||'',p.occurrences||1,p.source||'',p.region||'',p.date||'']);
+  const csv=[h,...r].map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='bibliotheque_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+}
+// ── CHANTIERS ─────────────────────────────────────────────────
+let filtreStatut='tous';
+function filterChantiers(s,el){filtreStatut=s;renderChantiers();}
+function renderChantiers(){
+  const grid=_get('chantiers-grid');if(!grid)return;
+  let data=DB.chantiers;if(filtreStatut!=='tous')data=data.filter(c=>c.statut===filtreStatut);
+  if(!data.length){grid.innerHTML='<div style="grid-column:1/-1"><div class="alert info"><div class="alert-icon">🏗️</div><div class="alert-body"><div class="alert-title">Aucun chantier</div><div class="alert-desc">Ajoutez vos projets pour alimenter la base de comparaison</div></div></div></div>';return;}
+  grid.innerHTML=data.map(ch=>{
+    const t=TYPES[ch.type]||{icon:'🏪',label:ch.type};
+    const eB=ch.budget_reel&&ch.budget_prevu?Math.round((ch.budget_reel-ch.budget_prevu)/ch.budget_prevu*100):null;
+    const eD=ch.duree_reelle&&ch.duree_prevue?ch.duree_reelle-ch.duree_prevue:null;
+    const m2=ch.budget_reel&&ch.surface?Math.round(ch.budget_reel/ch.surface):null;
+    return `<div class="card"><div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:14px"><div><div style="font-size:11px;color:var(--muted);font-weight:500;margin-bottom:3px">${t.icon} ${t.label} · ${ch.surface} m² · ${ch.ville||'—'}</div><div style="font-size:15px;font-weight:700">${ch.nom}</div></div><span class="badge ${ch.statut==='termine'?'badge-success':'badge-primary'}">${ch.statut==='termine'?'Terminé':'En cours'}</span></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+      <div style="text-align:center"><div style="font-size:10px;color:var(--muted);font-weight:500">Prévu</div><div style="font-size:13px;font-weight:700">${ch.budget_prevu?fmt(ch.budget_prevu):'—'}</div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:var(--muted);font-weight:500">Réel</div><div style="font-size:13px;font-weight:700">${ch.budget_reel?fmt(ch.budget_reel):'—'}</div>${eB!==null?`<div style="font-size:10px;font-weight:700;color:${eB>0?'var(--danger)':'var(--success)'}">${eB>0?'+':''}${eB}%</div>`:''}</div>
+      <div style="text-align:center"><div style="font-size:10px;color:var(--muted);font-weight:500">€/m²</div><div style="font-size:13px;font-weight:700">${m2?fmtN(m2)+' €':'—'}</div></div>
+      <div style="text-align:center"><div style="font-size:10px;color:var(--muted);font-weight:500">Durée</div><div style="font-size:13px;font-weight:700">${ch.duree_reelle||ch.duree_prevue||'—'}${(ch.duree_reelle||ch.duree_prevue)?' s.':''}</div>${eD!==null?`<div style="font-size:10px;font-weight:700;color:${eD>0?'var(--danger)':'var(--success)'}">${eD>0?'+':''}${eD} s.</div>`:''}</div>
+    </div>
+    ${ch.notes?`<div style="font-size:11px;color:var(--muted);line-height:1.6;border-top:1px solid var(--border);padding-top:10px;margin-top:12px">${ch.notes}</div>`:''}
+    </div>`;
+  }).join('');
+}
+function openModalChantier(){
+  ['ch-nom','ch-surface','ch-ville','ch-budget-prevu','ch-budget-reel','ch-duree-prevue','ch-duree-reelle','ch-notes'].forEach(id=>{const e=_get(id);if(e)e.value='';});
+  const m=_get('modal-chantier');if(m)m.style.display='flex';
+}
+function saveChantier(){
+  const nom=_val('ch-nom','').trim(),surf=parseFloat(_val('ch-surface',''));
+  if(!nom||!surf){alert('Nom et surface obligatoires.');return;}
+  DB.chantiers.push({id:Date.now(),nom,type:_val('ch-type','restaurant'),surface:surf,
+    ville:_val('ch-ville',''),gamme:_val('ch-gamme','std'),
+    budget_prevu:parseFloat(_val('ch-budget-prevu',''))||0,budget_reel:parseFloat(_val('ch-budget-reel',''))||0,
+    duree_prevue:parseInt(_val('ch-duree-prevue',''))||0,duree_reelle:parseInt(_val('ch-duree-reelle',''))||0,
+    statut:_val('ch-statut','en_cours'),notes:_val('ch-notes',''),date:new Date().toLocaleDateString('fr-FR')});
+  saveDB();closeModal('modal-chantier');renderChantiers();
+}
+// ── DASHBOARD ─────────────────────────────────────────────────
+function renderDashboard(){
+  const dc=_get('dashboard-content');if(!dc)return;
+  const tot=DB.chantiers.length;const ter=DB.chantiers.filter(c=>c.statut==='termine');
+  if(!tot&&!DB.prix.length){dc.innerHTML='<div class="alert info"><div class="alert-icon">📊</div><div class="alert-body"><div class="alert-title">Ajoutez des chantiers et des prix pour voir les indicateurs</div></div></div>';return;}
+  const aM2=ter.filter(c=>c.budget_reel&&c.surface);
+  const m2M=aM2.length?Math.round(aM2.reduce((a,c)=>a+c.budget_reel/c.surface,0)/aM2.length):null;
+  const bTot=DB.chantiers.reduce((a,c)=>a+(c.budget_reel||c.budget_prevu||0),0);
+  const sTot=DB.chantiers.reduce((a,c)=>a+c.surface,0);
+  const byT={};DB.chantiers.forEach(c=>{byT[c.type]=(byT[c.type]||0)+1;});
+  const der=ter.filter(c=>c.budget_prevu&&c.budget_reel);
+  const dM=der.length?der.reduce((a,c)=>a+(c.budget_reel-c.budget_prevu)/c.budget_prevu,0)/der.length*100:null;
+  dc.innerHTML=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px">
+    <div class="kpi"><div class="kpi-label">Chantiers total</div><div class="kpi-val">${tot}</div></div>
+    <div class="kpi"><div class="kpi-label">Terminés</div><div class="kpi-val">${ter.length}</div></div>
+    <div class="kpi"><div class="kpi-label">Prix en bibliothèque</div><div class="kpi-val">${DB.prix.length}</div></div>
+    <div class="kpi"><div class="kpi-label">€/m² moyen</div><div class="kpi-val kpi-val-sm">${m2M?fmtN(m2M)+' €':'—'}</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+    <div class="card"><div class="card-title">Répartition par type</div>${!tot?'<div style="color:var(--muted);font-size:12px;text-align:center;padding:20px">Aucun chantier</div>':Object.entries(byT).map(([k,n])=>{const t=TYPES[k]||{icon:'🏪',label:k};return `<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;font-weight:600">${t.icon} ${t.label}</span><span style="font-size:11px;color:var(--muted)">${n} ch.</span></div><div class="progress-bar"><div class="progress-fill" style="width:${(n/tot)*100}%"></div></div></div>`;}).join('')}</div>
+    <div class="card"><div class="card-title">Résumé financier</div>
+      <div style="display:flex;flex-direction:column">
+        <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)"><span style="font-size:12px;color:var(--mid)">Volume total</span><span style="font-size:13px;font-weight:700">${fmt(bTot)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)"><span style="font-size:12px;color:var(--mid)">Surface totale</span><span style="font-size:13px;font-weight:700">${fmtN(sTot)} m²</span></div>
+        ${dM!==null?`<div style="display:flex;justify-content:space-between;padding:9px 0"><span style="font-size:12px;color:var(--mid)">Dérive budgétaire moy.</span><span style="font-size:13px;font-weight:700;color:${dM>5?'var(--danger)':'var(--success)'}">${dM>0?'+':''}${dM.toFixed(1)}%</span></div>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+// ── UTILS & EXPORT ────────────────────────────────────────────
+function closeModal(id){const m=_get(id);if(m)m.style.display='none';}
+document.addEventListener('click',e=>{
+  if(e.target.id==='modal-prix'||e.target.id==='modal-chantier')closeModal(e.target.id);
+});
+function saveCurrentChiffrage(){
+  const surf=state.surface||parseFloat(_val('proj-surface',''))||0;
+  if(!surf){alert('Renseignez d\'abord une surface.');return;}
+  const cur=TYPES[state.activeType];
+  DB.chiffrages.push({id:Date.now(),date:new Date().toLocaleDateString('fr-FR'),
+    nom:_val('proj-nom','')||cur.label+' · '+surf+' m²',
+    type:state.activeType,surface:surf,gamme:state.activeGamme,
+    pieces:state.pieces.length,alertes:state.alertes.length});
+  saveDB();
+  const btn=document.activeElement;
+  if(btn&&btn.tagName==='BUTTON'){
+    const orig=btn.textContent;btn.textContent='✓ Sauvegardé';
+    btn.style.background='var(--success)';btn.style.borderColor='var(--success)';btn.style.color='white';
+    setTimeout(()=>{btn.textContent=orig;btn.style.background='';btn.style.borderColor='';btn.style.color='';},1800);
+  }
+}
+function exportJSON(){
+  const data={version:'Loko V2',date:new Date().toISOString(),
+    projet:{nom:_val('proj-nom'),client:_val('proj-client'),adresse:_val('proj-adresse'),surface:state.surface,typeLocal:state.activeType,gamme:state.activeGamme},
+    pieces:state.pieces,alertes:state.alertes,etat:state.etat,
+    chiffrage:{surface:state.surface,fg:state.fg,marge:state.marge,complexite:state.complexite}};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='renotech_'+new Date().toISOString().slice(0,10)+'.json';a.click();
+}
+function exportPrint(){renderSynthese();window.print();}
+
+// ── VUE SATELLITE ─────────────────────────────────────────────
+let _currentMapType='satellite';
+
+function showSatelliteBtn(){
+  const w=document.getElementById('satellite-btn-wrap');
+  if(w)w.style.display='block';
+}
+
+function openSatelliteModal(){
+  const lat=state._adresseLat;
+  const lng=state._adresseLng;
+  const label=state._adresseLabel||'';
+  if(!lat||!lng){alert('Sélectionnez une adresse dans la liste pour afficher la carte.');return;}
+
+  // Titre et adresse
+  const titleEl=document.getElementById('satellite-modal-title');
+  const addrEl=document.getElementById('satellite-modal-addr');
+  if(titleEl)titleEl.textContent='Vue satellite';
+  if(addrEl)addrEl.textContent=label;
+
+  // Lien Google Maps direct
+  const gmLink=document.getElementById('satellite-gmaps-link');
+  if(gmLink)gmLink.href='https://www.google.com/maps/search/?api=1&query='+lat+','+lng;
+
+  // Afficher la modale
+  const m=document.getElementById('modal-satellite');
+  if(m)m.style.display='flex';
+
+  // Charger l'iframe
+  loadSatelliteIframe(_currentMapType);
+}
+
+function loadSatelliteIframe(maptype){
+  const lat=state._adresseLat;
+  const lng=state._adresseLng;
+  if(!lat||!lng)return;
+  _currentMapType=maptype;
+
+  const loading=document.getElementById('satellite-loading');
+  const iframe=document.getElementById('satellite-iframe');
+  if(loading)loading.style.display='flex';
+
+  // Zoom 18 pour satellite/hybride, 16 pour plan
+  const zoom=maptype==='roadmap'?16:18;
+
+  // Google Maps Embed — utilise l'URL de recherche avec marqueur
+  const src='https://maps.google.com/maps?q='+lat+','+lng+
+    '&t='+(maptype==='roadmap'?'m':maptype==='hybrid'?'h':'k')+
+    '&z='+zoom+'&ie=UTF8&iwloc=&output=embed';
+
+  if(iframe){
+    iframe.onload=function(){if(loading)loading.style.display='none';};
+    iframe.src=src;
+  }
+
+  // Mettre à jour les boutons actifs
+  ['sat','road','hyb'].forEach(v=>{
+    const btn=document.getElementById('btn-view-'+v);
+    if(!btn)return;
+    const isActive=(v==='sat'&&maptype==='satellite')||(v==='road'&&maptype==='roadmap')||(v==='hyb'&&maptype==='hybrid');
+    btn.className=isActive?'btn btn-primary btn-sm':'btn btn-secondary btn-sm';
+    btn.style.fontSize='11px';
+  });
+}
+
+function switchSatelliteView(maptype){
+  loadSatelliteIframe(maptype);
+}
+
+// ── RECHERCHE SIRET (entreprise.data.gouv.fr) ───────────────────
+function rechercherSiren(v){
+  var siren = v.replace(/[^0-9]/g,'');
+  var statusEl  = document.getElementById('siret-status');
+  var infoEl    = document.getElementById('siret-info');
+  var clientInp = document.getElementById('proj-client');
+
+  function resetInfo(){
+    if(infoEl) infoEl.style.display='none';
+    if(statusEl) statusEl.textContent='';
+  }
+  function showErr(msg){
+    if(statusEl) statusEl.textContent='❌';
+    if(infoEl){
+      infoEl.style.cssText='display:block;margin-top:6px;padding:10px 12px;background:#FEF2F2;border:1.5px solid #FCA5A5;border-radius:8px;font-size:12px;color:#EF4444';
+      infoEl.textContent=msg;
+    }
+  }
+  function toTitleCase(str){
+    if(!str) return '';
+    return str.toLowerCase().replace(/\w/g, function(c){ return c.toUpperCase(); });
+  }
+
+  resetInfo();
+  if(siren.length !== 9) return;
+  if(statusEl) statusEl.textContent='⏳';
+
+  fetch('https://recherche-entreprises.api.gouv.fr/search?q='+siren+'&limit=1')
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      var results = data.results;
+      if(!results || !results.length){ showErr('SIREN introuvable. Vérifiez le numéro (9 chiffres).'); return; }
+      var r = results[0];
+      var nom = r.nom_complet || r.denomination || '';
+      var forme = r.nature_juridique_libelle || '';
+      var ape = r.activite_principale || '';
+      var siege = r.siege || {};
+
+      // Adresse en titre case — même format que l'adresse du chantier
+      var numVoie = siege.numero_voie || '';
+      var typeVoie = toTitleCase(siege.type_voie || '');
+      var nomVoie = toTitleCase(siege.libelle_voie || '');
+      var cp = siege.code_postal || '';
+      var ville = toTitleCase(siege.libelle_commune || '');
+      var adresseFormatee = '';
+      if(numVoie || typeVoie || nomVoie){
+        adresseFormatee = [numVoie, typeVoie, nomVoie].filter(Boolean).join(' ');
+        if(cp && ville) adresseFormatee += ', ' + cp + ' ' + ville;
+      } else if(siege.adresse){
+        adresseFormatee = toTitleCase(siege.adresse);
+      }
+
+      // SIRET formaté
+      var siret = siege.siret || '';
+      var siretFormate = siret ? siret.replace(/(\d{3})(\d{3})(\d{3})(\d{5})/, '$1 $2 $3 $4') : '';
+
+      // TVA intracommunautaire
+      var tvaKey = parseInt(siren) % 97;
+      if(tvaKey < 10) tvaKey = '0' + tvaKey;
+      var tva = 'FR' + tvaKey + siren;
+
+      // Remplir uniquement le champ client — pas l'adresse du chantier
+      if(clientInp && nom) clientInp.value = nom;
+      if(statusEl) statusEl.textContent = '✅';
+
+      if(infoEl){
+        infoEl.style.cssText='display:block;margin-top:6px;padding:12px 14px;background:#E6FAF5;border:1.5px solid #A7F3D8;border-radius:8px;font-size:12px;color:#1A1F36;line-height:1.9';
+        infoEl.innerHTML=
+          '<strong style="font-size:13px;color:#00A87E">'+nom+'</strong><br>'+
+          (forme ? '<span style="color:#6B7280">Statut juridique :</span> '+forme+'<br>' : '')+
+          (ape ? '<span style="color:#6B7280">Code APE :</span> '+ape+'<br>' : '')+
+          (siretFormate ? '<span style="color:#6B7280">SIRET siège :</span> '+siretFormate+'<br>' : '')+
+          '<span style="color:#6B7280">N° TVA :</span> '+tva+
+          (adresseFormatee ? '<br><span style="color:#6B7280">Adresse siège :</span> '+adresseFormatee : '');
+      }
+      updateRecap();
+    })
+    .catch(function(){
+      showErr('Erreur de connexion. Saisissez le nom manuellement.');
+    });
+}
+
+// ── DÉMARRAGE ─────────────────────────────────────────────────
+function init(){
+  const pxLot=_get('px-lot');
+  if(pxLot)LOTS_REF.forEach(l=>{const o=document.createElement('option');o.textContent=l;pxLot.appendChild(o);});
+  const chType=_get('ch-type');
+  if(chType)Object.entries(TYPES).forEach(([k,v])=>{const o=document.createElement('option');o.value=k;o.textContent=v.icon+' '+v.label;chType.appendChild(o);});
+  const flLot=_get('filtre-lot');
+  if(flLot)LOTS_REF.forEach(l=>{const o=document.createElement('option');o.value=l;o.textContent=l;flLot.appendChild(o);});
+  const dateEl=_get('proj-date');if(dateEl)dateEl.value=new Date().toISOString().slice(0,10);
+  initPrechiffrage();
+  saveDB();
+  console.log('Lokooo.io V2 ✓');
+}
+// ── AUTOCOMPLETE ADRESSE (api-adresse.data.gouv.fr) ──────────
+let _adresseTimer=null;
+let _adresseResults=[];
+let _adresseSelectedIdx=-1;
+
+function searchAdresse(q){
+  const sug=_get('adresse-suggestions');if(!sug)return;
+  clearTimeout(_adresseTimer);
+  if(!q||q.length<3){sug.style.display='none';return;}
+  // Afficher indicateur de chargement
+  sug.innerHTML='<div style="padding:10px 14px;font-size:12px;color:var(--muted)">Recherche en cours...</div>';
+  sug.style.display='block';
+  _adresseTimer=setTimeout(()=>{
+    const url='https://api-adresse.data.gouv.fr/search/?q='+encodeURIComponent(q)+'&limit=6';
+    const xhr=new XMLHttpRequest();
+    xhr.open('GET',url,true);
+    xhr.timeout=5000;
+    xhr.onload=function(){
+      if(xhr.status===200){
+        try{
+          const data=JSON.parse(xhr.responseText);
+          _adresseResults=data.features||[];
+          renderAdresseSugg(sug);
+        }catch(e){sug.style.display='none';}
+      }else{sug.style.display='none';}
+    };
+    xhr.onerror=function(){
+      sug.innerHTML='<div style="padding:10px 14px;font-size:12px;color:var(--danger)">⚠️ Connexion internet requise pour la recherche d\'adresse</div>';
+    };
+    xhr.ontimeout=function(){sug.style.display='none';};
+    xhr.send();
+  },300);
+}
+
+function renderAdresseSugg(sug){
+  if(!_adresseResults.length){sug.style.display='none';return;}
+  sug.innerHTML='';
+  _adresseResults.forEach((f,i)=>{
+    const props=f.properties;
+    const row=document.createElement('div');
+    row.style.cssText='padding:10px 14px;cursor:pointer;border-bottom:1px solid #E4E7EC;font-size:13px;background:white;';
+    row.innerHTML='<div style="font-weight:500;color:#0A1628">'+props.label+'</div>'+
+      (props.city?'<div style="font-size:11px;color:#98A2B3;margin-top:2px">'+(props.postcode||'')+' '+props.city+'</div>':'');
+    row.addEventListener('mouseenter',function(){this.style.background='#EFF6FF';});
+    row.addEventListener('mouseleave',function(){this.style.background='white';});
+    row.addEventListener('mousedown',function(e){
+      e.preventDefault();
+      selectAdresse(i);
+    });
+    sug.appendChild(row);
+  });
+  sug.style.display='block';
+}
+
+function selectAdresse(idx){
+  const f=_adresseResults[idx];if(!f)return;
+  const props=f.properties;
+  const inp=_get('proj-adresse');
+  // Format : "46 Rue de l'Egalite, 91350 Grigny"
+  let label=props.label||'';
+  if(props.name&&props.postcode&&props.city){
+    label=props.name+', '+props.postcode+' '+props.city;
+  }
+  if(inp){inp.value=label;inp.classList.add('filled');}
+  // Stocker coords pour la carte satellite
+  if(f.geometry&&f.geometry.coordinates){
+    state._adresseLng=f.geometry.coordinates[0];
+    state._adresseLat=f.geometry.coordinates[1];
+    state._adresseLabel=label;
+    showSatelliteBtn();
+  }
+  hideAdresseSugg();
+  _adresseSelectedIdx=-1;
+  updateRecap();
+}
+
+function hideAdresseSugg(){
+  const sug=_get('adresse-suggestions');
+  if(sug)sug.style.display='none';
+}
+
+function handleAdresseKey(e){
+  const sug=_get('adresse-suggestions');
+  if(!sug||sug.style.display==='none')return;
+  const rows=sug.querySelectorAll('div');
+  if(!rows.length)return;
+  if(e.key==='ArrowDown'){
+    e.preventDefault();
+    _adresseSelectedIdx=Math.min(_adresseSelectedIdx+1,rows.length-1);
+    rows.forEach((r,i)=>r.style.background=i===_adresseSelectedIdx?'#EFF6FF':'white');
+  }else if(e.key==='ArrowUp'){
+    e.preventDefault();
+    _adresseSelectedIdx=Math.max(_adresseSelectedIdx-1,0);
+    rows.forEach((r,i)=>r.style.background=i===_adresseSelectedIdx?'#EFF6FF':'white');
+  }else if(e.key==='Enter'&&_adresseSelectedIdx>=0){
+    e.preventDefault();
+    selectAdresse(_adresseSelectedIdx);
+  }else if(e.key==='Escape'){
+    hideAdresseSugg();_adresseSelectedIdx=-1;
+  }
+}
+init();
+</script>
+
+<!-- MODAL SATELLITE -->
+<div id="modal-satellite" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:600;align-items:center;justify-content:center">
+  <div style="background:white;border-radius:12px;overflow:hidden;width:90%;max-width:820px;box-shadow:0 24px 60px rgba(0,0,0,.3)">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #E4E7EC">
+      <div>
+        <div style="font-size:15px;font-weight:700" id="satellite-modal-title">Vue satellite</div>
+        <div style="font-size:11px;color:#98A2B3;margin-top:2px" id="satellite-modal-addr"></div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <a id="satellite-gmaps-link" href="#" target="_blank" class="btn btn-secondary btn-sm" style="font-size:11px">
+          🗺️ Ouvrir dans Google Maps
+        </a>
+        <button onclick="closeModal('modal-satellite')" style="background:none;border:none;cursor:pointer;font-size:20px;color:#98A2B3;padding:4px 8px">✕</button>
+      </div>
+    </div>
+    <div style="position:relative;height:480px;background:#1a1a2e">
+      <iframe id="satellite-iframe" src="" style="width:100%;height:100%;border:none" allowfullscreen></iframe>
+      <div id="satellite-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#0A1628;color:white;flex-direction:column;gap:12px">
+        <div style="font-size:32px">🛰️</div>
+        <div style="font-size:14px;font-weight:600">Chargement de la vue satellite...</div>
+        <div style="font-size:12px;color:#667085">Google Maps Embed</div>
+      </div>
+    </div>
+    <div style="padding:12px 20px;background:#F7F8FA;border-top:1px solid #E4E7EC;display:flex;justify-content:space-between;align-items:center">
+      <div style="font-size:11px;color:#98A2B3">📍 Point rouge = adresse sélectionnée · Source : Google Maps</div>
+      <div style="display:flex;gap:8px">
+        <button onclick="switchSatelliteView('satellite')" id="btn-view-sat" class="btn btn-primary btn-sm" style="font-size:11px">🛰️ Satellite</button>
+        <button onclick="switchSatelliteView('roadmap')" id="btn-view-road" class="btn btn-secondary btn-sm" style="font-size:11px">🗺️ Plan</button>
+        <button onclick="switchSatelliteView('hybrid')" id="btn-view-hyb" class="btn btn-secondary btn-sm" style="font-size:11px">🔀 Hybride</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
