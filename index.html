@@ -595,14 +595,14 @@ input[type=number]{-moz-appearance:textfield}
           <div class="form-group">
             <label class="form-label">Type de local</label>
             <select id="proj-type-local" class="form-select" onchange="updateTypeLocal()">
-              <option value="restaurant">🍽️ Restaurant</option>
-              <option value="cafe">☕ Café / Coffee shop</option>
-              <option value="boulangerie">🥖 Boulangerie</option>
-              <option value="bureau">💼 Bureaux</option>
-              <option value="boutique">🛍️ Boutique</option>
-              <option value="cabinet">🏥 Cabinet médical</option>
-              <option value="salon">✂️ Salon de coiffure</option>
-              <option value="institut">💆 Institut de beauté</option>
+              <option value="restaurant">Restaurant</option>
+              <option value="cafe">Café / Coffee shop</option>
+              <option value="boulangerie">Boulangerie</option>
+              <option value="bureau">Bureaux</option>
+              <option value="boutique">Boutique</option>
+              <option value="cabinet">Cabinet médical</option>
+              <option value="salon">Salon de coiffure</option>
+              <option value="institut">Institut de beauté</option>
             </select>
           </div>
           <div class="form-group">
@@ -634,32 +634,32 @@ input[type=number]{-moz-appearance:textfield}
         <div class="form-section-title">Type de local</div>
         <div class="radio-cards" id="etat-type-local" style="margin-bottom:16px">
           <div class="radio-card selected" onclick="selectEtat('type','brut',this)" data-coeff="1.0">
-            <div class="radio-card-icon">🧱</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><rect x="3" y="14" width="18" height="4" rx="1"/><rect x="3" y="2" width="18" height="4" rx="1"/></svg></div>
             <div class="radio-card-label">Local brut béton</div>
             <div class="radio-card-sub">Aucun aménagement</div>
           </div>
           <div class="radio-card" onclick="selectEtat('type','semi',this)" data-coeff="0.85">
-            <div class="radio-card-icon">🔨</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15 12l-8.5 8.5a2.12 2.12 0 01-3-3L12 9"/><path d="M17.64 15L22 10.64 13.36 2 9 6.36l2.6 2.6"/></svg></div>
             <div class="radio-card-label">Semi-aménagé</div>
             <div class="radio-card-sub">Partiellement réalisé</div>
           </div>
           <div class="radio-card" onclick="selectEtat('type','ancien-commerce',this)" data-coeff="0.9">
-            <div class="radio-card-icon">🏪</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
             <div class="radio-card-label">Ancien commerce</div>
             <div class="radio-card-sub">Curage nécessaire</div>
           </div>
           <div class="radio-card" onclick="selectEtat('type','ancien-restaurant',this)" data-coeff="0.88">
-            <div class="radio-card-icon">🍽️</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6h3.5a1.5 1.5 0 011.5 1.5V22"/></svg></div>
             <div class="radio-card-label">Ancien restaurant</div>
             <div class="radio-card-sub">Réseaux potentiels</div>
           </div>
           <div class="radio-card" onclick="selectEtat('type','ancien-bureau',this)" data-coeff="0.92">
-            <div class="radio-card-icon">💼</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
             <div class="radio-card-label">Ancien bureau</div>
             <div class="radio-card-sub">Faux plafonds existants</div>
           </div>
           <div class="radio-card" onclick="selectEtat('type','a-curer',this)" data-coeff="1.05">
-            <div class="radio-card-icon">⛏️</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.77 3.77z"/></svg></div>
             <div class="radio-card-label">Local à curer</div>
             <div class="radio-card-sub">Curage lourd prévu</div>
           </div>
@@ -668,17 +668,17 @@ input[type=number]{-moz-appearance:textfield}
         <div class="form-section-title">Réseaux existants</div>
         <div class="radio-cards" id="etat-reseaux" style="margin-bottom:16px">
           <div class="radio-card" onclick="selectEtat('reseaux','complets',this)" data-coeff="0.75">
-            <div class="radio-card-icon">✅</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
             <div class="radio-card-label">Réseaux complets</div>
             <div class="radio-card-sub">Utilisables ou adaptables</div>
           </div>
           <div class="radio-card selected" onclick="selectEtat('reseaux','partiels',this)" data-coeff="0.88">
-            <div class="radio-card-icon">⚠️</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
             <div class="radio-card-label">Réseaux partiels</div>
             <div class="radio-card-sub">Complément à prévoir</div>
           </div>
           <div class="radio-card" onclick="selectEtat('reseaux','aucun',this)" data-coeff="1.0">
-            <div class="radio-card-icon">❌</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
             <div class="radio-card-label">Aucun réseau</div>
             <div class="radio-card-sub">Tout à créer</div>
           </div>
@@ -748,22 +748,22 @@ input[type=number]{-moz-appearance:textfield}
         <div class="card-title">Alimentation provisoire chantier</div>
         <div class="radio-cards" id="elec-prov-type">
           <div class="radio-card selected" onclick="selectEtat('elec-prov','aucune',this)">
-            <div class="radio-card-icon">🔌</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 13V7a7 7 0 0114 0v6"/><path d="M9 13h6v3a3 3 0 01-6 0v-3z"/></svg></div>
             <div class="radio-card-label">Aucune</div>
             <div class="radio-card-sub">Local déjà alimenté</div>
           </div>
           <div class="radio-card" onclick="selectEtat('elec-prov','enedis',this)">
-            <div class="radio-card-icon">🏭</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2 20h20M4 20V10l6-6v6l6-6v6l4-3v13"/></svg></div>
             <div class="radio-card-label">Branchement Enedis</div>
             <div class="radio-card-sub">~1 500 – 4 000 € · 3 sem.</div>
           </div>
           <div class="radio-card" onclick="selectEtat('elec-prov','sous-compteur',this)">
-            <div class="radio-card-icon">📊</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
             <div class="radio-card-label">Sous-compteur</div>
             <div class="radio-card-sub">~500 – 1 200 €</div>
           </div>
           <div class="radio-card" onclick="selectEtat('elec-prov','groupe',this)">
-            <div class="radio-card-icon">🔋</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="7" width="16" height="10" rx="2"/><path d="M22 11v2M7 11v2M11 11v2"/></svg></div>
             <div class="radio-card-label">Groupe électrogène</div>
             <div class="radio-card-sub">~300 – 800 €/sem.</div>
           </div>
@@ -807,7 +807,7 @@ input[type=number]{-moz-appearance:textfield}
 
   <div id="pieces-container">
     <div class="alert info" id="empty-pieces">
-      <div class="alert-icon">📐</div>
+      <div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 21L21 3M3 21h7M3 21v-7"/></svg></div>
       <div class="alert-body">
         <div class="alert-title">Aucune pièce ajoutée</div>
         <div class="alert-desc">Cliquez sur "Ajouter une pièce" pour commencer les relevés</div>
@@ -831,7 +831,7 @@ input[type=number]{-moz-appearance:textfield}
   </div>
   <div id="eclairage-content">
     <div class="alert info">
-      <div class="alert-icon">💡</div>
+      <div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 014.9 11.9c-.6.6-1.9 2.1-1.9 3.1v.1H9v-.1c0-1-.8-2.2-1.9-3.1A7 7 0 0112 2z"/></svg></div>
       <div class="alert-body">
         <div class="alert-title">Ajoutez des pièces dans l'onglet Relevés</div>
         <div class="alert-desc">Le pré-dimensionnement s'affichera automatiquement</div>
@@ -892,7 +892,7 @@ input[type=number]{-moz-appearance:textfield}
         <div class="card-title">Prises et équipements par pièce</div>
         <div id="elec-pieces-content">
           <div class="alert info" style="margin:0">
-            <div class="alert-icon">⚡</div>
+            <div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
             <div class="alert-body"><div class="alert-title">Ajoutez des pièces dans l'onglet Relevés pour saisir les besoins électriques</div></div>
           </div>
         </div>
@@ -967,7 +967,7 @@ input[type=number]{-moz-appearance:textfield}
         <div class="card-title">Points d'eau par pièce</div>
         <div id="plomb-pieces-content">
           <div class="alert info" style="margin:0">
-            <div class="alert-icon">🚿</div>
+            <div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 12h16M4 12a8 8 0 018-8"/><path d="M4 12v6a2 2 0 002 2h12a2 2 0 002-2v-6"/></svg></div>
             <div class="alert-body"><div class="alert-title">Ajoutez des pièces dans l'onglet Relevés</div></div>
           </div>
         </div>
@@ -1068,7 +1068,7 @@ input[type=number]{-moz-appearance:textfield}
         <div class="card-title">Débit par pièce (m³/h)</div>
         <div id="vent-pieces-content">
           <div class="alert info" style="margin:0">
-            <div class="alert-icon">🌀</div>
+            <div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M12 8a4 4 0 100 8"/></svg></div>
             <div class="alert-body"><div class="alert-title">Ajoutez des pièces dans l'onglet Relevés</div></div>
           </div>
         </div>
@@ -1104,22 +1104,22 @@ input[type=number]{-moz-appearance:textfield}
         <div class="card-title">Type de système</div>
         <div class="radio-cards">
           <div class="radio-card selected" onclick="selectEtat('clim-sys','split',this)">
-            <div class="radio-card-icon">💨</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2"/><path d="M11.19 14.4A2 2 0 1013 18H2"/><path d="M14.83 8.2A2 2 0 1016 12H2"/></svg></div>
             <div class="radio-card-label">Split mural</div>
             <div class="radio-card-sub">1 unité ext. / pièce</div>
           </div>
           <div class="radio-card" onclick="selectEtat('clim-sys','cassette',this)">
-            <div class="radio-card-icon">🔲</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg></div>
             <div class="radio-card-label">Cassette plafond</div>
             <div class="radio-card-sub">Encastrée en faux plafond</div>
           </div>
           <div class="radio-card" onclick="selectEtat('clim-sys','gainable',this)">
-            <div class="radio-card-icon">📦</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
             <div class="radio-card-label">Gainable</div>
             <div class="radio-card-sub">Discret, en gaine</div>
           </div>
           <div class="radio-card" onclick="selectEtat('clim-sys','vrv',this)">
-            <div class="radio-card-icon">⚙️</div>
+            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></div>
             <div class="radio-card-label">VRV / VRF</div>
             <div class="radio-card-sub">Multi-split évolué</div>
           </div>
@@ -1168,7 +1168,7 @@ input[type=number]{-moz-appearance:textfield}
         <div class="card-title">Puissance estimée par pièce</div>
         <div id="clim-pieces-content">
           <div class="alert info" style="margin:0">
-            <div class="alert-icon">❄️</div>
+            <div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1"/></svg></div>
             <div class="alert-body"><div class="alert-title">Ajoutez des pièces dans l'onglet Relevés</div></div>
           </div>
         </div>
@@ -1988,7 +1988,7 @@ function removePiece(id){
   computeMetresTotaux();updateNbPieces();
   if(!state.pieces.length){
     const c=_get('pieces-container');
-    if(c)c.innerHTML='<div class="alert info" id="empty-pieces"><div class="alert-icon">📐</div><div class="alert-body"><div class="alert-title">Aucune pièce</div><div class="alert-desc">Cliquez sur "+ Ajouter une pièce"</div></div></div>';
+    if(c)c.innerHTML='<div class="alert info" id="empty-pieces"><div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 21L21 3M3 21h7M3 21v-7"/></svg></div><div class="alert-body"><div class="alert-title">Aucune pièce</div><div class="alert-desc">Cliquez sur "+ Ajouter une pièce"</div></div></div>';
   }
 }
 function updateNbPieces(){_set('nb-pieces-nav',state.pieces.length);}
@@ -1996,7 +1996,7 @@ function getPiece(id){return state.pieces.find(p=>p.id===id);}
 function renderPieces(){
   const c=_get('pieces-container');if(!c)return;
   c.innerHTML='';
-  if(!state.pieces.length){c.innerHTML='<div class="alert info" id="empty-pieces"><div class="alert-icon">📐</div><div class="alert-body"><div class="alert-title">Aucune pièce ajoutée</div><div class="alert-desc">Cliquez sur "+ Ajouter une pièce" pour commencer</div></div></div>';return;}
+  if(!state.pieces.length){c.innerHTML='<div class="alert info" id="empty-pieces"><div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 21L21 3M3 21h7M3 21v-7"/></svg></div><div class="alert-body"><div class="alert-title">Aucune pièce ajoutée</div><div class="alert-desc">Cliquez sur "+ Ajouter une pièce" pour commencer</div></div></div>';return;}
   state.pieces.forEach(p=>renderPieceCard(p.id));
   computeMetresTotaux();updateNbPieces();
 }
@@ -2132,7 +2132,7 @@ function computeMetresTotaux(){
 // ── ÉCLAIRAGE ─────────────────────────────────────────────────
 function renderEclairage(){
   const c=_get('eclairage-content');if(!c)return;
-  if(!state.pieces.length){c.innerHTML='<div class="alert info"><div class="alert-icon">💡</div><div class="alert-body"><div class="alert-title">Ajoutez des pièces dans l\'onglet Relevés</div></div></div>';return;}
+  if(!state.pieces.length){c.innerHTML='<div class="alert info"><div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 014.9 11.9c-.6.6-1.9 2.1-1.9 3.1v.1H9v-.1c0-1-.8-2.2-1.9-3.1A7 7 0 0112 2z"/></svg></div><div class="alert-body"><div class="alert-title">Ajoutez des pièces dans l\'onglet Relevés</div></div></div>';return;}
   const isERP=_chk('chk-erp');
   let tL=0,tB=0,tC=0,tW=0;
   const cards=state.pieces.filter(p=>p.surface>0).map(p=>{
@@ -2172,7 +2172,7 @@ function renderEclairage(){
 // ── ÉLECTRICITÉ ───────────────────────────────────────────────
 function renderElecPieces(){
   const c=_get('elec-pieces-content');if(!c)return;
-  if(!state.pieces.length){c.innerHTML='<div class="alert info" style="margin:0"><div class="alert-icon">⚡</div><div class="alert-body"><div class="alert-title">Ajoutez des pièces dans Relevés</div></div></div>';return;}
+  if(!state.pieces.length){c.innerHTML='<div class="alert info" style="margin:0"><div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="alert-body"><div class="alert-title">Ajoutez des pièces dans Relevés</div></div></div>';return;}
   c.innerHTML=state.pieces.map(p=>`<div style="border-bottom:1px solid var(--border);padding:10px 0">
     <div style="font-size:13px;font-weight:600;margin-bottom:4px">${PIECE_ICONS[p.type]||'📌'} ${p.nom}</div>
     <div style="display:flex;flex-wrap:wrap;gap:6px">
@@ -2208,7 +2208,7 @@ function calcElec(){
 // ── PLOMBERIE ─────────────────────────────────────────────────
 function renderPlombPieces(){
   const c=_get('plomb-pieces-content');if(!c)return;
-  if(!state.pieces.length){c.innerHTML='<div class="alert info" style="margin:0"><div class="alert-icon">🚿</div><div class="alert-body"><div class="alert-title">Ajoutez des pièces dans Relevés</div></div></div>';return;}
+  if(!state.pieces.length){c.innerHTML='<div class="alert info" style="margin:0"><div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 12h16M4 12a8 8 0 018-8"/><path d="M4 12v6a2 2 0 002 2h12a2 2 0 002-2v-6"/></svg></div><div class="alert-body"><div class="alert-title">Ajoutez des pièces dans Relevés</div></div></div>';return;}
   c.innerHTML=state.pieces.map(p=>`<div style="border-bottom:1px solid var(--border);padding:10px 0">
     <div style="font-size:13px;font-weight:600;margin-bottom:4px">${PIECE_ICONS[p.type]||'📌'} ${p.nom}</div>
     <div style="display:flex;flex-wrap:wrap;gap:6px">
@@ -2253,7 +2253,7 @@ function calcPlomberie(){
 // ── VENTILATION ───────────────────────────────────────────────
 function renderVentPieces(){
   const c=_get('vent-pieces-content');if(!c)return;
-  if(!state.pieces.length){c.innerHTML='<div class="alert info" style="margin:0"><div class="alert-icon">🌀</div><div class="alert-body"><div class="alert-title">Ajoutez des pièces dans Relevés</div></div></div>';return;}
+  if(!state.pieces.length){c.innerHTML='<div class="alert info" style="margin:0"><div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M12 8a4 4 0 100 8"/></svg></div><div class="alert-body"><div class="alert-title">Ajoutez des pièces dans Relevés</div></div></div>';return;}
   c.innerHTML=`<table class="table"><thead><tr><th>Pièce</th><th style="text-align:right">Volume m³</th><th style="text-align:right">Débit m³/h</th></tr></thead><tbody>${
     state.pieces.map(p=>{
       const vol=(p.surface||0)*(p.hauteur||2.7);
@@ -2299,7 +2299,7 @@ function calcPassage(){
 // ── CLIMATISATION ─────────────────────────────────────────────
 function renderClimPieces(){
   const c=_get('clim-pieces-content');if(!c)return;
-  if(!state.pieces.length){c.innerHTML='<div class="alert info" style="margin:0"><div class="alert-icon">❄️</div><div class="alert-body"><div class="alert-title">Ajoutez des pièces dans Relevés</div></div></div>';return;}
+  if(!state.pieces.length){c.innerHTML='<div class="alert info" style="margin:0"><div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1"/></svg></div><div class="alert-body"><div class="alert-title">Ajoutez des pièces dans Relevés</div></div></div>';return;}
   c.innerHTML=`<table class="table"><thead><tr><th>Pièce</th><th style="text-align:right">Surface</th><th style="text-align:right">Puissance</th></tr></thead><tbody>${
     state.pieces.filter(p=>!['WC','WC PMR','Circulation'].includes(p.type)&&p.surface>0).map(p=>{
       const pw=Math.round((p.surface||0)*(CLIM_WM2[p.type]||80));
@@ -2678,7 +2678,7 @@ function filterChantiers(s,el){filtreStatut=s;renderChantiers();}
 function renderChantiers(){
   const grid=_get('chantiers-grid');if(!grid)return;
   let data=DB.chantiers;if(filtreStatut!=='tous')data=data.filter(c=>c.statut===filtreStatut);
-  if(!data.length){grid.innerHTML='<div style="grid-column:1/-1"><div class="alert info"><div class="alert-icon">🏗️</div><div class="alert-body"><div class="alert-title">Aucun chantier</div><div class="alert-desc">Ajoutez vos projets pour alimenter la base de comparaison</div></div></div></div>';return;}
+  if(!data.length){grid.innerHTML='<div style="grid-column:1/-1"><div class="alert info"><div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M2 20h20M4 20V10M20 20V10M8 20v-5h8v5M12 10V4M8 7l4-3 4 3"/></svg></div><div class="alert-body"><div class="alert-title">Aucun chantier</div><div class="alert-desc">Ajoutez vos projets pour alimenter la base de comparaison</div></div></div></div>';return;}
   grid.innerHTML=data.map(ch=>{
     const t=TYPES[ch.type]||{icon:'🏪',label:ch.type};
     const eB=ch.budget_reel&&ch.budget_prevu?Math.round((ch.budget_reel-ch.budget_prevu)/ch.budget_prevu*100):null;
@@ -2713,7 +2713,7 @@ function saveChantier(){
 function renderDashboard(){
   const dc=_get('dashboard-content');if(!dc)return;
   const tot=DB.chantiers.length;const ter=DB.chantiers.filter(c=>c.statut==='termine');
-  if(!tot&&!DB.prix.length){dc.innerHTML='<div class="alert info"><div class="alert-icon">📊</div><div class="alert-body"><div class="alert-title">Ajoutez des chantiers et des prix pour voir les indicateurs</div></div></div>';return;}
+  if(!tot&&!DB.prix.length){dc.innerHTML='<div class="alert info"><div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div><div class="alert-body"><div class="alert-title">Ajoutez des chantiers et des prix pour voir les indicateurs</div></div></div>';return;}
   const aM2=ter.filter(c=>c.budget_reel&&c.surface);
   const m2M=aM2.length?Math.round(aM2.reduce((a,c)=>a+c.budget_reel/c.surface,0)/aM2.length):null;
   const bTot=DB.chantiers.reduce((a,c)=>a+(c.budget_reel||c.budget_prevu||0),0);
