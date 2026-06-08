@@ -588,7 +588,13 @@ input[type=number]{-moz-appearance:textfield}
 <!-- TOPBAR -->
 <div class="topbar" id="main-topbar" style="display:none">
   <div class="topbar-left" style="display:flex;align-items:center;gap:14px">
-    <img id="topbar-logo" src="" alt="" style="display:none;max-height:36px;max-width:120px;object-fit:contain;border-radius:4px;flex-shrink:0">
+    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+      <div style="width:32px;height:32px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center">
+        <span style="font-size:14px;font-weight:900;color:white;font-family:var(--font)">L</span>
+      </div>
+      <span style="font-size:15px;font-weight:900;color:var(--ink);letter-spacing:-0.3px">lokoo<span style="color:var(--primary)">.io</span></span>
+    </div>
+    <div style="width:1px;height:24px;background:var(--border)"></div>
     <div>
       <div class="topbar-title" id="topbar-title">Initialisation du projet</div>
       <div class="topbar-step" id="topbar-step">Étape 1/8</div>
