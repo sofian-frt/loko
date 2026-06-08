@@ -475,13 +475,13 @@ input[type=number]{-moz-appearance:textfield}
   <div class="sidebar-footer">
     <div style="display:flex;align-items:center;justify-content:space-between">
       <span class="version-tag">V1.3 · Stable</span>
-      <button class="btn btn-sm btn-ghost" onclick="exportPrint()" style="font-size:11px">🖨️</button>
+      <button class="btn btn-sm btn-ghost" onclick="exportPrint()" style="font-size:11px"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button>
     </div>
   </div>
 </aside>
 
 <!-- FAB mobile synthèse -->
-<button class="fab" onclick="showPage('synthese')" title="Synthèse">📄</button>
+<button class="fab" onclick="showPage('synthese')" title="Synthèse"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></button>
 
 
 <div class="app">
@@ -576,7 +576,7 @@ input[type=number]{-moz-appearance:textfield}
             </div>
             <div id="satellite-btn-wrap" style="display:none;margin-top:8px">
               <button type="button" onclick="openSatelliteModal()" class="btn btn-secondary btn-sm" style="font-size:11px;gap:5px">
-                🛰️ Vue satellite
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Vue satellite
               </button>
             </div>
           </div>
@@ -792,7 +792,7 @@ input[type=number]{-moz-appearance:textfield}
         + Ajouter une pièce
       </button>
       <button class="btn btn-secondary btn-lg" onclick="ouvrirAnalysePhoto('releves')">
-        📷 Analyser une photo
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg> Analyser
       </button>
     </div>
   </div>
@@ -856,10 +856,10 @@ input[type=number]{-moz-appearance:textfield}
     <div>
       <!-- ANALYSE PHOTO IA -->
       <div class="card" style="margin-bottom:16px;border:2px solid var(--primary-border);background:var(--primary-light)">
-        <div class="card-title" style="color:var(--primary-dark)">🤖 Analyse photo par IA</div>
+        <div class="card-title" style="color:var(--primary-dark)">Analyse photo IA</div>
         <p style="font-size:12px;color:var(--mid);margin-bottom:12px">Prenez une photo du tableau électrique, des gaines, ou de toute installation — Claude l'analyse pour vous.</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn btn-primary btn-sm" onclick="ouvrirAnalysePhoto('electricite')">📷 Analyser tableau / installation</button>
+          <button class="btn btn-primary btn-sm" onclick="ouvrirAnalysePhoto('electricite')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg> Analyser</button>
         </div>
         <div id="ia-result-electricite" style="display:none;margin-top:12px"></div>
       </div>
@@ -930,9 +930,9 @@ input[type=number]{-moz-appearance:textfield}
     <div>
       <!-- ANALYSE PHOTO IA -->
       <div class="card" style="margin-bottom:16px;border:2px solid var(--primary-border);background:var(--primary-light)">
-        <div class="card-title" style="color:var(--primary-dark)">🤖 Analyse photo par IA</div>
+        <div class="card-title" style="color:var(--primary-dark)">Analyse photo IA</div>
         <p style="font-size:12px;color:var(--mid);margin-bottom:12px">Photo d'une colonne, d'un nourrice, d'un point d'eau — Claude identifie et décrit l'installation.</p>
-        <button class="btn btn-primary btn-sm" onclick="ouvrirAnalysePhoto('plomberie')">📷 Analyser installation plomberie</button>
+        <button class="btn btn-primary btn-sm" onclick="ouvrirAnalysePhoto('plomberie')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg> Analyser</button>
         <div id="ia-result-plomberie" style="display:none;margin-top:12px"></div>
       </div>
 
@@ -1473,12 +1473,12 @@ input[type=number]{-moz-appearance:textfield}
       <p>Récapitulatif complet · Alertes · Chiffrage global</p>
     </div>
     <div style="display:flex;gap:8px">
-      <button class="btn btn-secondary" onclick="exportPrint()">🖨️ Imprimer</button>
+      <button class="btn btn-secondary" onclick="exportPrint()"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimer</button>
     </div>
   </div>
   <div id="synthese-content">
     <div class="alert info">
-      <div class="alert-icon">📄</div>
+      <div class="alert-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></div>
       <div class="alert-body">
         <div class="alert-title">Renseignez les onglets pour générer la synthèse</div>
         <div class="alert-desc">Commencez par l'initialisation, puis les relevés et les modules techniques</div>
@@ -1496,7 +1496,7 @@ input[type=number]{-moz-appearance:textfield}
       <p>Référentiel interne · V2 : alimentation automatique par IA via cloud</p>
     </div>
     <div style="display:flex;gap:8px">
-      <button class="btn btn-secondary" onclick="exportBiblioCSV()">📥 CSV</button>
+      <button class="btn btn-secondary" onclick="exportBiblioCSV()"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> CSV</button>
       <button class="btn btn-primary" onclick="openModalPrix()">+ Ajouter</button>
     </div>
   </div>
@@ -2561,7 +2561,7 @@ function renderChiffrageDetail(){
 function renderSynthese(){
   const sc=_get('synthese-content');if(!sc)return;
   computeAlertes();
-  const cur=TYPES[state.activeType];if(!cur){sc.innerHTML='<div class="alert info"><div class="alert-icon">📄</div><div class="alert-body"><div class="alert-title">Renseignez les onglets pour générer la synthèse</div></div></div>';return;}
+  const cur=TYPES[state.activeType];if(!cur){sc.innerHTML='<div class="alert info"><div class="alert-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></div><div class="alert-body"><div class="alert-title">Renseignez les onglets pour générer la synthèse</div></div></div>';return;}
   const gam=GAMMES.find(g=>g.key===state.activeGamme)||GAMMES[1];
   const tS=state.pieces.reduce((a,p)=>a+(p.surface||0),0);
   const tVol=state.pieces.reduce((a,p)=>a+(p.surface||0)*(p.hauteur||2.7),0);
@@ -3030,7 +3030,7 @@ function chargerDossier(input){
       }
       updateRecap(); showPage('init');
       var btn=document.querySelector('[onclick="importerDossier()"]');
-      if(btn){var orig=btn.textContent;btn.textContent='✅ Importé';setTimeout(function(){btn.textContent=orig;},2000);}
+      if(btn){var orig=btn.textContent;btn.textContent='Importé';setTimeout(function(){btn.textContent=orig;},2000);}
     }catch(err){ alert('Fichier invalide. Vérifiez que c\'est bien un dossier Lokoo (.json).'); }
     input.value='';
   };
@@ -3154,7 +3154,7 @@ init();
       </div>
       <div style="display:flex;gap:8px;align-items:center">
         <a id="satellite-gmaps-link" href="#" target="_blank" class="btn btn-secondary btn-sm" style="font-size:11px">
-          🗺️ Ouvrir dans Google Maps
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg> Ouvrir dans Maps
         </a>
         <button onclick="closeModal('modal-satellite')" style="background:none;border:none;cursor:pointer;font-size:20px;color:#98A2B3;padding:4px 8px">✕</button>
       </div>
@@ -3170,9 +3170,9 @@ init();
     <div style="padding:12px 20px;background:#F7F8FA;border-top:1px solid #E4E7EC;display:flex;justify-content:space-between;align-items:center">
       <div style="font-size:11px;color:#98A2B3">📍 Point rouge = adresse sélectionnée · Source : Google Maps</div>
       <div style="display:flex;gap:8px">
-        <button onclick="switchSatelliteView('satellite')" id="btn-view-sat" class="btn btn-primary btn-sm" style="font-size:11px">🛰️ Satellite</button>
-        <button onclick="switchSatelliteView('roadmap')" id="btn-view-road" class="btn btn-secondary btn-sm" style="font-size:11px">🗺️ Plan</button>
-        <button onclick="switchSatelliteView('hybrid')" id="btn-view-hyb" class="btn btn-secondary btn-sm" style="font-size:11px">🔀 Hybride</button>
+        <button onclick="switchSatelliteView('satellite')" id="btn-view-sat" class="btn btn-primary btn-sm" style="font-size:11px">Satellite</button>
+        <button onclick="switchSatelliteView('roadmap')" id="btn-view-road" class="btn btn-secondary btn-sm" style="font-size:11px">Plan</button>
+        <button onclick="switchSatelliteView('hybrid')" id="btn-view-hyb" class="btn btn-secondary btn-sm" style="font-size:11px">Hybride</button>
       </div>
     </div>
   </div>
@@ -3211,7 +3211,7 @@ init();
       ondragover="event.preventDefault();this.style.borderColor='var(--primary)'"
       ondragleave="this.style.borderColor='var(--border2)'"
       ondrop="handleIADrop(event)">
-      <div style="font-size:32px;margin-bottom:8px">📷</div>
+      <div style="font-size:32px;margin-bottom:8px"></div>
       <div style="font-size:13px;font-weight:600;color:var(--ink)">Cliquez ou glissez une photo ici</div>
       <div style="font-size:11px;color:var(--muted);margin-top:4px">JPG, PNG, WEBP · Max 5 Mo</div>
     </div>
@@ -3221,13 +3221,13 @@ init();
     <div id="ia-preview-wrap" style="display:none;margin-bottom:16px;text-align:center">
       <img id="ia-preview-img" style="max-width:100%;max-height:300px;border-radius:8px;border:1px solid var(--border)">
       <div style="margin-top:8px">
-        <button class="btn btn-ghost btn-sm" onclick="resetIAPhoto()">🗑️ Supprimer</button>
+        <button class="btn btn-ghost btn-sm" onclick="resetIAPhoto()"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg> Supprimer</button>
       </div>
     </div>
 
     <!-- Bouton analyser -->
     <button id="ia-btn-analyser" class="btn btn-primary btn-full" onclick="lancerAnalyseIA()" style="margin-bottom:12px">
-      🤖 Analyser avec Claude
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Analyser avec Claude
     </button>
 
     <!-- Résultat -->
@@ -3235,7 +3235,7 @@ init();
 
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
       <button class="btn btn-ghost btn-sm" onclick="fermerModalIA()">Fermer</button>
-      <button id="ia-btn-copier" class="btn btn-secondary btn-sm" style="display:none" onclick="copierResultatIA()">📋 Copier le résultat</button>
+      <button id="ia-btn-copier" class="btn btn-secondary btn-sm" style="display:none" onclick="copierResultatIA()"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copier</button>
     </div>
   </div>
 </div>
@@ -3326,7 +3326,7 @@ async function lancerAnalyseIA(){
   if(contexteSupp) prompt += '\n\nContexte supplémentaire : ' + contexteSupp;
 
   var btn = document.getElementById('ia-btn-analyser');
-  btn.textContent = '⏳ Analyse en cours...';
+  btn.textContent = 'Analyse en cours...';
   btn.disabled = true;
 
   var resultEl = document.getElementById('ia-result-modal');
@@ -3366,7 +3366,7 @@ async function lancerAnalyseIA(){
     if(pageResult){
       pageResult.style.display = 'block';
       pageResult.innerHTML = '<div style="background:var(--primary-light);border:1.5px solid var(--primary-border);border-radius:8px;padding:14px;font-size:12px;line-height:1.7;white-space:pre-wrap;color:var(--ink)">' +
-        '<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;margin-bottom:8px">🤖 Analyse IA — ' + new Date().toLocaleTimeString('fr-FR') + '</div>' +
+        '<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;margin-bottom:8px">Analyse IA — ' + new Date().toLocaleTimeString('fr-FR') + '</div>' +
         texte.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div>';
     }
   }catch(err){
@@ -3374,7 +3374,7 @@ async function lancerAnalyseIA(){
     resultEl.style.background = 'var(--danger-light)';
   }
 
-  btn.textContent = '🤖 Analyser avec Claude';
+  btn.textContent = '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Analyser avec Claude';
   btn.disabled = false;
 }
 
@@ -3383,7 +3383,7 @@ function copierResultatIA(){
   navigator.clipboard.writeText(texte).then(function(){
     var btn = document.getElementById('ia-btn-copier');
     btn.textContent = '✅ Copié';
-    setTimeout(function(){ btn.textContent = '📋 Copier le résultat'; }, 2000);
+    setTimeout(function(){ btn.textContent = '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copier'; }, 2000);
   });
 }
 
@@ -3399,7 +3399,7 @@ document.getElementById('modal-ia-photo').addEventListener('click', function(e){
   <div style="background:white;border-radius:16px;padding:28px;max-width:680px;width:90%;max-height:85vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.3)">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
       <div>
-        <div style="font-size:17px;font-weight:700">☁️ Dossiers sauvegardés sur Drive</div>
+        <div style="font-size:17px;font-weight:700">Dossiers sauvegardés sur Drive</div>
         <div style="font-size:12px;color:var(--muted);margin-top:2px" id="drive-liste-subtitle">Chargement...</div>
       </div>
       <button onclick="document.getElementById('modal-drive-liste').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)">✕</button>
@@ -3553,7 +3553,7 @@ async function sauvegarderDrive(){
   });
 
   if(up.ok){
-    showToast('☁️ '+fileName+' sauvegardé sur Drive');
+    showToast(''+fileName+' sauvegardé sur Drive');
   } else {
     const e = await up.json();
     showToast('❌ Erreur : '+(e.error?.message||'inconnue'), '#EF4444');
@@ -3577,7 +3577,7 @@ async function ouvrirListeDrive(){
 
     if(!files.length){
       document.getElementById('drive-liste-content').innerHTML =
-        '<div style="text-align:center;padding:40px;color:var(--muted)">Aucun dossier sauvegardé<br><small>Utilisez ☁️ Sauvegarder Drive</small></div>';
+        '<div style="text-align:center;padding:40px;color:var(--muted)">Aucun dossier sauvegardé<br><small>Utilisez Sauvegarder Drive</small></div>';
       return;
     }
 
@@ -3590,7 +3590,7 @@ async function ouvrirListeDrive(){
           <div style="font-size:13px;font-weight:700;font-family:monospace">${f.name.replace('.json','')}</div>
           <div style="font-size:11px;color:var(--muted);margin-top:3px">📅 ${new Date(f.modifiedTime).toLocaleString('fr-FR')}</div>
         </div>
-        <button class="btn btn-primary btn-sm" onclick="chargerFichierDrive('${f.id}')">📂 Ouvrir</button>
+        <button class="btn btn-primary btn-sm" onclick="chargerFichierDrive('${f.id}')">Ouvrir</button>
       </div>`).join('');
   }catch(e){
     document.getElementById('drive-liste-content').innerHTML = '<div style="color:var(--danger);padding:20px">Erreur : '+e.message+'</div>';
