@@ -3350,46 +3350,61 @@ function sauvegarderCompte(){
 }
 
 function chargerCompte(){
+  // Charge depuis localStorage et remplit les champs si disponibles
   const raw = localStorage.getItem('lokoo_compte');
   if(!raw) return;
   try{
     const data = JSON.parse(raw);
     const set = (id,v) => { const e=document.getElementById(id); if(e&&v!=null) e.value=v; };
     const setchk = (id,v) => { const e=document.getElementById(id); if(e) e.checked=!!v; };
+
     const p = data.profil||{};
     set('cp-prenom',p.prenom); set('cp-nom',p.nom); set('cp-fonction',p.fonction);
     set('cp-email',p.email); set('cp-tel',p.tel); set('cp-langue',p.langue);
     set('cp-signataire-nom',p.signataire_nom); set('cp-signataire-qualite',p.signataire_qualite);
     set('cp-signature-texte',p.signature_texte);
+
     const e = data.entreprise||{};
     set('ce-raison-sociale',e.raison); set('ce-siret',e.siret); set('ce-tva',e.tva);
     set('ce-forme',e.forme); set('ce-capital',e.capital); set('ce-adresse',e.adresse);
     set('ce-tel',e.tel); set('ce-email',e.email); set('ce-web',e.web); set('ce-naf',e.naf);
+
     const b = data.banque||{};
     set('cb-banque',b.banque); set('cb-iban',b.iban); set('cb-bic',b.bic); set('cb-titulaire',b.titulaire);
+
     const d = data.documents||{};
     set('cd-prefixe-devis',d.prefixe); set('cd-num-depart',d.num_depart);
     set('cd-validite',d.validite); set('cd-tva',d.tva); set('cd-mentions',d.mentions);
     set('cd-cgv',d.cgv); set('cd-region-def',d.region_def);
     set('cd-fg-def',d.fg_def); set('cd-marge-def',d.marge_def); set('cd-releveur-def',d.releveur_def);
+
     const pr = data.preferences||{};
     set('pref-langue',pr.langue); set('pref-devise',pr.devise);
     set('pref-date',pr.date); set('pref-theme',pr.theme);
-    setchk('pref-notif-save',pr.notif_save); setchk('pref-notif-alert',pr.notif_alert);
-    // Logo
+    setchk('pref-notif-save',pr.notif_save!==false);
+    setchk('pref-notif-alert',pr.notif_alert!==false);
+
+    // Logo & Signature
     const logo = localStorage.getItem('lokoo_logo');
-    if(logo){ afficherLogo(logo); }
-    // Signature
+    if(logo) afficherLogo(logo);
     const sig = localStorage.getItem('lokoo_signature');
-    if(sig){ afficherSignature(sig); }
+    if(sig) afficherSignature(sig);
+
+    // Mettre à jour le menu profil (fonctionne même sans la page compte)
     mettreAJourProfilMenu(data);
     mettreAJourApercuEntete(data);
-    // Appliquer défauts projets
+
+    // Appliquer défauts projets si champs vides
     if(d.releveur_def){ const r=document.getElementById('proj-releveur'); if(r&&!r.value) r.value=d.releveur_def; }
-  }catch(e){ console.error('chargerCompte error:', e); }
+    if(d.fg_def){ state.fg = parseFloat(d.fg_def)||state.fg; }
+    if(d.marge_def){ state.marge = parseFloat(d.marge_def)||state.marge; }
+    if(d.region_def){ state.region = d.region_def||state.region; }
+
+  }catch(err){ console.error('chargerCompte error:', err); }
 }
 
 function renderCompte(){
+  // Rend la page compte et recharge les données
   chargerCompte();
   switchTab('profil');
 }
