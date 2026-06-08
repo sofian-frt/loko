@@ -390,7 +390,7 @@ input[type=number]{-moz-appearance:textfield}
     </svg>
   </button>
   <div class="logo-text" id="mobile-page-title">Lokoo.io</div>
-  <button class="btn btn-sm btn-primary" onclick="saveCurrentChiffrage()" style="padding:6px 10px;font-size:11px">💾</button>
+
 </div>
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
 
@@ -505,7 +505,6 @@ input[type=number]{-moz-appearance:textfield}
     <button class="btn btn-ghost btn-sm" onclick="ouvrirListeDrive()">📂 Importer depuis Drive</button>
     <button class="btn btn-secondary btn-sm" onclick="sauvegarderDrive()">☁️ Sauvegarder Drive</button>
     <button class="btn btn-secondary btn-sm" onclick="exportJSON()">📥 Exporter</button>
-    <button class="btn btn-primary btn-sm" onclick="saveCurrentChiffrage()">💾 Sauvegarder</button>
   </div>
   <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="chargerDossier(this)">
 </div>
@@ -1466,7 +1465,6 @@ input[type=number]{-moz-appearance:textfield}
     </div>
     <div style="display:flex;gap:8px">
       <button class="btn btn-secondary" onclick="exportPrint()">🖨️ Imprimer</button>
-      <button class="btn btn-primary" onclick="saveCurrentChiffrage()">💾 Sauvegarder</button>
     </div>
   </div>
   <div id="synthese-content">
@@ -3449,7 +3447,7 @@ function connecterDrive(){
         const av = document.getElementById('drive-avatar');
         const nm = document.getElementById('drive-username');
         if(av && u.picture){ av.src=u.picture; av.style.display='inline-block'; }
-        if(nm) nm.textContent = (u.given_name||u.name||'Drive') + ' ✅';
+        if(nm) nm.textContent = u.given_name||u.name||'Drive';
         // Notif
         showToast('✅ Google Drive connecté !');
         trouverOuCreerDossier();
