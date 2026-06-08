@@ -1646,7 +1646,7 @@ const PIECE_ICONS={Cuisine:'🍳',Salle:'🪑',Réserve:'📦',Stockage:'📦',
 const PIECE_TYPES=['Salle','Cuisine','Réserve','Stockage','Comptoir','Plonge',
   'Bureau','Vestiaire','WC','WC PMR','Local technique','Terrasse','Circulation','Autre'];
 const TYPES={
-restaurant:{label:'Restaurant',icon:'🍽️',taux:980,placesLabel:'Places assises',placesRatio:1.6,mobilierTaux:290,comptoirRatio:85,dureeRatio:0.045,
+restaurant:{label:'Restaurant',icon:'<svg width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" viewBox=\"0 0 24 24\"><path d=\"M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6h3.5a1.5 1.5 0 011.5 1.5V22\"/></svg>',taux:980,placesLabel:'Places assises',placesRatio:1.6,mobilierTaux:290,comptoirRatio:85,dureeRatio:0.045,
   lots:[
     {nom:'Démolition / Curage',pct:3,detail:"Dépose revêtements, cloisons, plafonds · évacuation gravats"},
     {nom:'Cloisons / Doublages',pct:8,detail:"Ossature métallique, BA13, BA13 hydro, isolation, enduits"},
@@ -1672,7 +1672,7 @@ restaurant:{label:'Restaurant',icon:'🍽️',taux:980,placesLabel:'Places assis
     {nom:'Caméras / Sécurité',calcType:'m2',taux:22,detail:"Caméras IP HD, NVR, câblage"},
   ]
 },
-cafe:{label:'Café / Coffee Shop',icon:'☕',taux:660,placesLabel:'Places assises',placesRatio:2.0,mobilierTaux:340,comptoirRatio:130,dureeRatio:0.038,
+cafe:{label:'Café / Coffee Shop',icon:'<svg width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" viewBox=\"0 0 24 24\"><path d=\"M17 8h1a4 4 0 010 8h-1\"/><path d=\"M3 8h14v9a4 4 0 01-4 4H7a4 4 0 01-4-4V8z\"/></svg>',taux:660,placesLabel:'Places assises',placesRatio:2.0,mobilierTaux:340,comptoirRatio:130,dureeRatio:0.038,
   lots:[
     {nom:'Démolition / Curage',pct:3,detail:"Déposes diverses et évacuation"},
     {nom:'Cloisons / Doublages',pct:9,detail:"Cloisons BA13 et isolation"},
@@ -1698,7 +1698,7 @@ cafe:{label:'Café / Coffee Shop',icon:'☕',taux:660,placesLabel:'Places assise
     {nom:'Caméras / Sécurité',calcType:'m2',taux:22,detail:"Caméras IP HD, NVR, câblage"},
   ]
 },
-boulangerie:{label:'Boulangerie',icon:'🥖',taux:1180,placesLabel:'Places boutique',placesRatio:6.0,mobilierTaux:240,comptoirRatio:110,dureeRatio:0.055,
+boulangerie:{label:'Boulangerie',icon:'<svg width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M8 12c0-2 1.5-4 4-4s4 2 4 4-1.5 4-4 4-4-2-4-4z\"/></svg>',taux:1180,placesLabel:'Places boutique',placesRatio:6.0,mobilierTaux:240,comptoirRatio:110,dureeRatio:0.055,
   lots:[
     {nom:'Démolition / Curage',pct:2,detail:"Curage et évacuation"},
     {nom:'Cloisons / Doublages',pct:7,detail:"BA13, hydro, isolation thermique et acoustique laboratoire"},
@@ -1724,7 +1724,7 @@ boulangerie:{label:'Boulangerie',icon:'🥖',taux:1180,placesLabel:'Places bouti
     {nom:'Caméras / Sécurité',calcType:'m2',taux:22,detail:"Caméras IP HD, NVR, câblage"},
   ]
 },
-bureau:{label:'Bureaux',icon:'💼',taux:520,placesLabel:'Postes de travail',placesRatio:8.0,mobilierTaux:1200,comptoirRatio:0,dureeRatio:0.030,
+bureau:{label:'Bureaux',icon:'<svg width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" viewBox=\"0 0 24 24\"><rect x=\"2\" y=\"7\" width=\"20\" height=\"14\" rx=\"2\"/><path d=\"M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2\"/></svg>',taux:520,placesLabel:'Postes de travail',placesRatio:8.0,mobilierTaux:1200,comptoirRatio:0,dureeRatio:0.030,
   lots:[
     {nom:'Démolition / Curage',pct:4,detail:"Dépose cloisons, faux plafonds, revêtements"},
     {nom:'Cloisons / Doublages',pct:14,detail:"Cloisons vitrées, cloisons plâtre, bureaux privatifs",alert:'Lot majeur en open space',alertType:'warn'},
@@ -1747,7 +1747,7 @@ bureau:{label:'Bureaux',icon:'💼',taux:520,placesLabel:'Postes de travail',pla
     {nom:'Caméras / Contrôle accès',calcType:'m2',taux:28,detail:"Caméras, badges, interphonie"},
   ]
 },
-boutique:{label:'Boutique',icon:'🛍️',taux:740,placesLabel:'Cabines essayage',placesRatio:20.0,mobilierTaux:400,comptoirRatio:100,dureeRatio:0.040,
+boutique:{label:'Boutique',icon:'<svg width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" viewBox=\"0 0 24 24\"><path d=\"M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z\"/><line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"/><path d=\"M16 10a4 4 0 01-8 0\"/></svg>',taux:740,placesLabel:'Cabines essayage',placesRatio:20.0,mobilierTaux:400,comptoirRatio:100,dureeRatio:0.040,
   lots:[
     {nom:'Démolition / Curage',pct:3,detail:"Dépose revêtements et agencement existant"},
     {nom:'Cloisons / Doublages',pct:7,detail:"Cabines, réserve, bureau"},
@@ -1771,7 +1771,7 @@ boutique:{label:'Boutique',icon:'🛍️',taux:740,placesLabel:'Cabines essayage
     {nom:'Antivol / Sécurité',calcType:'m2',taux:30,detail:"Portiques antivol, caméras, alarme"},
   ]
 },
-cabinet:{label:'Cabinet médical',icon:'🏥',taux:640,placesLabel:'Postes de soins',placesRatio:25.0,mobilierTaux:2000,comptoirRatio:0,dureeRatio:0.035,
+cabinet:{label:'Cabinet médical',icon:'<svg width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" viewBox=\"0 0 24 24\"><path d=\"M22 12h-4l-3 9L9 3l-3 9H2\"/></svg>',taux:640,placesLabel:'Postes de soins',placesRatio:25.0,mobilierTaux:2000,comptoirRatio:0,dureeRatio:0.035,
   lots:[
     {nom:'Démolition / Curage',pct:3,detail:"Dépose revêtements et cloisons"},
     {nom:'Cloisons / Doublages',pct:12,detail:"Salles de soins, accueil, sanitaires",alert:'Isolation phonique renforcée',alertType:'warn'},
@@ -1794,7 +1794,7 @@ cabinet:{label:'Cabinet médical',icon:'🏥',taux:640,placesLabel:'Postes de so
     {nom:'Alarme / Sécurité',calcType:'m2',taux:20,detail:"Alarme intrusion, accès sécurisé"},
   ]
 },
-salon:{label:'Salon de coiffure',icon:'✂️',taux:720,placesLabel:'Postes coiffure',placesRatio:12.0,mobilierTaux:2500,comptoirRatio:120,dureeRatio:0.042,
+salon:{label:'Salon de coiffure',icon:'<svg width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" viewBox=\"0 0 24 24\"><path d=\"M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z\"/></svg>',taux:720,placesLabel:'Postes coiffure',placesRatio:12.0,mobilierTaux:2500,comptoirRatio:120,dureeRatio:0.042,
   lots:[
     {nom:'Démolition / Curage',pct:3,detail:"Dépose mobilier, revêtements, cloisons"},
     {nom:'Cloisons / Doublages',pct:6,detail:"Zone cabines, toilettes, réserve"},
@@ -1818,7 +1818,7 @@ salon:{label:'Salon de coiffure',icon:'✂️',taux:720,placesLabel:'Postes coif
     {nom:'Alarme / Sécurité',calcType:'m2',taux:18,detail:"Alarme, caméras, accès"},
   ]
 },
-institut:{label:'Institut de beauté',icon:'💆',taux:760,placesLabel:'Cabines soins',placesRatio:15.0,mobilierTaux:3500,comptoirRatio:130,dureeRatio:0.045,
+institut:{label:'Institut de beauté',icon:'<svg width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" viewBox=\"0 0 24 24\"><path d=\"M12 2a5 5 0 100 10A5 5 0 0012 2z\"/><path d=\"M2 22s1-4 10-4 10 4 10 4\"/></svg>',taux:760,placesLabel:'Cabines soins',placesRatio:15.0,mobilierTaux:3500,comptoirRatio:130,dureeRatio:0.045,
   lots:[
     {nom:'Démolition / Curage',pct:3,detail:"Dépose revêtements et cloisonnements"},
     {nom:'Cloisons / Doublages',pct:10,detail:"Cabines de soins (isolation phonique et thermique)",alert:'Isolation phonique cabines — priorité',alertType:'warn'},
@@ -2401,7 +2401,7 @@ function initPrechiffrage(){
       const btn=document.createElement('div');
       const isA=k===state.activeType;
       btn.style.cssText=`background:${isA?'var(--primary-light)':'white'};border:${isA?'2px solid var(--primary)':'1.5px solid var(--border)'};border-radius:var(--radius);padding:10px 6px;text-align:center;cursor:pointer;transition:all .15s;`;
-      btn.innerHTML=`<div style="font-size:20px;margin-bottom:4px">${v.icon}</div><div style="font-size:10px;font-weight:700">${v.label}</div><div style="font-family:monospace;font-size:9px;color:var(--muted);margin-top:2px">${fmtN(v.taux)}€/m²</div>`;
+      btn.innerHTML=`<div style="margin-bottom:6px;color:var(--mid)">${v.icon}</div><div style="font-size:10px;font-weight:700">${v.label}</div><div style="font-family:monospace;font-size:9px;color:var(--muted);margin-top:2px">${fmtN(v.taux)}€/m²</div>`;
       btn.onclick=()=>{
         document.querySelectorAll('#type-grid > div').forEach(c=>{c.style.borderColor='var(--border)';c.style.borderWidth='1.5px';c.style.background='white';});
         btn.style.borderColor='var(--primary)';btn.style.borderWidth='2px';btn.style.background='var(--primary-light)';
