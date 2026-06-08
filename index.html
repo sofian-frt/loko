@@ -587,9 +587,12 @@ input[type=number]{-moz-appearance:textfield}
 <div class="main">
 <!-- TOPBAR -->
 <div class="topbar" id="main-topbar" style="display:none">
-  <div class="topbar-left">
-    <div class="topbar-title" id="topbar-title">Initialisation du projet</div>
-    <div class="topbar-step" id="topbar-step">Étape 1/8</div>
+  <div class="topbar-left" style="display:flex;align-items:center;gap:14px">
+    <img id="topbar-logo" src="" alt="" style="display:none;max-height:36px;max-width:120px;object-fit:contain;border-radius:4px;flex-shrink:0">
+    <div>
+      <div class="topbar-title" id="topbar-title">Initialisation du projet</div>
+      <div class="topbar-step" id="topbar-step">Étape 1/8</div>
+    </div>
   </div>
   <div class="topbar-actions">
     <button id="btn-drive-connect" class="btn btn-secondary btn-sm" onclick="connecterDrive()" title="Connecter Google Drive" style="gap:6px">
@@ -4083,14 +4086,17 @@ window.addEventListener('load', function(){
 // ── LOGO SIDEBAR ─────────────────────────────────────────────
 function majLogoSidebar(){
   const logo = localStorage.getItem('lokoo_logo');
-  const img = document.getElementById('sidebar-logo-img');
-  if(!img) return;
-  if(logo){
-    img.src = logo;
-    img.style.display = 'block';
-  } else {
-    img.src = '';
-    img.style.display = 'none';
+  // Sidebar
+  const sidebarImg = document.getElementById('sidebar-logo-img');
+  if(sidebarImg){
+    if(logo){ sidebarImg.src=logo; sidebarImg.style.display='block'; }
+    else { sidebarImg.src=''; sidebarImg.style.display='none'; }
+  }
+  // Topbar
+  const topbarImg = document.getElementById('topbar-logo');
+  if(topbarImg){
+    if(logo){ topbarImg.src=logo; topbarImg.style.display='block'; }
+    else { topbarImg.src=''; topbarImg.style.display='none'; }
   }
 }
 
