@@ -536,6 +536,9 @@ input[type=number]{-moz-appearance:textfield}
     </button>
   </div>
 
+  <!-- RÉCAPITULATIF DYNAMIQUE -->
+  <div id="recap-banner" style="display:none;margin-bottom:20px"></div>
+
   <div class="g2" style="align-items:start;gap:20px">
     <!-- COL GAUCHE -->
     <div>
@@ -1931,6 +1934,7 @@ function showPage(id){
   if(id==='clim'){renderClimPieces();calcClim();}
   if(id==='facade'){calcFacade();calcERP();}
   if(id==='recap')renderRecap();
+  if(id==='init')renderRecapBanner();
   if(id==='prechiffrage')recalculate();
   if(id==='chiffrage')renderChiffrageDetail();
   if(id==='synthese')renderSynthese();
@@ -1950,6 +1954,7 @@ function updateProjectHeader(){
   const surf=_val('proj-surface');
   if(surf){const i=_get('inp-surface');if(i)i.value=surf;state.surface=parseFloat(surf)||0;recalculate();}
   updateRecap();
+  renderRecapBanner();
 }
 function updateTypeLocal(){
   const v=_val('proj-type-local','restaurant');
@@ -2955,6 +2960,167 @@ function rechercherSiren(v){
 
 // ── DÉMARRAGE ─────────────────────────────────────────────────
 // ── RÉCAPITULATIF ─────────────────────────────────────────────
+function renderRecapBanner(){
+  const banner = document.getElementById('recap-banner');
+  if(!banner) return;
+
+  const nom = _val('proj-nom');
+  const surface = parseFloat(_val('proj-surface')) || 0;
+  const hasData = nom || surface > 0 || state.pieces.length > 0;
+
+  if(!hasData){ banner.style.display='none'; return; }
+  banner.style.display='block';
+
+  const client = _val('proj-client');
+  const adresse = _val('proj-adresse');
+  const typeLocal = _val('proj-type-local','restaurant');
+  const cur = TYPES[typeLocal] || TYPES.restaurant;
+  const gam = GAMMES.find(g=>g.key===state.activeGamme) || GAMMES[1];
+  const cR = REGIONS[state.region||'std'] || 1;
+  const bB = surface > 0 ? surface * cur.taux * gam.coeff * cR * (state.renov||1) * (state._etatCoeff||1) : 0;
+  const fg = state.fg || 8;
+  const marge = state.marge || 10;
+  const cA = 0.02 + ((state.complexite||3)-1)*0.02;
+  const mFG = bB * fg / 100;
+  const mAl = (bB + mFG) * cA;
+  const bM = bB + mFG + mAl;
+  const mMa = bM * (marge/100) / (1-marge/100);
+  const tT = bM + mMa;
+
+  const manquants = [];
+  if(!nom) manquants.push('Code chantier');
+  if(!client) manquants.push('Client');
+  if(!adresse) manquants.push('Adresse');
+  if(!surface) manquants.push('Surface');
+  if(!state.pieces.length) manquants.push('Relevés');
+  const pct = Math.round(((5-manquants.length)/5)*100);
+
+  const tSurf = state.pieces.reduce((a,p)=>a+(p.surface||0),0);
+  const lots = cur.lots.slice(0,6);
+  const maxPct = Math.max(...lots.map(l=>l.pct));
+
+  banner.innerHTML = `
+  <div style="background:white;border:1.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow)">
+    <!-- HEADER -->
+    <div style="background:var(--ink);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="width:44px;height:44px;background:rgba(255,255,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0">${cur.icon}</div>
+        <div>
+          <div style="font-size:17px;font-weight:800;color:white">${nom||'Projet sans nom'}</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2px">${client||'—'} ${adresse?'· '+adresse:''}</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <div style="text-align:center">
+          <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:600;text-transform:uppercase;margin-bottom:2px">Avancement</div>
+          <div style="font-size:22px;font-weight:800;color:${pct>=80?'#00C896':pct>=50?'#F59E0B':'#EF4444'}">${pct}%</div>
+        </div>
+        ${bB>0?`<div style="text-align:center">
+          <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:600;text-transform:uppercase;margin-bottom:2px">Prix vente HT</div>
+          <div style="font-size:22px;font-weight:800;color:var(--primary)">${fmt(tT)}</div>
+        </div>`:''}
+        <button class="btn btn-sm" onclick="showPage('prechiffrage')" style="background:var(--primary);color:white;border-color:var(--primary)">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Chiffrage
+        </button>
+      </div>
+    </div>
+
+    <!-- BODY -->
+    <div style="padding:20px 24px">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
+        <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">Type</div>
+          <div style="font-size:13px;font-weight:700;color:var(--ink)">${cur.label}</div>
+        </div>
+        <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">Surface</div>
+          <div style="font-size:18px;font-weight:800;color:var(--ink)">${surface||'—'} <span style="font-size:11px;font-weight:400">m²</span></div>
+        </div>
+        <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">Pièces</div>
+          <div style="font-size:18px;font-weight:800;color:var(--ink)">${state.pieces.length}</div>
+        </div>
+        <div style="background:${bB>0?'var(--primary-light)':'var(--bg)'};border-radius:10px;padding:14px;text-align:center;border:${bB>0?'1px solid var(--primary-border)':'none'}">
+          <div style="font-size:10px;color:${bB>0?'var(--primary)':'var(--muted)'};font-weight:600;text-transform:uppercase;margin-bottom:4px">€/m²</div>
+          <div style="font-size:18px;font-weight:800;color:${bB>0?'var(--primary)':'var(--ink)'}">${surface&&bB>0?Math.round(tT/surface):'—'}</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+        <!-- Synthèse financière -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Synthèse financière</div>
+          ${bB>0?`
+          ${[['Déboursé sec',fmt(bB)],['FG '+fg+'%','+ '+fmt(mFG)],['Aléas','+ '+fmt(mAl)],['Marge '+marge+'%','+ '+fmt(mMa)]].map(([k,v])=>`
+          <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed var(--border);font-size:12px">
+            <span style="color:var(--muted)">${k}</span><span style="font-weight:600">${v}</span>
+          </div>`).join('')}
+          <div style="display:flex;justify-content:space-between;padding:8px 0;margin-top:2px">
+            <span style="font-size:13px;font-weight:700">Total HT</span>
+            <span style="font-size:16px;font-weight:800;color:var(--primary)">${fmt(tT)}</span>
+          </div>`:'<div style="font-size:12px;color:var(--muted);padding:8px 0">Saisissez la surface pour calculer</div>'}
+        </div>
+
+        <!-- Histogramme lots -->
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Répartition des coûts</div>
+          ${bB>0?lots.map(l=>`
+          <div style="margin-bottom:7px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+              <span style="font-size:10px;font-weight:600;color:var(--ink2)">${l.nom.length>18?l.nom.slice(0,18)+'…':l.nom}</span>
+              <span style="font-size:10px;color:var(--muted)">${l.pct}%</span>
+            </div>
+            <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+              <div style="height:100%;background:var(--primary);width:${(l.pct/maxPct)*100}%;border-radius:3px"></div>
+            </div>
+          </div>`).join(''):'<div style="font-size:12px;color:var(--muted);padding:8px 0">Disponible après saisie de la surface</div>'}
+        </div>
+
+        <!-- Données manquantes + contraintes -->
+        <div>
+          ${manquants.length?`
+          <div style="font-size:11px;font-weight:700;color:var(--warn);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">À compléter (${manquants.length})</div>
+          ${manquants.map(m=>`<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:12px;color:var(--ink2)">
+            <svg width="10" height="10" fill="none" stroke="var(--warn)" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="13"/></svg>
+            ${m}</div>`).join('')}
+          `:`<div style="font-size:11px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Dossier complet</div>
+          <div style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:12px;color:var(--ink2)">
+            <svg width="14" height="14" fill="none" stroke="var(--primary)" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Toutes les infos sont renseignées
+          </div>`}
+
+          <!-- Contraintes -->
+          <div style="margin-top:12px">
+            <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Contraintes</div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px">
+              ${(()=>{
+                const c=[];
+                if(document.getElementById('chk-erp')?.checked) c.push(['ERP','danger']);
+                if(document.getElementById('chk-cuisine')?.checked) c.push(['Cuisine pro','warn']);
+                if(document.getElementById('chk-pmr')?.checked) c.push(['PMR','warn']);
+                if(document.getElementById('chk-amiante')?.checked) c.push(['Amiante','danger']);
+                if(!c.length) return '<span style="font-size:11px;color:var(--muted)">Aucune identifiée</span>';
+                return c.map(([t,cl])=>`<span style="padding:2px 8px;background:var(--${cl==='danger'?'danger-light':'warn-light'});color:var(--${cl});border-radius:20px;font-size:10px;font-weight:600">${t}</span>`).join('');
+              })()}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barre de progression avancement -->
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:12px">
+        <div style="font-size:11px;color:var(--muted);white-space:nowrap">Avancement dossier</div>
+        <div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+          <div style="height:100%;background:${pct>=80?'var(--primary)':pct>=50?'var(--warn)':'var(--danger)'};width:${pct}%;border-radius:3px;transition:width .5s"></div>
+        </div>
+        <div style="font-size:12px;font-weight:700;color:${pct>=80?'var(--primary)':pct>=50?'var(--warn)':'var(--danger)'};">${pct}%</div>
+        <button class="btn btn-ghost btn-sm" onclick="showPage('recap')" style="font-size:11px">Vue détaillée →</button>
+      </div>
+    </div>
+  </div>`;
+}
+
 function renderRecap(){
   const el = document.getElementById('recap-content');
   if(!el) return;
@@ -3320,6 +3486,7 @@ function init(){
   initPrechiffrage();
   saveDB();
   genererCodeChantier();
+  renderRecapBanner();
   console.log('Lokooo.io V2 ✓');
 }
 // ── AUTOCOMPLETE ADRESSE (api-adresse.data.gouv.fr) ──────────
