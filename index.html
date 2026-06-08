@@ -3545,6 +3545,9 @@ function sauvegarderCompte(){
   localStorage.setItem('lokoo_compte', JSON.stringify(data));
   mettreAJourProfilMenu(data);
   mettreAJourApercuEntete(data);
+  // Sauvegarder dans Firestore avec debounce
+  clearTimeout(window._firestoreTimer);
+  window._firestoreTimer = setTimeout(sauvegarderDonneesFirestore, 1000);
 }
 
 function chargerCompte(){
@@ -4140,13 +4143,7 @@ async function sauvegarderDonneesFirestore(){
 }
 
 // Sauvegarder automatiquement dans Firestore quand on sauvegarde le compte
-const _sauvegarderCompteOriginal = sauvegarderCompte;
-function sauvegarderCompte(){
-  _sauvegarderCompteOriginal();
-  // Debounce Firestore save
-  clearTimeout(window._firestoreTimer);
-  window._firestoreTimer = setTimeout(sauvegarderDonneesFirestore, 1500);
-}
+
 
 // Ajouter déconnexion dans le menu profil
 function ajouterDeconnexionMenu(){
