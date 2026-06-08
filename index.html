@@ -402,20 +402,13 @@ input[type=number]{-moz-appearance:textfield}
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar" style="display:none">
   <div class="sidebar-header">
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <!-- Logo lokoo.io toujours visible -->
-      <div style="display:flex;align-items:center;gap:8px">
-        <div style="width:32px;height:32px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-          <span style="font-size:14px;font-weight:900;color:white;font-family:var(--font)">L</span>
-        </div>
-        <div>
-          <div style="font-size:16px;font-weight:900;color:var(--ink);letter-spacing:-0.3px;line-height:1">lokoo<span style="color:var(--primary)">.io</span></div>
-          <div style="font-size:9px;color:var(--muted);font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-top:1px">Relevé & Chiffrage</div>
-        </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div style="width:32px;height:32px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <span style="font-size:14px;font-weight:900;color:white;font-family:var(--font)">L</span>
       </div>
-      <!-- Logo société en dessous si dispo -->
-      <div id="sidebar-logo-wrap" style="display:none">
-        <img id="sidebar-logo-img" src="" alt="" style="max-height:36px;max-width:130px;object-fit:contain;border-radius:4px">
+      <div>
+        <div style="font-size:16px;font-weight:900;color:var(--ink);letter-spacing:-0.3px;line-height:1">lokoo<span style="color:var(--primary)">.io</span></div>
+        <div style="font-size:9px;color:var(--muted);font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-top:1px">Relevé & Chiffrage</div>
       </div>
     </div>
   </div>
@@ -598,27 +591,20 @@ input[type=number]{-moz-appearance:textfield}
 <div class="app" id="app-main" style="display:none">
 <div class="main">
 <!-- TOPBAR -->
-<div class="topbar" id="main-topbar" style="display:none">
-  <div class="topbar-left" style="display:flex;align-items:center;gap:14px">
-    <!-- Logo lokoo.io fixe -->
-    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
-      <div style="width:32px;height:32px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center">
-        <span style="font-size:14px;font-weight:900;color:white;font-family:var(--font)">L</span>
-      </div>
-      <span style="font-size:15px;font-weight:900;color:var(--ink);letter-spacing:-0.3px">lokoo<span style="color:var(--primary)">.io</span></span>
+<div class="topbar" id="main-topbar" style="display:none;position:relative">
+  <div class="topbar-left" style="display:flex;align-items:center;gap:10px">
+    <!-- Logo entreprise + séparateur (visible seulement si logo importé) -->
+    <div id="topbar-logo-wrap" style="display:none;align-items:center;gap:10px">
+      <img id="topbar-logo" src="" alt="" style="max-height:32px;max-width:100px;object-fit:contain;border-radius:3px;flex-shrink:0">
+      <div style="width:1px;height:28px;background:var(--border);flex-shrink:0"></div>
     </div>
-    <!-- Séparateur -->
-    <div style="width:1px;height:28px;background:var(--border);flex-shrink:0"></div>
-    <!-- Logo entreprise + titre -->
-    <div style="display:flex;align-items:center;gap:10px">
-      <img id="topbar-logo" src="" alt="" style="display:none;max-height:32px;max-width:100px;object-fit:contain;border-radius:3px;flex-shrink:0">
-      <div>
-        <div class="topbar-title" id="topbar-title">Initialisation du projet</div>
-        <div class="topbar-step" id="topbar-step">Étape 1/8</div>
-      </div>
+    <!-- Titre page -->
+    <div>
+      <div class="topbar-title" id="topbar-title">Initialisation du projet</div>
+      <div class="topbar-step" id="topbar-step">Étape 1/8</div>
     </div>
   </div>
-  <div class="topbar-actions">
+  <div class="topbar-actions" style="position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:8px">
     <button id="btn-drive-connect" class="btn btn-secondary btn-sm" onclick="connecterDrive()" title="Connecter Google Drive" style="gap:6px">
       <svg width="14" height="14" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8H0c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="M43.65 25L29.9 1.2C28.55 2 27.4 3.1 26.6 4.5L1.2 49.15A9 9 0 000 53.65h27.5z" fill="#00ac47"/><path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5H59.8l5.85 11.2z" fill="#ea4335"/><path d="M43.65 25L57.4 1.2C56.05.4 54.5 0 52.9 0H34.4c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="M59.8 53.65H27.5L13.75 77.45c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="M73.4 26.35l-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3L43.65 25l16.15 28H87.3c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg>
       Google Drive
@@ -4110,18 +4096,12 @@ window.addEventListener('load', function(){
 // ── LOGO SIDEBAR ─────────────────────────────────────────────
 function majLogoSidebar(){
   const logo = localStorage.getItem('lokoo_logo');
-  // Sidebar — logo société sous lokoo.io
-  const sidebarImg = document.getElementById('sidebar-logo-img');
-  const sidebarWrap = document.getElementById('sidebar-logo-wrap');
-  if(sidebarImg && sidebarWrap){
-    if(logo){ sidebarImg.src=logo; sidebarWrap.style.display='block'; }
-    else { sidebarImg.src=''; sidebarWrap.style.display='none'; }
-  }
-  // Topbar — logo entreprise à côté du titre
+  // Topbar — logo entreprise + séparateur si logo présent
+  const topbarWrap = document.getElementById('topbar-logo-wrap');
   const topbarImg = document.getElementById('topbar-logo');
-  if(topbarImg){
-    if(logo){ topbarImg.src=logo; topbarImg.style.display='block'; }
-    else { topbarImg.src=''; topbarImg.style.display='none'; }
+  if(topbarWrap && topbarImg){
+    if(logo){ topbarImg.src=logo; topbarWrap.style.display='flex'; }
+    else { topbarImg.src=''; topbarWrap.style.display='none'; }
   }
 }
 
