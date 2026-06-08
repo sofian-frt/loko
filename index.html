@@ -3676,11 +3676,66 @@ function importerLogo(input){
   const file = input.files[0]; if(!file) return;
   const reader = new FileReader();
   reader.onload = e => {
-    localStorage.setItem('lokoo_logo', e.target.result);
-    afficherLogo(e.target.result);
-    sauvegarderCompte();
+    // Rogner automatiquement les espaces blancs/transparents
+    rognerLogo(e.target.result, function(croppedSrc){
+      localStorage.setItem('lokoo_logo', croppedSrc);
+      afficherLogo(croppedSrc);
+      sauvegarderCompte();
+    });
   };
   reader.readAsDataURL(file);
+}
+
+function rognerLogo(src, callback){
+  const img = new Image();
+  img.onload = function(){
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+
+    const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = pixels.data;
+    let top = canvas.height, bottom = 0, left = canvas.width, right = 0;
+
+    for(let y = 0; y < canvas.height; y++){
+      for(let x = 0; x < canvas.width; x++){
+        const idx = (y * canvas.width + x) * 4;
+        const r = data[idx], g = data[idx+1], b = data[idx+2], a = data[idx+3];
+        // Pixel non blanc et non transparent
+        const isBlank = a < 10 || (r > 240 && g > 240 && b > 240 && a > 200);
+        if(!isBlank){
+          if(y < top) top = y;
+          if(y > bottom) bottom = y;
+          if(x < left) left = x;
+          if(x > right) right = x;
+        }
+      }
+    }
+
+    // Pas de contenu trouvé — retourner l'original
+    if(top > bottom || left > right){ callback(src); return; }
+
+    // Ajouter un petit padding (2%)
+    const pad = Math.max(2, Math.round(Math.min(canvas.width, canvas.height) * 0.02));
+    top = Math.max(0, top - pad);
+    bottom = Math.min(canvas.height - 1, bottom + pad);
+    left = Math.max(0, left - pad);
+    right = Math.min(canvas.width - 1, right + pad);
+
+    const w = right - left + 1;
+    const h = bottom - top + 1;
+
+    const cropped = document.createElement('canvas');
+    cropped.width = w;
+    cropped.height = h;
+    cropped.getContext('2d').drawImage(canvas, left, top, w, h, 0, 0, w, h);
+
+    callback(cropped.toDataURL('image/png'));
+  };
+  img.onerror = () => callback(src);
+  img.src = src;
 }
 
 function afficherLogo(src){
