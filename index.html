@@ -3892,20 +3892,70 @@ async function inscriptionFirebase(){
   const entreprise = document.getElementById('reg-entreprise').value.trim();
   const email = document.getElementById('reg-email').value.trim();
   const password = document.getElementById('reg-password').value;
+  const siren = (document.getElementById('reg-siren').value||'').trim();
   const btn = document.getElementById('login-btn-inscription');
 
-  if(!email || !password){ afficherErreurLogin('Renseignez tous les champs.'); return; }
+  if(!email || !password){ afficherErreurLogin('Renseignez votre email et mot de passe.'); return; }
   if(password.length < 6){ afficherErreurLogin('Le mot de passe doit faire au moins 6 caractères.'); return; }
 
   btn.textContent = 'Création...'; btn.disabled = true;
   try{
     const cred = await auth.createUserWithEmailAndPassword(email, password);
-    // Créer le profil dans Firestore
+
+    // Récupérer les données SIREN complètes si disponibles
+    let entrepriseData = { raison: entreprise };
+    if(siren.length === 9){
+      try{
+        const r = await fetch('https://recherche-entreprises.api.gouv.fr/search?q='+siren+'&limit=1');
+        const data = await r.json();
+        const res = data.results&&data.results[0];
+        if(res){
+          const siege = res.siege||{};
+          function tc(s){ return s?s.toLowerCase().split(' ').map(w=>w?w[0].toUpperCase()+w.slice(1):'').join(' '):''; }
+          const numV = siege.numero_voie||'';
+          const typeV = tc(siege.type_voie||'');
+          const nomV = tc(siege.libelle_voie||'');
+          const cp = siege.code_postal||'';
+          const ville = tc(siege.libelle_commune||'');
+          const adresse = [numV,typeV,nomV].filter(Boolean).join(' ')+(cp?', '+cp+' '+ville:'');
+          const siretF = (siege.siret||'').replace(/(\d{3})(\d{3})(\d{3})(\d{5})/,'$1 $2 $3 $4');
+          const tvaKey = String(parseInt(siren)%97).padStart(2,'0');
+          entrepriseData = {
+            raison: res.nom_complet||res.denomination||entreprise,
+            siren: siren,
+            siret: siretF,
+            tva: 'FR'+tvaKey+siren,
+            forme: res.nature_juridique_libelle||'',
+            capital: res.capital||'',
+            naf: res.activite_principale||siege.activite_principale||'',
+            adresse: adresse,
+            tel: '', email: '', web: '',
+            logo: ''
+          };
+        }
+      }catch(e){ console.warn('SIREN fetch error:', e); }
+    }
+
+    // Créer le profil complet dans Firestore
     await db.collection('users').doc(cred.user.uid).set({
-      profil: { prenom, nom, email, fonction: '' },
-      entreprise: { raison: entreprise },
+      profil: {
+        prenom, nom, email,
+        fonction: entrepriseData.forme&&(entrepriseData.forme.toUpperCase().includes('SAS'))?'Président':'Gérant',
+        tel: '', langue: 'fr',
+        signataire_nom: prenom+' '+nom,
+        signataire_qualite: entrepriseData.forme&&(entrepriseData.forme.toUpperCase().includes('SAS'))?'Président':'Gérant',
+        signature_texte: ''
+      },
+      entreprise: entrepriseData,
+      banque: { banque:'', iban:'', bic:'', titulaire: entrepriseData.raison||'' },
+      documents: { prefixe:'DEV-', num_depart:'001', validite:'30', tva:'10',
+        mentions:'', cgv:'', region_def:'std', fg_def:'8', marge_def:'10',
+        releveur_def: prenom+' '+nom },
+      preferences: { langue:'fr', devise:'EUR', date:'fr', theme:'light',
+        notif_save:true, notif_alert:true },
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
+
   } catch(e){
     btn.textContent = 'Créer mon compte'; btn.disabled = false;
     afficherErreurLogin(traduireErreurFirebase(e.code));
