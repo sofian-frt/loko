@@ -1894,7 +1894,7 @@ input[type=number]{-moz-appearance:textfield}
           <div class="form-group">
             <label class="form-label">Forme juridique</label>
             <select id="ce-forme" class="form-select" onchange="sauvegarderCompte()">
-              <option>SAS</option><option>SARL</option><option>EURL</option><option>EI</option><option>SA</option><option>SNC</option><option>Autre</option>
+              <option value="SAS">SAS</option><option value="SARL">SARL</option><option value="EURL">EURL</option><option value="EI">EI</option><option value="SA">SA</option><option value="SNC">SNC</option><option value="Autre">Autre</option>
             </select>
           </div>
           <div class="form-group">
@@ -3548,12 +3548,32 @@ function sauvegarderCompte(){
 }
 
 function chargerCompte(){
-  // Charge depuis localStorage et remplit les champs si disponibles
   const raw = localStorage.getItem('lokoo_compte');
   if(!raw) return;
   try{
     const data = JSON.parse(raw);
-    const set = (id,v) => { const e=document.getElementById(id); if(e&&v!=null) e.value=v; };
+    const set = (id,v) => {
+      const e=document.getElementById(id);
+      if(!e||v==null) return;
+      if(e.tagName==='SELECT'){
+        // Chercher option correspondante (exact ou partiel)
+        const opts = Array.from(e.options);
+        const exact = opts.find(o=>o.value===v||o.text===v);
+        if(exact){ e.value=exact.value; return; }
+        // Partiel — ex: "Société par actions simplifiée" → "SAS"
+        const formes = {
+          'simplifiée':'SAS','sas':'SAS','sarl':'SARL','responsabilité limitée':'SARL',
+          'eurl':'EURL','unipersonnelle':'EURL','individuelle':'EI','ei':'EI',
+          'anonyme':'SA','nom collectif':'SNC','snc':'SNC'
+        };
+        const vLow = v.toLowerCase();
+        for(const [k,form] of Object.entries(formes)){
+          if(vLow.includes(k)){ e.value=form; return; }
+        }
+      } else {
+        e.value=v;
+      }
+    };
     const setchk = (id,v) => { const e=document.getElementById(id); if(e) e.checked=!!v; };
 
     const p = data.profil||{};
