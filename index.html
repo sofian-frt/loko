@@ -474,6 +474,9 @@ input[type=number]{-moz-appearance:textfield}
     <button class="nav-item" onclick="showPage('dashboard')" id="nav-dashboard">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-3 3"/></svg></span> Tableau de bord
     </button>
+    <button class="nav-item" onclick="showPage('compte')" id="nav-compte">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></span> Paramètres
+    </button>
   </div>
 
   <div class="sidebar-footer">
@@ -520,6 +523,32 @@ input[type=number]{-moz-appearance:textfield}
     </button>
   </div>
   <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="chargerDossier(this)">
+  <!-- PROFIL -->
+  <div style="position:relative">
+    <button id="btn-profil" onclick="toggleProfilMenu()" style="width:34px;height:34px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s" title="Profil & Paramètres">
+      <span id="profil-initiales" style="font-size:12px;font-weight:700;color:white">?</span>
+    </button>
+    <div id="profil-menu" style="display:none;position:absolute;top:calc(100% + 8px);right:0;background:white;border:1.5px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);min-width:220px;z-index:500;overflow:hidden">
+      <div id="profil-menu-header" style="padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg)">
+        <div id="profil-menu-nom" style="font-size:13px;font-weight:700;color:var(--ink)">Mon compte</div>
+        <div id="profil-menu-entreprise" style="font-size:11px;color:var(--muted);margin-top:2px">Non configuré</div>
+      </div>
+      <div style="padding:6px">
+        <button onclick="showPage('compte');toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Mon compte
+        </button>
+        <button onclick="showPage('compte');document.getElementById('tab-entreprise').click();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+          Mon entreprise
+        </button>
+        <button onclick="showPage('compte');document.getElementById('tab-preferences').click();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          Préférences
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="content">
 
@@ -1555,6 +1584,341 @@ input[type=number]{-moz-appearance:textfield}
   <div class="g2" id="chantiers-grid"></div>
 </div>
 
+
+<!-- ══ PAGE COMPTE ══ -->
+<div class="page" id="page-compte">
+  <div class="page-header">
+    <h2>Compte & Paramètres</h2>
+    <p>Personnalisez votre espace · Identité de l'entreprise · Préférences</p>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs" id="compte-tabs">
+    <button class="tab active" id="tab-profil" onclick="switchTab('profil')">Mon compte</button>
+    <button class="tab" id="tab-entreprise" onclick="switchTab('entreprise')">Entreprise</button>
+    <button class="tab" id="tab-banque" onclick="switchTab('banque')">Coordonnées bancaires</button>
+    <button class="tab" id="tab-documents" onclick="switchTab('documents')">Documents & Devis</button>
+    <button class="tab" id="tab-preferences" onclick="switchTab('preferences')">Préférences</button>
+  </div>
+
+  <!-- TAB PROFIL -->
+  <div id="tab-content-profil">
+    <div class="g2" style="gap:20px;align-items:start">
+      <div class="card">
+        <div class="card-title">Informations personnelles</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Prénom</label>
+            <input id="cp-prenom" class="form-input" placeholder="Sofian" oninput="sauvegarderCompte()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nom</label>
+            <input id="cp-nom" class="form-input" placeholder="FOURTI" oninput="sauvegarderCompte()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Fonction / Poste</label>
+            <input id="cp-fonction" class="form-input" placeholder="Gérant, Conducteur de travaux..." oninput="sauvegarderCompte()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input id="cp-email" type="email" class="form-input" placeholder="contact@exemple.fr" oninput="sauvegarderCompte()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Téléphone</label>
+            <input id="cp-tel" class="form-input" placeholder="+33 6 00 00 00 00" oninput="sauvegarderCompte()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Langue</label>
+            <select id="cp-langue" class="form-select" onchange="sauvegarderCompte()">
+              <option value="fr">🇫🇷 Français</option>
+              <option value="en">🇬🇧 English</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Signature & Signataire</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nom du signataire</label>
+            <input id="cp-signataire-nom" class="form-input" placeholder="Prénom NOM" oninput="sauvegarderCompte()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Qualité du signataire</label>
+            <input id="cp-signataire-qualite" class="form-input" placeholder="Gérant, Directeur..." oninput="sauvegarderCompte()">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Texte de signature (bas de document)</label>
+          <textarea id="cp-signature-texte" class="form-textarea" placeholder="Fait à ..., le ..." oninput="sauvegarderCompte()" style="min-height:60px"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Zone de signature (image)</label>
+          <div id="signature-zone" style="border:2px dashed var(--border2);border-radius:8px;padding:20px;text-align:center;cursor:pointer;background:var(--bg)" onclick="document.getElementById('signature-file').click()">
+            <img id="signature-preview" style="display:none;max-height:80px;max-width:200px;margin:0 auto">
+            <div id="signature-placeholder" style="font-size:12px;color:var(--muted)">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 8px;display:block"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              Cliquez pour importer votre signature
+            </div>
+          </div>
+          <input type="file" id="signature-file" accept="image/*" style="display:none" onchange="importerSignature(this)">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB ENTREPRISE -->
+  <div id="tab-content-entreprise" style="display:none">
+    <div class="g2" style="gap:20px;align-items:start">
+      <div class="card">
+        <div class="card-title">Identité de l'entreprise</div>
+        <div class="form-row-1">
+          <div class="form-group">
+            <label class="form-label">Raison sociale</label>
+            <input id="ce-raison-sociale" class="form-input" placeholder="Ma Société SAS" oninput="sauvegarderCompte()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">SIRET</label>
+            <input id="ce-siret" class="form-input" placeholder="000 000 000 00000" style="font-family:monospace" oninput="sauvegarderCompte()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">N° TVA intracommunautaire</label>
+            <input id="ce-tva" class="form-input" placeholder="FR00000000000" style="font-family:monospace" oninput="sauvegarderCompte()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Forme juridique</label>
+            <select id="ce-forme" class="form-select" onchange="sauvegarderCompte()">
+              <option>SAS</option><option>SARL</option><option>EURL</option><option>EI</option><option>SA</option><option>SNC</option><option>Autre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Capital social (€)</label>
+            <input id="ce-capital" type="number" class="form-input" placeholder="10000" oninput="sauvegarderCompte()">
+          </div>
+        </div>
+        <div class="form-row-1">
+          <div class="form-group">
+            <label class="form-label">Adresse</label>
+            <input id="ce-adresse" class="form-input" placeholder="1 Rue de la Paix, 75001 Paris" oninput="sauvegarderCompte()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Téléphone</label>
+            <input id="ce-tel" class="form-input" placeholder="+33 1 00 00 00 00" oninput="sauvegarderCompte()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input id="ce-email" type="email" class="form-input" placeholder="contact@masociete.fr" oninput="sauvegarderCompte()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Site web</label>
+            <input id="ce-web" class="form-input" placeholder="www.masociete.fr" oninput="sauvegarderCompte()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Code NAF / APE</label>
+            <input id="ce-naf" class="form-input" placeholder="4120A" style="font-family:monospace" oninput="sauvegarderCompte()">
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Logo de l'entreprise</div>
+        <div id="logo-zone" style="border:2px dashed var(--border2);border-radius:12px;padding:32px;text-align:center;cursor:pointer;background:var(--bg);margin-bottom:14px;transition:all .2s" onclick="document.getElementById('logo-file').click()" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--border2)'">
+          <img id="logo-preview" style="display:none;max-height:100px;max-width:240px;margin:0 auto;border-radius:8px">
+          <div id="logo-placeholder">
+            <svg width="32" height="32" fill="none" stroke="var(--muted)" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 10px;display:block"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <div style="font-size:13px;font-weight:600;color:var(--ink2)">Importer le logo</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:4px">PNG, JPG, SVG · Recommandé : fond transparent</div>
+          </div>
+        </div>
+        <input type="file" id="logo-file" accept="image/*" style="display:none" onchange="importerLogo(this)">
+        <button id="logo-supprimer" class="btn btn-ghost btn-sm" style="display:none" onclick="supprimerLogo()">Supprimer le logo</button>
+
+        <div class="card-title" style="margin-top:16px">Aperçu en-tête document</div>
+        <div id="apercu-entete" style="border:1px solid var(--border);border-radius:8px;padding:16px;background:white">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <div>
+              <img id="apercu-logo" style="display:none;max-height:50px;max-width:140px">
+              <div id="apercu-nom" style="font-size:15px;font-weight:700;color:var(--ink)">Votre entreprise</div>
+            </div>
+            <div style="text-align:right;font-size:11px;color:var(--muted);line-height:1.7">
+              <div id="apercu-adresse">Adresse</div>
+              <div id="apercu-contact">Tél · Email</div>
+              <div id="apercu-siret" style="font-family:monospace">SIRET</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB BANQUE -->
+  <div id="tab-content-banque" style="display:none">
+    <div class="card" style="max-width:600px">
+      <div class="card-title">Coordonnées bancaires</div>
+      <div class="form-row-1">
+        <div class="form-group">
+          <label class="form-label">Banque</label>
+          <input id="cb-banque" class="form-input" placeholder="BNP Paribas, Crédit Agricole..." oninput="sauvegarderCompte()">
+        </div>
+      </div>
+      <div class="form-row-1">
+        <div class="form-group">
+          <label class="form-label">IBAN</label>
+          <input id="cb-iban" class="form-input" placeholder="FR76 0000 0000 0000 0000 0000 000" style="font-family:monospace;letter-spacing:.05em" oninput="sauvegarderCompte()">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">BIC / SWIFT</label>
+          <input id="cb-bic" class="form-input" placeholder="BNPAFRPP" style="font-family:monospace" oninput="sauvegarderCompte()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Titulaire du compte</label>
+          <input id="cb-titulaire" class="form-input" placeholder="Ma Société SAS" oninput="sauvegarderCompte()">
+        </div>
+      </div>
+      <div style="margin-top:16px;padding:14px;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;font-size:12px;color:var(--primary-dark)">
+        Ces informations apparaîtront en bas de vos devis et chiffrages pour faciliter les règlements.
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB DOCUMENTS -->
+  <div id="tab-content-documents" style="display:none">
+    <div class="g2" style="gap:20px;align-items:start">
+      <div class="card">
+        <div class="card-title">Paramètres des documents</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Préfixe numéro de devis</label>
+            <input id="cd-prefixe-devis" class="form-input" placeholder="DEV-" oninput="sauvegarderCompte()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Numéro de départ</label>
+            <input id="cd-num-depart" type="number" class="form-input" placeholder="001" oninput="sauvegarderCompte()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Délai de validité devis (jours)</label>
+            <input id="cd-validite" type="number" class="form-input" placeholder="30" oninput="sauvegarderCompte()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Taux TVA par défaut</label>
+            <select id="cd-tva" class="form-select" onchange="sauvegarderCompte()">
+              <option value="20">20% — Taux normal</option>
+              <option value="10" selected>10% — Taux intermédiaire</option>
+              <option value="5.5">5,5% — Taux réduit</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row-1">
+          <div class="form-group">
+            <label class="form-label">Mentions légales (bas de page)</label>
+            <textarea id="cd-mentions" class="form-textarea" placeholder="Assurance décennale n°... · RCS Paris..." oninput="sauvegarderCompte()"></textarea>
+          </div>
+        </div>
+        <div class="form-row-1">
+          <div class="form-group">
+            <label class="form-label">Conditions générales de vente</label>
+            <textarea id="cd-cgv" class="form-textarea" placeholder="En cas de litige..." oninput="sauvegarderCompte()" style="min-height:100px"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Paramètres par défaut des projets</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Région par défaut</label>
+            <select id="cd-region-def" class="form-select" onchange="sauvegarderCompte()">
+              <option value="idf">Île-de-France (+15%)</option>
+              <option value="paca">PACA (+8%)</option>
+              <option value="std" selected>Autres régions (base)</option>
+              <option value="rural">Zone rurale (−5%)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Frais généraux par défaut (%)</label>
+            <input id="cd-fg-def" type="number" class="form-input" placeholder="8" oninput="sauvegarderCompte()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Marge nette par défaut (%)</label>
+            <input id="cd-marge-def" type="number" class="form-input" placeholder="10" oninput="sauvegarderCompte()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Releveur par défaut</label>
+            <input id="cd-releveur-def" class="form-input" placeholder="Prénom NOM" oninput="sauvegarderCompte()">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB PREFERENCES -->
+  <div id="tab-content-preferences" style="display:none">
+    <div class="card" style="max-width:600px">
+      <div class="card-title">Préférences de l'application</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Langue</label>
+          <select id="pref-langue" class="form-select" onchange="sauvegarderCompte()">
+            <option value="fr">🇫🇷 Français</option>
+            <option value="en">🇬🇧 English</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Devise</label>
+          <select id="pref-devise" class="form-select" onchange="sauvegarderCompte()">
+            <option value="EUR">€ Euro</option>
+            <option value="CHF">CHF Franc suisse</option>
+            <option value="GBP">£ Livre sterling</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Format de date</label>
+          <select id="pref-date" class="form-select" onchange="sauvegarderCompte()">
+            <option value="fr">DD/MM/YYYY</option>
+            <option value="iso">YYYY-MM-DD</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Thème</label>
+          <select id="pref-theme" class="form-select" onchange="sauvegarderCompte()">
+            <option value="light">Clair</option>
+            <option value="dark">Sombre (bientôt)</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <div class="form-section-title">Notifications</div>
+        <div class="check-grid">
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pref-notif-save" checked> Confirmer les sauvegardes</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pref-notif-alert" checked> Afficher les alertes</label>
+        </div>
+      </div>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+        <button class="btn btn-danger btn-sm" onclick="if(confirm('Réinitialiser tous les paramètres ?')){localStorage.removeItem('lokoo_compte');chargerCompte();showToast('Paramètres réinitialisés')}">Réinitialiser les paramètres</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <!-- ══ PAGE DASHBOARD ══ -->
 <div class="page" id="page-dashboard">
   <div class="page-header">
@@ -1906,6 +2270,7 @@ const PAGE_META={
   bibliotheque:{title:'Bibliothèque de prix',step:'Base'},
   chantiers:{title:'Chantiers',step:'Base'},
   dashboard:{title:'Tableau de bord',step:'Base'},
+  compte:{title:'Compte & Paramètres',step:'Paramètres'},
 };
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -1929,6 +2294,7 @@ function showPage(id){
   if(id==='bibliotheque')renderBibliotheque();
   if(id==='chantiers')renderChantiers();
   if(id==='dashboard')renderDashboard();
+  if(id==='compte')renderCompte();
   _get('sidebar').classList.remove('mobile-open');
   _get('sidebar-overlay').classList.remove('open');
   window.scrollTo(0,0);
@@ -3475,6 +3841,7 @@ function init(){
   saveDB();
   genererCodeChantier();
   renderRecapBanner();
+  chargerCompte();
   console.log('Lokooo.io V2 ✓');
 }
 // ── AUTOCOMPLETE ADRESSE (api-adresse.data.gouv.fr) ──────────
@@ -4056,6 +4423,183 @@ async function chargerFichierDrive(fileId){
   }catch(e){ alert('Erreur : '+e.message); }
 }
 </script>
+
+
+// ── COMPTE & PARAMÈTRES ──────────────────────────────────────
+
+function switchTab(tab){
+  ['profil','entreprise','banque','documents','preferences'].forEach(t=>{
+    const btn = document.getElementById('tab-'+t);
+    const div = document.getElementById('tab-content-'+t);
+    if(btn) btn.classList.toggle('active', t===tab);
+    if(div) div.style.display = t===tab ? 'block' : 'none';
+  });
+}
+
+function sauvegarderCompte(){
+  const get = id => { const e=document.getElementById(id); return e?e.value:''; };
+  const chk = id => { const e=document.getElementById(id); return e?e.checked:false; };
+  const data = {
+    profil:{ prenom:get('cp-prenom'), nom:get('cp-nom'), fonction:get('cp-fonction'),
+      email:get('cp-email'), tel:get('cp-tel'), langue:get('cp-langue'),
+      signataire_nom:get('cp-signataire-nom'), signataire_qualite:get('cp-signataire-qualite'),
+      signature_texte:get('cp-signature-texte') },
+    entreprise:{ raison:get('ce-raison-sociale'), siret:get('ce-siret'), tva:get('ce-tva'),
+      forme:get('ce-forme'), capital:get('ce-capital'), adresse:get('ce-adresse'),
+      tel:get('ce-tel'), email:get('ce-email'), web:get('ce-web'), naf:get('ce-naf'),
+      logo: localStorage.getItem('lokoo_logo')||'' },
+    banque:{ banque:get('cb-banque'), iban:get('cb-iban'), bic:get('cb-bic'), titulaire:get('cb-titulaire') },
+    documents:{ prefixe:get('cd-prefixe-devis'), num_depart:get('cd-num-depart'),
+      validite:get('cd-validite'), tva:get('cd-tva'), mentions:get('cd-mentions'),
+      cgv:get('cd-cgv'), region_def:get('cd-region-def'), fg_def:get('cd-fg-def'),
+      marge_def:get('cd-marge-def'), releveur_def:get('cd-releveur-def') },
+    preferences:{ langue:get('pref-langue'), devise:get('pref-devise'),
+      date:get('pref-date'), theme:get('pref-theme'),
+      notif_save:chk('pref-notif-save'), notif_alert:chk('pref-notif-alert') }
+  };
+  localStorage.setItem('lokoo_compte', JSON.stringify(data));
+  mettreAJourProfilMenu(data);
+  mettreAJourApercuEntete(data);
+}
+
+function chargerCompte(){
+  const raw = localStorage.getItem('lokoo_compte');
+  if(!raw) return;
+  try{
+    const data = JSON.parse(raw);
+    const set = (id,v) => { const e=document.getElementById(id); if(e&&v!=null) e.value=v; };
+    const setchk = (id,v) => { const e=document.getElementById(id); if(e) e.checked=!!v; };
+    const p = data.profil||{};
+    set('cp-prenom',p.prenom); set('cp-nom',p.nom); set('cp-fonction',p.fonction);
+    set('cp-email',p.email); set('cp-tel',p.tel); set('cp-langue',p.langue);
+    set('cp-signataire-nom',p.signataire_nom); set('cp-signataire-qualite',p.signataire_qualite);
+    set('cp-signature-texte',p.signature_texte);
+    const e = data.entreprise||{};
+    set('ce-raison-sociale',e.raison); set('ce-siret',e.siret); set('ce-tva',e.tva);
+    set('ce-forme',e.forme); set('ce-capital',e.capital); set('ce-adresse',e.adresse);
+    set('ce-tel',e.tel); set('ce-email',e.email); set('ce-web',e.web); set('ce-naf',e.naf);
+    const b = data.banque||{};
+    set('cb-banque',b.banque); set('cb-iban',b.iban); set('cb-bic',b.bic); set('cb-titulaire',b.titulaire);
+    const d = data.documents||{};
+    set('cd-prefixe-devis',d.prefixe); set('cd-num-depart',d.num_depart);
+    set('cd-validite',d.validite); set('cd-tva',d.tva); set('cd-mentions',d.mentions);
+    set('cd-cgv',d.cgv); set('cd-region-def',d.region_def);
+    set('cd-fg-def',d.fg_def); set('cd-marge-def',d.marge_def); set('cd-releveur-def',d.releveur_def);
+    const pr = data.preferences||{};
+    set('pref-langue',pr.langue); set('pref-devise',pr.devise);
+    set('pref-date',pr.date); set('pref-theme',pr.theme);
+    setchk('pref-notif-save',pr.notif_save); setchk('pref-notif-alert',pr.notif_alert);
+    // Logo
+    const logo = localStorage.getItem('lokoo_logo');
+    if(logo){ afficherLogo(logo); }
+    // Signature
+    const sig = localStorage.getItem('lokoo_signature');
+    if(sig){ afficherSignature(sig); }
+    mettreAJourProfilMenu(data);
+    mettreAJourApercuEntete(data);
+    // Appliquer défauts projets
+    if(d.releveur_def){ const r=document.getElementById('proj-releveur'); if(r&&!r.value) r.value=d.releveur_def; }
+  }catch(e){ console.error('chargerCompte error:', e); }
+}
+
+function renderCompte(){
+  chargerCompte();
+  switchTab('profil');
+}
+
+function mettreAJourProfilMenu(data){
+  const p = data.profil||{};
+  const e = data.entreprise||{};
+  const prenom = p.prenom||'';
+  const nom = p.nom||'';
+  const initiales = ((prenom[0]||'')+(nom[0]||'')).toUpperCase() || '?';
+  const el = document.getElementById('profil-initiales');
+  if(el) el.textContent = initiales;
+  const elNom = document.getElementById('profil-menu-nom');
+  if(elNom) elNom.textContent = [prenom,nom].filter(Boolean).join(' ') || 'Mon compte';
+  const elEnt = document.getElementById('profil-menu-entreprise');
+  if(elEnt) elEnt.textContent = e.raison || 'Entreprise non configurée';
+}
+
+function mettreAJourApercuEntete(data){
+  const e = data.entreprise||{};
+  const apNom = document.getElementById('apercu-nom');
+  const apAdr = document.getElementById('apercu-adresse');
+  const apCon = document.getElementById('apercu-contact');
+  const apSir = document.getElementById('apercu-siret');
+  if(apNom) apNom.textContent = e.raison||'Votre entreprise';
+  if(apAdr) apAdr.textContent = e.adresse||'Adresse';
+  if(apCon) apCon.textContent = [e.tel,e.email].filter(Boolean).join(' · ')||'Tél · Email';
+  if(apSir) apSir.textContent = e.siret ? 'SIRET : '+e.siret : 'SIRET';
+}
+
+function importerLogo(input){
+  const file = input.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    localStorage.setItem('lokoo_logo', e.target.result);
+    afficherLogo(e.target.result);
+    sauvegarderCompte();
+  };
+  reader.readAsDataURL(file);
+}
+
+function afficherLogo(src){
+  const preview = document.getElementById('logo-preview');
+  const placeholder = document.getElementById('logo-placeholder');
+  const suppBtn = document.getElementById('logo-supprimer');
+  const apLogo = document.getElementById('apercu-logo');
+  if(preview){ preview.src=src; preview.style.display='block'; }
+  if(placeholder) placeholder.style.display='none';
+  if(suppBtn) suppBtn.style.display='inline-flex';
+  if(apLogo){ apLogo.src=src; apLogo.style.display='block'; }
+}
+
+function supprimerLogo(){
+  localStorage.removeItem('lokoo_logo');
+  const preview = document.getElementById('logo-preview');
+  const placeholder = document.getElementById('logo-placeholder');
+  const suppBtn = document.getElementById('logo-supprimer');
+  const apLogo = document.getElementById('apercu-logo');
+  if(preview){ preview.src=''; preview.style.display='none'; }
+  if(placeholder) placeholder.style.display='block';
+  if(suppBtn) suppBtn.style.display='none';
+  if(apLogo){ apLogo.src=''; apLogo.style.display='none'; }
+  sauvegarderCompte();
+}
+
+function importerSignature(input){
+  const file = input.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    localStorage.setItem('lokoo_signature', e.target.result);
+    afficherSignature(e.target.result);
+    sauvegarderCompte();
+  };
+  reader.readAsDataURL(file);
+}
+
+function afficherSignature(src){
+  const preview = document.getElementById('signature-preview');
+  const placeholder = document.getElementById('signature-placeholder');
+  if(preview){ preview.src=src; preview.style.display='block'; }
+  if(placeholder) placeholder.style.display='none';
+}
+
+function toggleProfilMenu(){
+  const menu = document.getElementById('profil-menu');
+  if(!menu) return;
+  menu.style.display = menu.style.display==='none' ? 'block' : 'none';
+}
+
+// Fermer le menu profil en cliquant dehors
+document.addEventListener('click', function(e){
+  const btn = document.getElementById('btn-profil');
+  const menu = document.getElementById('profil-menu');
+  if(menu && btn && !btn.contains(e.target) && !menu.contains(e.target)){
+    menu.style.display='none';
+  }
+});
 
 </body>
 </html>
