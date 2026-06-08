@@ -1691,11 +1691,88 @@ input[type=number]{-moz-appearance:textfield}
 
   <!-- TABS -->
   <div class="tabs" id="compte-tabs">
-    <button class="tab active" id="tab-profil" onclick="switchTab('profil')">Mon compte</button>
+    <button class="tab active" id="tab-general" onclick="switchTab('general')">Général</button>
+    <button class="tab" id="tab-profil" onclick="switchTab('profil')">Mon compte</button>
     <button class="tab" id="tab-entreprise" onclick="switchTab('entreprise')">Entreprise</button>
     <button class="tab" id="tab-banque" onclick="switchTab('banque')">Coordonnées bancaires</button>
     <button class="tab" id="tab-documents" onclick="switchTab('documents')">Documents & Devis</button>
     <button class="tab" id="tab-preferences" onclick="switchTab('preferences')">Préférences</button>
+  </div>
+
+  <!-- TAB GÉNÉRAL -->
+  <div id="tab-content-general">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px">
+      <div class="card" style="cursor:pointer;transition:all .15s" onclick="switchTab('profil')"
+        onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
+        onmouseout="this.style.borderColor='var(--border)';this.style.background='white'">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div style="width:36px;height:36px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center">
+            <svg width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div style="font-size:14px;font-weight:700;color:var(--ink)">Mon compte</div>
+        </div>
+        <div style="font-size:12px;color:var(--muted)">Informations personnelles, signature, langue</div>
+      </div>
+      <div class="card" style="cursor:pointer;transition:all .15s" onclick="switchTab('entreprise')"
+        onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
+        onmouseout="this.style.borderColor='var(--border)';this.style.background='white'">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div style="width:36px;height:36px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center">
+            <svg width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+          </div>
+          <div style="font-size:14px;font-weight:700;color:var(--ink)">Mon entreprise</div>
+        </div>
+        <div style="font-size:12px;color:var(--muted)">Raison sociale, SIRET, logo, coordonnées</div>
+      </div>
+      <div class="card" style="cursor:pointer;transition:all .15s" onclick="switchTab('banque')"
+        onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
+        onmouseout="this.style.borderColor='var(--border)';this.style.background='white'">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div style="width:36px;height:36px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center">
+            <svg width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          </div>
+          <div style="font-size:14px;font-weight:700;color:var(--ink)">Coordonnées bancaires</div>
+        </div>
+        <div style="font-size:12px;color:var(--muted)">IBAN, BIC, banque</div>
+      </div>
+      <div class="card" style="cursor:pointer;transition:all .15s" onclick="switchTab('documents')"
+        onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
+        onmouseout="this.style.borderColor='var(--border)';this.style.background='white'">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div style="width:36px;height:36px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center">
+            <svg width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+          </div>
+          <div style="font-size:14px;font-weight:700;color:var(--ink)">Documents & Devis</div>
+        </div>
+        <div style="font-size:12px;color:var(--muted)">Numérotation, TVA, mentions légales, CGV</div>
+      </div>
+      <div class="card" style="cursor:pointer;transition:all .15s" onclick="switchTab('preferences')"
+        onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
+        onmouseout="this.style.borderColor='var(--border)';this.style.background='white'">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div style="width:36px;height:36px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center">
+            <svg width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          </div>
+          <div style="font-size:14px;font-weight:700;color:var(--ink)">Préférences</div>
+        </div>
+        <div style="font-size:12px;color:var(--muted)">Langue, devise, thème, notifications</div>
+      </div>
+    </div>
+
+    <!-- Aperçu rapide compte connecté -->
+    <div class="card" style="border:1.5px solid var(--primary-border);background:var(--primary-light)">
+      <div style="display:flex;align-items:center;gap:16px">
+        <div id="gen-avatar" style="width:48px;height:48px;background:var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <span id="gen-initiales" style="font-size:16px;font-weight:700;color:white">?</span>
+        </div>
+        <div style="flex:1">
+          <div id="gen-nom-complet" style="font-size:15px;font-weight:700;color:var(--ink)">—</div>
+          <div id="gen-entreprise-nom" style="font-size:12px;color:var(--muted);margin-top:2px">—</div>
+          <div id="gen-email-display" style="font-size:11px;color:var(--muted);margin-top:1px">—</div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="switchTab('profil')">Modifier →</button>
+      </div>
+    </div>
   </div>
 
   <!-- TAB PROFIL -->
@@ -3412,7 +3489,7 @@ function rechercherSiren(v){
 // ── COMPTE & PARAMÈTRES ──────────────────────────────────────
 
 function switchTab(tab){
-  ['profil','entreprise','banque','documents','preferences'].forEach(t=>{
+  ['general','profil','entreprise','banque','documents','preferences'].forEach(t=>{
     const btn = document.getElementById('tab-'+t);
     const div = document.getElementById('tab-content-'+t);
     if(btn) btn.classList.toggle('active', t===tab);
@@ -3501,9 +3578,28 @@ function chargerCompte(){
 }
 
 function renderCompte(){
-  // Rend la page compte et recharge les données
   chargerCompte();
-  switchTab('profil');
+  switchTab('general');
+  // Mettre à jour l'aperçu général
+  const raw = localStorage.getItem('lokoo_compte');
+  if(raw){
+    try{
+      const d = JSON.parse(raw);
+      const p = d.profil||{};
+      const e = d.entreprise||{};
+      const prenom = p.prenom||'';
+      const nom = p.nom||'';
+      const initiales = ((prenom[0]||'')+(nom[0]||'')).toUpperCase()||'?';
+      const elInit = document.getElementById('gen-initiales');
+      const elNom = document.getElementById('gen-nom-complet');
+      const elEnt = document.getElementById('gen-entreprise-nom');
+      const elMail = document.getElementById('gen-email-display');
+      if(elInit) elInit.textContent = initiales;
+      if(elNom) elNom.textContent = [prenom,nom].filter(Boolean).join(' ')||'Non renseigné';
+      if(elEnt) elEnt.textContent = e.raison||'Entreprise non configurée';
+      if(elMail) elMail.textContent = p.email||(_currentUser&&_currentUser.email)||'';
+    }catch(e){}
+  }
 }
 
 function mettreAJourProfilMenu(data){
