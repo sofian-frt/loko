@@ -397,10 +397,10 @@ input[type=number]{-moz-appearance:textfield}
   <div class="logo-text" id="mobile-page-title">Lokoo.io</div>
 
 </div>
-<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileSidebar()" style="display:none"></div>
 
 <!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
+<aside class="sidebar" id="sidebar" style="display:none">
   <div class="sidebar-header">
     <div style="display:flex;align-items:center;gap:10px">
       <svg width="36" height="36" viewBox="0 0 50 50" style="flex-shrink:0">
@@ -501,11 +501,14 @@ input[type=number]{-moz-appearance:textfield}
   <div style="width:100%;max-width:420px">
     <!-- Logo -->
     <div style="text-align:center;margin-bottom:32px">
-      <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:8px">
-        <div style="width:40px;height:40px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center">
-          <svg width="22" height="22" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+      <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:8px">
+        <div style="width:44px;height:44px;background:var(--ink);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <span style="font-size:20px;font-weight:900;color:white;letter-spacing:-1px;font-family:var(--font)">L</span>
         </div>
-        <span style="font-size:24px;font-weight:800;color:var(--ink)">lokoo.io</span>
+        <div style="text-align:left">
+          <div style="font-size:22px;font-weight:900;color:var(--ink);letter-spacing:-0.5px;line-height:1">lokoo<span style="color:var(--primary)">.io</span></div>
+          <div style="font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.08em;text-transform:uppercase">Relevé & Chiffrage</div>
+        </div>
       </div>
       <div style="font-size:13px;color:var(--muted)">Relevé & Chiffrage de locaux commerciaux</div>
     </div>
@@ -3605,27 +3608,54 @@ function rechercherSirenInscription(siren){
   const infoEl = document.getElementById('reg-siren-info');
   if(statusEl) statusEl.textContent = '⏳';
   function tc(s){ return s?s.toLowerCase().split(' ').map(w=>w?w[0].toUpperCase()+w.slice(1):'').join(' '):''; }
-  fetch('https://recherche-entreprises.api.gouv.fr/search?q='+siren+'&limit=1')
+
+  // Appel API entreprises
+  fetch('https://recherche-entreprises.api.gouv.fr/search?q='+siren+'&limit=1&include=dirigeants')
     .then(r=>r.json()).then(data=>{
       const r = data.results&&data.results[0];
       if(!r){ if(statusEl) statusEl.textContent='❌'; return; }
-      const nom = r.nom_complet||r.denomination||'';
+
+      const nomSociete = r.nom_complet||r.denomination||'';
       let prenom='', nomG='';
+
+      // Chercher dans dirigeants — plusieurs formats possibles
       if(r.dirigeants&&r.dirigeants.length>0){
-        prenom = tc(r.dirigeants[0].prenom||'');
-        nomG = (r.dirigeants[0].nom||'').toUpperCase();
+        const d = r.dirigeants[0];
+        // Format 1 : prenom + nom séparés
+        if(d.prenom) prenom = tc(d.prenom);
+        if(d.nom) nomG = d.nom.toUpperCase();
+        // Format 2 : nom_complet
+        if(!prenom && !nomG && d.nom_complet){
+          const parts = d.nom_complet.trim().split(' ');
+          if(parts.length >= 2){
+            nomG = parts[0].toUpperCase();
+            prenom = tc(parts.slice(1).join(' '));
+          }
+        }
       }
+
+      // Si toujours pas de prénom, chercher dans nom_complet de l'entreprise (EI)
+      if(!prenom && r.nature_juridique_libelle && r.nature_juridique_libelle.includes('Entrepreneur')){
+        const parts = nomSociete.split(' ');
+        if(parts.length >= 2){
+          prenom = tc(parts[0]);
+          nomG = parts.slice(1).join(' ').toUpperCase();
+        }
+      }
+
       const ep = document.getElementById('reg-prenom');
       const en = document.getElementById('reg-nom');
       const ee = document.getElementById('reg-entreprise');
-      if(ee) ee.value = nom;
-      if(ep&&prenom) ep.value = prenom;
-      if(en&&nomG) en.value = nomG;
+      if(ee) ee.value = nomSociete;
+      if(ep) ep.value = prenom || '';
+      if(en) en.value = nomG || '';
+
       if(statusEl) statusEl.textContent='✅';
       if(infoEl){
         infoEl.style.display='block';
-        infoEl.innerHTML='<strong>'+nom+'</strong>'+(prenom||nomG?'<br>Gérant : '+prenom+' '+nomG:'')
-          +(r.siege&&r.siege.code_postal?'<br>'+r.siege.code_postal+' '+tc(r.siege.libelle_commune||''):'');
+        infoEl.innerHTML='<strong>'+nomSociete+'</strong>'
+          +(prenom||nomG?'<br><span style="color:var(--muted)">Gérant :</span> '+prenom+' '+nomG:'<br><span style="color:var(--muted)">Saisissez le prénom manuellement</span>')
+          +(r.siege&&r.siege.code_postal?'<br><span style="color:var(--muted)">Siège :</span> '+r.siege.code_postal+' '+tc(r.siege.libelle_commune||''):'');
       }
     }).catch(()=>{ if(statusEl) statusEl.textContent='⚠️'; });
 }
@@ -3665,20 +3695,17 @@ function afficherLogin(){
   document.getElementById('page-login').style.display = 'flex';
   document.getElementById('app-main').style.display = 'none';
   // Cacher sidebar et topbar
-  const sidebar = document.getElementById('main-sidebar');
-  const topbar = document.getElementById('main-topbar');
-  if(sidebar) sidebar.style.display = 'none';
-  if(topbar) topbar.style.display = 'none';
+  document.getElementById('sidebar').style.display = 'none';
+  document.getElementById('main-topbar').style.display = 'none';
+  document.getElementById('sidebar-overlay').style.display = 'none';
 }
 
 function afficherApp(){
   document.getElementById('page-login').style.display = 'none';
   document.getElementById('app-main').style.display = 'flex';
   // Réafficher sidebar et topbar
-  const sidebar = document.getElementById('main-sidebar');
-  const topbar = document.getElementById('main-topbar');
-  if(sidebar) sidebar.style.display = '';
-  if(topbar) topbar.style.display = '';
+  document.getElementById('sidebar').style.display = '';
+  document.getElementById('main-topbar').style.display = '';
   // Charger les données depuis Firestore
   if(_userData){
     appliquerDonneesUtilisateur(_userData);
