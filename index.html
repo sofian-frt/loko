@@ -542,7 +542,7 @@ input[type=number]{-moz-appearance:textfield}
       <!-- Formulaire inscription -->
       <div id="login-form-inscription" style="display:none">
         <div class="form-group" style="margin-bottom:14px">
-          <label class="form-label">SIREN <span style="font-size:10px;color:var(--muted);font-weight:400">— auto-remplissage</span></label>
+          <label class="form-label">Insérez votre SIREN</label>
           <div style="display:flex;gap:8px;align-items:center">
             <input id="reg-siren" class="form-input" placeholder="000000000" maxlength="9"
               style="font-family:monospace;letter-spacing:.1em"
@@ -551,19 +551,21 @@ input[type=number]{-moz-appearance:textfield}
           </div>
           <div id="reg-siren-info" style="display:none;margin-top:6px;padding:8px 12px;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;font-size:11px;line-height:1.6"></div>
         </div>
-        <div class="form-row" style="margin-bottom:14px">
-          <div class="form-group">
-            <label class="form-label">Prénom du gérant</label>
-            <input id="reg-prenom" class="form-input" placeholder="Prénom">
+        <div id="reg-fields-manuel" style="margin-bottom:0">
+          <div class="form-row" style="margin-bottom:14px">
+            <div class="form-group">
+              <label class="form-label" id="reg-prenom-label">Prénom</label>
+              <input id="reg-prenom" class="form-input" placeholder="Prénom">
+            </div>
+            <div class="form-group">
+              <label class="form-label" id="reg-nom-label">Nom</label>
+              <input id="reg-nom" class="form-input" placeholder="NOM">
+            </div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Nom du gérant</label>
-            <input id="reg-nom" class="form-input" placeholder="NOM">
+          <div class="form-group" style="margin-bottom:14px">
+            <label class="form-label">Raison sociale</label>
+            <input id="reg-entreprise" class="form-input" placeholder="Ma Société SAS">
           </div>
-        </div>
-        <div class="form-group" style="margin-bottom:14px">
-          <label class="form-label">Raison sociale</label>
-          <input id="reg-entreprise" class="form-input" placeholder="Ma Société SAS">
         </div>
         <div class="form-group" style="margin-bottom:14px">
           <label class="form-label">Email</label>
@@ -3603,9 +3605,22 @@ document.addEventListener('click', function(e){
 
 
 // ── SIREN INSCRIPTION ────────────────────────────────────────
+function resetSirenInscription(){
+  const fieldsEl = document.getElementById('reg-fields-manuel');
+  const infoEl = document.getElementById('reg-siren-info');
+  const statusEl = document.getElementById('reg-siren-status');
+  if(fieldsEl) fieldsEl.style.display='block';
+  if(infoEl) infoEl.style.display='none';
+  if(statusEl) statusEl.textContent='';
+  document.getElementById('reg-prenom').value='';
+  document.getElementById('reg-nom').value='';
+  document.getElementById('reg-entreprise').value='';
+}
+
 function rechercherSirenInscription(siren){
   const statusEl = document.getElementById('reg-siren-status');
   const infoEl = document.getElementById('reg-siren-info');
+  const fieldsEl = document.getElementById('reg-fields-manuel');
   if(statusEl) statusEl.textContent = '⏳';
   if(infoEl) infoEl.style.display = 'none';
 
@@ -3614,10 +3629,21 @@ function rechercherSirenInscription(siren){
   fetch('https://recherche-entreprises.api.gouv.fr/search?q='+siren+'&limit=1')
     .then(r=>r.json()).then(data=>{
       const r = data.results&&data.results[0];
-      if(!r){ if(statusEl) statusEl.textContent='❌'; return; }
+      if(!r){
+        if(statusEl) statusEl.textContent='❌';
+        if(fieldsEl) fieldsEl.style.display='block';
+        return;
+      }
 
       const siege = r.siege||{};
       const nomSociete = r.nom_complet||r.denomination||'';
+
+      // Statut juridique
+      const formeJuridique = r.nature_juridique_libelle||'';
+      const estSAS = formeJuridique.toUpperCase().includes('SAS') || formeJuridique.toUpperCase().includes('SOCIÉTÉ PAR ACTIONS SIMPLIFIÉE');
+      const titreGerant = estSAS ? 'Président' : 'Gérant';
+
+      // Dirigeant
       let prenomG='', nomG='';
       if(r.dirigeants&&r.dirigeants.length>0){
         const d = r.dirigeants[0];
@@ -3630,15 +3656,13 @@ function rechercherSirenInscription(siren){
         }
       }
 
-      // SIRET formaté
+      // SIRET, TVA, APE, adresse
       const siret = siege.siret||'';
       const siretF = siret.replace(/(\d{3})(\d{3})(\d{3})(\d{5})/,'$1 $2 $3 $4');
-
-      // TVA
       const tvaKey = String(parseInt(siren)%97).padStart(2,'0');
       const tva = 'FR'+tvaKey+siren;
-
-      // Adresse siège
+      const ape = r.activite_principale||siege.activite_principale||'';
+      const apeLib = r.libelle_activite_principale||'';
       const numV = siege.numero_voie||'';
       const typeV = tc(siege.type_voie||'');
       const nomV = tc(siege.libelle_voie||'');
@@ -3646,42 +3670,40 @@ function rechercherSirenInscription(siren){
       const ville = tc(siege.libelle_commune||'');
       const adresse = [numV,typeV,nomV].filter(Boolean).join(' ')+(cp?' · '+cp+' '+ville:'');
 
-      // APE
-      const ape = r.activite_principale||siege.activite_principale||'';
-      const apeLib = r.libelle_activite_principale||'';
+      // Capital
+      const capital = r.capital||'';
+      const capitalF = capital ? Number(capital).toLocaleString('fr-FR')+' €' : '';
 
       if(statusEl) statusEl.textContent='✅';
+
+      // Cacher les champs manuels si société trouvée
+      if(fieldsEl) fieldsEl.style.display='none';
+
+      // Stocker les valeurs pour l'inscription
+      document.getElementById('reg-entreprise').value = nomSociete;
+      document.getElementById('reg-prenom').value = prenomG||'';
+      document.getElementById('reg-nom').value = nomG||'';
+
       if(infoEl){
         infoEl.style.display='block';
         infoEl.innerHTML=`
           <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px">${nomSociete}</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:11px">
-            ${prenomG||nomG?`<div><span style="color:var(--muted)">Gérant</span><br><strong>${prenomG} ${nomG}</strong></div>`:''}
-            ${siretF?`<div><span style="color:var(--muted)">SIRET siège</span><br><strong style="font-family:monospace">${siretF}</strong></div>`:''}
-            ${tva?`<div><span style="color:var(--muted)">N° TVA</span><br><strong style="font-family:monospace">${tva}</strong></div>`:''}
-            ${ape?`<div><span style="color:var(--muted)">Code APE</span><br><strong>${ape}${apeLib?' — '+apeLib:''}</strong></div>`:''}
-            ${adresse?`<div style="grid-column:1/-1"><span style="color:var(--muted)">Adresse siège</span><br><strong>${adresse}</strong></div>`:''}
-          </div>
-          <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--primary-border);display:flex;gap:8px">
-            <button type="button" onclick="appliquerSirenInscription('${nomSociete}','${prenomG}','${nomG}')" class="btn btn-primary btn-sm" style="flex:1">
-              Utiliser ces informations
-            </button>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;font-size:11px;line-height:1.6">
+            ${formeJuridique?`<div style="grid-column:1/-1"><span style="color:var(--muted)">Statut juridique</span><br><strong>${formeJuridique}${capitalF?' · Capital : '+capitalF:''}</strong></div>`:''}
+            ${prenomG||nomG?`<div style="grid-column:1/-1"><span style="color:var(--muted)">${titreGerant}</span><br><strong>${prenomG} ${nomG}</strong></div>`:''}
+            ${siretF?`<div><span style="color:var(--muted)">SIRET siège</span><br><strong style="font-family:monospace;font-size:10px">${siretF}</strong></div>`:''}
+            ${tva?`<div><span style="color:var(--muted)">N° TVA</span><br><strong style="font-family:monospace;font-size:10px">${tva}</strong></div>`:''}
+            ${ape?`<div style="grid-column:1/-1"><span style="color:var(--muted)">Code APE</span><br><strong>${ape}${apeLib?' — '+apeLib:''}</strong></div>`:''}
+            ${adresse?`<div style="grid-column:1/-1"><span style="color:var(--muted)">Adresse du siège</span><br><strong>${adresse}</strong></div>`:''}
           </div>`;
       }
-    }).catch(()=>{ if(statusEl) statusEl.textContent='⚠️'; });
+    }).catch(()=>{
+      if(statusEl) statusEl.textContent='⚠️';
+      if(fieldsEl) fieldsEl.style.display='block';
+    });
 }
 
-function appliquerSirenInscription(societe, prenom, nom){
-  const ep = document.getElementById('reg-prenom');
-  const en = document.getElementById('reg-nom');
-  const ee = document.getElementById('reg-entreprise');
-  if(ee) ee.value = societe;
-  if(ep) ep.value = prenom;
-  if(en) en.value = nom;
-  // Focus sur email
-  const mail = document.getElementById('reg-email');
-  if(mail) mail.focus();
-}
+
 
 // ── FIREBASE CONFIG & AUTH ────────────────────────────────────
 const firebaseConfig = {
