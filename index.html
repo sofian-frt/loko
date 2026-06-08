@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lokoo V1.1 — Relevé & Chiffrage Locaux Commerciaux</title>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
 <script src="https://accounts.google.com/gsi/client" onload="console.log('GSI chargé ✓')" onerror="console.error('GSI ERREUR de chargement')"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -491,7 +496,86 @@ input[type=number]{-moz-appearance:textfield}
 <button class="fab" onclick="showPage('synthese')" title="Synthèse"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></button>
 
 
-<div class="app">
+<!-- ══ PAGE LOGIN ══ -->
+<div id="page-login" style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg);padding:20px">
+  <div style="width:100%;max-width:420px">
+    <!-- Logo -->
+    <div style="text-align:center;margin-bottom:32px">
+      <div style="display:inline-flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="width:40px;height:40px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center">
+          <svg width="22" height="22" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+        </div>
+        <span style="font-size:24px;font-weight:800;color:var(--ink)">lokoo.io</span>
+      </div>
+      <div style="font-size:13px;color:var(--muted)">Relevé & Chiffrage de locaux commerciaux</div>
+    </div>
+
+    <!-- Card -->
+    <div style="background:white;border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow-lg);border:1px solid var(--border)">
+      <!-- Tabs connexion/inscription -->
+      <div style="display:flex;gap:0;margin-bottom:24px;background:var(--bg);border-radius:8px;padding:4px">
+        <button id="login-tab-connexion" onclick="switchLoginTab('connexion')" style="flex:1;padding:8px;border:none;background:white;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink);box-shadow:var(--shadow)">Se connecter</button>
+        <button id="login-tab-inscription" onclick="switchLoginTab('inscription')" style="flex:1;padding:8px;border:none;background:none;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;color:var(--muted)">Créer un compte</button>
+      </div>
+
+      <!-- Formulaire connexion -->
+      <div id="login-form-connexion">
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Email</label>
+          <input id="login-email" type="email" class="form-input" placeholder="contact@masociete.fr" onkeydown="if(event.key==='Enter')connexionFirebase()">
+        </div>
+        <div class="form-group" style="margin-bottom:20px">
+          <label class="form-label">Mot de passe</label>
+          <input id="login-password" type="password" class="form-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')connexionFirebase()">
+        </div>
+        <button onclick="connexionFirebase()" class="btn btn-primary btn-full btn-lg" id="login-btn-connexion">
+          Se connecter
+        </button>
+        <div style="text-align:center;margin-top:12px">
+          <button onclick="motDePasseOublie()" style="background:none;border:none;cursor:pointer;font-size:12px;color:var(--primary)">Mot de passe oublié ?</button>
+        </div>
+      </div>
+
+      <!-- Formulaire inscription -->
+      <div id="login-form-inscription" style="display:none">
+        <div class="form-row" style="margin-bottom:14px">
+          <div class="form-group">
+            <label class="form-label">Prénom</label>
+            <input id="reg-prenom" class="form-input" placeholder="Sofian">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nom</label>
+            <input id="reg-nom" class="form-input" placeholder="FOURTI">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Entreprise</label>
+          <input id="reg-entreprise" class="form-input" placeholder="Ma Société SAS">
+        </div>
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Email</label>
+          <input id="reg-email" type="email" class="form-input" placeholder="contact@masociete.fr">
+        </div>
+        <div class="form-group" style="margin-bottom:20px">
+          <label class="form-label">Mot de passe</label>
+          <input id="reg-password" type="password" class="form-input" placeholder="Min. 6 caractères">
+        </div>
+        <button onclick="inscriptionFirebase()" class="btn btn-primary btn-full btn-lg" id="login-btn-inscription">
+          Créer mon compte
+        </button>
+      </div>
+
+      <!-- Message erreur -->
+      <div id="login-error" style="display:none;margin-top:14px;padding:10px 14px;background:var(--danger-light);border:1px solid #FCA5A5;border-radius:8px;font-size:12px;color:var(--danger)"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:16px;font-size:11px;color:var(--muted)">
+      Données sécurisées · Chaque entreprise a son espace privé
+    </div>
+  </div>
+</div>
+
+<div class="app" id="app-main" style="display:none">
 <div class="main">
 <!-- TOPBAR -->
 <div class="topbar">
@@ -3504,6 +3588,217 @@ document.addEventListener('click', function(e){
 });
 
 
+
+// ── FIREBASE CONFIG & AUTH ────────────────────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyCzMYTP-x8Nrnq1LwQCZAIUkbHgR--V4h4",
+  authDomain: "lokoo-157d0.firebaseapp.com",
+  projectId: "lokoo-157d0",
+  storageBucket: "lokoo-157d0.firebasestorage.app",
+  messagingSenderId: "398906619519",
+  appId: "1:398906619519:web:ef1c329bd9a0f35123314a",
+  measurementId: "G-QC8CPRMNPP"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+let _currentUser = null;
+let _userData = null;
+
+// Observer état connexion
+auth.onAuthStateChanged(async user => {
+  if(user){
+    _currentUser = user;
+    await chargerDonneesUtilisateur(user.uid);
+    afficherApp();
+  } else {
+    _currentUser = null;
+    _userData = null;
+    afficherLogin();
+  }
+});
+
+function afficherLogin(){
+  document.getElementById('page-login').style.display = 'flex';
+  document.getElementById('app-main').style.display = 'none';
+}
+
+function afficherApp(){
+  document.getElementById('page-login').style.display = 'none';
+  document.getElementById('app-main').style.display = 'flex';
+  // Charger les données depuis Firestore
+  if(_userData){
+    appliquerDonneesUtilisateur(_userData);
+  }
+  // Init app
+  genererCodeChantier();
+  renderRecapBanner();
+  chargerCompte();
+  console.log('Lokoo V3.7 ✓ — Connecté:', _currentUser.email);
+}
+
+function switchLoginTab(tab){
+  const isConnexion = tab === 'connexion';
+  document.getElementById('login-form-connexion').style.display = isConnexion ? 'block' : 'none';
+  document.getElementById('login-form-inscription').style.display = isConnexion ? 'none' : 'block';
+  document.getElementById('login-tab-connexion').style.background = isConnexion ? 'white' : 'none';
+  document.getElementById('login-tab-connexion').style.color = isConnexion ? 'var(--ink)' : 'var(--muted)';
+  document.getElementById('login-tab-connexion').style.boxShadow = isConnexion ? 'var(--shadow)' : 'none';
+  document.getElementById('login-tab-inscription').style.background = isConnexion ? 'none' : 'white';
+  document.getElementById('login-tab-inscription').style.color = isConnexion ? 'var(--muted)' : 'var(--ink)';
+  document.getElementById('login-tab-inscription').style.boxShadow = isConnexion ? 'none' : 'var(--shadow)';
+  document.getElementById('login-error').style.display = 'none';
+}
+
+async function connexionFirebase(){
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const btn = document.getElementById('login-btn-connexion');
+  const errEl = document.getElementById('login-error');
+
+  if(!email || !password){ afficherErreurLogin('Renseignez votre email et mot de passe.'); return; }
+
+  btn.textContent = 'Connexion...'; btn.disabled = true;
+  try{
+    await auth.signInWithEmailAndPassword(email, password);
+  } catch(e){
+    btn.textContent = 'Se connecter'; btn.disabled = false;
+    afficherErreurLogin(traduireErreurFirebase(e.code));
+  }
+}
+
+async function inscriptionFirebase(){
+  const prenom = document.getElementById('reg-prenom').value.trim();
+  const nom = document.getElementById('reg-nom').value.trim();
+  const entreprise = document.getElementById('reg-entreprise').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const password = document.getElementById('reg-password').value;
+  const btn = document.getElementById('login-btn-inscription');
+
+  if(!email || !password){ afficherErreurLogin('Renseignez tous les champs.'); return; }
+  if(password.length < 6){ afficherErreurLogin('Le mot de passe doit faire au moins 6 caractères.'); return; }
+
+  btn.textContent = 'Création...'; btn.disabled = true;
+  try{
+    const cred = await auth.createUserWithEmailAndPassword(email, password);
+    // Créer le profil dans Firestore
+    await db.collection('users').doc(cred.user.uid).set({
+      profil: { prenom, nom, email, fonction: '' },
+      entreprise: { raison: entreprise },
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  } catch(e){
+    btn.textContent = 'Créer mon compte'; btn.disabled = false;
+    afficherErreurLogin(traduireErreurFirebase(e.code));
+  }
+}
+
+function motDePasseOublie(){
+  const email = document.getElementById('login-email').value.trim();
+  if(!email){ afficherErreurLogin('Saisissez votre email d\'abord.'); return; }
+  auth.sendPasswordResetEmail(email)
+    .then(()=> afficherErreurLogin('Email de réinitialisation envoyé !', true))
+    .catch(e => afficherErreurLogin(traduireErreurFirebase(e.code)));
+}
+
+function afficherErreurLogin(msg, success=false){
+  const el = document.getElementById('login-error');
+  el.style.display = 'block';
+  el.style.background = success ? 'var(--primary-light)' : 'var(--danger-light)';
+  el.style.borderColor = success ? 'var(--primary-border)' : '#FCA5A5';
+  el.style.color = success ? 'var(--primary-dark)' : 'var(--danger)';
+  el.textContent = msg;
+}
+
+function traduireErreurFirebase(code){
+  const msgs = {
+    'auth/user-not-found': 'Aucun compte avec cet email.',
+    'auth/wrong-password': 'Mot de passe incorrect.',
+    'auth/invalid-email': 'Email invalide.',
+    'auth/email-already-in-use': 'Un compte existe déjà avec cet email.',
+    'auth/weak-password': 'Mot de passe trop faible (min. 6 caractères).',
+    'auth/too-many-requests': 'Trop de tentatives. Réessayez plus tard.',
+    'auth/invalid-credential': 'Email ou mot de passe incorrect.',
+  };
+  return msgs[code] || 'Erreur : ' + code;
+}
+
+function deconnexionFirebase(){
+  auth.signOut();
+}
+
+// ── FIRESTORE — Sauvegarde & Chargement données utilisateur ──
+
+async function chargerDonneesUtilisateur(uid){
+  try{
+    const doc = await db.collection('users').doc(uid).get();
+    if(doc.exists){
+      _userData = doc.data();
+    }
+  } catch(e){ console.error('Erreur chargement Firestore:', e); }
+}
+
+function appliquerDonneesUtilisateur(data){
+  if(!data) return;
+  // Mettre à jour localStorage avec les données Firestore
+  // (pour que chargerCompte() fonctionne normalement)
+  const local = {
+    profil: data.profil||{},
+    entreprise: data.entreprise||{},
+    banque: data.banque||{},
+    documents: data.documents||{},
+    preferences: data.preferences||{}
+  };
+  localStorage.setItem('lokoo_compte', JSON.stringify(local));
+  if(data.logo) localStorage.setItem('lokoo_logo', data.logo);
+}
+
+async function sauvegarderDonneesFirestore(){
+  if(!_currentUser) return;
+  try{
+    const raw = localStorage.getItem('lokoo_compte');
+    if(!raw) return;
+    const data = JSON.parse(raw);
+    const logo = localStorage.getItem('lokoo_logo') || '';
+    await db.collection('users').doc(_currentUser.uid).set({
+      ...data,
+      logo,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, {merge: true});
+  } catch(e){ console.error('Erreur sauvegarde Firestore:', e); }
+}
+
+// Sauvegarder automatiquement dans Firestore quand on sauvegarde le compte
+const _sauvegarderCompteOriginal = sauvegarderCompte;
+function sauvegarderCompte(){
+  _sauvegarderCompteOriginal();
+  // Debounce Firestore save
+  clearTimeout(window._firestoreTimer);
+  window._firestoreTimer = setTimeout(sauvegarderDonneesFirestore, 1500);
+}
+
+// Ajouter déconnexion dans le menu profil
+function ajouterDeconnexionMenu(){
+  const menu = document.getElementById('profil-menu');
+  if(!menu || menu.querySelector('.btn-deconnexion')) return;
+  const div = document.createElement('div');
+  div.style.cssText = 'padding:6px;border-top:1px solid var(--border);margin-top:4px';
+  div.innerHTML = `<button class="btn-deconnexion" onclick="deconnexionFirebase()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--danger);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='#FEF2F2'" onmouseout="this.style.background='none'">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+    Se déconnecter
+  </button>`;
+  menu.appendChild(div);
+}
+
+// Init Firebase — remplace l'ancien init()
+window.addEventListener('load', function(){
+  // L'app s'affiche via onAuthStateChanged
+  // Ajouter le bouton déconnexion dans le menu profil
+  setTimeout(ajouterDeconnexionMenu, 500);
+});
+
 // ── DÉMARRAGE ─────────────────────────────────────────────────
 // ── RÉCAPITULATIF ─────────────────────────────────────────────
 function renderRecapBanner(){
@@ -4617,5 +4912,6 @@ async function chargerFichierDrive(fileId){
 </script>
 
 
+</div><!-- fin app-main -->
 </body>
 </html>
