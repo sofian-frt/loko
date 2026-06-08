@@ -402,7 +402,7 @@ input[type=number]{-moz-appearance:textfield}
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar" style="display:none">
   <div class="sidebar-header">
-    <div style="display:flex;align-items:center;gap:8px">
+    <button onclick="showPage('dashboard')" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:0;text-align:left;transition:opacity .15s" onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='1'">
       <div style="width:32px;height:32px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
         <span style="font-size:14px;font-weight:900;color:white;font-family:var(--font)">L</span>
       </div>
@@ -410,7 +410,7 @@ input[type=number]{-moz-appearance:textfield}
         <div style="font-size:16px;font-weight:900;color:var(--ink);letter-spacing:-0.3px;line-height:1">lokoo<span style="color:var(--primary)">.io</span></div>
         <div style="font-size:9px;color:var(--muted);font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-top:1px">Relevé & Chiffrage</div>
       </div>
-    </div>
+    </button>
   </div>
 
   <div class="nav-group">
