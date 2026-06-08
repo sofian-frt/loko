@@ -423,6 +423,10 @@ input[type=number]{-moz-appearance:textfield}
 
   <div class="nav-group">
     <span class="nav-label">Technique</span>
+    <button class="nav-item" onclick="showPage('recap')" id="nav-recap">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span> Récapitulatif
+    </button>
+
     <button class="nav-item" onclick="showPage('eclairage')" id="nav-eclairage">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 014.9 11.9c-.6.6-1.9 2.1-1.9 3.1v.1H9v-.1c0-1-.8-2.2-1.9-3.1A7 7 0 0112 2z"/></svg></span> Éclairage
     </button>
@@ -822,6 +826,29 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
+
+<!-- ══ PAGE RÉCAPITULATIF ══ -->
+<div class="page" id="page-recap">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Récapitulatif projet</h2>
+      <p>Vue d'ensemble · Données saisies · Indicateurs · Cohérence</p>
+    </div>
+    <button class="btn btn-primary" onclick="showPage('prechiffrage')">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Lancer le chiffrage
+    </button>
+  </div>
+  <div id="recap-content">
+    <div class="alert info">
+      <div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+      <div class="alert-body">
+        <div class="alert-title">Aucune donnée saisie</div>
+        <div class="alert-desc">Renseignez d'abord les informations du projet dans l'initialisation.</div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ══ PAGE ÉCLAIRAGE ══ -->
 <div class="page" id="page-eclairage">
@@ -1881,6 +1908,7 @@ const PAGE_META={
   ventilation:{title:'Ventilation & Extraction',step:'Étape 6/8'},
   clim:{title:'Climatisation',step:'Étape 7/8'},
   facade:{title:'Façade & Conformité ERP',step:'Étape 8/8'},
+  recap:{title:'Récapitulatif projet',step:'Vue d\'ensemble'},
   prechiffrage:{title:'Pré-chiffrage rapide',step:'Chiffrage'},
   chiffrage:{title:'Chiffrage détaillé',step:'Chiffrage'},
   synthese:{title:'Synthèse du projet',step:'Synthèse'},
@@ -1902,6 +1930,7 @@ function showPage(id){
   if(id==='ventilation'){renderVentPieces();calcVentilation();}
   if(id==='clim'){renderClimPieces();calcClim();}
   if(id==='facade'){calcFacade();calcERP();}
+  if(id==='recap')renderRecap();
   if(id==='prechiffrage')recalculate();
   if(id==='chiffrage')renderChiffrageDetail();
   if(id==='synthese')renderSynthese();
@@ -2925,6 +2954,249 @@ function rechercherSiren(v){
 }
 
 // ── DÉMARRAGE ─────────────────────────────────────────────────
+// ── RÉCAPITULATIF ─────────────────────────────────────────────
+function renderRecap(){
+  const el = document.getElementById('recap-content');
+  if(!el) return;
+
+  const nom = _val('proj-nom');
+  const client = _val('proj-client');
+  const adresse = _val('proj-adresse');
+  const surface = parseFloat(_val('proj-surface')) || 0;
+  const hauteur = parseFloat(_val('proj-hauteur')) || 0;
+  const typeLocal = _val('proj-type-local','restaurant');
+  const activite = _val('proj-activite');
+  const date = _val('proj-date');
+  const releveur = _val('proj-releveur');
+  const cur = TYPES[typeLocal] || TYPES.restaurant;
+  const gam = GAMMES.find(g=>g.key===state.activeGamme) || GAMMES[1];
+
+  // Vérifier si données suffisantes
+  const hasData = nom || surface > 0 || state.pieces.length > 0;
+  if(!hasData){
+    el.innerHTML = '<div class="alert info"><div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Aucune donnée saisie</div><div class="alert-desc">Renseignez d'abord les informations dans l'initialisation.</div></div></div>';
+    return;
+  }
+
+  // Données manquantes
+  const manquants = [];
+  if(!nom) manquants.push('Code chantier');
+  if(!client) manquants.push('Client');
+  if(!adresse) manquants.push('Adresse du chantier');
+  if(!surface) manquants.push('Surface totale');
+  if(!date) manquants.push('Date de visite');
+  if(!releveur) manquants.push('Releveur');
+  if(!state.pieces.length) manquants.push('Pièces (relevés)');
+
+  // Calculs financiers
+  const cR = REGIONS[state.region||'std'] || 1;
+  const cG = gam.coeff;
+  const cA = 0.02 + ((state.complexite||3)-1)*0.02;
+  const bB = surface > 0 ? surface * cur.taux * cG * cR * (state.renov||1) * (state._etatCoeff||1) : 0;
+  const fg = state.fg || 8;
+  const marge = state.marge || 10;
+  const mFG = bB * fg / 100;
+  const mAl = (bB + mFG) * cA;
+  const bM = bB + mFG + mAl;
+  const mMa = bM * (marge/100) / (1-marge/100);
+  const tT = bM + mMa;
+
+  // Métrés totaux
+  const tSurf = state.pieces.reduce((a,p)=>a+(p.surface||0), 0);
+  const tMurs = state.pieces.reduce((a,p)=>a+(p._mursN||0), 0);
+  const tPrises = state.pieces.reduce((a,p)=>a+(p.prises||0)+(p.prisesDouble||0), 0);
+  const tWC = state.pieces.reduce((a,p)=>a+(p.wc||0)+(p.wcPMR||0), 0);
+  const tEF = state.pieces.reduce((a,p)=>a+(p.eauFroide||0), 0);
+
+  // Avancement — % des champs remplis
+  const totalChamps = 8;
+  const remplis = totalChamps - manquants.length;
+  const pctAvancement = Math.round((remplis / totalChamps) * 100);
+
+  // Lots principaux pour histogramme
+  const lots = cur.lots.slice(0,8);
+  const maxPct = Math.max(...lots.map(l=>l.pct));
+
+  el.innerHTML = `
+  <!-- HEADER PROJET -->
+  <div class="card" style="margin-bottom:20px;border:2px solid var(--primary-border);background:linear-gradient(135deg,var(--primary-light) 0%,white 70%)">
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+      <div style="width:56px;height:56px;background:var(--ink);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:white">${cur.icon}</div>
+      <div style="flex:1">
+        <div style="font-size:20px;font-weight:800;color:var(--ink)">${nom||'—'}</div>
+        <div style="font-size:13px;color:var(--mid);margin-top:2px">${client||'—'} ${adresse?'· '+adresse:''}</div>
+        <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+          <span class="badge badge-primary">${cur.label}</span>
+          <span class="badge badge-muted">${gam.label}</span>
+          ${surface?`<span class="badge badge-muted">${surface} m²</span>`:''}
+          ${date?`<span class="badge badge-muted">${date}</span>`:''}
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">Avancement dossier</div>
+        <div style="font-size:28px;font-weight:800;color:${pctAvancement>=80?'var(--primary)':pctAvancement>=50?'var(--warn)':'var(--danger)'}">${pctAvancement}%</div>
+        <div style="height:6px;background:var(--border);border-radius:3px;width:120px;margin-top:6px;overflow:hidden">
+          <div style="height:100%;background:${pctAvancement>=80?'var(--primary)':pctAvancement>=50?'var(--warn)':'var(--danger)'};width:${pctAvancement}%;border-radius:3px;transition:width .5s"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px">
+
+    <!-- INFORMATIONS GÉNÉRALES -->
+    <div class="card">
+      <div class="card-title">Informations générales</div>
+      ${[
+        ['Code chantier', nom||'—'],
+        ['Client', client||'—'],
+        ['Type', cur.label],
+        ['Activité', activite||'—'],
+        ['Surface', surface?surface+' m²':'—'],
+        ['Hauteur', hauteur?hauteur+' m':'—'],
+        ['Date visite', date||'—'],
+        ['Releveur', releveur||'—'],
+      ].map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px">
+        <span style="color:var(--muted)">${k}</span>
+        <span style="font-weight:600;color:var(--ink);text-align:right;max-width:60%">${v}</span>
+      </div>`).join('')}
+    </div>
+
+    <!-- MÉTRÉS & RELEVÉS -->
+    <div class="card">
+      <div class="card-title">Relevés & Métrés</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        ${[
+          ['Pièces', state.pieces.length],
+          ['Surface relevée', tSurf+' m²'],
+          ['Murs nets', tMurs.toFixed(0)+' m²'],
+          ['Prises élec.', tPrises],
+          ['Points WC', tWC],
+          ['Points EF', tEF],
+        ].map(([k,v])=>`<div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:3px">${k}</div>
+          <div style="font-size:16px;font-weight:700;color:var(--ink)">${v}</div>
+        </div>`).join('')}
+      </div>
+      ${state.pieces.length ? `<div style="font-size:11px;color:var(--muted)">Pièces : ${state.pieces.map(p=>p.nom).join(', ')}</div>` : '<div class="alert vigilance" style="margin:0;padding:8px 12px"><div style="font-size:11px">Aucune pièce saisie</div></div>'}
+    </div>
+
+    <!-- SYNTHÈSE FINANCIÈRE -->
+    <div class="card" style="border:1.5px solid var(--primary-border)">
+      <div class="card-title">Synthèse financière</div>
+      ${bB > 0 ? `
+      <div style="margin-bottom:12px">
+        ${[
+          ['Déboursé sec', fmt(bB), false],
+          ['Frais généraux '+fg+'%', '+ '+fmt(mFG), false],
+          ['Aléas '+Math.round(cA*100)+'%', '+ '+fmt(mAl), false],
+          ['Marge '+marge+'%', '+ '+fmt(mMa), false],
+        ].map(([k,v,big])=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border);font-size:12px">
+          <span style="color:var(--muted)">${k}</span>
+          <span style="font-weight:600">${v}</span>
+        </div>`).join('')}
+        <div style="display:flex;justify-content:space-between;padding:10px 0 0;margin-top:4px">
+          <span style="font-size:14px;font-weight:700">Prix vente HT</span>
+          <span style="font-size:18px;font-weight:800;color:var(--primary)">${fmt(tT)}</span>
+        </div>
+        <div style="font-size:11px;color:var(--muted);text-align:right;margin-top:2px">${surface?Math.round(tT/surface)+' €/m²':''}</div>
+      </div>
+      ` : `<div style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Saisissez la surface pour calculer</div>`}
+    </div>
+  </div>
+
+  <!-- HISTOGRAMME LOTS -->
+  ${bB > 0 ? `
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-title">Répartition des coûts par lot</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        ${lots.map(l=>{
+          const montant = Math.round(tT*l.pct/100);
+          const pct = l.pct;
+          return `<div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+              <span style="font-size:11px;font-weight:600;color:var(--ink)">${l.nom}</span>
+              <span style="font-size:11px;color:var(--muted)">${pct}% · ${fmt(montant)}</span>
+            </div>
+            <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden">
+              <div style="height:100%;background:var(--primary);width:${(pct/maxPct)*100}%;border-radius:4px;transition:width .5s ease"></div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div>
+        ${cur.lots.slice(8).map(l=>{
+          const montant = Math.round(tT*l.pct/100);
+          return `<div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+              <span style="font-size:11px;font-weight:600;color:var(--ink)">${l.nom}</span>
+              <span style="font-size:11px;color:var(--muted)">${l.pct}% · ${fmt(montant)}</span>
+            </div>
+            <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden">
+              <div style="height:100%;background:var(--primary);opacity:.6;width:${(l.pct/maxPct)*100}%;border-radius:4px"></div>
+            </div>
+          </div>`;
+        }).join('')}
+        <!-- Donut visuel -->
+        <div style="margin-top:16px;padding:14px;background:var(--primary-light);border-radius:10px;border:1px solid var(--primary-border)">
+          <div style="font-size:11px;color:var(--primary);font-weight:600;text-transform:uppercase;margin-bottom:6px">Indicateurs clés</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div style="text-align:center"><div style="font-size:10px;color:var(--muted)">€/m²</div><div style="font-size:16px;font-weight:800;color:var(--primary)">${surface?Math.round(tT/surface):'-'}</div></div>
+            <div style="text-align:center"><div style="font-size:10px;color:var(--muted)">Durée est.</div><div style="font-size:16px;font-weight:800;color:var(--primary)">${surface?Math.max(4,Math.round(surface*cur.dureeRatio))+' sem.':'-'}</div></div>
+            <div style="text-align:center"><div style="font-size:10px;color:var(--muted)">Déboursé sec</div><div style="font-size:13px;font-weight:700">${fmt(bB)}</div></div>
+            <div style="text-align:center"><div style="font-size:10px;color:var(--muted)">Marge nette</div><div style="font-size:13px;font-weight:700">${fmt(mMa)}</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>` : ''}
+
+  <!-- ALERTES & DONNÉES MANQUANTES -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+    ${manquants.length ? `
+    <div class="card" style="border:1.5px solid #FDE68A">
+      <div class="card-title" style="color:var(--warn)">Données manquantes (${manquants.length})</div>
+      ${manquants.map(m=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px">
+        <svg width="12" height="12" fill="none" stroke="var(--warn)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span style="color:var(--ink2)">${m}</span>
+      </div>`).join('')}
+    </div>` : `
+    <div class="card" style="border:1.5px solid var(--primary-border)">
+      <div class="card-title" style="color:var(--primary)">Dossier complet</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 0">
+        <svg width="24" height="24" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        <span style="font-size:13px;color:var(--ink2)">Toutes les informations sont renseignées</span>
+      </div>
+    </div>`}
+
+    <!-- CONTRAINTES TECHNIQUES -->
+    <div class="card">
+      <div class="card-title">Contraintes identifiées</div>
+      ${(() => {
+        const contraintes = [];
+        if(document.getElementById('chk-erp')?.checked) contraintes.push({t:'ERP', c:'danger'});
+        if(document.getElementById('chk-cuisine')?.checked) contraintes.push({t:'Cuisine pro', c:'warn'});
+        if(document.getElementById('chk-pmr')?.checked) contraintes.push({t:'Accessibilité PMR', c:'warn'});
+        if(document.getElementById('chk-amiante')?.checked) contraintes.push({t:'Suspicion amiante', c:'danger'});
+        if(document.getElementById('plomb-bac-graisse')?.checked) contraintes.push({t:'Bac à graisse', c:'info'});
+        if(document.getElementById('cuis-braise')?.checked) contraintes.push({t:'Braise/Charbon ⚠️', c:'danger'});
+        if(!contraintes.length) return '<div style="font-size:12px;color:var(--muted);padding:8px 0">Aucune contrainte spécifique identifiée</div>';
+        return contraintes.map(c=>`<div style="display:inline-flex;align-items:center;gap:6px;margin:3px;padding:4px 10px;background:var(--${c.c==='danger'?'danger-light':c.c==='warn'?'warn-light':'primary-light'});border-radius:20px;font-size:11px;font-weight:600;color:var(--${c.c==='danger'?'danger':c.c==='warn'?'warn':'primary-dark'})">${c.t}</div>`).join('');
+      })()}
+    </div>
+  </div>
+
+  <!-- BOUTON LANCER CHIFFRAGE -->
+  <div style="display:flex;justify-content:flex-end;gap:12px">
+    <button class="btn btn-secondary" onclick="showPage('releves')">Retour aux relevés</button>
+    <button class="btn btn-primary btn-lg" onclick="showPage('prechiffrage')">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Lancer le chiffrage
+    </button>
+  </div>`;
+}
+
 // ── CODE CHANTIER ────────────────────────────────────────────────
 function genererCodeChantier(){
   var now = new Date();
