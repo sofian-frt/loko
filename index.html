@@ -3312,6 +3312,183 @@ function rechercherSiren(v){
     });
 }
 
+// ── COMPTE & PARAMÈTRES ──────────────────────────────────────
+
+function switchTab(tab){
+  ['profil','entreprise','banque','documents','preferences'].forEach(t=>{
+    const btn = document.getElementById('tab-'+t);
+    const div = document.getElementById('tab-content-'+t);
+    if(btn) btn.classList.toggle('active', t===tab);
+    if(div) div.style.display = t===tab ? 'block' : 'none';
+  });
+}
+
+function sauvegarderCompte(){
+  const get = id => { const e=document.getElementById(id); return e?e.value:''; };
+  const chk = id => { const e=document.getElementById(id); return e?e.checked:false; };
+  const data = {
+    profil:{ prenom:get('cp-prenom'), nom:get('cp-nom'), fonction:get('cp-fonction'),
+      email:get('cp-email'), tel:get('cp-tel'), langue:get('cp-langue'),
+      signataire_nom:get('cp-signataire-nom'), signataire_qualite:get('cp-signataire-qualite'),
+      signature_texte:get('cp-signature-texte') },
+    entreprise:{ raison:get('ce-raison-sociale'), siret:get('ce-siret'), tva:get('ce-tva'),
+      forme:get('ce-forme'), capital:get('ce-capital'), adresse:get('ce-adresse'),
+      tel:get('ce-tel'), email:get('ce-email'), web:get('ce-web'), naf:get('ce-naf'),
+      logo: localStorage.getItem('lokoo_logo')||'' },
+    banque:{ banque:get('cb-banque'), iban:get('cb-iban'), bic:get('cb-bic'), titulaire:get('cb-titulaire') },
+    documents:{ prefixe:get('cd-prefixe-devis'), num_depart:get('cd-num-depart'),
+      validite:get('cd-validite'), tva:get('cd-tva'), mentions:get('cd-mentions'),
+      cgv:get('cd-cgv'), region_def:get('cd-region-def'), fg_def:get('cd-fg-def'),
+      marge_def:get('cd-marge-def'), releveur_def:get('cd-releveur-def') },
+    preferences:{ langue:get('pref-langue'), devise:get('pref-devise'),
+      date:get('pref-date'), theme:get('pref-theme'),
+      notif_save:chk('pref-notif-save'), notif_alert:chk('pref-notif-alert') }
+  };
+  localStorage.setItem('lokoo_compte', JSON.stringify(data));
+  mettreAJourProfilMenu(data);
+  mettreAJourApercuEntete(data);
+}
+
+function chargerCompte(){
+  const raw = localStorage.getItem('lokoo_compte');
+  if(!raw) return;
+  try{
+    const data = JSON.parse(raw);
+    const set = (id,v) => { const e=document.getElementById(id); if(e&&v!=null) e.value=v; };
+    const setchk = (id,v) => { const e=document.getElementById(id); if(e) e.checked=!!v; };
+    const p = data.profil||{};
+    set('cp-prenom',p.prenom); set('cp-nom',p.nom); set('cp-fonction',p.fonction);
+    set('cp-email',p.email); set('cp-tel',p.tel); set('cp-langue',p.langue);
+    set('cp-signataire-nom',p.signataire_nom); set('cp-signataire-qualite',p.signataire_qualite);
+    set('cp-signature-texte',p.signature_texte);
+    const e = data.entreprise||{};
+    set('ce-raison-sociale',e.raison); set('ce-siret',e.siret); set('ce-tva',e.tva);
+    set('ce-forme',e.forme); set('ce-capital',e.capital); set('ce-adresse',e.adresse);
+    set('ce-tel',e.tel); set('ce-email',e.email); set('ce-web',e.web); set('ce-naf',e.naf);
+    const b = data.banque||{};
+    set('cb-banque',b.banque); set('cb-iban',b.iban); set('cb-bic',b.bic); set('cb-titulaire',b.titulaire);
+    const d = data.documents||{};
+    set('cd-prefixe-devis',d.prefixe); set('cd-num-depart',d.num_depart);
+    set('cd-validite',d.validite); set('cd-tva',d.tva); set('cd-mentions',d.mentions);
+    set('cd-cgv',d.cgv); set('cd-region-def',d.region_def);
+    set('cd-fg-def',d.fg_def); set('cd-marge-def',d.marge_def); set('cd-releveur-def',d.releveur_def);
+    const pr = data.preferences||{};
+    set('pref-langue',pr.langue); set('pref-devise',pr.devise);
+    set('pref-date',pr.date); set('pref-theme',pr.theme);
+    setchk('pref-notif-save',pr.notif_save); setchk('pref-notif-alert',pr.notif_alert);
+    // Logo
+    const logo = localStorage.getItem('lokoo_logo');
+    if(logo){ afficherLogo(logo); }
+    // Signature
+    const sig = localStorage.getItem('lokoo_signature');
+    if(sig){ afficherSignature(sig); }
+    mettreAJourProfilMenu(data);
+    mettreAJourApercuEntete(data);
+    // Appliquer défauts projets
+    if(d.releveur_def){ const r=document.getElementById('proj-releveur'); if(r&&!r.value) r.value=d.releveur_def; }
+  }catch(e){ console.error('chargerCompte error:', e); }
+}
+
+function renderCompte(){
+  chargerCompte();
+  switchTab('profil');
+}
+
+function mettreAJourProfilMenu(data){
+  const p = data.profil||{};
+  const e = data.entreprise||{};
+  const prenom = p.prenom||'';
+  const nom = p.nom||'';
+  const initiales = ((prenom[0]||'')+(nom[0]||'')).toUpperCase() || '?';
+  const el = document.getElementById('profil-initiales');
+  if(el) el.textContent = initiales;
+  const elNom = document.getElementById('profil-menu-nom');
+  if(elNom) elNom.textContent = [prenom,nom].filter(Boolean).join(' ') || 'Mon compte';
+  const elEnt = document.getElementById('profil-menu-entreprise');
+  if(elEnt) elEnt.textContent = e.raison || 'Entreprise non configurée';
+}
+
+function mettreAJourApercuEntete(data){
+  const e = data.entreprise||{};
+  const apNom = document.getElementById('apercu-nom');
+  const apAdr = document.getElementById('apercu-adresse');
+  const apCon = document.getElementById('apercu-contact');
+  const apSir = document.getElementById('apercu-siret');
+  if(apNom) apNom.textContent = e.raison||'Votre entreprise';
+  if(apAdr) apAdr.textContent = e.adresse||'Adresse';
+  if(apCon) apCon.textContent = [e.tel,e.email].filter(Boolean).join(' · ')||'Tél · Email';
+  if(apSir) apSir.textContent = e.siret ? 'SIRET : '+e.siret : 'SIRET';
+}
+
+function importerLogo(input){
+  const file = input.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    localStorage.setItem('lokoo_logo', e.target.result);
+    afficherLogo(e.target.result);
+    sauvegarderCompte();
+  };
+  reader.readAsDataURL(file);
+}
+
+function afficherLogo(src){
+  const preview = document.getElementById('logo-preview');
+  const placeholder = document.getElementById('logo-placeholder');
+  const suppBtn = document.getElementById('logo-supprimer');
+  const apLogo = document.getElementById('apercu-logo');
+  if(preview){ preview.src=src; preview.style.display='block'; }
+  if(placeholder) placeholder.style.display='none';
+  if(suppBtn) suppBtn.style.display='inline-flex';
+  if(apLogo){ apLogo.src=src; apLogo.style.display='block'; }
+}
+
+function supprimerLogo(){
+  localStorage.removeItem('lokoo_logo');
+  const preview = document.getElementById('logo-preview');
+  const placeholder = document.getElementById('logo-placeholder');
+  const suppBtn = document.getElementById('logo-supprimer');
+  const apLogo = document.getElementById('apercu-logo');
+  if(preview){ preview.src=''; preview.style.display='none'; }
+  if(placeholder) placeholder.style.display='block';
+  if(suppBtn) suppBtn.style.display='none';
+  if(apLogo){ apLogo.src=''; apLogo.style.display='none'; }
+  sauvegarderCompte();
+}
+
+function importerSignature(input){
+  const file = input.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    localStorage.setItem('lokoo_signature', e.target.result);
+    afficherSignature(e.target.result);
+    sauvegarderCompte();
+  };
+  reader.readAsDataURL(file);
+}
+
+function afficherSignature(src){
+  const preview = document.getElementById('signature-preview');
+  const placeholder = document.getElementById('signature-placeholder');
+  if(preview){ preview.src=src; preview.style.display='block'; }
+  if(placeholder) placeholder.style.display='none';
+}
+
+function toggleProfilMenu(){
+  const menu = document.getElementById('profil-menu');
+  if(!menu) return;
+  menu.style.display = menu.style.display==='none' ? 'block' : 'none';
+}
+
+// Fermer le menu profil en cliquant dehors
+document.addEventListener('click', function(e){
+  const btn = document.getElementById('btn-profil');
+  const menu = document.getElementById('profil-menu');
+  if(menu && btn && !btn.contains(e.target) && !menu.contains(e.target)){
+    menu.style.display='none';
+  }
+});
+
+
 // ── DÉMARRAGE ─────────────────────────────────────────────────
 // ── RÉCAPITULATIF ─────────────────────────────────────────────
 function renderRecapBanner(){
@@ -4424,182 +4601,6 @@ async function chargerFichierDrive(fileId){
 }
 </script>
 
-
-// ── COMPTE & PARAMÈTRES ──────────────────────────────────────
-
-function switchTab(tab){
-  ['profil','entreprise','banque','documents','preferences'].forEach(t=>{
-    const btn = document.getElementById('tab-'+t);
-    const div = document.getElementById('tab-content-'+t);
-    if(btn) btn.classList.toggle('active', t===tab);
-    if(div) div.style.display = t===tab ? 'block' : 'none';
-  });
-}
-
-function sauvegarderCompte(){
-  const get = id => { const e=document.getElementById(id); return e?e.value:''; };
-  const chk = id => { const e=document.getElementById(id); return e?e.checked:false; };
-  const data = {
-    profil:{ prenom:get('cp-prenom'), nom:get('cp-nom'), fonction:get('cp-fonction'),
-      email:get('cp-email'), tel:get('cp-tel'), langue:get('cp-langue'),
-      signataire_nom:get('cp-signataire-nom'), signataire_qualite:get('cp-signataire-qualite'),
-      signature_texte:get('cp-signature-texte') },
-    entreprise:{ raison:get('ce-raison-sociale'), siret:get('ce-siret'), tva:get('ce-tva'),
-      forme:get('ce-forme'), capital:get('ce-capital'), adresse:get('ce-adresse'),
-      tel:get('ce-tel'), email:get('ce-email'), web:get('ce-web'), naf:get('ce-naf'),
-      logo: localStorage.getItem('lokoo_logo')||'' },
-    banque:{ banque:get('cb-banque'), iban:get('cb-iban'), bic:get('cb-bic'), titulaire:get('cb-titulaire') },
-    documents:{ prefixe:get('cd-prefixe-devis'), num_depart:get('cd-num-depart'),
-      validite:get('cd-validite'), tva:get('cd-tva'), mentions:get('cd-mentions'),
-      cgv:get('cd-cgv'), region_def:get('cd-region-def'), fg_def:get('cd-fg-def'),
-      marge_def:get('cd-marge-def'), releveur_def:get('cd-releveur-def') },
-    preferences:{ langue:get('pref-langue'), devise:get('pref-devise'),
-      date:get('pref-date'), theme:get('pref-theme'),
-      notif_save:chk('pref-notif-save'), notif_alert:chk('pref-notif-alert') }
-  };
-  localStorage.setItem('lokoo_compte', JSON.stringify(data));
-  mettreAJourProfilMenu(data);
-  mettreAJourApercuEntete(data);
-}
-
-function chargerCompte(){
-  const raw = localStorage.getItem('lokoo_compte');
-  if(!raw) return;
-  try{
-    const data = JSON.parse(raw);
-    const set = (id,v) => { const e=document.getElementById(id); if(e&&v!=null) e.value=v; };
-    const setchk = (id,v) => { const e=document.getElementById(id); if(e) e.checked=!!v; };
-    const p = data.profil||{};
-    set('cp-prenom',p.prenom); set('cp-nom',p.nom); set('cp-fonction',p.fonction);
-    set('cp-email',p.email); set('cp-tel',p.tel); set('cp-langue',p.langue);
-    set('cp-signataire-nom',p.signataire_nom); set('cp-signataire-qualite',p.signataire_qualite);
-    set('cp-signature-texte',p.signature_texte);
-    const e = data.entreprise||{};
-    set('ce-raison-sociale',e.raison); set('ce-siret',e.siret); set('ce-tva',e.tva);
-    set('ce-forme',e.forme); set('ce-capital',e.capital); set('ce-adresse',e.adresse);
-    set('ce-tel',e.tel); set('ce-email',e.email); set('ce-web',e.web); set('ce-naf',e.naf);
-    const b = data.banque||{};
-    set('cb-banque',b.banque); set('cb-iban',b.iban); set('cb-bic',b.bic); set('cb-titulaire',b.titulaire);
-    const d = data.documents||{};
-    set('cd-prefixe-devis',d.prefixe); set('cd-num-depart',d.num_depart);
-    set('cd-validite',d.validite); set('cd-tva',d.tva); set('cd-mentions',d.mentions);
-    set('cd-cgv',d.cgv); set('cd-region-def',d.region_def);
-    set('cd-fg-def',d.fg_def); set('cd-marge-def',d.marge_def); set('cd-releveur-def',d.releveur_def);
-    const pr = data.preferences||{};
-    set('pref-langue',pr.langue); set('pref-devise',pr.devise);
-    set('pref-date',pr.date); set('pref-theme',pr.theme);
-    setchk('pref-notif-save',pr.notif_save); setchk('pref-notif-alert',pr.notif_alert);
-    // Logo
-    const logo = localStorage.getItem('lokoo_logo');
-    if(logo){ afficherLogo(logo); }
-    // Signature
-    const sig = localStorage.getItem('lokoo_signature');
-    if(sig){ afficherSignature(sig); }
-    mettreAJourProfilMenu(data);
-    mettreAJourApercuEntete(data);
-    // Appliquer défauts projets
-    if(d.releveur_def){ const r=document.getElementById('proj-releveur'); if(r&&!r.value) r.value=d.releveur_def; }
-  }catch(e){ console.error('chargerCompte error:', e); }
-}
-
-function renderCompte(){
-  chargerCompte();
-  switchTab('profil');
-}
-
-function mettreAJourProfilMenu(data){
-  const p = data.profil||{};
-  const e = data.entreprise||{};
-  const prenom = p.prenom||'';
-  const nom = p.nom||'';
-  const initiales = ((prenom[0]||'')+(nom[0]||'')).toUpperCase() || '?';
-  const el = document.getElementById('profil-initiales');
-  if(el) el.textContent = initiales;
-  const elNom = document.getElementById('profil-menu-nom');
-  if(elNom) elNom.textContent = [prenom,nom].filter(Boolean).join(' ') || 'Mon compte';
-  const elEnt = document.getElementById('profil-menu-entreprise');
-  if(elEnt) elEnt.textContent = e.raison || 'Entreprise non configurée';
-}
-
-function mettreAJourApercuEntete(data){
-  const e = data.entreprise||{};
-  const apNom = document.getElementById('apercu-nom');
-  const apAdr = document.getElementById('apercu-adresse');
-  const apCon = document.getElementById('apercu-contact');
-  const apSir = document.getElementById('apercu-siret');
-  if(apNom) apNom.textContent = e.raison||'Votre entreprise';
-  if(apAdr) apAdr.textContent = e.adresse||'Adresse';
-  if(apCon) apCon.textContent = [e.tel,e.email].filter(Boolean).join(' · ')||'Tél · Email';
-  if(apSir) apSir.textContent = e.siret ? 'SIRET : '+e.siret : 'SIRET';
-}
-
-function importerLogo(input){
-  const file = input.files[0]; if(!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    localStorage.setItem('lokoo_logo', e.target.result);
-    afficherLogo(e.target.result);
-    sauvegarderCompte();
-  };
-  reader.readAsDataURL(file);
-}
-
-function afficherLogo(src){
-  const preview = document.getElementById('logo-preview');
-  const placeholder = document.getElementById('logo-placeholder');
-  const suppBtn = document.getElementById('logo-supprimer');
-  const apLogo = document.getElementById('apercu-logo');
-  if(preview){ preview.src=src; preview.style.display='block'; }
-  if(placeholder) placeholder.style.display='none';
-  if(suppBtn) suppBtn.style.display='inline-flex';
-  if(apLogo){ apLogo.src=src; apLogo.style.display='block'; }
-}
-
-function supprimerLogo(){
-  localStorage.removeItem('lokoo_logo');
-  const preview = document.getElementById('logo-preview');
-  const placeholder = document.getElementById('logo-placeholder');
-  const suppBtn = document.getElementById('logo-supprimer');
-  const apLogo = document.getElementById('apercu-logo');
-  if(preview){ preview.src=''; preview.style.display='none'; }
-  if(placeholder) placeholder.style.display='block';
-  if(suppBtn) suppBtn.style.display='none';
-  if(apLogo){ apLogo.src=''; apLogo.style.display='none'; }
-  sauvegarderCompte();
-}
-
-function importerSignature(input){
-  const file = input.files[0]; if(!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    localStorage.setItem('lokoo_signature', e.target.result);
-    afficherSignature(e.target.result);
-    sauvegarderCompte();
-  };
-  reader.readAsDataURL(file);
-}
-
-function afficherSignature(src){
-  const preview = document.getElementById('signature-preview');
-  const placeholder = document.getElementById('signature-placeholder');
-  if(preview){ preview.src=src; preview.style.display='block'; }
-  if(placeholder) placeholder.style.display='none';
-}
-
-function toggleProfilMenu(){
-  const menu = document.getElementById('profil-menu');
-  if(!menu) return;
-  menu.style.display = menu.style.display==='none' ? 'block' : 'none';
-}
-
-// Fermer le menu profil en cliquant dehors
-document.addEventListener('click', function(e){
-  const btn = document.getElementById('btn-profil');
-  const menu = document.getElementById('profil-menu');
-  if(menu && btn && !btn.contains(e.target) && !menu.contains(e.target)){
-    menu.style.display='none';
-  }
-});
 
 </body>
 </html>
