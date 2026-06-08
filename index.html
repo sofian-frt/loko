@@ -478,6 +478,13 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 
   <div class="sidebar-footer">
+    <!-- Logo lokoo.io toujours visible en bas -->
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)">
+      <div style="width:26px;height:26px;background:var(--ink);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <span style="font-size:12px;font-weight:900;color:white;font-family:var(--font)">L</span>
+      </div>
+      <span style="font-size:13px;font-weight:900;color:var(--ink);letter-spacing:-0.3px">lokoo<span style="color:var(--primary)">.io</span></span>
+    </div>
     <div style="display:flex;align-items:center;justify-content:space-between">
       <span class="version-tag">V1.3 · Stable</span>
       <button class="btn btn-sm btn-ghost" onclick="exportPrint()" style="font-size:11px"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button>
