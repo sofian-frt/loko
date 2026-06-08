@@ -402,9 +402,21 @@ input[type=number]{-moz-appearance:textfield}
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar" style="display:none">
   <div class="sidebar-header">
-    <!-- Logo société — affiché si dispo, sinon vide -->
-    <div id="sidebar-logo-wrap" style="min-height:40px;display:flex;align-items:center">
-      <img id="sidebar-logo-img" src="" alt="" style="display:none;max-height:44px;max-width:140px;object-fit:contain;border-radius:4px">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <!-- Logo lokoo.io toujours visible -->
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:32px;height:32px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <span style="font-size:14px;font-weight:900;color:white;font-family:var(--font)">L</span>
+        </div>
+        <div>
+          <div style="font-size:16px;font-weight:900;color:var(--ink);letter-spacing:-0.3px;line-height:1">lokoo<span style="color:var(--primary)">.io</span></div>
+          <div style="font-size:9px;color:var(--muted);font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-top:1px">Relevé & Chiffrage</div>
+        </div>
+      </div>
+      <!-- Logo société en dessous si dispo -->
+      <div id="sidebar-logo-wrap" style="display:none">
+        <img id="sidebar-logo-img" src="" alt="" style="max-height:36px;max-width:130px;object-fit:contain;border-radius:4px">
+      </div>
     </div>
   </div>
 
@@ -478,13 +490,6 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 
   <div class="sidebar-footer">
-    <!-- Logo lokoo.io toujours visible en bas -->
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)">
-      <div style="width:26px;height:26px;background:var(--ink);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <span style="font-size:12px;font-weight:900;color:white;font-family:var(--font)">L</span>
-      </div>
-      <span style="font-size:13px;font-weight:900;color:var(--ink);letter-spacing:-0.3px">lokoo<span style="color:var(--primary)">.io</span></span>
-    </div>
     <div style="display:flex;align-items:center;justify-content:space-between">
       <span class="version-tag">V1.3 · Stable</span>
       <button class="btn btn-sm btn-ghost" onclick="exportPrint()" style="font-size:11px"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button>
@@ -4105,11 +4110,12 @@ window.addEventListener('load', function(){
 // ── LOGO SIDEBAR ─────────────────────────────────────────────
 function majLogoSidebar(){
   const logo = localStorage.getItem('lokoo_logo');
-  // Sidebar
+  // Sidebar — logo société sous lokoo.io
   const sidebarImg = document.getElementById('sidebar-logo-img');
-  if(sidebarImg){
-    if(logo){ sidebarImg.src=logo; sidebarImg.style.display='block'; }
-    else { sidebarImg.src=''; sidebarImg.style.display='none'; }
+  const sidebarWrap = document.getElementById('sidebar-logo-wrap');
+  if(sidebarImg && sidebarWrap){
+    if(logo){ sidebarImg.src=logo; sidebarWrap.style.display='block'; }
+    else { sidebarImg.src=''; sidebarWrap.style.display='none'; }
   }
   // Topbar — logo entreprise à côté du titre
   const topbarImg = document.getElementById('topbar-logo');
