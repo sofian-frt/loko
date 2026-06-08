@@ -3610,7 +3610,7 @@ function rechercherSirenInscription(siren){
   function tc(s){ return s?s.toLowerCase().split(' ').map(w=>w?w[0].toUpperCase()+w.slice(1):'').join(' '):''; }
 
   // Appel API entreprises
-  fetch('https://recherche-entreprises.api.gouv.fr/search?q='+siren+'&limit=1&include=dirigeants')
+  fetch('https://recherche-entreprises.api.gouv.fr/search?q='+siren+'&limit=1')
     .then(r=>r.json()).then(data=>{
       const r = data.results&&data.results[0];
       if(!r){ if(statusEl) statusEl.textContent='❌'; return; }
