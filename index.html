@@ -538,18 +538,28 @@ input[type=number]{-moz-appearance:textfield}
 
       <!-- Formulaire inscription -->
       <div id="login-form-inscription" style="display:none">
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">SIREN <span style="font-size:10px;color:var(--muted);font-weight:400">— auto-remplissage</span></label>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input id="reg-siren" class="form-input" placeholder="000000000" maxlength="9"
+              style="font-family:monospace;letter-spacing:.1em"
+              oninput="this.value=this.value.replace(/[^0-9]/g,'');if(this.value.length===9)rechercherSirenInscription(this.value)">
+            <div id="reg-siren-status" style="font-size:16px;flex-shrink:0;width:20px"></div>
+          </div>
+          <div id="reg-siren-info" style="display:none;margin-top:6px;padding:8px 12px;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;font-size:11px;line-height:1.6"></div>
+        </div>
         <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
-            <label class="form-label">Prénom</label>
-            <input id="reg-prenom" class="form-input" placeholder="Sofian">
+            <label class="form-label">Prénom du gérant</label>
+            <input id="reg-prenom" class="form-input" placeholder="Prénom">
           </div>
           <div class="form-group">
-            <label class="form-label">Nom</label>
-            <input id="reg-nom" class="form-input" placeholder="FOURTI">
+            <label class="form-label">Nom du gérant</label>
+            <input id="reg-nom" class="form-input" placeholder="NOM">
           </div>
         </div>
         <div class="form-group" style="margin-bottom:14px">
-          <label class="form-label">Entreprise</label>
+          <label class="form-label">Raison sociale</label>
           <input id="reg-entreprise" class="form-input" placeholder="Ma Société SAS">
         </div>
         <div class="form-group" style="margin-bottom:14px">
@@ -578,7 +588,7 @@ input[type=number]{-moz-appearance:textfield}
 <div class="app" id="app-main" style="display:none">
 <div class="main">
 <!-- TOPBAR -->
-<div class="topbar">
+<div class="topbar" id="main-topbar" style="display:none">
   <div class="topbar-left">
     <div class="topbar-title" id="topbar-title">Initialisation du projet</div>
     <div class="topbar-step" id="topbar-step">Étape 1/8</div>
@@ -3589,6 +3599,37 @@ document.addEventListener('click', function(e){
 
 
 
+// ── SIREN INSCRIPTION ────────────────────────────────────────
+function rechercherSirenInscription(siren){
+  const statusEl = document.getElementById('reg-siren-status');
+  const infoEl = document.getElementById('reg-siren-info');
+  if(statusEl) statusEl.textContent = '⏳';
+  function tc(s){ return s?s.toLowerCase().split(' ').map(w=>w?w[0].toUpperCase()+w.slice(1):'').join(' '):''; }
+  fetch('https://recherche-entreprises.api.gouv.fr/search?q='+siren+'&limit=1')
+    .then(r=>r.json()).then(data=>{
+      const r = data.results&&data.results[0];
+      if(!r){ if(statusEl) statusEl.textContent='❌'; return; }
+      const nom = r.nom_complet||r.denomination||'';
+      let prenom='', nomG='';
+      if(r.dirigeants&&r.dirigeants.length>0){
+        prenom = tc(r.dirigeants[0].prenom||'');
+        nomG = (r.dirigeants[0].nom||'').toUpperCase();
+      }
+      const ep = document.getElementById('reg-prenom');
+      const en = document.getElementById('reg-nom');
+      const ee = document.getElementById('reg-entreprise');
+      if(ee) ee.value = nom;
+      if(ep&&prenom) ep.value = prenom;
+      if(en&&nomG) en.value = nomG;
+      if(statusEl) statusEl.textContent='✅';
+      if(infoEl){
+        infoEl.style.display='block';
+        infoEl.innerHTML='<strong>'+nom+'</strong>'+(prenom||nomG?'<br>Gérant : '+prenom+' '+nomG:'')
+          +(r.siege&&r.siege.code_postal?'<br>'+r.siege.code_postal+' '+tc(r.siege.libelle_commune||''):'');
+      }
+    }).catch(()=>{ if(statusEl) statusEl.textContent='⚠️'; });
+}
+
 // ── FIREBASE CONFIG & AUTH ────────────────────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyCzMYTP-x8Nrnq1LwQCZAIUkbHgR--V4h4",
@@ -3623,11 +3664,21 @@ auth.onAuthStateChanged(async user => {
 function afficherLogin(){
   document.getElementById('page-login').style.display = 'flex';
   document.getElementById('app-main').style.display = 'none';
+  // Cacher sidebar et topbar
+  const sidebar = document.getElementById('main-sidebar');
+  const topbar = document.getElementById('main-topbar');
+  if(sidebar) sidebar.style.display = 'none';
+  if(topbar) topbar.style.display = 'none';
 }
 
 function afficherApp(){
   document.getElementById('page-login').style.display = 'none';
   document.getElementById('app-main').style.display = 'flex';
+  // Réafficher sidebar et topbar
+  const sidebar = document.getElementById('main-sidebar');
+  const topbar = document.getElementById('main-topbar');
+  if(sidebar) sidebar.style.display = '';
+  if(topbar) topbar.style.display = '';
   // Charger les données depuis Firestore
   if(_userData){
     appliquerDonneesUtilisateur(_userData);
