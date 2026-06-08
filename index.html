@@ -1773,6 +1773,22 @@ input[type=number]{-moz-appearance:textfield}
         <button class="btn btn-ghost btn-sm" onclick="switchTab('profil')">Modifier →</button>
       </div>
     </div>
+
+    <!-- Zone danger -->
+    <div class="card" style="border:1.5px solid #FCA5A5;margin-top:16px">
+      <div class="card-title" style="color:var(--danger)">Zone de danger</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--ink)">Supprimer mon compte</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">Supprime définitivement votre compte et toutes vos données Lokoo.</div>
+        </div>
+        <button class="btn btn-sm" onclick="supprimerCompteFirebase()"
+          style="background:var(--danger);color:white;border-color:var(--danger);flex-shrink:0">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+          Supprimer mon compte
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- TAB PROFIL -->
@@ -4065,6 +4081,43 @@ window.addEventListener('load', function(){
   // Ajouter le bouton déconnexion dans le menu profil
   setTimeout(ajouterDeconnexionMenu, 500);
 });
+
+// ── SUPPRESSION COMPTE ──────────────────────────────────────
+async function supprimerCompteFirebase(){
+  if(!_currentUser){ alert('Non connecté'); return; }
+
+  const email = _currentUser.email;
+  const confirm1 = confirm('Supprimer définitivement le compte ' + email + ' ?\n\nCette action est irréversible.');
+  if(!confirm1) return;
+
+  const motDePasse = prompt('Confirmez votre mot de passe pour continuer :');
+  if(!motDePasse) return;
+
+  try{
+    // Ré-authentifier avant suppression
+    const credential = firebase.auth.EmailAuthProvider.credential(email, motDePasse);
+    await _currentUser.reauthenticateWithCredential(credential);
+
+    // Supprimer les données Firestore
+    await db.collection('users').doc(_currentUser.uid).delete();
+
+    // Supprimer le compte Auth
+    await _currentUser.delete();
+
+    // Nettoyer localStorage
+    localStorage.clear();
+
+    showToast('Compte supprimé avec succès');
+    // La page login s'affichera automatiquement via onAuthStateChanged
+
+  } catch(e){
+    if(e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential'){
+      alert('Mot de passe incorrect. Suppression annulée.');
+    } else {
+      alert('Erreur : ' + e.message);
+    }
+  }
+}
 
 // ── DÉMARRAGE ─────────────────────────────────────────────────
 // ── RÉCAPITULATIF ─────────────────────────────────────────────
