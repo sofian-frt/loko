@@ -3607,57 +3607,80 @@ function rechercherSirenInscription(siren){
   const statusEl = document.getElementById('reg-siren-status');
   const infoEl = document.getElementById('reg-siren-info');
   if(statusEl) statusEl.textContent = '⏳';
+  if(infoEl) infoEl.style.display = 'none';
+
   function tc(s){ return s?s.toLowerCase().split(' ').map(w=>w?w[0].toUpperCase()+w.slice(1):'').join(' '):''; }
 
-  // Appel API entreprises
   fetch('https://recherche-entreprises.api.gouv.fr/search?q='+siren+'&limit=1')
     .then(r=>r.json()).then(data=>{
       const r = data.results&&data.results[0];
       if(!r){ if(statusEl) statusEl.textContent='❌'; return; }
 
+      const siege = r.siege||{};
       const nomSociete = r.nom_complet||r.denomination||'';
-      let prenom='', nomG='';
-
-      // Chercher dans dirigeants — plusieurs formats possibles
+      let prenomG='', nomG='';
       if(r.dirigeants&&r.dirigeants.length>0){
         const d = r.dirigeants[0];
-        // Format 1 : prenom + nom séparés
-        if(d.prenom) prenom = tc(d.prenom);
+        if(d.prenom) prenomG = tc(d.prenom);
         if(d.nom) nomG = d.nom.toUpperCase();
-        // Format 2 : nom_complet
-        if(!prenom && !nomG && d.nom_complet){
-          const parts = d.nom_complet.trim().split(' ');
-          if(parts.length >= 2){
-            nomG = parts[0].toUpperCase();
-            prenom = tc(parts.slice(1).join(' '));
-          }
+        if(!prenomG&&!nomG&&d.nom_complet){
+          const p = d.nom_complet.trim().split(' ');
+          nomG = p[0]?.toUpperCase()||'';
+          prenomG = tc(p.slice(1).join(' '));
         }
       }
 
-      // Si toujours pas de prénom, chercher dans nom_complet de l'entreprise (EI)
-      if(!prenom && r.nature_juridique_libelle && r.nature_juridique_libelle.includes('Entrepreneur')){
-        const parts = nomSociete.split(' ');
-        if(parts.length >= 2){
-          prenom = tc(parts[0]);
-          nomG = parts.slice(1).join(' ').toUpperCase();
-        }
-      }
+      // SIRET formaté
+      const siret = siege.siret||'';
+      const siretF = siret.replace(/(\d{3})(\d{3})(\d{3})(\d{5})/,'$1 $2 $3 $4');
 
-      const ep = document.getElementById('reg-prenom');
-      const en = document.getElementById('reg-nom');
-      const ee = document.getElementById('reg-entreprise');
-      if(ee) ee.value = nomSociete;
-      if(ep) ep.value = prenom || '';
-      if(en) en.value = nomG || '';
+      // TVA
+      const tvaKey = String(parseInt(siren)%97).padStart(2,'0');
+      const tva = 'FR'+tvaKey+siren;
+
+      // Adresse siège
+      const numV = siege.numero_voie||'';
+      const typeV = tc(siege.type_voie||'');
+      const nomV = tc(siege.libelle_voie||'');
+      const cp = siege.code_postal||'';
+      const ville = tc(siege.libelle_commune||'');
+      const adresse = [numV,typeV,nomV].filter(Boolean).join(' ')+(cp?' · '+cp+' '+ville:'');
+
+      // APE
+      const ape = r.activite_principale||siege.activite_principale||'';
+      const apeLib = r.libelle_activite_principale||'';
 
       if(statusEl) statusEl.textContent='✅';
       if(infoEl){
         infoEl.style.display='block';
-        infoEl.innerHTML='<strong>'+nomSociete+'</strong>'
-          +(prenom||nomG?'<br><span style="color:var(--muted)">Gérant :</span> '+prenom+' '+nomG:'<br><span style="color:var(--muted)">Saisissez le prénom manuellement</span>')
-          +(r.siege&&r.siege.code_postal?'<br><span style="color:var(--muted)">Siège :</span> '+r.siege.code_postal+' '+tc(r.siege.libelle_commune||''):'');
+        infoEl.innerHTML=`
+          <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px">${nomSociete}</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:11px">
+            ${prenomG||nomG?`<div><span style="color:var(--muted)">Gérant</span><br><strong>${prenomG} ${nomG}</strong></div>`:''}
+            ${siretF?`<div><span style="color:var(--muted)">SIRET siège</span><br><strong style="font-family:monospace">${siretF}</strong></div>`:''}
+            ${tva?`<div><span style="color:var(--muted)">N° TVA</span><br><strong style="font-family:monospace">${tva}</strong></div>`:''}
+            ${ape?`<div><span style="color:var(--muted)">Code APE</span><br><strong>${ape}${apeLib?' — '+apeLib:''}</strong></div>`:''}
+            ${adresse?`<div style="grid-column:1/-1"><span style="color:var(--muted)">Adresse siège</span><br><strong>${adresse}</strong></div>`:''}
+          </div>
+          <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--primary-border);display:flex;gap:8px">
+            <button type="button" onclick="appliquerSirenInscription('${nomSociete}','${prenomG}','${nomG}')" class="btn btn-primary btn-sm" style="flex:1">
+              Utiliser ces informations
+            </button>
+          </div>`;
       }
     }).catch(()=>{ if(statusEl) statusEl.textContent='⚠️'; });
+}
+
+function appliquerSirenInscription(societe, prenom, nom){
+  const ep = document.getElementById('reg-prenom');
+  const en = document.getElementById('reg-nom');
+  const ee = document.getElementById('reg-entreprise');
+  if(ee) ee.value = societe;
+  if(ep) ep.value = prenom;
+  if(en) en.value = nom;
+  // Focus sur email
+  const mail = document.getElementById('reg-email');
+  if(mail) mail.focus();
 }
 
 // ── FIREBASE CONFIG & AUTH ────────────────────────────────────
