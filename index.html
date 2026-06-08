@@ -402,14 +402,9 @@ input[type=number]{-moz-appearance:textfield}
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar" style="display:none">
   <div class="sidebar-header">
-    <div style="display:flex;align-items:center;gap:12px">
-      <div style="width:40px;height:40px;background:var(--ink);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <span style="font-size:18px;font-weight:900;color:white;letter-spacing:-1px;font-family:var(--font)">L</span>
-      </div>
-      <div>
-        <div style="font-size:18px;font-weight:900;color:var(--ink);letter-spacing:-0.5px;line-height:1">lokoo<span style="color:var(--primary)">.io</span></div>
-        <div style="font-size:9px;color:var(--muted);font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-top:2px">Relevé & Chiffrage</div>
-      </div>
+    <!-- Logo société — affiché si dispo, sinon vide -->
+    <div id="sidebar-logo-wrap" style="min-height:40px;display:flex;align-items:center">
+      <img id="sidebar-logo-img" src="" alt="" style="display:none;max-height:44px;max-width:140px;object-fit:contain;border-radius:4px">
     </div>
   </div>
 
@@ -3664,6 +3659,7 @@ function afficherLogo(src){
   if(placeholder) placeholder.style.display='none';
   if(suppBtn) suppBtn.style.display='inline-flex';
   if(apLogo){ apLogo.src=src; apLogo.style.display='block'; }
+  majLogoSidebar();
 }
 
 function supprimerLogo(){
@@ -3676,6 +3672,7 @@ function supprimerLogo(){
   if(placeholder) placeholder.style.display='block';
   if(suppBtn) suppBtn.style.display='none';
   if(apLogo){ apLogo.src=''; apLogo.style.display='none'; }
+  majLogoSidebar();
   sauvegarderCompte();
 }
 
@@ -3858,9 +3855,10 @@ function afficherLogin(){
 function afficherApp(){
   document.getElementById('page-login').style.display = 'none';
   document.getElementById('app-main').style.display = 'flex';
-  // Réafficher sidebar et topbar
   document.getElementById('sidebar').style.display = '';
   document.getElementById('main-topbar').style.display = '';
+  // Charger logo société dans sidebar
+  majLogoSidebar();
   // Charger les données depuis Firestore
   if(_userData){
     appliquerDonneesUtilisateur(_userData);
@@ -4081,6 +4079,20 @@ window.addEventListener('load', function(){
   // Ajouter le bouton déconnexion dans le menu profil
   setTimeout(ajouterDeconnexionMenu, 500);
 });
+
+// ── LOGO SIDEBAR ─────────────────────────────────────────────
+function majLogoSidebar(){
+  const logo = localStorage.getItem('lokoo_logo');
+  const img = document.getElementById('sidebar-logo-img');
+  if(!img) return;
+  if(logo){
+    img.src = logo;
+    img.style.display = 'block';
+  } else {
+    img.src = '';
+    img.style.display = 'none';
+  }
+}
 
 // ── SUPPRESSION COMPTE ──────────────────────────────────────
 async function supprimerCompteFirebase(){
