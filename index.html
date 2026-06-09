@@ -5320,11 +5320,67 @@ function genererRapportDPGF(){
 </body>
 </html>`;
 
-  // Ouvrir dans un nouvel onglet pour impression
+  // Générer les descriptions IA des lots puis ouvrir le rapport
+  const apiKey = localStorage.getItem('lokoo_api_key');
+  if(apiKey){
+    showToast('Génération des descriptions IA en cours...');
+    genererDescriptionsIAEtOuvrir(rapport, lots, cur, activite, s, apiKey);
+  } else {
+    ouvrirRapport(rapport, '');
+  }
+}
+
+async function genererDescriptionsIAEtOuvrir(rapport, lots, cur, activite, surface, apiKey){
+  try{
+    const lotsDesc = lots.map(l=>l.nom).join(', ');
+    const prompt = `Tu es un expert en rénovation de locaux commerciaux. 
+Pour un projet de ${cur.label} (${activite}), surface ${surface} m², génère une description professionnelle et concise pour CHAQUE lot de travaux suivant.
+Lots : ${lotsDesc}
+
+Pour chaque lot, donne exactement 2-3 phrases décrivant les prestations prévues, les matériaux standards et les normes applicables.
+Réponds UNIQUEMENT en JSON avec ce format :
+{"descriptions": {"NOM_LOT": "Description du lot..."}}
+Sans aucun texte avant ou après le JSON.`;
+
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-opus-4-5', max_tokens:2000, messages:[{role:'user',content:prompt}]})
+    });
+    const data = await resp.json();
+    const texte = data.content[0].text;
+    
+    let descriptions = {};
+    try{
+      const jsonMatch = texte.match(/\{[\s\S]*\}/);
+      if(jsonMatch) descriptions = JSON.parse(jsonMatch[0]).descriptions || {};
+    }catch(e){ console.warn('Parse JSON IA failed'); }
+    
+    ouvrirRapport(rapport, descriptions);
+  }catch(e){
+    console.error('IA error:', e);
+    ouvrirRapport(rapport, {});
+  }
+}
+
+function ouvrirRapport(rapportHtml, descriptions){
+  // Injecter les descriptions IA dans le rapport
+  let rapportFinal = rapportHtml;
+  if(descriptions && Object.keys(descriptions).length > 0){
+    // Remplacer chaque ligne de lot par version avec description
+    Object.entries(descriptions).forEach(([nom, desc]) => {
+      const escaped = nom.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      rapportFinal = rapportFinal.replace(
+        new RegExp(`(<td[^>]*>\\d+ - ${escaped}</td>)(</tr>)`, 'g'),
+        `$1<tr><td colspan="3" style="padding:4px 14px 10px;font-size:11px;color:#6b7280;font-style:italic;border-bottom:1px solid #e5e7eb">${desc}</td></tr>`
+      );
+    });
+  }
+  
   const win = window.open('', '_blank');
-  win.document.write(rapport);
+  win.document.write(rapportFinal);
   win.document.close();
-  setTimeout(()=>{ win.focus(); win.print(); }, 500);
+  setTimeout(()=>{ win.focus(); win.print(); }, 800);
 }
 
 
