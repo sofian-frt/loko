@@ -373,6 +373,21 @@ input[type=number]{-moz-appearance:textfield}
   /* Bloquer tout débordement horizontal */
   html, body{overflow-x:hidden !important; max-width:100vw !important;}
   /* Champ date iOS : forcer pleine largeur */
+  /* Vue satellite mobile */
+  #satellite-container{
+    width:100% !important;
+    max-width:100% !important;
+    box-sizing:border-box !important;
+    overflow:hidden !important;
+  }
+  #satellite-container iframe{
+    width:100% !important;
+    height:200px !important;
+  }
+  #satellite-container > div:first-child{
+    height:200px !important;
+  }
+
   input[type="date"]{
     width:100% !important;
     max-width:100% !important;
