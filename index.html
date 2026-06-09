@@ -5322,11 +5322,13 @@ async function verifierCodeChantier(suffix){
 var _onDriveConnectOriginal = onDriveTokenReceived;
 async function onDriveTokenReceived(response){
   await _onDriveConnectOriginal(response);
-  // Attendre que le dossier soit trouvé puis charger les codes
+  // Après connexion Drive : charger les codes et générer le prochain code chantier
   setTimeout(async()=>{
-    if(_driveFolderId) await chargerCodesDrive();
-    // Mettre à jour l'affichage du dernier code
-    afficherDernierChantier();
+    if(_driveFolderId){
+      await chargerCodesDrive();
+      // Générer automatiquement le prochain code chantier
+      await genererCodeChantier();
+    }
   }, 1500);
 }
 
