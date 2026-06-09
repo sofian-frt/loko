@@ -418,10 +418,7 @@ input[type=number]{-moz-appearance:textfield}
     <button class="nav-item active" onclick="showPage('init')" id="nav-init">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><path d="M9 12h6M9 16h4"/></svg></span> Initialisation
     </button>
-    <button class="nav-item" onclick="showPage('releves')" id="nav-releves">
-      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 21L21 3M3 21h7M3 21v-7"/></svg></span> Relevés & Pièces
-      <span class="nav-badge" id="nb-pieces-nav">0</span>
-    </button>
+    
   </div>
 
   <div class="nav-group">
@@ -766,7 +763,7 @@ input[type=number]{-moz-appearance:textfield}
         <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
             <label class="form-label">Type de local</label>
-            <select id="proj-type-local" class="form-select" onchange="updateProjectHeader();analyserActiviteIA()">
+            <select id="proj-type-local" class="form-select" onchange="updateProjectHeader()">
               <option value="restaurant">Restaurant</option>
               <option value="commerce">Commerce</option>
               <option value="bureau">Bureaux</option>
@@ -785,14 +782,11 @@ input[type=number]{-moz-appearance:textfield}
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label">Activité prévue
-              <span style="font-size:10px;color:var(--primary);font-weight:500;margin-left:4px">→ anticipe extraction, PMR, sécurité...</span>
-            </label>
+            <label class="form-label">Activité prévue</label>
             <input id="proj-activite" class="form-input" placeholder=""
-              oninput="updateProjectHeader();clearTimeout(_activiteTimer);_activiteTimer=setTimeout(analyserActiviteIA,1500)">
+              oninput="updateProjectHeader()">
           </div>
         </div>
-        <div id="activite-ia-hint" style="display:none;margin-bottom:12px;padding:10px 14px;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;font-size:12px;color:var(--primary-dark)"></div>
 
         <!-- LIGNE 6 : Surface calculée + Hauteurs -->
         <div class="form-row" style="margin-bottom:14px">
@@ -4100,7 +4094,19 @@ function afficherApp(){
   // Préremplir date du jour
   const dateEl = document.getElementById('proj-date');
   if(dateEl && !dateEl.value) dateEl.value = new Date().toISOString().slice(0,10);
-  // Releveur : champ libre, pas de préremplissage auto
+  // Préremplir releveur avec utilisateur connecté si vide
+  const relEl = document.getElementById('proj-releveur');
+  if(relEl && !relEl.value && _currentUser){
+    const raw2 = localStorage.getItem('lokoo_compte');
+    if(raw2){
+      try{
+        const d2 = JSON.parse(raw2);
+        const p2 = d2.profil||{};
+        const nom = [p2.prenom, p2.nom].filter(Boolean).join(' ');
+        if(nom) relEl.value = nom;
+      }catch(e){}
+    }
+  }
   chargerCompte();
   console.log('Lokoo V3.7 ✓ — Connecté:', _currentUser.email);
 }
@@ -5123,8 +5129,20 @@ async function genererCodeChantier(){
   var prefixEl = document.getElementById('code-prefix');
   if(prefixEl) prefixEl.textContent = yy + '-CHT-';
 
-  // Charger codes Drive si connecté
-  if(_driveToken && _driveFolderId && _codesExistantsDrive === null){
+  var suffixInp = document.getElementById('proj-nom-suffix');
+  var hidden = document.getElementById('proj-nom');
+  var hintEl = document.getElementById('code-hint');
+
+  // Si pas connecté au Drive — afficher message et laisser vide
+  if(!_driveToken){
+    if(suffixInp) suffixInp.value = '';
+    if(hidden) hidden.value = '';
+    if(hintEl) hintEl.innerHTML = '<span style="color:var(--warn)">Connectez Google Drive pour générer automatiquement le code chantier</span>';
+    return;
+  }
+
+  // Charger codes Drive si pas encore fait
+  if(_driveFolderId && _codesExistantsDrive === null){
     await chargerCodesDrive();
   }
 
@@ -5141,9 +5159,7 @@ async function genererCodeChantier(){
   });
 
   var nextSuffix = String(maxNum + 1).padStart(4, '0');
-  var suffixInp = document.getElementById('proj-nom-suffix');
   if(suffixInp) suffixInp.value = nextSuffix;
-  var hidden = document.getElementById('proj-nom');
   if(hidden) hidden.value = prefix + nextSuffix;
 
   verifierCodeChantier(nextSuffix);
