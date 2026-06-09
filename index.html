@@ -435,7 +435,6 @@ input[type=number]{-moz-appearance:textfield}
   <div class="nav-group">
     <span class="nav-label">Dimensionnement</span>
 
-
     <button class="nav-item" onclick="showPage('eclairage')" id="nav-eclairage">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 014.9 11.9c-.6.6-1.9 2.1-1.9 3.1v.1H9v-.1c0-1-.8-2.2-1.9-3.1A7 7 0 0112 2z"/></svg></span> Éclairage
     </button>
@@ -516,7 +515,6 @@ input[type=number]{-moz-appearance:textfield}
 
 <!-- FAB mobile synthèse -->
 <button class="fab" onclick="showPage('synthese')" title="Synthèse"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></button>
-
 
 <!-- ══ PAGE LOGIN ══ -->
 <div id="page-login" style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg);padding:20px">
@@ -680,7 +678,6 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 <div class="content">
-
 
 <!-- ══ PAGE INITIALISATION ══ -->
 <div class="page active" id="page-init">
@@ -915,8 +912,6 @@ input[type=number]{-moz-appearance:textfield}
         </div>
       </div>
 
-
-
       <!-- SUIVI ADMINISTRATIF -->
       <div class="card" style="margin-bottom:16px;background:var(--bg)">
         <div class="card-title">Suivi administratif</div>
@@ -952,7 +947,6 @@ input[type=number]{-moz-appearance:textfield}
           </div>
         </div>
       </div>
-
 
       <!-- ÉTAT DU LOCAL -->
       <div class="card" style="margin-bottom:16px">
@@ -1033,7 +1027,6 @@ input[type=number]{-moz-appearance:textfield}
     <!-- COL DROITE -->
     <div>
 
-
       <!-- ÉTUDES & AUTORISATIONS -->
       <div class="card" style="margin-bottom:16px">
         <div class="card-title">Études et autorisations</div>
@@ -1092,7 +1085,6 @@ input[type=number]{-moz-appearance:textfield}
     </button>
   </div>
 </div>
-
 
 <!-- ══ PAGE ANALYSE IA ══ -->
 <div class="page" id="page-analyse-ia">
@@ -1264,7 +1256,6 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
-
 <!-- ══ PAGE ÉLECTRICITÉ ══ -->
 <div class="page" id="page-electricite">
   <div class="page-header">
@@ -1338,7 +1329,6 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
-
 <!-- ══ PAGE PLOMBERIE ══ -->
 <div class="page" id="page-plomberie">
   <div class="page-header">
@@ -1409,7 +1399,6 @@ input[type=number]{-moz-appearance:textfield}
     <button class="btn btn-primary" onclick="showPage('ventilation')">Ventilation →</button>
   </div>
 </div>
-
 
 <!-- ══ PAGE VENTILATION ══ -->
 <div class="page" id="page-ventilation">
@@ -1510,7 +1499,6 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
-
 <!-- ══ PAGE CLIMATISATION ══ -->
 <div class="page" id="page-clim">
   <div class="page-header">
@@ -1608,7 +1596,6 @@ input[type=number]{-moz-appearance:textfield}
     <button class="btn btn-primary" onclick="showPage('facade')">Façade & Études →</button>
   </div>
 </div>
-
 
 <!-- ══ PAGE SÉCURITÉ INCENDIE ══ -->
 <div class="page" id="page-securite-incendie">
@@ -1860,7 +1847,6 @@ input[type=number]{-moz-appearance:textfield}
   </div>
   <div class="g2" id="chantiers-grid"></div>
 </div>
-
 
 <!-- ══ PAGE COMPTE ══ -->
 <div class="page" id="page-compte">
@@ -2288,7 +2274,6 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
-
 <!-- ══ PAGE DASHBOARD ══ -->
 <div class="page" id="page-dashboard">
   <div class="page-header">
@@ -2298,11 +2283,9 @@ input[type=number]{-moz-appearance:textfield}
   <div id="dashboard-content"></div>
 </div>
 
-
 </div><!-- /content -->
 </div><!-- /main -->
 </div><!-- /app -->
-
 
 <!-- MODAL PRIX -->
 <div id="modal-prix" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;align-items:center;justify-content:center">
@@ -2476,100 +2459,6 @@ boulangerie:{label:'Boulangerie',icon:'<svg width=\"18\" height=\"18\" fill=\"no
     {nom:'Caméras / Sécurité',calcType:'m2',taux:22,detail:"Caméras IP HD, NVR, câblage"},
   ]
 },
-bureau:{label:'Bureaux',icon:'<svg width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" viewBox=\"0 0 24 24\"><rect x=\"2\" y=\"7\" width=\"20\" height=\"14\" rx=\"2\"/><path d=\"M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2\"/></svg>',taux:520,placesLabel:'Postes de travail',placesRatio:8.0,mobilierTaux:1200,comptoirRatio:0,dureeRatio:0.030,
-  lots:[
-    {nom:'Démolition / Curage',pct:4,detail:"Dépose cloisons, faux plafonds, revêtements"},
-    {nom:'Cloisons / Doublages',pct:14,detail:"Cloisons vitrées, cloisons plâtre, bureaux privatifs",alert:'Lot majeur en open space',alertType:'warn'},
-    {nom:'Faux plafonds',pct:10,detail:"Faux plafonds acoustiques, trappes"},
-    {nom:'Sols',pct:9,detail:"Moquette, vinyl, parquet flottant, ragréage"},
-    {nom:'Peinture',pct:5,detail:"Murs et plafonds, finitions propres"},
-    {nom:'Électricité',pct:20,detail:"Tableau, câblage data+courant, prises plancher, éclairage LED"},
-    {nom:'Plomberie',pct:4,detail:"Kitchenette, sanitaires, ECS réduit"},
-    {nom:'Ventilation',pct:8,detail:"VMC double flux, bouches, gaines"},
-    {nom:'Climatisation',pct:12,detail:"VRV ou multi-split, gestion centralisée"},
-    {nom:'Menuiserie intérieure',pct:8,detail:"Portes vitrées, cloisons amovibles, placards"},
-    {nom:'Accessibilité PMR',pct:2,detail:"Adaptations PMR, signalétique, toilettes adaptées",alert:'Obligatoire ERP cat. 5+',alertType:'erp'},
-    {nom:'Éclairage décoratif',pct:2,detail:"Luminaires design, éclairage zones"},
-    {nom:'Nettoyage fin de chantier',pct:2,detail:"Nettoyage et réception"},
-  ],
-  comps:[
-    {nom:'Mobilier bureau',calcType:'mobilier',detail:"Bureaux, fauteuils, caissons, tables de réunion"},
-    {nom:'Décoration',calcType:'m2',taux:60,detail:"Végétaux, tableaux, habillages, signalétique"},
-    {nom:'IT / Réseau',calcType:'m2',taux:35,detail:"Baie réseau, câblage RJ45, Wi-Fi, téléphonie IP"},
-    {nom:'Caméras / Contrôle accès',calcType:'m2',taux:28,detail:"Caméras, badges, interphonie"},
-  ]
-},
-boutique:{label:'Boutique',icon:'<svg width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" viewBox=\"0 0 24 24\"><path d=\"M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z\"/><line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"/><path d=\"M16 10a4 4 0 01-8 0\"/></svg>',taux:740,placesLabel:'Cabines essayage',placesRatio:20.0,mobilierTaux:400,comptoirRatio:100,dureeRatio:0.040,
-  lots:[
-    {nom:'Démolition / Curage',pct:3,detail:"Dépose revêtements et agencement existant"},
-    {nom:'Cloisons / Doublages',pct:7,detail:"Cabines, réserve, bureau"},
-    {nom:'Faux plafonds',pct:5,detail:"Plafond tendu ou plâtre"},
-    {nom:'Sols',pct:12,detail:"Revêtement commercial premium",alert:'Finitions importantes pour image marque',alertType:'warn'},
-    {nom:'Peinture',pct:5,detail:"Murs et plafonds, finitions haute qualité"},
-    {nom:'Électricité',pct:18,detail:"Éclairage produits (spots, rails), prises, tableau",alert:'Éclairage = élément clé',alertType:'warn'},
-    {nom:'Plomberie',pct:3,detail:"Sanitaires, point d'eau réserve"},
-    {nom:'Climatisation',pct:10,detail:"Confort clientèle et protection marchandise"},
-    {nom:'Menuiserie intérieure',pct:8,detail:"Cabines, vitrine intérieure, mobilier fixe"},
-    {nom:'Menuiserie extérieure',pct:10,detail:"Vitrine, devanture, entrée",alert:'Vitrine = identité visuelle',alertType:'warn'},
-    {nom:'Éclairage décoratif',pct:7,detail:"Luminaires, éclairage ambiance et produit"},
-    {nom:'Sécurité incendie / ERP',pct:2,detail:"BAES, détection, PMR",alert:'ERP — réglementation stricte',alertType:'erp'},
-    {nom:'Nettoyage fin de chantier',pct:2,detail:"Nettoyage et réception"},
-  ],
-  comps:[
-    {nom:'Agencement / Mobilier',calcType:'mobilier',detail:"Présentoirs, gondoles, caisse, vitrines"},
-    {nom:'Décoration',calcType:'m2',taux:140,detail:"Habillages muraux, éléments décoratifs"},
-    {nom:'Enseigne',calcType:'forfait',montant:6500,detail:"Enseigne, vitrophanie, packaging visuel façade"},
-    {nom:'Système caisse / TPE',calcType:'forfait',montant:5000,detail:"Caisse tactile, TPE, logiciel retail"},
-    {nom:'Antivol / Sécurité',calcType:'m2',taux:30,detail:"Portiques antivol, caméras, alarme"},
-  ]
-},
-cabinet:{label:'Cabinet médical',icon:'<svg width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" viewBox=\"0 0 24 24\"><path d=\"M22 12h-4l-3 9L9 3l-3 9H2\"/></svg>',taux:640,placesLabel:'Postes de soins',placesRatio:25.0,mobilierTaux:2000,comptoirRatio:0,dureeRatio:0.035,
-  lots:[
-    {nom:'Démolition / Curage',pct:3,detail:"Dépose revêtements et cloisons"},
-    {nom:'Cloisons / Doublages',pct:12,detail:"Salles de soins, accueil, sanitaires",alert:'Isolation phonique renforcée',alertType:'warn'},
-    {nom:'Faux plafonds',pct:6,detail:"Plafonds lavables dans les salles de soins"},
-    {nom:'Sols',pct:10,detail:"PVC médicaux anti-bactériens, pose couture",alert:'PVC médical homologué obligatoire',alertType:'erp'},
-    {nom:'Carrelage / Faïence',pct:4,detail:"Sanitaires et vestiaires"},
-    {nom:'Peinture',pct:4,detail:"Peintures lessivables, finitions sanitaires"},
-    {nom:'Électricité',pct:18,detail:"Éclairage médical, prises spécialisées",alert:'Mise à la terre renforcée',alertType:'warn'},
-    {nom:'Plomberie',pct:10,detail:"Points d'eau nombreux, ECS, évacuations, lave-mains"},
-    {nom:'Ventilation',pct:8,detail:"VMC hygiénique, renouvellement d'air réglementaire"},
-    {nom:'Climatisation',pct:7,detail:"Confort patients et praticiens"},
-    {nom:'Menuiserie intérieure',pct:6,detail:"Portes larg. 90 cm min, poignées hygiéniques"},
-    {nom:'Accessibilité PMR',pct:8,detail:"Accès PMR complet, toilettes adaptées, rampes",alert:'ERP — non négociable',alertType:'erp'},
-    {nom:'Nettoyage fin de chantier',pct:4,detail:"Nettoyage désinfectant et réception"},
-  ],
-  comps:[
-    {nom:'Mobilier médical',calcType:'mobilier',detail:"Tables d'examen, bureaux, salle d'attente"},
-    {nom:'Signalétique / Plaques',calcType:'forfait',montant:2500,detail:"Plaques professionnelles, directionnels"},
-    {nom:'Système de gestion',calcType:'forfait',montant:6000,detail:"Logiciel médical, écrans salle d'attente"},
-    {nom:'Alarme / Sécurité',calcType:'m2',taux:20,detail:"Alarme intrusion, accès sécurisé"},
-  ]
-},
-salon:{label:'Salon de coiffure',icon:'<svg width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" viewBox=\"0 0 24 24\"><path d=\"M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z\"/></svg>',taux:720,placesLabel:'Postes coiffure',placesRatio:12.0,mobilierTaux:2500,comptoirRatio:120,dureeRatio:0.042,
-  lots:[
-    {nom:'Démolition / Curage',pct:3,detail:"Dépose mobilier, revêtements, cloisons"},
-    {nom:'Cloisons / Doublages',pct:6,detail:"Zone cabines, toilettes, réserve"},
-    {nom:'Faux plafonds',pct:5,detail:"Faux plafond décoratif, éclairage intégré"},
-    {nom:'Sols',pct:10,detail:"Revêtement antidérapant, facile d'entretien"},
-    {nom:'Carrelage / Faïence',pct:3,detail:"Bac à shampoing, toilettes"},
-    {nom:'Peinture',pct:4,detail:"Peinture décorative, finitions soignées"},
-    {nom:'Électricité',pct:18,detail:"Prises casques, séchoirs, éclairage miroirs",alert:'Nombreuses prises spécifiques',alertType:'warn'},
-    {nom:'Plomberie',pct:14,detail:"Bacs à shampoing, eau chaude, ECS important",alert:'ECS dimensionné pour les bacs',alertType:'warn'},
-    {nom:'Ventilation',pct:6,detail:"Extraction produits chimiques",alert:'Extraction renforcée obligatoire',alertType:'warn'},
-    {nom:'Climatisation',pct:8,detail:"Confort clientèle"},
-    {nom:'Menuiserie intérieure',pct:5,detail:"Portes, placards, comptoir d'accueil"},
-    {nom:'Éclairage décoratif',pct:8,detail:"Miroirs éclairés, ambiance"},
-    {nom:'Nettoyage fin de chantier',pct:2,detail:"Nettoyage et réception"},
-  ],
-  comps:[
-    {nom:'Mobilier coiffure',calcType:'mobilier',detail:"Bacs, fauteuils, miroirs, chariots, bac accueil"},
-    {nom:'Décoration',calcType:'m2',taux:160,detail:"Habillages muraux, végétaux, éclairage ambiance"},
-    {nom:'Enseigne',calcType:'forfait',montant:3800,detail:"Enseigne lumineuse, vitrophanie, signalétique"},
-    {nom:'Caisse & Logiciel',calcType:'forfait',montant:3500,detail:"Caisse tactile, logiciel salon, planning"},
-    {nom:'Alarme / Sécurité',calcType:'m2',taux:18,detail:"Alarme, caméras, accès"},
-  ]
-},
 institut:{label:'Institut de beauté',icon:'<svg width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" viewBox=\"0 0 24 24\"><path d=\"M12 2a5 5 0 100 10A5 5 0 0012 2z\"/><path d=\"M2 22s1-4 10-4 10 4 10 4\"/></svg>',taux:760,placesLabel:'Cabines soins',placesRatio:15.0,mobilierTaux:3500,comptoirRatio:130,dureeRatio:0.045,
   lots:[
     {nom:'Démolition / Curage',pct:3,detail:"Dépose revêtements et cloisonnements"},
@@ -2668,7 +2557,7 @@ function showPage(id){
   if(id==='facade-enseigne')renderFacadeEnseigne();
   if(id==='analyse-ia')renderAnalyseIA();
   if(id==='releves-existant')renderRelevesPage();
-  
+
   if(id==='init')renderRecapBanner();
   if(id==='prechiffrage')recalculate();
   if(id==='chiffrage')renderChiffrageDetail();
@@ -2750,7 +2639,6 @@ function addPiece(type){
     prises:4,prisesDouble:2,prisesSpec:0,prisesTri:0,rj45:0,camElec:0,bornesWifi:0,ecrans:0,
     eauFroide:0,eauChaude:0,evacuation:0,wc:0,wcPMR:0,laveMains:0,plonge:0,sipholSol:0,
     nbPersonnes:0,notes:'',_mursB:0,_mursN:0,_faience:0});
-  // Cacher l'empty state du bon onglet
   const emptyEl = _get('empty-pieces-'+type) || _get('empty-pieces');
   if(emptyEl) emptyEl.style.display='none';
   renderPieceCard(id, type);
@@ -2781,7 +2669,6 @@ function renderPieces(){
 function renderPieceCard(id, type){
   const p=getPiece(id);if(!p)return;
   if(!type) type = p._type || 'existant';
-  // Chercher le bon container
   const c = _get('pieces-list-'+type) || _get('pieces-container');
   if(!c)return;
   _get('piece-card-'+id)?.remove();
@@ -3365,7 +3252,7 @@ function renderSynthese(){
   sc.innerHTML=`
   <div class="card" style="margin-bottom:20px;border:2px solid var(--primary-border);background:linear-gradient(135deg,var(--primary-light) 0%,white 60%)">
     <div style="display:flex;align-items:center;gap:16px">
-      
+
       <div style="flex:1"><div style="font-size:20px;font-weight:800">${nom}</div>${client?`<div style="font-size:13px;color:var(--mid);margin-top:2px">${client}</div>`:''}${adresse?`<div style="font-size:12px;color:var(--muted);margin-top:2px">📍 ${adresse}</div>`:''}
         <div style="margin-top:8px;display:flex;gap:6px"><span class="badge badge-primary">${cur.label}</span><span class="badge badge-muted">${gam.label}</span>${surf?`<span class="badge badge-muted">${surf} m²</span>`:''}</div>
       </div>
@@ -3565,21 +3452,17 @@ function openSatelliteModal(){
   const label=state._adresseLabel||'';
   if(!lat||!lng){alert('Sélectionnez une adresse dans la liste pour afficher la carte.');return;}
 
-  // Titre et adresse
   const titleEl=document.getElementById('satellite-modal-title');
   const addrEl=document.getElementById('satellite-modal-addr');
   if(titleEl)titleEl.textContent='Vue satellite';
   if(addrEl)addrEl.textContent=label;
 
-  // Lien Google Maps direct
   const gmLink=document.getElementById('satellite-gmaps-link');
   if(gmLink)gmLink.href='https://www.google.com/maps/search/?api=1&query='+lat+','+lng;
 
-  // Afficher la modale
   const m=document.getElementById('modal-satellite');
   if(m)m.style.display='flex';
 
-  // Charger l'iframe
   loadSatelliteIframe(_currentMapType);
 }
 
@@ -3593,10 +3476,8 @@ function loadSatelliteIframe(maptype){
   const iframe=document.getElementById('satellite-iframe');
   if(loading)loading.style.display='flex';
 
-  // Zoom 18 pour satellite/hybride, 16 pour plan
   const zoom=maptype==='roadmap'?16:18;
 
-  // Google Maps Embed — utilise l'URL de recherche avec marqueur
   const src='https://maps.google.com/maps?q='+lat+','+lng+
     '&t='+(maptype==='roadmap'?'m':maptype==='hybrid'?'h':'k')+
     '&z='+zoom+'&ie=UTF8&iwloc=&output=embed';
@@ -3606,7 +3487,6 @@ function loadSatelliteIframe(maptype){
     iframe.src=src;
   }
 
-  // Mettre à jour les boutons actifs
   ['sat','road','hyb'].forEach(v=>{
     const btn=document.getElementById('btn-view-'+v);
     if(!btn)return;
@@ -3661,7 +3541,6 @@ function rechercherSiren(v){
       var ape = r.activite_principale || '';
       var siege = r.siege || {};
 
-      // Adresse siège en titre case
       var numVoie = siege.numero_voie || '';
       var typeVoie = toTitleCase(siege.type_voie || '');
       var nomVoie = toTitleCase(siege.libelle_voie || '');
@@ -3675,18 +3554,14 @@ function rechercherSiren(v){
         adresseFormatee = toTitleCase(siege.adresse);
       }
 
-      // SIRET formaté
       var siret = siege.siret || '';
       var siretFormate = siret ? siret.replace(/(\d{3})(\d{3})(\d{3})(\d{5})/, '$1 $2 $3 $4') : '';
 
-      // TVA intracommunautaire
       var tvaKey = parseInt(siren) % 97;
       if(tvaKey < 10) tvaKey = '0' + tvaKey;
       var tva = 'FR' + tvaKey + siren;
 
-      // Remplir uniquement le champ client — PAS l'adresse du chantier
       if(clientInp && nom) clientInp.value = nom;
-      // Sauvegarder dans historique clients
       sauvegarderClientHistorique(siren, nom, adresseFormatee);
       if(statusEl) statusEl.textContent = '✅';
 
@@ -3742,7 +3617,6 @@ function sauvegarderCompte(){
   localStorage.setItem('lokoo_compte', JSON.stringify(data));
   mettreAJourProfilMenu(data);
   mettreAJourApercuEntete(data);
-  // Sauvegarder dans Firestore avec debounce
   clearTimeout(window._firestoreTimer);
   window._firestoreTimer = setTimeout(sauvegarderDonneesFirestore, 1000);
 }
@@ -3756,11 +3630,9 @@ function chargerCompte(){
       const e=document.getElementById(id);
       if(!e||v==null) return;
       if(e.tagName==='SELECT'){
-        // Chercher option correspondante (exact ou partiel)
         const opts = Array.from(e.options);
         const exact = opts.find(o=>o.value===v||o.text===v);
         if(exact){ e.value=exact.value; return; }
-        // Partiel — ex: "Société par actions simplifiée" → "SAS"
         const formes = {
           'simplifiée':'SAS','sas':'SAS','sarl':'SARL','responsabilité limitée':'SARL',
           'eurl':'EURL','unipersonnelle':'EURL','individuelle':'EI','ei':'EI',
@@ -3802,17 +3674,14 @@ function chargerCompte(){
     setchk('pref-notif-save',pr.notif_save!==false);
     setchk('pref-notif-alert',pr.notif_alert!==false);
 
-    // Logo & Signature
     const logo = localStorage.getItem('lokoo_logo');
     if(logo) afficherLogo(logo);
     const sig = localStorage.getItem('lokoo_signature');
     if(sig) afficherSignature(sig);
 
-    // Mettre à jour le menu profil (fonctionne même sans la page compte)
     mettreAJourProfilMenu(data);
     mettreAJourApercuEntete(data);
 
-    // Releveur laissé vide intentionnellement
     if(d.fg_def){ state.fg = parseFloat(d.fg_def)||state.fg; }
     if(d.marge_def){ state.marge = parseFloat(d.marge_def)||state.marge; }
     if(d.region_def){ state.region = d.region_def||state.region; }
@@ -3823,7 +3692,6 @@ function chargerCompte(){
 function renderCompte(){
   chargerCompte();
   switchTab('general');
-  // Mettre à jour l'aperçu général
   const raw = localStorage.getItem('lokoo_compte');
   if(raw){
     try{
@@ -3875,7 +3743,6 @@ function importerLogo(input){
   const file = input.files[0]; if(!file) return;
   const reader = new FileReader();
   reader.onload = e => {
-    // Rogner automatiquement les espaces blancs/transparents
     rognerLogo(e.target.result, function(croppedSrc){
       localStorage.setItem('lokoo_logo', croppedSrc);
       afficherLogo(croppedSrc);
@@ -3902,7 +3769,6 @@ function rognerLogo(src, callback){
       for(let x = 0; x < canvas.width; x++){
         const idx = (y * canvas.width + x) * 4;
         const r = data[idx], g = data[idx+1], b = data[idx+2], a = data[idx+3];
-        // Pixel non blanc et non transparent
         const isBlank = a < 10 || (r > 240 && g > 240 && b > 240 && a > 200);
         if(!isBlank){
           if(y < top) top = y;
@@ -3913,10 +3779,8 @@ function rognerLogo(src, callback){
       }
     }
 
-    // Pas de contenu trouvé — retourner l'original
     if(top > bottom || left > right){ callback(src); return; }
 
-    // Ajouter un petit padding (2%)
     const pad = Math.max(2, Math.round(Math.min(canvas.width, canvas.height) * 0.02));
     top = Math.max(0, top - pad);
     bottom = Math.min(canvas.height - 1, bottom + pad);
@@ -3987,7 +3851,6 @@ function toggleProfilMenu(){
   menu.style.display = menu.style.display==='none' ? 'block' : 'none';
 }
 
-// Fermer le menu profil en cliquant dehors
 document.addEventListener('click', function(e){
   const btn = document.getElementById('btn-profil');
   const menu = document.getElementById('profil-menu');
@@ -3995,8 +3858,6 @@ document.addEventListener('click', function(e){
     menu.style.display='none';
   }
 });
-
-
 
 // ── SIREN INSCRIPTION ────────────────────────────────────────
 function resetSirenInscription(){
@@ -4032,12 +3893,10 @@ function rechercherSirenInscription(siren){
       const siege = r.siege||{};
       const nomSociete = r.nom_complet||r.denomination||'';
 
-      // Statut juridique
       const formeJuridique = r.nature_juridique_libelle||'';
       const estSAS = formeJuridique.toUpperCase().includes('SAS') || formeJuridique.toUpperCase().includes('SOCIÉTÉ PAR ACTIONS SIMPLIFIÉE');
       const titreGerant = estSAS ? 'Président' : 'Gérant';
 
-      // Dirigeant
       let prenomG='', nomG='';
       if(r.dirigeants&&r.dirigeants.length>0){
         const d = r.dirigeants[0];
@@ -4050,7 +3909,6 @@ function rechercherSirenInscription(siren){
         }
       }
 
-      // SIRET, TVA, APE, adresse
       const siret = siege.siret||'';
       const siretF = siret.replace(/(\d{3})(\d{3})(\d{3})(\d{5})/,'$1 $2 $3 $4');
       const tvaKey = String(parseInt(siren)%97).padStart(2,'0');
@@ -4064,16 +3922,13 @@ function rechercherSirenInscription(siren){
       const ville = tc(siege.libelle_commune||'');
       const adresse = [numV,typeV,nomV].filter(Boolean).join(' ')+(cp?' · '+cp+' '+ville:'');
 
-      // Capital
       const capital = r.capital||'';
       const capitalF = capital ? Number(capital).toLocaleString('fr-FR')+' €' : '';
 
       if(statusEl) statusEl.textContent='✅';
 
-      // Cacher les champs manuels si société trouvée
       if(fieldsEl) fieldsEl.style.display='none';
 
-      // Stocker les valeurs pour l'inscription
       document.getElementById('reg-entreprise').value = nomSociete;
       document.getElementById('reg-prenom').value = prenomG||'';
       document.getElementById('reg-nom').value = nomG||'';
@@ -4097,8 +3952,6 @@ function rechercherSirenInscription(siren){
     });
 }
 
-
-
 // ── FIREBASE CONFIG & AUTH ────────────────────────────────────
 const firebaseConfig = {
   apiKey: "AIzaSyCzMYTP-x8Nrnq1LwQCZAIUkbHgR--V4h4",
@@ -4117,7 +3970,6 @@ const db = firebase.firestore();
 let _currentUser = null;
 let _userData = null;
 
-// Observer état connexion
 auth.onAuthStateChanged(async user => {
   if(user){
     _currentUser = user;
@@ -4133,7 +3985,6 @@ auth.onAuthStateChanged(async user => {
 function afficherLogin(){
   document.getElementById('page-login').style.display = 'flex';
   document.getElementById('app-main').style.display = 'none';
-  // Cacher sidebar et topbar
   document.getElementById('sidebar').style.display = 'none';
   document.getElementById('main-topbar').style.display = 'none';
   document.getElementById('sidebar-overlay').style.display = 'none';
@@ -4145,19 +3996,13 @@ function afficherApp(){
   document.getElementById('sidebar').style.display = '';
   document.getElementById('main-topbar').style.display = '';
   majLogoSidebar();
-  // Générer le code chantier — attendre que Drive soit prêt
   genererCodeChantierAvecAttente();
-  // Charger les données depuis Firestore
   if(_userData){
     appliquerDonneesUtilisateur(_userData);
   }
-  // Init app
-  // genererCodeChantier appelé dans afficherApp() après Firebase
   renderRecapBanner();
-  // Préremplir date du jour
   const dateEl = document.getElementById('proj-date');
   if(dateEl && !dateEl.value) dateEl.value = new Date().toISOString().slice(0,10);
-  // Releveur : champ vide par défaut
   chargerCompte();
   setTimeout(()=>{
     majActiviteOptions();
@@ -4212,7 +4057,6 @@ async function inscriptionFirebase(){
   try{
     const cred = await auth.createUserWithEmailAndPassword(email, password);
 
-    // Récupérer les données SIREN complètes si disponibles
     let entrepriseData = { raison: entreprise };
     if(siren.length === 9){
       try{
@@ -4246,7 +4090,6 @@ async function inscriptionFirebase(){
       }catch(e){ console.warn('SIREN fetch error:', e); }
     }
 
-    // Créer le profil complet dans Firestore
     await db.collection('users').doc(cred.user.uid).set({
       profil: {
         prenom, nom, email,
@@ -4319,8 +4162,6 @@ async function chargerDonneesUtilisateur(uid){
 
 function appliquerDonneesUtilisateur(data){
   if(!data) return;
-  // Mettre à jour localStorage avec les données Firestore
-  // (pour que chargerCompte() fonctionne normalement)
   const local = {
     profil: data.profil||{},
     entreprise: data.entreprise||{},
@@ -4347,10 +4188,6 @@ async function sauvegarderDonneesFirestore(){
   } catch(e){ console.error('Erreur sauvegarde Firestore:', e); }
 }
 
-// Sauvegarder automatiquement dans Firestore quand on sauvegarde le compte
-
-
-// Ajouter déconnexion dans le menu profil
 function ajouterDeconnexionMenu(){
   const menu = document.getElementById('profil-menu');
   if(!menu || menu.querySelector('.btn-deconnexion')) return;
@@ -4363,16 +4200,12 @@ function ajouterDeconnexionMenu(){
   menu.appendChild(div);
 }
 
-// Init Firebase — remplace l'ancien init()
 window.addEventListener('load', function(){
-  // L'app s'affiche via onAuthStateChanged
-  // Ajouter le bouton déconnexion dans le menu profil
   setTimeout(ajouterDeconnexionMenu, 500);
 });
 
 // ── LOGO SIDEBAR ─────────────────────────────────────────────
 function majLogoSidebar(){
-  // Plus de logo dans la topbar
 }
 
 // ── SUPPRESSION COMPTE ──────────────────────────────────────
@@ -4387,21 +4220,16 @@ async function supprimerCompteFirebase(){
   if(!motDePasse) return;
 
   try{
-    // Ré-authentifier avant suppression
     const credential = firebase.auth.EmailAuthProvider.credential(email, motDePasse);
     await _currentUser.reauthenticateWithCredential(credential);
 
-    // Supprimer les données Firestore
     await db.collection('users').doc(_currentUser.uid).delete();
 
-    // Supprimer le compte Auth
     await _currentUser.delete();
 
-    // Nettoyer localStorage
     localStorage.clear();
 
     showToast('Compte supprimé avec succès');
-    // La page login s'affichera automatiquement via onAuthStateChanged
 
   } catch(e){
     if(e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential'){
@@ -4416,46 +4244,37 @@ async function supprimerCompteFirebase(){
 function reinitialiserProjet(){
   if(!confirm('Réinitialiser le projet en cours ?\n\nToutes les données saisies seront effacées.')) return;
 
-  // Vider tous les champs du formulaire
   const ids = ['proj-nom','proj-nom-suffix','proj-client','proj-siren','proj-adresse',
     'proj-date','proj-releveur','proj-type-local','proj-activite','proj-surface',
     'proj-hauteur','proj-notes'];
   ids.forEach(id => { const e=document.getElementById(id); if(e) e.value=''; });
 
-  // Réinitialiser l'état
   state.pieces = [];
   state.pieceCounter = 0;
   state.surface = 0;
   state.etat = {};
   state.alertes = [];
 
-  // Décocher toutes les checkboxes
   document.querySelectorAll('.page input[type="checkbox"]').forEach(cb => cb.checked = false);
 
-  // Réinitialiser code chantier
   genererCodeChantierAvecAttente();
 
-  // Vider SIREN status
   const siretStatus = document.getElementById('siret-status');
   const siretInfo = document.getElementById('siret-info');
   if(siretStatus) siretStatus.textContent = '';
   if(siretInfo) siretInfo.style.display = 'none';
 
-  // Vider adresse suggestions
   const sug = document.getElementById('adresse-suggestions');
   if(sug) sug.style.display = 'none';
 
-  // Masquer le recap banner
   const banner = document.getElementById('recap-banner');
   if(banner) banner.style.display = 'none';
 
-  // Retourner à l'initialisation
   showPage('init');
   updateRecap();
 
   showToast('Projet réinitialisé', '#6B7280');
 }
-
 
 // ── INITIALISATION AMÉLIORÉE ─────────────────────────────────
 var _activiteTimer = null;
@@ -4481,7 +4300,6 @@ function calculerHauteurMoyenne(){
 }
 
 function mettreAJourSurfaceCalculee(){
-  // Surface saisie manuellement — on met juste à jour state.surface
   const val = parseFloat(document.getElementById('proj-surface')?.value) || 0;
   state.surface = val;
   verifierEcartSurface();
@@ -4496,7 +4314,6 @@ function geolocaliserChantier(){
       const lng = pos.coords.longitude.toFixed(6);
       const gpsEl = document.getElementById('gps-coords');
       if(gpsEl){ gpsEl.style.display='block'; gpsEl.textContent = 'GPS : '+lat+', '+lng; }
-      // Reverse geocoding
       fetch('https://api-adresse.data.gouv.fr/reverse/?lon='+lng+'&lat='+lat)
         .then(r=>r.json()).then(d=>{
           if(d.features && d.features[0]){
@@ -4556,7 +4373,6 @@ function ouvrirHistoriqueClients(){
   const modal = document.getElementById('modal-clients');
   if(!modal) return;
   modal.style.display = 'flex';
-  // Charger depuis Firestore ou localStorage
   const clients = JSON.parse(localStorage.getItem('lokoo_clients')||'[]');
   const el = document.getElementById('clients-liste');
   if(!el) return;
@@ -4587,7 +4403,6 @@ function selectionnerClient(siren, nom){
 function sauvegarderClientHistorique(siren, nom, adresse){
   if(!nom) return;
   const clients = JSON.parse(localStorage.getItem('lokoo_clients')||'[]');
-  // Éviter les doublons
   const exists = clients.find(c=>c.siren===siren||c.nom===nom);
   if(!exists){
     clients.unshift({siren, nom, adresse, date: new Date().toISOString()});
@@ -4596,15 +4411,12 @@ function sauvegarderClientHistorique(siren, nom, adresse){
   }
 }
 
-
-
 // ── SURFACE & ÉCART ──────────────────────────────────────────
 function verifierEcartSurface(){
   const surfRef = parseFloat(document.getElementById('proj-surface')?.value) || 0;
   const infoEl = document.getElementById('surface-releve-info');
   if(!infoEl) return;
 
-  // Calculer surfaces depuis les pièces
   const surfExist = state.pieces.filter(p=>p._type==='existant'||!p._type).reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
   const surfProjet = state.pieces.filter(p=>p._type==='projet').reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
   const surfTotale = surfExist + surfProjet;
@@ -4710,25 +4522,20 @@ function arreterNoteVocale(){
   if(btn){ btn.style.background=''; btn.style.color=''; }
 }
 
-
-
 // ── RELEVÉS PAGE UNIFIÉE ─────────────────────────────────────
 var _releveTabActif = 'existant';
 
 function switchReleveTab(tab){
   _releveTabActif = tab;
   const isExist = tab === 'existant';
-  // Onglets
   const tabEx = document.getElementById('tab-releve-existant');
   const tabPr = document.getElementById('tab-releve-projet');
   if(tabEx){ tabEx.style.background=isExist?'white':'none'; tabEx.style.fontWeight=isExist?'600':'500'; tabEx.style.color=isExist?'var(--ink)':'var(--muted)'; tabEx.style.boxShadow=isExist?'var(--shadow)':'none'; }
   if(tabPr){ tabPr.style.background=isExist?'none':'white'; tabPr.style.fontWeight=isExist?'500':'600'; tabPr.style.color=isExist?'var(--muted)':'var(--ink)'; tabPr.style.boxShadow=isExist?'none':'var(--shadow)'; }
-  // Contenu
   const contEx = document.getElementById('releve-content-existant');
   const contPr = document.getElementById('releve-content-projet');
   if(contEx) contEx.style.display = isExist ? 'block' : 'none';
   if(contPr) contPr.style.display = isExist ? 'none' : 'block';
-  // Bouton ajouter
   const btn = document.getElementById('btn-add-piece-releve');
   if(btn) btn.textContent = '+ Ajouter une pièce';
 }
@@ -4748,7 +4555,6 @@ function majResumeReleves(){
   const surfEx = piecesEx.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
   const surfPr = piecesPr.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
 
-  // Résumés
   const se = document.getElementById('surf-existant-total');
   const ce = document.getElementById('count-existant-total');
   const sp = document.getElementById('surf-projet-total');
@@ -4760,17 +4566,14 @@ function majResumeReleves(){
   if(sp) sp.textContent = surfPr.toFixed(1)+' m²';
   if(cp) cp.textContent = piecesPr.length+' pièce(s)';
 
-  // Badges sidebar
   const nb = document.getElementById('nb-pieces-existant');
   if(nb) nb.textContent = piecesEx.length + piecesPr.length;
 
-  // Badges onglets
   const be = document.getElementById('badge-existant');
   const bp = document.getElementById('badge-projet');
   if(be) be.textContent = piecesEx.length;
   if(bp) bp.textContent = piecesPr.length;
 
-  // Écart
   if(surfEx > 0 && surfPr > 0){
     const ecart = surfPr - surfEx;
     const pct = ((ecart/surfEx)*100).toFixed(1);
@@ -4783,13 +4586,11 @@ function majResumeReleves(){
     if(ep) ep.textContent = '—';
   }
 
-  // Empty states
   const emEx = document.getElementById('empty-pieces-existant');
   const emPr = document.getElementById('empty-pieces-projet');
   if(emEx) emEx.style.display = piecesEx.length>0?'none':'flex';
   if(emPr) emPr.style.display = piecesPr.length>0?'none':'flex';
 }
-
 
 // ── RELEVÉS EXISTANT / PROJET ────────────────────────────────
 function renderRelevesType(type){
@@ -4807,7 +4608,6 @@ function renderRelevesType(type){
   if(emptyEl) emptyEl.style.display='none';
   if(resumeEl) resumeEl.style.display='flex';
 
-  // Métriques
   const totalSurf = pieces.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
   const avgHaut = pieces.filter(p=>p.hauteur).reduce((a,p,_,arr)=>a+(parseFloat(p.hauteur)||0)/arr.length,0);
   const countEl = document.getElementById('count-'+type);
@@ -4817,11 +4617,9 @@ function renderRelevesType(type){
   if(surfEl) surfEl.textContent = totalSurf.toFixed(1)+' m²';
   if(hautEl) hautEl.textContent = avgHaut>0?avgHaut.toFixed(2)+' m':'—';
 
-  // Badges sidebar
   const badge = document.getElementById('nb-pieces-'+type);
   if(badge) badge.textContent = pieces.length;
 
-  // Comparatif sur page projet
   if(type==='projet'){
     const piecesEx = state.pieces.filter(p=>(p._type||'existant')==='existant');
     const surfEx = piecesEx.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
@@ -4851,28 +4649,21 @@ function renderRelevesType(type){
   }
 }
 
-
-
-
 // ── CORRECTION AUTOMATIQUE ───────────────────────────────────
 function corrigerTexte(input){
   if(!input || !input.value) return;
   const val = input.value;
   const pos = input.selectionStart;
-  
-  // Mettre la première lettre en majuscule
+
   let corrected = val.charAt(0).toUpperCase() + val.slice(1);
-  
-  // Corriger les espaces multiples
+
   corrected = corrected.replace(/  +/g, ' ');
-  
-  // Majuscule après . ! ? : et retour à la ligne
-  corrected = corrected.replace(/([.!?:]\s+)([a-zàâäéèêëîïôöùûüç])/g, 
+
+  corrected = corrected.replace(/([.!?:]\s+)([a-zàâäéèêëîïôöùûüç])/g,
     (m, p1, p2) => p1 + p2.toUpperCase());
-  
+
   if(corrected !== val){
     input.value = corrected;
-    // Restaurer la position du curseur
     try{ input.setSelectionRange(pos, pos); }catch(e){}
   }
 }
@@ -4881,21 +4672,17 @@ function corrigerNomPropre(input){
   if(!input || !input.value) return;
   const val = input.value;
   const pos = input.selectionStart;
-  
-  // Title case : première lettre de chaque mot en majuscule
-  let corrected = val.replace(/(?:^|\s|-)([a-zàâäéèêëîïôöùûüç])/g, 
+
+  let corrected = val.replace(/(?:^|\s|-)([a-zàâäéèêëîïôöùûüç])/g,
     m => m.toUpperCase());
-  
-  // Corriger espaces multiples
+
   corrected = corrected.replace(/  +/g, ' ');
-  
+
   if(corrected !== val){
     input.value = corrected;
     try{ input.setSelectionRange(pos, pos); }catch(e){}
   }
 }
-
-
 
 // ── ANALYSE IA DOCUMENTS ─────────────────────────────────────
 var _iaDocBase64 = null;
@@ -4919,7 +4706,7 @@ function analyserDocumentIA(input){
 function traiterFichierIA(file){
   const zone = document.getElementById('ia-doc-drop-zone');
   zone.innerHTML = `<div style="font-size:13px;font-weight:600;color:var(--primary)">📄 ${file.name}</div><div style="font-size:11px;color:var(--muted);margin-top:4px">${Math.round(file.size/1024)} Ko · Prêt à analyser</div>`;
-  
+
   const reader = new FileReader();
   reader.onload = e => {
     _iaDocBase64 = e.target.result.split(',')[1];
@@ -4977,11 +4764,9 @@ Si une information n'est pas trouvée, mets null.`;
     if(data.error) throw new Error(data.error.message);
     const texte = data.content[0].text;
 
-    // Afficher résultats
     document.getElementById('ia-analyse-results').style.display='block';
     document.getElementById('ia-analyse-content').textContent = texte;
 
-    // Parser le JSON extrait
     try{
       const jsonMatch = texte.match(/\{[\s\S]*\}/);
       if(jsonMatch){
@@ -4990,7 +4775,6 @@ Si une information n'est pas trouvée, mets null.`;
       }
     }catch(e){ console.log('Pas de JSON parsable'); }
 
-    // Historique
     sauvegarderHistoriqueIA(texte);
 
   }catch(err){
@@ -5045,11 +4829,9 @@ function sauvegarderHistoriqueIA(texte){
 
 function renderAnalyseIA(){
   initDocsGrid();
-  // Restaurer clé API
   const key = localStorage.getItem('lokoo_api_key')||'';
   const keyEl = document.getElementById('ia-analyse-key');
   if(keyEl) keyEl.value = key;
-  // Afficher historique
   const histo = JSON.parse(localStorage.getItem('lokoo_ia_histo')||'[]');
   const histoEl = document.getElementById('ia-historique');
   const listeEl = document.getElementById('ia-historique-liste');
@@ -5062,8 +4844,6 @@ function renderAnalyseIA(){
       </div>`).join('');
   }
 }
-
-
 
 // ── RAPPORT DPGF ─────────────────────────────────────────────
 function genererRapportDPGF(){
@@ -5079,7 +4859,6 @@ function genererRapportDPGF(){
   const cur = TYPES[typeLocal] || TYPES.restaurant;
   const gam = GAMMES.find(g=>g.key===state.activeGamme) || GAMMES[1];
 
-  // Calculs financiers
   const s = state.surface || parseFloat(surface) || 0;
   const cR = REGIONS[state.region||'std'] || 1;
   const bB = s > 0 ? s * cur.taux * gam.coeff * cR * (state.renov||1) : 0;
@@ -5092,15 +4871,12 @@ function genererRapportDPGF(){
   const mMa = bM * (marge/100) / (1-marge/100);
   const tT = bM + mMa;
 
-  // Données entreprise
   const compteRaw = localStorage.getItem('lokoo_compte');
   let entreprise = {raison:'', adresse:'', siret:'', tva:'', web:''};
   try{ const d = JSON.parse(compteRaw||'{}'); entreprise = {...entreprise, ...(d.entreprise||{})}; }catch(e){}
 
-  // Logo entreprise
   const logoData = localStorage.getItem('lokoo_logo') || '';
 
-  // Lots pour le DPGF
   const lots = cur.lots || [];
   const lotsHtml = lots.map((l,i) => {
     const montant = Math.round(tT * l.pct / 100);
@@ -5112,7 +4888,6 @@ function genererRapportDPGF(){
       </tr>`;
   }).join('');
 
-  // Pièces relevées
   const piecesExist = state.pieces.filter(p=>(p._type||'existant')==='existant');
   const piecesProjet = state.pieces.filter(p=>p._type==='projet');
   const surfExist = piecesExist.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
@@ -5248,7 +5023,6 @@ function genererRapportDPGF(){
 </body>
 </html>`;
 
-  // Générer les descriptions IA des lots puis ouvrir le rapport
   const apiKey = localStorage.getItem('lokoo_api_key');
   if(apiKey){
     showToast('Génération des descriptions IA en cours...');
@@ -5261,7 +5035,7 @@ function genererRapportDPGF(){
 async function genererDescriptionsIAEtOuvrir(rapport, lots, cur, activite, surface, apiKey){
   try{
     const lotsDesc = lots.map(l=>l.nom).join(', ');
-    const prompt = `Tu es un expert en rénovation de locaux commerciaux. 
+    const prompt = `Tu es un expert en rénovation de locaux commerciaux.
 Pour un projet de ${cur.label} (${activite}), surface ${surface} m², génère une description professionnelle et concise pour CHAQUE lot de travaux suivant.
 Lots : ${lotsDesc}
 
@@ -5277,13 +5051,13 @@ Sans aucun texte avant ou après le JSON.`;
     });
     const data = await resp.json();
     const texte = data.content[0].text;
-    
+
     let descriptions = {};
     try{
       const jsonMatch = texte.match(/\{[\s\S]*\}/);
       if(jsonMatch) descriptions = JSON.parse(jsonMatch[0]).descriptions || {};
     }catch(e){ console.warn('Parse JSON IA failed'); }
-    
+
     ouvrirRapport(rapport, descriptions);
   }catch(e){
     console.error('IA error:', e);
@@ -5292,10 +5066,8 @@ Sans aucun texte avant ou après le JSON.`;
 }
 
 function ouvrirRapport(rapportHtml, descriptions){
-  // Injecter les descriptions IA dans le rapport
   let rapportFinal = rapportHtml;
   if(descriptions && Object.keys(descriptions).length > 0){
-    // Remplacer chaque ligne de lot par version avec description
     Object.entries(descriptions).forEach(([nom, desc]) => {
       const escaped = nom.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       rapportFinal = rapportFinal.replace(
@@ -5304,13 +5076,12 @@ function ouvrirRapport(rapportHtml, descriptions){
       );
     });
   }
-  
+
   const win = window.open('', '_blank');
   win.document.write(rapportFinal);
   win.document.close();
   setTimeout(()=>{ win.focus(); win.print(); }, 800);
 }
-
 
 // ── ACTIVITÉ DYNAMIQUE ────────────────────────────────────────
 const ACTIVITES_PAR_TYPE = {
@@ -5338,20 +5109,15 @@ function majActiviteAutre(){
 
 // ── DOCUMENTS DOSSIER ─────────────────────────────────────────
 const TYPES_DOCS = [
-  // Administratif
   {id:'bail', label:'Bail commercial'},
   {id:'reglement-copro', label:'Règlement de copropriété'},
   {id:'autorisation-bailleur', label:'Autorisation du bailleur'},
-  // Plans
   {id:'plan-exist', label:'Plan existant'},
   {id:'plan-projet', label:'Plan projet'},
   {id:'plan-facade', label:'Plan façade'},
-  // Photos
   {id:'photos', label:'Photos'},
-  // Autorisations
   {id:'declaration-prealable', label:'Déclaration préalable'},
   {id:'autorisation-travaux', label:'Autorisation de travaux'},
-  // Techniques
   {id:'cctp', label:'CCTP'},
   {id:'notice-descriptive', label:'Notice descriptive'},
   {id:'cahier-prestations', label:'Cahier de prestations'},
@@ -5417,7 +5183,6 @@ async function analyserDocumentParType(type){
   const docs = _documentsProjet[type];
   if(!docs||!docs.length) return;
   showToast('Analyse en cours...');
-  // Utiliser la dernière image importée
   const lastDoc = docs[docs.length-1];
   if(lastDoc.data){
     _iaDocBase64 = lastDoc.data.split(',')[1];
@@ -5434,7 +5199,6 @@ function ajouterDocuments(input){
     const reader = new FileReader();
     reader.onload = e => {
       _documentsProjet[type].push({name:f.name, size:f.size, type:f.type, data:e.target.result, date:new Date().toISOString()});
-      // Mettre à jour l'affichage
       const filesEl = document.getElementById('doc-files-'+type);
       const card = document.getElementById('doc-card-'+type);
       const btnAnalyse = document.getElementById('btn-analyse-'+type);
@@ -5463,9 +5227,7 @@ function initSuiviAdmin(){
   if(el('suivi-cree-par')) el('suivi-cree-par').textContent = user;
   if(el('suivi-modif')) el('suivi-modif').textContent = now;
   if(el('suivi-modif-par')) el('suivi-modif-par').textContent = user;
-  // Stocker
   if(!state._suiviCreation){ state._suiviCreation = now; state._suiviCreePar = user; }
-  // Sidebar
   const sb2 = document.getElementById('sidebar-suivi-admin');
   if(sb2) sb2.style.display = 'block';
   const sbCreation = document.getElementById('sidebar-suivi-creation');
@@ -5486,14 +5248,11 @@ function majSuiviAdmin(){
   const el = id => document.getElementById(id);
   if(el('suivi-modif')) el('suivi-modif').textContent = now;
   if(el('suivi-modif-par')) el('suivi-modif-par').textContent = user;
-  // Mettre à jour la topbar
   const tb = document.getElementById('topbar-suivi-admin');
   if(tb) tb.style.display = 'flex';
   const tbModif = document.getElementById('topbar-suivi-modif');
   if(tbModif) tbModif.textContent = now;
 }
-
-
 
 function renderSecuriteIncendie(){}
 function renderPMR(){}
@@ -5680,14 +5439,12 @@ function renderRecap(){
   const cur = TYPES[typeLocal] || TYPES.restaurant;
   const gam = GAMMES.find(g=>g.key===state.activeGamme) || GAMMES[1];
 
-  // Vérifier si données suffisantes
   const hasData = nom || surface > 0 || state.pieces.length > 0;
   if(!hasData){
     el.innerHTML = `<div class="alert info"><div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Aucune donnée saisie</div><div class="alert-desc">Renseignez les informations dans l'initialisation.</div></div></div>`;
     return;
   }
 
-  // Données manquantes
   const manquants = [];
   if(!nom) manquants.push('Code chantier');
   if(!client) manquants.push('Client');
@@ -5697,7 +5454,6 @@ function renderRecap(){
   if(!releveur) manquants.push('Releveur');
   if(!state.pieces.length) manquants.push('Pièces (relevés)');
 
-  // Calculs financiers
   const cR = REGIONS[state.region||'std'] || 1;
   const cG = gam.coeff;
   const cA = 0.02 + ((state.complexite||3)-1)*0.02;
@@ -5710,19 +5466,16 @@ function renderRecap(){
   const mMa = bM * (marge/100) / (1-marge/100);
   const tT = bM + mMa;
 
-  // Métrés totaux
   const tSurf = state.pieces.reduce((a,p)=>a+(p.surface||0), 0);
   const tMurs = state.pieces.reduce((a,p)=>a+(p._mursN||0), 0);
   const tPrises = state.pieces.reduce((a,p)=>a+(p.prises||0)+(p.prisesDouble||0), 0);
   const tWC = state.pieces.reduce((a,p)=>a+(p.wc||0)+(p.wcPMR||0), 0);
   const tEF = state.pieces.reduce((a,p)=>a+(p.eauFroide||0), 0);
 
-  // Avancement — % des champs remplis
   const totalChamps = 8;
   const remplis = totalChamps - manquants.length;
   const pctAvancement = Math.round((remplis / totalChamps) * 100);
 
-  // Lots principaux pour histogramme
   const lots = cur.lots.slice(0,8);
   const maxPct = Math.max(...lots.map(l=>l.pct));
 
@@ -5730,7 +5483,7 @@ function renderRecap(){
   <!-- HEADER PROJET -->
   <div class="card" style="margin-bottom:20px;border:2px solid var(--primary-border);background:linear-gradient(135deg,var(--primary-light) 0%,white 70%)">
     <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
-      
+
       <div style="flex:1">
         <div style="font-size:20px;font-weight:800;color:var(--ink)">${nom||'—'}</div>
         <div style="font-size:13px;color:var(--mid);margin-top:2px">${client||'—'} ${adresse?'· '+adresse:''}</div>
@@ -5917,7 +5670,6 @@ async function genererCodeChantierAvecAttente(tentatives){
     await genererCodeChantier();
   } catch(e){
     if(tentatives < 5){
-      // Réessayer dans 1 seconde
       setTimeout(()=> genererCodeChantierAvecAttente(tentatives+1), 1000);
     } else {
       console.error('genererCodeChantier échec:', e);
@@ -5937,7 +5689,6 @@ async function genererCodeChantier(){
 
   console.log('genererCodeChantier — driveToken:', !!_driveToken, '— driveFolderId:', !!_driveFolderId, '— codes:', _codesExistantsDrive?.length);
 
-  // Si pas connecté au Drive — afficher message et laisser vide
   if(!_driveToken){
     if(suffixInp) suffixInp.value = '';
     if(hidden) hidden.value = '';
@@ -5948,12 +5699,10 @@ async function genererCodeChantier(){
     return;
   }
 
-  // Charger codes Drive si pas encore fait
   if(_driveFolderId && _codesExistantsDrive === null){
     await chargerCodesDrive();
   }
 
-  // Calculer le prochain numéro disponible
   var prefix = yy + '-CHT-';
   var codesExistants = (_codesExistantsDrive || [])
     .concat(JSON.parse(localStorage.getItem('lokoo_dossiers')||'[]').map(d=>d.code||''))
@@ -5970,7 +5719,6 @@ async function genererCodeChantier(){
   if(suffixInp) suffixInp.value = nextSuffix;
   if(hidden) hidden.value = codeComplet;
 
-  // Afficher dans le div lecture seule
   var display = document.getElementById('code-chantier-display');
   if(display) display.textContent = codeComplet;
 
@@ -5987,7 +5735,6 @@ async function genererCodeChantier(){
 function afficherDernierChantier(){
   var hintEl = document.getElementById('code-hint');
   if(!hintEl) return;
-  // Priorité : Drive > localStorage
   var dernierCode = _dernierCodeDrive;
   if(!dernierCode){
     var dossiers = JSON.parse(localStorage.getItem('lokoo_dossiers') || '[]');
@@ -6002,7 +5749,6 @@ function afficherDernierChantier(){
   }
 }
 
-// Cache des codes Drive chargés
 var _codesExistantsDrive = null;
 var _dernierCodeDrive = '';
 
@@ -6015,7 +5761,6 @@ async function chargerCodesDrive(){
     const d = await r.json();
     const codes = (d.files||[]).map(f=>f.name.replace('.json',''));
     _codesExistantsDrive = codes;
-    // Dernier code = premier dans l'ordre décroissant
     _dernierCodeDrive = codes.length > 0 ? codes[0] : '';
     return codes;
   }catch(e){ return []; }
@@ -6034,7 +5779,6 @@ async function verifierCodeChantier(suffix){
   if(!suffix || suffix.length < 4){
     if(statusEl) statusEl.textContent = '';
     if(hintEl){
-      // Afficher dernier chantier
       var dernierMsg = _dernierCodeDrive
         ? '<span style="color:var(--muted)">Dernier code utilisé : <strong style="font-family:monospace">'+_dernierCodeDrive+'</strong></span>'
         : '';
@@ -6048,12 +5792,10 @@ async function verifierCodeChantier(suffix){
   if(hidden) hidden.value = codeComplet;
   if(statusEl) statusEl.textContent = '⏳';
 
-  // Charger codes Drive si pas encore fait
   if(_codesExistantsDrive === null && _driveToken){
     await chargerCodesDrive();
   }
 
-  // Vérifier dans localStorage ET Drive
   var chantiers = JSON.parse(localStorage.getItem('rt_chantiers') || '[]');
   var dossiers  = JSON.parse(localStorage.getItem('lokoo_dossiers') || '[]');
   var codesLocaux = chantiers.map(function(c){ return c.nom||''; })
@@ -6078,9 +5820,6 @@ async function verifierCodeChantier(suffix){
   }
   updateProjectHeader();
 }
-
-// Recharger les codes quand Drive se connecte
-
 
 // ── EXPORT / IMPORT DOSSIER ──────────────────────────────────────
 function exporterDossier(){
@@ -6206,13 +5945,11 @@ function selectAdresse(idx){
   const f=_adresseResults[idx];if(!f)return;
   const props=f.properties;
   const inp=_get('proj-adresse');
-  // Format : "46 Rue de l'Egalite, 91350 Grigny"
   let label=props.label||'';
   if(props.name&&props.postcode&&props.city){
     label=props.name+', '+props.postcode+' '+props.city;
   }
   if(inp){inp.value=label;inp.classList.add('filled');}
-  // Stocker coords pour la carte satellite
   if(f.geometry&&f.geometry.coordinates){
     state._adresseLng=f.geometry.coordinates[0];
     state._adresseLat=f.geometry.coordinates[1];
@@ -6285,7 +6022,6 @@ init();
     </div>
   </div>
 </div>
-
 
 <!-- MODAL ANALYSE PHOTO IA -->
 <div id="modal-ia-photo" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:700;align-items:center;justify-content:center">
@@ -6370,11 +6106,9 @@ function ouvrirAnalysePhoto(contexte){
   document.getElementById('ia-btn-copier').style.display = 'none';
   document.getElementById('ia-contexte').value = '';
 
-  // Pré-remplir la clé API si sauvegardée
   var savedKey = localStorage.getItem('lokoo_api_key') || '';
   document.getElementById('ia-api-key').value = savedKey;
 
-  // Sous-titre selon contexte
   var subtitles = {
     electricite: 'Analyse tableau électrique / installation',
     plomberie: 'Analyse installation plomberie',
@@ -6469,7 +6203,6 @@ async function lancerAnalyseIA(){
     resultEl.textContent = texte;
     document.getElementById('ia-btn-copier').style.display = 'inline-flex';
 
-    // Afficher aussi dans la page
     var pageResult = document.getElementById('ia-result-' + _iaContexte);
     if(pageResult){
       pageResult.style.display = 'block';
@@ -6495,12 +6228,10 @@ function copierResultatIA(){
   });
 }
 
-// Fermer en cliquant dehors
 document.getElementById('modal-ia-photo').addEventListener('click', function(e){
   if(e.target === this) fermerModalIA();
 });
 </script>
-
 
 <!-- MODAL LISTE DRIVE -->
 <div id="modal-drive-liste" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:800;align-items:center;justify-content:center">
@@ -6527,7 +6258,6 @@ let _driveToken = null;
 let _driveFolderId = null;
 
 function connecterDrive(){
-  // Diagnostic complet
   console.log('connecterDrive appelé');
   console.log('google défini:', typeof google !== 'undefined');
   console.log('google.accounts:', typeof google !== 'undefined' && typeof google.accounts !== 'undefined');
@@ -6553,7 +6283,6 @@ function connecterDrive(){
       if(resp.error){ alert('Erreur : ' + resp.error); return; }
       _driveToken = resp.access_token;
 
-      // Afficher utilisateur connecté
       fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
         headers:{Authorization:'Bearer '+_driveToken}
       }).then(r=>r.json()).then(u=>{
@@ -6565,7 +6294,6 @@ function connecterDrive(){
         const nm = document.getElementById('drive-username');
         if(av && u.picture){ av.src=u.picture; av.style.display='inline-block'; }
         if(nm) nm.textContent = u.given_name||u.name||'Drive';
-        // Notif
         showToast('✅ Google Drive connecté !');
         trouverOuCreerDossier();
       }).catch(e=>{ showToast('✅ Drive connecté'); trouverOuCreerDossier(); });
@@ -6603,7 +6331,6 @@ async function trouverOuCreerDossier(){
       {headers:{Authorization:'Bearer '+_driveToken}});
     const d = await r.json();
     if(d.files && d.files.length > 0){ _driveFolderId = d.files[0].id; return _driveFolderId; }
-    // Créer
     const cr = await fetch('https://www.googleapis.com/drive/v3/files',{
       method:'POST',
       headers:{Authorization:'Bearer '+_driveToken,'Content-Type':'application/json'},
@@ -6637,14 +6364,12 @@ async function sauvegarderDrive(){
   const fileName = code+'.json';
   const jsonBlob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
 
-  // Chercher si fichier existe déjà
   const q = encodeURIComponent('"'+_driveFolderId+'" in parents and name="'+fileName+'" and trashed=false');
   const sr = await fetch('https://www.googleapis.com/drive/v3/files?q='+q+'&fields=files(id)',
     {headers:{Authorization:'Bearer '+_driveToken}});
   const se = await sr.json();
   const existId = se.files && se.files.length > 0 ? se.files[0].id : null;
 
-  // Upload avec FormData (plus simple, pas de problème d'échappement)
   const meta = existId ? {name:fileName} : {name:fileName, parents:[_driveFolderId]};
   const form = new FormData();
   form.append('metadata', new Blob([JSON.stringify(meta)], {type:'application/json'}));
@@ -6737,7 +6462,6 @@ async function chargerFichierDrive(fileId){
   }catch(e){ alert('Erreur : '+e.message); }
 }
 </script>
-
 
 </div><!-- fin app-main -->
 </body>
