@@ -3897,13 +3897,8 @@ function calculerFraisProvisoires(){
 
 
   // Sanitaires
-  if(ids('prov-wc-chim')){ const v=120*duree; lignes.push({l:'Toilettes chimiques',m:v,u:`${duree} mois`}); somme+=v; }
-  if(ids('prov-bungalow-sanit')){ const v=350*duree; lignes.push({l:'Bungalow sanitaire',m:v,u:`${duree} mois`}); somme+=v; }
 
   // Base vie
-  if(ids('prov-base-vie')){ const v=500*duree; lignes.push({l:'Base vie chantier',m:v,u:`${duree} mois`}); somme+=v; }
-  if(ids('prov-repas')){ const v=200*duree; lignes.push({l:'Espace repas',m:v,u:`${duree} mois`}); somme+=v; }
-  if(ids('prov-vestiaire')){ const v=180*duree; lignes.push({l:'Vestiaire chantier',m:v,u:`${duree} mois`}); somme+=v; }
 
   // Stockage / déchets
   if(ids('prov-stockage-dechets')){ const v=300*duree; lignes.push({l:'Évacuation déchets',m:v,u:`${duree} mois`}); somme+=v; }
