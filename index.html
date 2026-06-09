@@ -1213,12 +1213,85 @@ input[type=number]{-moz-appearance:textfield}
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-renf-dalle"> Renforcement dalle</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-renf-poutre"> Renforcement poutre</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-renf-poteau"> Renforcement poteau</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-creation-mezzanine"> Création mezzanine</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure');toggleMezzaninePanel(this)"><input type="checkbox" id="tv-creation-mezzanine"> Création mezzanine</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-extension"> Extension bâtiment</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-surelevation"> Surélévation</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-terrasse"> Création terrasse</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-rooftop"> Création rooftop</label>
             </div></div>
+
+            <!-- PANEL MEZZANINE -->
+            <div id="mezzanine-panel" style="display:none;margin-top:8px;border:1.5px solid var(--primary-border);border-radius:10px;padding:16px;background:var(--primary-light)">
+              <div style="font-size:13px;font-weight:700;color:var(--primary-dark);margin-bottom:14px;display:flex;align-items:center;gap:8px">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+                Configuration mezzanine
+              </div>
+
+              <!-- Utilisation prévue -->
+              <div class="form-group" style="margin-bottom:14px">
+                <label class="form-label">Utilisation prévue</label>
+                <div class="check-grid" style="margin-top:6px" id="mezz-usages">
+                  <label class="check-item" onclick="toggleCheck(this);verifierMezzanine()"><input type="checkbox" id="mezz-salle"> Salle de restauration</label>
+                  <label class="check-item" onclick="toggleCheck(this);verifierMezzanine()"><input type="checkbox" id="mezz-reserve"> Réserve</label>
+                  <label class="check-item" onclick="toggleCheck(this);verifierMezzanine()"><input type="checkbox" id="mezz-stockage"> Stockage</label>
+                  <label class="check-item" onclick="toggleCheck(this);verifierMezzanine()"><input type="checkbox" id="mezz-bureau"> Bureau</label>
+                  <label class="check-item" onclick="toggleCheck(this);verifierMezzanine()"><input type="checkbox" id="mezz-vestiaires"> Vestiaires personnel</label>
+                  <label class="check-item" onclick="toggleCheck(this);verifierMezzanine()"><input type="checkbox" id="mezz-local-tech"> Local technique</label>
+                  <label class="check-item" onclick="toggleCheck(this);verifierMezzanine()"><input type="checkbox" id="mezz-archive"> Archive</label>
+                  <label class="check-item" onclick="toggleCheck(this);verifierMezzanine()"><input type="checkbox" id="mezz-autre"> Autre</label>
+                </div>
+              </div>
+
+              <!-- Charge exploitation -->
+              <div class="form-group" style="margin-bottom:14px">
+                <label class="form-label">Charge d'exploitation prévue</label>
+                <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">
+                  <label style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer"><input type="radio" name="mezz-charge" value="faible" onchange="verifierMezzanine()"> Faible — archives, bureau</label>
+                  <label style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer"><input type="radio" name="mezz-charge" value="moyenne" onchange="verifierMezzanine()"> Moyenne — réserve légère</label>
+                  <label style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer"><input type="radio" name="mezz-charge" value="elevee" onchange="verifierMezzanine()"> Élevée — stockage lourd</label>
+                  <label style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer"><input type="radio" name="mezz-charge" value="public" onchange="verifierMezzanine()"> Accueil du public</label>
+                </div>
+              </div>
+
+              <!-- Section stockage conditionnelle -->
+              <div id="mezz-stockage-section" style="display:none;margin-bottom:14px;padding:10px;background:white;border-radius:8px;border:1px solid var(--border)">
+                <label class="form-label" style="margin-bottom:8px;display:block">Nature du stockage</label>
+                <div class="check-grid" style="margin-bottom:10px">
+                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-conso"> Consommables</label>
+                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-embal"> Emballages</label>
+                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-boissons"> Boissons</label>
+                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-alim"> Produits alimentaires secs</label>
+                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-frigo"> Produits réfrigérés</label>
+                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-mobilier"> Mobilier</label>
+                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-archives"> Archives</label>
+                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-materiel"> Matériel professionnel</label>
+                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-lourd"> Stock lourd</label>
+                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-autre"> Autre</label>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                  <div class="form-group">
+                    <label class="form-label">Volume estimé (m³)</label>
+                    <input type="number" id="mezz-volume-m3" class="form-input" placeholder="0" oninput="verifierMezzanine()" style="font-size:16px">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Nombre de palettes</label>
+                    <input type="number" id="mezz-volume-palettes" class="form-input" placeholder="0" oninput="verifierMezzanine()" style="font-size:16px">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Surface proposée -->
+              <div class="form-group" style="margin-bottom:14px">
+                <label class="form-label">Surface mezzanine (m²)</label>
+                <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+                  <input type="number" id="mezz-surface" class="form-input" placeholder="Auto" oninput="verifierMezzanine()" style="max-width:120px;font-size:16px">
+                  <span style="font-size:12px;color:var(--muted)" id="mezz-surface-hint">calculée automatiquement</span>
+                </div>
+              </div>
+
+              <!-- Résultat vérification -->
+              <div id="mezz-result" style="margin-top:8px"></div>
+            </div>
 
             <!-- Aménagement intérieur -->
             <div><div onclick="toggleCat('amenagement')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
@@ -3363,6 +3436,155 @@ function updateStructureAuto(){
   }).join('');
 
   el.innerHTML = (alertesHTML ? `<div style="margin-bottom:12px">${alertesHTML}</div>` : '') + etudesHTML;
+}
+
+
+// ── MEZZANINE — VÉRIFICATION INTELLIGENTE ─────────────────────
+
+function toggleMezzaninePanel(labelEl){
+  const cb = labelEl.querySelector('input[type=checkbox]');
+  const panel = document.getElementById('mezzanine-panel');
+  if(!panel) return;
+  // Après toggleCheck, l'état est déjà changé
+  setTimeout(()=>{
+    const checked = document.getElementById('tv-creation-mezzanine')?.checked;
+    panel.style.display = checked ? 'block' : 'none';
+    if(checked) verifierMezzanine();
+  }, 50);
+}
+
+function verifierMezzanine(){
+  // Afficher/masquer section stockage
+  const reserveChecked = document.getElementById('mezz-reserve')?.checked;
+  const stockageChecked = document.getElementById('mezz-stockage')?.checked;
+  const stockSection = document.getElementById('mezz-stockage-section');
+  if(stockSection) stockSection.style.display = (reserveChecked||stockageChecked) ? 'block' : 'none';
+
+  // Récupérer données projet
+  const hauteurStr = document.getElementById('proj-hauteur')?.value || '';
+  const surfaceStr = document.getElementById('proj-surface')?.value || '';
+  const typeLocal  = document.getElementById('proj-type-local')?.value || '';
+  const charge     = document.querySelector('input[name="mezz-charge"]:checked')?.value || '';
+
+  const hauteur = parseFloat(hauteurStr) || 0;
+  const surface = parseFloat(surfaceStr) || 0;
+
+  // Utilisation prévue
+  const usagesPublic = ['mezz-salle'].some(id=>document.getElementById(id)?.checked);
+  const usagesLourd  = ['mezz-stockage','mezz-reserve'].some(id=>document.getElementById(id)?.checked);
+  const chargeElevee = charge==='elevee' || charge==='public';
+  const stockLourd   = document.getElementById('mezz-stock-lourd')?.checked;
+
+  const result = document.getElementById('mezz-result');
+  const hintEl = document.getElementById('mezz-surface-hint');
+  if(!result) return;
+
+  // Calcul surface max théorique
+  // Réglementaire : hauteur libre sous mezzanine ≥ 1.90m, au-dessus ≥ 1.80m
+  const H_LIBRE_DESSOUS = 1.90;
+  const H_LIBRE_DESSUS  = 1.80;
+  const H_PLANCHER      = 0.25; // épaisseur plancher mezzanine
+  const H_MIN_TOTAL     = H_LIBRE_DESSOUS + H_PLANCHER + H_LIBRE_DESSUS; // 3.95m
+
+  // Surface exploitable : max 50% de la surface totale (réglementation ERP courant)
+  // Déduire emprise escalier (~3m²) et circulation (~15%)
+  const surfaceMaxPct  = usagesPublic ? 0.45 : 0.50; // ERP = 45%, autres = 50%
+  const emprise_esc    = surface > 0 ? Math.min(4, surface * 0.05) : 3;
+  const surfaceTheor   = surface > 0 ? Math.max(0, (surface * surfaceMaxPct) - emprise_esc) : 0;
+  const surfaceCorrigee = Math.round(surfaceTheor * 0.85); // 15% circulations
+
+  // Hauteurs résultantes
+  const hDessous = hauteur > 0 ? Math.max(0, hauteur / 2 - H_PLANCHER/2) : 0;
+  const hDessus  = hauteur > 0 ? hauteur - hDessous - H_PLANCHER : 0;
+
+  if(hintEl && surfaceCorrigee > 0){
+    hintEl.textContent = `suggestion : ~${surfaceCorrigee} m²`;
+    if(!document.getElementById('mezz-surface').value){
+      document.getElementById('mezz-surface').value = surfaceCorrigee;
+    }
+  }
+
+  // ── Déterminer le cas ───────────────────────────────────────
+  const contraintes = [];
+  const motifs = [];
+
+  if(hauteur > 0 && hauteur < H_MIN_TOTAL)
+    motifs.push(`hauteur totale insuffisante (${hauteur}m < ${H_MIN_TOTAL}m requis)`);
+  if(hauteur > 0 && hDessous < H_LIBRE_DESSOUS)
+    motifs.push(`hauteur sous mezzanine insuffisante (${hDessous.toFixed(2)}m < 1.90m)`);
+  if(hauteur > 0 && hDessus < H_LIBRE_DESSUS)
+    motifs.push(`hauteur disponible à l'étage insuffisante (${hDessus.toFixed(2)}m < 1.80m)`);
+  if(surface > 0 && surfaceCorrigee < 8)
+    motifs.push('surface trop réduite pour être exploitable (< 8m²)');
+
+  if(usagesPublic && hauteur > 0 && hauteur < 4.2)
+    contraintes.push('accueil du public → hauteur recommandée ≥ 4.20m');
+  if(usagesPublic)
+    contraintes.push('mezzanine recevant du public → vérification ERP obligatoire');
+  if(chargeElevee || stockLourd)
+    contraintes.push('charge élevée → vérification structurelle impérative');
+  if(surface > 0 && surfaceCorrigee > surface * 0.5)
+    contraintes.push('dépasse 50% de la surface : circulation à revoir');
+  if(hauteur > 0 && hauteur >= H_MIN_TOTAL && hauteur < H_MIN_TOTAL + 0.4)
+    contraintes.push('hauteurs juste suffisantes — prévoir marge de sécurité');
+
+  // Calcul du cas
+  let cas, html;
+
+  if(motifs.length > 0){
+    cas = 3; // Impossible
+    html = `
+      <div style="padding:14px;background:#FEF2F2;border:1.5px solid #FCA5A5;border-radius:10px">
+        <div style="font-size:13px;font-weight:700;color:var(--danger);margin-bottom:8px">❌ Création de mezzanine non recommandée</div>
+        <div style="font-size:11px;color:var(--danger);margin-bottom:8px">Motifs :</div>
+        <ul style="margin:0;padding-left:16px;font-size:12px;color:#991B1B;line-height:1.8">
+          ${motifs.map(m=>`<li>${m}</li>`).join('')}
+        </ul>
+        ${hauteur===0||surface===0 ? '<div style="font-size:11px;color:var(--muted);margin-top:8px">💡 Renseignez la hauteur sous plafond et la surface dans les infos du projet pour un calcul précis</div>' : ''}
+      </div>`;
+  } else if(contraintes.length > 0 || (hauteur===0 && surface===0)){
+    cas = 2; // Possible sous réserve
+    html = `
+      <div style="padding:14px;background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:10px">
+        <div style="font-size:13px;font-weight:700;color:#B45309;margin-bottom:8px">⚠️ Création possible sous réserve d'adaptations</div>
+        ${contraintes.length ? `
+        <div style="font-size:11px;color:#92400E;margin-bottom:6px">Contraintes identifiées :</div>
+        <ul style="margin:0 0 10px;padding-left:16px;font-size:12px;color:#92400E;line-height:1.8">
+          ${contraintes.map(m=>`<li>${m}</li>`).join('')}
+        </ul>` : ''}
+        ${hauteur===0||surface===0 ? '<div style="font-size:11px;color:#92400E;margin-bottom:10px">💡 Renseignez hauteur et surface dans le projet pour affiner le calcul</div>' : `
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px">
+          <div style="text-align:center;padding:8px;background:white;border-radius:6px"><div style="font-size:18px;font-weight:800;color:var(--primary)">${surfaceCorrigee}</div><div style="font-size:10px;color:var(--muted)">m² estimés</div></div>
+          <div style="text-align:center;padding:8px;background:white;border-radius:6px"><div style="font-size:18px;font-weight:800;color:var(--primary)">${hDessous.toFixed(2)}</div><div style="font-size:10px;color:var(--muted)">m sous mezz.</div></div>
+          <div style="text-align:center;padding:8px;background:white;border-radius:6px"><div style="font-size:18px;font-weight:800;color:var(--primary)">${hDessus.toFixed(2)}</div><div style="font-size:10px;color:var(--muted)">m à l'étage</div></div>
+        </div>`}
+        ${_getBesoinsMezzanine(usagesPublic, chargeElevee||stockLourd)}
+      </div>`;
+  } else {
+    cas = 1; // Faisable
+    html = `
+      <div style="padding:14px;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:10px">
+        <div style="font-size:13px;font-weight:700;color:#166534;margin-bottom:10px">✅ Création de mezzanine possible</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+          <div style="text-align:center;padding:8px;background:white;border-radius:6px"><div style="font-size:20px;font-weight:800;color:var(--primary)">${surfaceCorrigee}</div><div style="font-size:10px;color:var(--muted)">m² estimés</div></div>
+          <div style="text-align:center;padding:8px;background:white;border-radius:6px"><div style="font-size:20px;font-weight:800;color:var(--primary)">${hDessous.toFixed(2)}</div><div style="font-size:10px;color:var(--muted)">m sous mezz.</div></div>
+          <div style="text-align:center;padding:8px;background:white;border-radius:6px"><div style="font-size:20px;font-weight:800;color:var(--primary)">${hDessus.toFixed(2)}</div><div style="font-size:10px;color:var(--muted)">m à l'étage</div></div>
+        </div>
+        ${_getBesoinsMezzanine(usagesPublic, chargeElevee||stockLourd)}
+      </div>`;
+  }
+
+  result.innerHTML = html;
+}
+
+function _getBesoinsMezzanine(isPublic, isLourd){
+  const items = [
+    '✓ BET Structure recommandé',
+    '✓ Vérification des charges recommandée',
+    isPublic ? '✓ Bureau de contrôle obligatoire (ERP)' : null,
+    isLourd  ? '✓ Calcul de charges renforcé nécessaire' : null,
+  ].filter(Boolean);
+  return `<div style="margin-top:8px;padding:8px 10px;background:rgba(99,91,255,.06);border-radius:6px;font-size:11px;color:var(--primary-dark);line-height:1.8">${items.join('<br>')}</div>`;
 }
 
 // ── TRAVAUX PRÉVUS & ANALYSE IA ───────────────────────────────
