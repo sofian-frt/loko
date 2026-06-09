@@ -613,7 +613,7 @@ input[type=number]{-moz-appearance:textfield}
   <div class="topbar-left" style="display:flex;align-items:center;gap:10px">
     <!-- Titre page -->
     <div>
-      <div class="topbar-title" id="topbar-title">Initialisation du projet</div>
+      <div class="topbar-title" id="topbar-title"></div>
       <div class="topbar-step" id="topbar-step" style="display:none"></div>
     </div>
   </div>
@@ -2689,7 +2689,11 @@ function showPage(id){
   if(id==='analyse-ia')renderAnalyseIA();
   if(id==='releves-existant')renderRelevesPage();
 
-  if(id==='init'){renderRecapBanner();majActiviteOptions();}
+  if(id==='init'){
+    renderRecapBanner();
+    // Délai court pour s'assurer que le DOM est visible avant de peupler le select
+    setTimeout(majActiviteOptions, 50);
+  }
   if(id==='prechiffrage')recalculate();
   if(id==='chiffrage')renderChiffrageDetail();
   if(id==='synthese')renderSynthese();
@@ -2697,9 +2701,11 @@ function showPage(id){
   if(id==='chantiers')renderChantiers();
   if(id==='dashboard')renderDashboard();
   if(id==='compte')renderCompte();
-  // Masquer les boutons topbar uniquement sur le tableau de bord
+  // Dashboard : masquer toute la zone titre + boutons
   const actionsEl = document.querySelector('.topbar-actions');
+  const titleEl2  = document.querySelector('.topbar-left');
   if(actionsEl) actionsEl.style.display = id === 'dashboard' ? 'none' : 'flex';
+  if(titleEl2)  titleEl2.style.display  = id === 'dashboard' ? 'none' : 'flex';
   _get('sidebar').classList.remove('mobile-open');
   _get('sidebar-overlay').classList.remove('open');
   window.scrollTo(0,0);
@@ -4807,7 +4813,6 @@ function afficherApp(){
   if(dateEl && !dateEl.value) dateEl.value = new Date().toISOString().slice(0,10);
   chargerCompte();
   setTimeout(()=>{
-    majActiviteOptions();
     showPage('dashboard');
   }, 100);
   chargerDBFirestore(_currentUser.uid).then(()=>{
