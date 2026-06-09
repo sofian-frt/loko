@@ -104,9 +104,9 @@ input[type=number]{-moz-appearance:textfield}
 /* MAIN */
 .main{margin-left:230px;flex:1;min-height:100vh;display:flex;flex-direction:column;}
 /* TOPBAR */
-.topbar{position:sticky;top:0;z-index:100;
-  position:sticky;top:0;z-index:100;
-  background:rgba(255,255,255,.95);
+.topbar{
+  position:sticky;top:0;z-index:200;
+  background:rgba(255,255,255,.97);
   backdrop-filter:blur(12px);
   border-bottom:1px solid var(--border);
   padding:0 28px;height:58px;
@@ -591,7 +591,7 @@ input[type=number]{-moz-appearance:textfield}
 <div class="app" id="app-main" style="display:none">
 <div class="main">
 <!-- TOPBAR -->
-<div class="topbar" id="main-topbar" style="display:none;position:relative">
+<div class="topbar" id="main-topbar" style="display:none">
   <div class="topbar-left" style="display:flex;align-items:center;gap:10px">
     <!-- Titre page -->
     <div>
