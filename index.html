@@ -1778,9 +1778,13 @@ input[type=number]{-moz-appearance:textfield}
           <div class="form-group">
             <label class="form-label">Eau</label>
             <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="site"> Disponible sur site</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="souscomptage"> Sous-comptage — alimentation depuis bâtiment / local / appartement</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="raccord"> Raccordement provisoire Enedis</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="site" onchange="toggleVeoliaInfo()"> Disponible sur site</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="souscomptage" onchange="toggleVeoliaInfo()"> Sous-comptage — alimentation depuis bâtiment / local / appartement</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="raccord" onchange="toggleVeoliaInfo()"> Raccordement provisoire Veolia</label>
+              <div id="prov-eau-veolia-info" style="display:none;margin-top:6px;padding:8px 10px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:7px;font-size:11px;color:#1E40AF;line-height:1.6">
+                <strong>À la charge du client :</strong> La demande de branchement provisoire eau doit être effectuée directement par le client auprès de Veolia (ou du distributeur d'eau local selon la commune). Le client doit contacter son agence Veolia pour une demande de branchement chantier.<br><br>
+                <span style="color:#1D4ED8">Délai moyen : 2 à 4 semaines · Coût : 500 à 1 500 € selon distance au réseau · À anticiper avant démarrage du chantier</span>
+              </div>
             </div>
           </div>
           <div class="form-group">
@@ -3863,6 +3867,12 @@ function estimerDureeEtCompagnons(){
 }
 
 // ── ALIMENTATION PROVISOIRE — CALCUL FRAIS ───────────────────
+
+function toggleVeoliaInfo(){
+  const val = document.querySelector('input[name="prov-eau"]:checked')?.value;
+  const info = document.getElementById('prov-eau-veolia-info');
+  if(info) info.style.display = val === 'raccord' ? 'block' : 'none';
+}
 
 function toggleEnedisInfo(){
   const val = document.querySelector('input[name="prov-elec"]:checked')?.value;
