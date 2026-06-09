@@ -611,11 +611,9 @@ input[type=number]{-moz-appearance:textfield}
 <!-- TOPBAR -->
 <div class="topbar" id="main-topbar" style="display:none">
   <div class="topbar-left" style="display:flex;align-items:center;gap:10px">
-    <!-- Titre page -->
-    <div>
-      <div class="topbar-title" id="topbar-title"></div>
-      <div class="topbar-step" id="topbar-step" style="display:none"></div>
-    </div>
+    <!-- titres supprimés -->
+    <div id="topbar-title" style="display:none"></div>
+    <div id="topbar-step" style="display:none"></div>
   </div>
   <div class="topbar-actions" style="position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:8px">
     <button class="btn btn-ghost btn-sm" onclick="exportPrint()" style="gap:6px">
@@ -2674,7 +2672,7 @@ function showPage(id){
   const page=_get('page-'+id);if(page)page.classList.add('active');
   const nav=_get('nav-'+id);if(nav)nav.classList.add('active');
   const meta=PAGE_META[id]||{title:id,step:''};
-  _set('topbar-title',meta.title);_set('mobile-page-title',meta.title);
+  _set('mobile-page-title',meta.title);
   if(id==='releves')renderPieces();
   if(id==='eclairage')renderEclairage();
   if(id==='electricite'){renderElecPieces();calcElec();}
@@ -2701,11 +2699,9 @@ function showPage(id){
   if(id==='chantiers')renderChantiers();
   if(id==='dashboard')renderDashboard();
   if(id==='compte')renderCompte();
-  // Dashboard : masquer toute la zone titre + boutons
+  // Boutons topbar toujours visibles sauf dashboard
   const actionsEl = document.querySelector('.topbar-actions');
-  const titleEl2  = document.querySelector('.topbar-left');
   if(actionsEl) actionsEl.style.display = id === 'dashboard' ? 'none' : 'flex';
-  if(titleEl2)  titleEl2.style.display  = id === 'dashboard' ? 'none' : 'flex';
   _get('sidebar').classList.remove('mobile-open');
   _get('sidebar-overlay').classList.remove('open');
   window.scrollTo(0,0);
