@@ -367,6 +367,7 @@ input[type=number]{-moz-appearance:textfield}
 .hamburger{background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:var(--ink)}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:199}
 .fab{display:none;position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--primary);color:white;font-size:24px;border:none;cursor:pointer;box-shadow:var(--shadow-lg);z-index:150;align-items:center;justify-content:center}
+.fab-left{right:auto;left:20px}
 
 @media(max-width:768px){
   /* Bloquer tout débordement horizontal */
@@ -691,6 +692,7 @@ input[type=number]{-moz-appearance:textfield}
 </aside>
 
 <!-- FAB mobile synthèse -->
+<button class="fab fab-left" onclick="ouvrirListeCloud()" style="display:none" title="Importer un projet"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></button>
 <button class="fab" onclick="sauvegarderCloud()" style="display:none" title="Sauvegarder"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></button>
 
 <!-- ══ PAGE LOGIN ══ -->
@@ -868,11 +870,14 @@ input[type=number]{-moz-appearance:textfield}
         <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
             <label class="form-label">Code chantier</label>
-            <div style="display:flex;align-items:center;gap:10px">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
               <div id="code-chantier-display" style="font-family:monospace;font-weight:700;font-size:16px;color:var(--ink);padding:9px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);letter-spacing:2px;min-width:160px">
                 —
               </div>
-
+              <button class="btn btn-secondary btn-sm" onclick="ouvrirListeCloud()" style="gap:6px;flex-shrink:0">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Importer
+              </button>
             </div>
             <input type="hidden" id="proj-nom" value="">
             <input type="hidden" id="proj-nom-suffix" value="">
@@ -5013,8 +5018,7 @@ function afficherLogin(){
   document.getElementById('sidebar-overlay').classList.remove('open');
   const mt = document.querySelector('.mobile-topbar');
   if(mt) mt.style.setProperty('display','none','important');
-  const fab = document.querySelector('.fab');
-  if(fab) fab.style.setProperty('display','none','important');
+  document.querySelectorAll('.fab').forEach(f=>f.style.setProperty('display','none','important'));
 }
 
 const ACTIVITES_PAR_TYPE = {
@@ -5048,8 +5052,7 @@ function afficherApp(){
   // Remettre topbar mobile + fab uniquement sur mobile
   const mt = document.querySelector('.mobile-topbar');
   if(mt) mt.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
-  const fab = document.querySelector('.fab');
-  if(fab) fab.style.removeProperty('display');
+  document.querySelectorAll('.fab').forEach(f=>f.style.removeProperty('display'));
   majLogoSidebar();
   genererCodeChantierAvecAttente();
   if(_userData){
