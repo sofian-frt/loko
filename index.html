@@ -829,6 +829,26 @@ input[type=number]{-moz-appearance:textfield}
             <label class="form-label">Activité prévue</label>
             <select id="proj-activite" spellcheck="true" class="form-select" onchange="updateProjectHeader();majActiviteAutre()">
               <option value="">— Sélectionner —</option>
+              <option value="Kebab">Kebab</option>
+              <option value="Sandwicherie">Sandwicherie</option>
+              <option value="Burger">Burger</option>
+              <option value="Tacos">Tacos</option>
+              <option value="Pizza">Pizza</option>
+              <option value="Grillades">Grillades</option>
+              <option value="Cuisine turque">Cuisine turque</option>
+              <option value="Cuisine libanaise">Cuisine libanaise</option>
+              <option value="Cuisine asiatique">Cuisine asiatique</option>
+              <option value="Cuisine italienne">Cuisine italienne</option>
+              <option value="Cuisine indienne">Cuisine indienne</option>
+              <option value="Cuisine africaine">Cuisine africaine</option>
+              <option value="Brasserie">Brasserie</option>
+              <option value="Restaurant traditionnel">Restaurant traditionnel</option>
+              <option value="Fast-food">Fast-food</option>
+              <option value="Fast casual">Fast casual</option>
+              <option value="Food court">Food court</option>
+              <option value="Traiteur">Traiteur</option>
+              <option value="Dark kitchen">Dark kitchen</option>
+              <option value="Autre">Autre</option>
             </select>
             <div id="proj-activite-autre-wrap" style="display:none;margin-top:6px">
               <input id="proj-activite-autre" spellcheck="true" class="form-input" placeholder="Précisez l'activité" oninput="corrigerTexte(this);updateProjectHeader()">
@@ -2687,8 +2707,7 @@ function showPage(id){
 
   if(id==='init'){
     renderRecapBanner();
-    // Délai court pour s'assurer que le DOM est visible avant de peupler le select
-    setTimeout(majActiviteOptions, 50);
+    majActiviteOptions();
   }
   if(id==='prechiffrage')recalculate();
   if(id==='chiffrage')renderChiffrageDetail();
@@ -4748,6 +4767,11 @@ const db = firebase.firestore();
 
 let _currentUser = null;
 let _userData = null;
+
+// Pré-peupler l'activité dès que le DOM est prêt
+document.addEventListener('DOMContentLoaded', function(){
+  if(typeof majActiviteOptions === 'function') majActiviteOptions();
+});
 
 auth.onAuthStateChanged(async user => {
   if(user){
