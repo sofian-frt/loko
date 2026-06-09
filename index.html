@@ -380,6 +380,10 @@ input[type=number]{-moz-appearance:textfield}
   .topbar{display:none}
   .radio-cards{grid-template-columns:repeat(2,1fr)}
   .check-grid{grid-template-columns:1fr 1fr}
+  /* Login : pas de topbar, page centrée plein écran */
+  #page-login ~ * .mobile-topbar,
+  body.login-active .mobile-topbar{display:none!important}
+  #page-login{padding-top:0;min-height:100dvh}
 }
 @media print{
   .sidebar,.topbar,.mobile-topbar,.fab,.topbar-actions{display:none!important}
@@ -513,7 +517,7 @@ input[type=number]{-moz-appearance:textfield}
 <button class="fab" onclick="showPage('synthese')" title="Synthèse"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></button>
 
 <!-- ══ PAGE LOGIN ══ -->
-<div id="page-login" style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg);padding:20px">
+<div id="page-login" style="display:flex;align-items:center;justify-content:center;min-height:100vh;min-height:100dvh;background:var(--bg);padding:20px">
   <div style="width:100%;max-width:420px">
     <!-- Logo -->
     <div style="text-align:center;margin-bottom:32px">
@@ -4791,6 +4795,9 @@ function afficherLogin(){
   document.getElementById('sidebar').style.display = 'none';
   document.getElementById('main-topbar').style.display = 'none';
   document.getElementById('sidebar-overlay').style.display = 'none';
+  // Masquer topbar mobile sur la page login
+  const mt = document.querySelector('.mobile-topbar');
+  if(mt) mt.style.display = 'none';
 }
 
 const ACTIVITES_PAR_TYPE = {
@@ -4821,6 +4828,9 @@ function afficherApp(){
   document.getElementById('app-main').style.display = 'flex';
   document.getElementById('sidebar').style.display = '';
   document.getElementById('main-topbar').style.display = '';
+  // Remettre topbar mobile quand on entre dans l'app
+  const mt = document.querySelector('.mobile-topbar');
+  if(mt) mt.style.display = '';
   majLogoSidebar();
   genererCodeChantierAvecAttente();
   if(_userData){
