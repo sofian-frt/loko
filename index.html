@@ -104,7 +104,7 @@ input[type=number]{-moz-appearance:textfield}
 /* MAIN */
 .main{margin-left:230px;flex:1;min-height:100vh;display:flex;flex-direction:column;}
 /* TOPBAR */
-.topbar{
+.topbar{position:sticky;top:0;z-index:100;
   position:sticky;top:0;z-index:100;
   background:rgba(255,255,255,.95);
   backdrop-filter:blur(12px);
@@ -593,11 +593,6 @@ input[type=number]{-moz-appearance:textfield}
 <!-- TOPBAR -->
 <div class="topbar" id="main-topbar" style="display:none;position:relative">
   <div class="topbar-left" style="display:flex;align-items:center;gap:10px">
-    <!-- Logo entreprise + séparateur (visible seulement si logo importé) -->
-    <div id="topbar-logo-wrap" style="display:none;align-items:center;gap:10px">
-      <img id="topbar-logo" src="" alt="" style="max-height:32px;max-width:100px;object-fit:contain;border-radius:3px;flex-shrink:0">
-      <div style="width:1px;height:28px;background:var(--border);flex-shrink:0"></div>
-    </div>
     <!-- Titre page -->
     <div>
       <div class="topbar-title" id="topbar-title">Initialisation du projet</div>
@@ -4167,14 +4162,7 @@ window.addEventListener('load', function(){
 
 // ── LOGO SIDEBAR ─────────────────────────────────────────────
 function majLogoSidebar(){
-  const logo = localStorage.getItem('lokoo_logo');
-  // Topbar — logo entreprise + séparateur si logo présent
-  const topbarWrap = document.getElementById('topbar-logo-wrap');
-  const topbarImg = document.getElementById('topbar-logo');
-  if(topbarWrap && topbarImg){
-    if(logo){ topbarImg.src=logo; topbarWrap.style.display='flex'; }
-    else { topbarImg.src=''; topbarWrap.style.display='none'; }
-  }
+  // Plus de logo dans la topbar
 }
 
 // ── SUPPRESSION COMPTE ──────────────────────────────────────
