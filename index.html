@@ -460,7 +460,7 @@ input[type=number]{-moz-appearance:textfield}
 <body>
 
 <!-- MOBILE TOPBAR -->
-<div class="mobile-topbar">
+<div class="mobile-topbar" id="mobile-topbar-bar" style="display:none">
   <button class="hamburger" onclick="toggleMobileSidebar()" aria-label="Menu" style="width:36px;height:36px;border-radius:8px;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink)">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
       <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
@@ -4222,7 +4222,7 @@ function afficherLogin(){
   document.getElementById('sidebar').style.display = 'none';
   document.getElementById('main-topbar').style.display = 'none';
   document.getElementById('sidebar-overlay').style.display = 'none';
-  const mt = document.querySelector('.mobile-topbar');
+  const mt = document.getElementById('mobile-topbar-bar');
   if(mt) mt.style.display = 'none';
 }
 
