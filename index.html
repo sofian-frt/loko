@@ -4995,8 +4995,9 @@ function renderRecapBanner(){
       <div style="display:flex;align-items:center;gap:14px">
         <div style="width:44px;height:44px;background:rgba(255,255,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0">${cur.icon}</div>
         <div>
-          <div style="font-size:17px;font-weight:800;color:white">${nom||'Projet sans nom'}</div>
-          <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2px">${client||'—'} ${adresse?'· '+adresse:''}</div>
+          <div style="font-size:17px;font-weight:800;color:white">${nomChantier||client||'Projet sans nom'}</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2px">${client&&adresse?client+' · '+adresse:client||adresse||'—'}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;font-family:monospace">${nom||''}</div>
         </div>
       </div>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
@@ -5115,6 +5116,7 @@ function renderRecap(){
   if(!el) return;
 
   const nom = _val('proj-nom');
+  const nomChantier = _val('proj-nom-chantier');
   const client = _val('proj-client');
   const adresse = _val('proj-adresse');
   const surface = parseFloat(_val('proj-surface')) || 0;
