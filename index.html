@@ -684,7 +684,7 @@ input[type=number]{-moz-appearance:textfield}
             <label class="form-label">Code chantier</label>
             <div style="display:flex;gap:8px;align-items:center">
               <div style="font-family:monospace;font-weight:700;font-size:13px;color:var(--muted);padding:9px 0 9px 13px;white-space:nowrap" id="code-prefix">26-CHT-</div>
-              <input id="proj-nom-suffix" class="form-input" placeholder="0001" maxlength="4"
+              <input id="proj-nom-suffix" class="form-input" placeholder="— — — —" maxlength="4"
                 style="font-family:monospace;font-weight:700;font-size:15px;width:100px;text-align:center;letter-spacing:2px"
                 oninput="verifierCodeChantier(this.value)">
               <div id="code-status" style="font-size:18px;flex-shrink:0"></div>
@@ -4623,18 +4623,32 @@ function renderRecap(){
 function genererCodeChantier(){
   var now = new Date();
   var yy = String(now.getFullYear()).slice(-2);
-  var compteurKey = 'lokoo_compteur_' + yy;
-  var compteur = parseInt(localStorage.getItem(compteurKey) || '0') + 1;
-  localStorage.setItem(compteurKey, String(compteur));
-  var suffix = String(compteur).padStart(4,'0');
   var prefixEl = document.getElementById('code-prefix');
   if(prefixEl) prefixEl.textContent = yy + '-CHT-';
+  // Ne pas auto-remplir — laisser vide
   var suffixInp = document.getElementById('proj-nom-suffix');
-  if(suffixInp) suffixInp.value = suffix;
+  if(suffixInp) suffixInp.value = '';
   var hidden = document.getElementById('proj-nom');
-  if(hidden) hidden.value = yy + '-CHT-' + suffix;
-  verifierCodeChantier(suffix);
-  updateProjectHeader();
+  if(hidden) hidden.value = '';
+  // Afficher le dernier chantier enregistré dans le hint
+  afficherDernierChantier();
+}
+
+function afficherDernierChantier(){
+  var hintEl = document.getElementById('code-hint');
+  if(!hintEl) return;
+  // Chercher dans localStorage et Firestore
+  var dossiers = JSON.parse(localStorage.getItem('lokoo_dossiers') || '[]');
+  var chantiers = JSON.parse(localStorage.getItem('rt_chantiers') || '[]');
+  var dernierCode = '';
+  // Prendre le plus récent
+  if(dossiers.length > 0) dernierCode = dossiers[dossiers.length-1].code || '';
+  if(chantiers.length > 0 && !dernierCode) dernierCode = chantiers[chantiers.length-1].nom || '';
+  if(dernierCode){
+    hintEl.innerHTML = '<span style="color:var(--muted)">Dernier chantier : <strong style="font-family:monospace">'+dernierCode+'</strong></span>';
+  } else {
+    hintEl.innerHTML = '';
+  }
 }
 
 function verifierCodeChantier(suffix){
@@ -4664,7 +4678,7 @@ function verifierCodeChantier(suffix){
     if(hintEl) hintEl.innerHTML = '<span style="color:var(--danger);font-weight:600">Ce code existe déjà — choisissez un autre numéro</span>';
   } else {
     if(statusEl) statusEl.textContent = '✅';
-    if(hintEl) hintEl.innerHTML = '<span style="color:var(--success)">Code disponible : <strong>'+codeComplet+'</strong></span>';
+    if(hintEl) hintEl.innerHTML = '<span style="color:var(--success);font-family:monospace;font-weight:600">'+codeComplet+'</span>';
   }
   updateProjectHeader();
 }
