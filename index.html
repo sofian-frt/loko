@@ -6666,8 +6666,17 @@ function connecterDrive(){
         if(nm) nm.textContent = u.given_name||u.name||'Drive';
         // Notif
         showToast('✅ Google Drive connecté !');
-        trouverOuCreerDossier();
-      }).catch(e=>{ showToast('✅ Drive connecté'); trouverOuCreerDossier(); });
+        // Trouver/créer dossier puis générer code chantier
+        trouverOuCreerDossier().then(async () => {
+          await chargerCodesDrive();
+          await genererCodeChantier();
+        });
+      }).catch(async e => {
+        showToast('✅ Drive connecté');
+        await trouverOuCreerDossier();
+        await chargerCodesDrive();
+        await genererCodeChantier();
+      });
     }
   });
 
