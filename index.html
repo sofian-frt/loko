@@ -2694,6 +2694,10 @@ function showPage(id){
   if(id==='chantiers')renderChantiers();
   if(id==='dashboard')renderDashboard();
   if(id==='compte')renderCompte();
+  // Masquer les boutons topbar sur les pages non-projet
+  const noActions = ['dashboard','chantiers','bibliotheque','compte'];
+  const actionsEl = document.querySelector('.topbar-actions');
+  if(actionsEl) actionsEl.style.display = noActions.includes(id) ? 'none' : '';
   _get('sidebar').classList.remove('mobile-open');
   _get('sidebar-overlay').classList.remove('open');
   window.scrollTo(0,0);
