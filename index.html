@@ -454,9 +454,7 @@ input[type=number]{-moz-appearance:textfield}
 }
 </style>
 </head>
-<body onclick="
-  if(!event.target.closest('#profil-menu') && !event.target.closest('#mobile-profil-btn') && !event.target.closest('#btn-profil')){
-    document.querySelectorAll('.dropdown-menu').forEach(m=>m.style.display='none');
+<body>m.style.display='none');
   }
   if(window.innerWidth<=768 && !event.target.closest('.sidebar') && !event.target.closest('.hamburger')){
     var sb=document.getElementById('sidebar');
@@ -4039,6 +4037,24 @@ function afficherSignature(src){
   if(preview){ preview.src=src; preview.style.display='block'; }
   if(placeholder) placeholder.style.display='none';
 }
+
+// Fermeture menus au toucher extérieur
+document.addEventListener('touchstart', function(e){
+  var menu = document.getElementById('profil-menu');
+  var btnDesktop = document.getElementById('btn-profil');
+  var btnMobile = document.getElementById('mobile-profil-btn');
+  if(menu && menu.style.display === 'block'){
+    if(!menu.contains(e.target) && !(btnDesktop && btnDesktop.contains(e.target)) && !(btnMobile && btnMobile.contains(e.target))){
+      menu.style.display = 'none';
+    }
+  }
+  var sb = document.getElementById('sidebar');
+  var ov = document.getElementById('sidebar-overlay');
+  if(sb && sb.classList.contains('mobile-open') && !sb.contains(e.target)){
+    sb.classList.remove('mobile-open');
+    if(ov){ ov.classList.remove('open'); ov.style.display='none'; }
+  }
+}, {passive:true});
 
 function toggleProfilMenu(){
   const menu = document.getElementById('profil-menu');
