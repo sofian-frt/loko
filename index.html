@@ -1809,29 +1809,9 @@ input[type=number]{-moz-appearance:textfield}
 
 
 
-        <!-- Infos complémentaires -->
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px">
-          <div class="form-section-title" style="margin:0">Informations complémentaires</div>
-
-        </div>
-        <div id="prov-estimation-hint" style="display:none;margin-bottom:10px;padding:8px 12px;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;font-size:11px;color:var(--primary-dark);line-height:1.7"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px">
-          <div class="form-group">
-            <label class="form-label">Durée estimée du chantier</label>
-            <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-              <input type="number" id="prov-duree-mois" class="form-input" placeholder="auto" min="0" style="max-width:80px;font-size:16px" oninput="calculerFraisProvisoires()">
-              <span style="font-size:12px;color:var(--muted)">mois</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Nombre moyen d'intervenants</label>
-            <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-              <input type="number" id="prov-nb-intervenants" class="form-input" placeholder="auto" min="0" style="max-width:80px;font-size:16px" oninput="calculerFraisProvisoires()">
-              <span style="font-size:12px;color:var(--muted)">compagnons</span>
-            </div>
-          </div>
-        </div>
-
+        <input type="hidden" id="prov-duree-mois" value="0">
+        <input type="hidden" id="prov-nb-intervenants" value="0">
+        <div id="prov-estimation-hint" style="display:none"></div>
         <!-- Résultat calcul automatique -->
         <div id="prov-frais-result" style="display:none;padding:12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
           <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Estimation frais de chantier provisoires</div>
