@@ -4067,15 +4067,25 @@ function afficherApp(){
   document.getElementById('sidebar').style.display = '';
   document.getElementById('main-topbar').style.display = '';
   majLogoSidebar();
-  // Générer le code chantier (Drive ou pas)
+  // Générer le code chantier après init Drive
   setTimeout(async()=>{
     try{
-      if(typeof _driveToken !== 'undefined' && _driveToken && typeof _driveFolderId !== 'undefined' && _driveFolderId){
-        if(_codesExistantsDrive === null) await chargerCodesDrive();
+      if(typeof _driveToken !== 'undefined' && _driveToken){
+        // S'assurer que le dossier est trouvé/créé
+        if(!_driveFolderId) await trouverOuCreerDossier();
+        // Charger les codes existants
+        if(_driveFolderId && _codesExistantsDrive === null) await chargerCodesDrive();
       }
       await genererCodeChantier();
-    }catch(e){ console.error('genererCodeChantier error:', e); }
-  }, 800);
+    }catch(e){
+      console.error('genererCodeChantier error:', e);
+      // Afficher le message drive même en cas d'erreur
+      const d = document.getElementById('code-chantier-display');
+      if(d) d.textContent = '—';
+      const h = document.getElementById('code-hint');
+      if(h) h.innerHTML = '<span style="color:var(--warn)">Connectez Google Drive pour générer le code chantier</span>';
+    }
+  }, 1200);
   // Charger les données depuis Firestore
   if(_userData){
     appliquerDonneesUtilisateur(_userData);
@@ -5204,6 +5214,8 @@ async function genererCodeChantier(){
   var suffixInp = document.getElementById('proj-nom-suffix');
   var hidden = document.getElementById('proj-nom');
   var hintEl = document.getElementById('code-hint');
+
+  console.log('genererCodeChantier — driveToken:', !!_driveToken, '— driveFolderId:', !!_driveFolderId, '— codes:', _codesExistantsDrive?.length);
 
   // Si pas connecté au Drive — afficher message et laisser vide
   if(!_driveToken){
