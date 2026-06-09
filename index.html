@@ -3855,28 +3855,7 @@ function estimerDureeEtCompagnons(){
   document.getElementById('prov-duree-mois').value = dureeMois.toFixed(1);
   document.getElementById('prov-nb-intervenants').value = nbCompagnons;
 
-  // ══════════════════════════════════════════════════════════
-  // EXPLICATION DÉTAILLÉE
-  // ══════════════════════════════════════════════════════════
-  if(hint){
-    hint.style.display = 'block';
-    const etatLabel = etatType==='brut'?'local brut béton':etatType==='semi'?'semi-aménagé':'local à curer';
-    const lotsNoms = Object.keys(lots).join(' · ');
-    const phasesHTML = [
-      {nom:'Phase 1 — Préparatoire',j:phase1, detail:'démolition/curage + gros œuvre'},
-      {nom:'Phase 2 — Second œuvre lourd',j:phase2, detail:'cloisons + élec + plomberie en //'},
-      {nom:'Phase 3 — Second œuvre fin',j:phase3, detail:'sols + plafonds + VCE en //'},
-      {nom:'Phase 4 — Finitions',j:phase4, detail:'peinture + menuiseries + cuisine + façade en //'},
-    ].filter(p=>p.j>0).map(p=>`<span style="color:var(--ink)">${p.nom}</span> : ${Math.round(p.j)} j <span style="color:var(--muted)">(${p.detail})</span>`).join('<br>');
 
-    hint.innerHTML = `
-      <div style="margin-bottom:6px"><strong>Surface :</strong> ${surface} m² · <strong>État :</strong> ${etatLabel} · <strong>Lots :</strong> ${Object.keys(lots).length} corps d'état</div>
-      <div style="margin-bottom:6px;line-height:1.8">${phasesHTML}</div>
-      ${contraintes.length ? `<div style="margin-bottom:4px"><strong>Contraintes :</strong> ${contraintes.join(', ')}</div>` : ''}
-      <div><strong>Résultat :</strong> ~${dureeMois} mois · pic ~${nbCompagnons} compagnons simultanés</div>
-      <div style="color:var(--muted);margin-top:4px">Cadences : ${Math.round(surface / (joursTotal/22))} m²/mois · Valeurs modifiables selon votre expérience.</div>
-    `;
-  }
 
   calculerFraisProvisoires();
 }
