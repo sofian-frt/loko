@@ -386,29 +386,29 @@ input[type=number]{-moz-appearance:textfield}
   #page-login ~ * .mobile-topbar,
   body.login-active .mobile-topbar{display:none!important}
   #page-login{padding-top:0;min-height:100dvh}
-  /* Compte & Paramètres : masquer les tabs, tout afficher en scroll vertical */
-  #compte-tabs{ display:none !important; }
-  #tab-content-general,
-  #tab-content-profil,
-  #tab-content-entreprise,
-  #tab-content-banque,
-  #tab-content-documents,
-  #tab-content-preferences{ display:block !important; }
-  /* Titre de section sticky */
-  .compte-section-title{
-    position:sticky;
-    top:54px;
-    background:white;
-    z-index:10;
-    padding:12px 0 8px;
-    font-size:11px;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:.07em;
-    color:var(--primary);
-    border-bottom:2px solid var(--primary);
-    margin-bottom:16px;
+  /* Compte & Paramètres mobile */
+  /* Tabs : défilement horizontal, style carrousel */
+  #compte-tabs{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    flex-wrap:nowrap;
+    padding-bottom:2px;
   }
+  #compte-tabs::-webkit-scrollbar{display:none}
+  #compte-tabs .tab{
+    flex-shrink:0;
+    padding:10px 14px;
+    font-size:13px;
+  }
+  /* Contenu : tout en colonne, pas de grille côte à côte */
+  #page-compte .g2,
+  #page-compte [style*="grid-template-columns:repeat(3"],
+  #page-compte [style*="grid-template-columns:1fr 1fr"],
+  #page-compte [style*="grid-template-columns:repeat(2"]{
+    grid-template-columns:1fr !important;
+  }
+  #page-compte .card{ width:100%; box-sizing:border-box; }
 }
 @media print{
   .sidebar,.topbar,.mobile-topbar,.fab,.topbar-actions{display:none!important}
@@ -1915,7 +1915,6 @@ input[type=number]{-moz-appearance:textfield}
 
   <!-- TAB GÉNÉRAL -->
   <div id="tab-content-general">
-  <div class="compte-section-title">Général</div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px">
       <div class="card" style="cursor:pointer;transition:all .15s" onclick="switchTab('profil')"
         onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
@@ -2008,7 +2007,6 @@ input[type=number]{-moz-appearance:textfield}
 
   <!-- TAB PROFIL -->
   <div id="tab-content-profil">
-  <div class="compte-section-title">Mon compte</div>
     <div class="g2" style="gap:20px;align-items:start">
       <div class="card">
         <div class="card-title">Informations personnelles</div>
@@ -2079,7 +2077,6 @@ input[type=number]{-moz-appearance:textfield}
 
   <!-- TAB ENTREPRISE -->
   <div id="tab-content-entreprise" style="display:none">
-  <div class="compte-section-title">Entreprise</div>
     <div class="g2" style="gap:20px;align-items:start">
       <div class="card">
         <div class="card-title">Identité de l'entreprise</div>
@@ -2171,7 +2168,6 @@ input[type=number]{-moz-appearance:textfield}
 
   <!-- TAB BANQUE -->
   <div id="tab-content-banque" style="display:none">
-  <div class="compte-section-title">Coordonnées bancaires</div>
     <div class="card" style="max-width:600px">
       <div class="card-title">Coordonnées bancaires</div>
       <div class="form-row-1">
@@ -2204,7 +2200,6 @@ input[type=number]{-moz-appearance:textfield}
 
   <!-- TAB DOCUMENTS -->
   <div id="tab-content-documents" style="display:none">
-  <div class="compte-section-title">Documents & Devis</div>
     <div class="g2" style="gap:20px;align-items:start">
       <div class="card">
         <div class="card-title">Paramètres des documents</div>
@@ -2278,7 +2273,6 @@ input[type=number]{-moz-appearance:textfield}
 
   <!-- TAB PREFERENCES -->
   <div id="tab-content-preferences" style="display:none">
-  <div class="compte-section-title">Préférences</div>
     <div class="card" style="max-width:600px">
       <div class="card-title">Préférences de l'application</div>
       <div class="form-row">
