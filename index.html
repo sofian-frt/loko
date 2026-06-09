@@ -1555,7 +1555,178 @@ input[type=number]{-moz-appearance:textfield}
       </div>
     </div>
 
-    <!-- COL DROITE -->
+    
+      <!-- PRESTATAIRES & ACCOMPAGNEMENT -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Prestataires & accompagnement à l'ouverture</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:16px">Identifiez les prestataires nécessaires pour anticiper les coûts hors travaux</div>
+
+        <!-- FOOD CONSULTING -->
+        <div style="border:1.5px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6h3.5a1.5 1.5 0 011.5 1.5V22"/></svg>
+              <span style="font-size:13px;font-weight:700;color:var(--ink)">Food Consulting</span>
+            </div>
+            <select id="prest-food-statut" class="form-select" style="width:auto;height:30px;font-size:12px">
+              <option value="a_prevoir">À prévoir</option>
+              <option value="missionne">Déjà missionné ✓</option>
+              <option value="non">Non nécessaire</option>
+            </select>
+          </div>
+          <div class="form-label" style="margin-bottom:8px">Prestations souhaitées</div>
+          <div class="check-grid">
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="fc-concept"> Création du concept</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="fc-positionnement"> Positionnement</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="fc-carte"> Élaboration de la carte</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="fc-recettes"> Création des recettes</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="fc-std-recettes"> Standardisation recettes</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="fc-food-cost"> Calcul du food cost</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="fc-marges"> Définition des marges</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="fc-fournisseurs"> Sélection fournisseurs</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="fc-materiel"> Choix matériel cuisine</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="fc-postes"> Organisation postes de travail</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="fc-flux"> Optimisation flux cuisine</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="fc-form-equipes"> Formation des équipes</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="fc-form-managers"> Formation des managers</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="fc-ouverture"> Accompagnement ouverture</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="fc-audit"> Audit de performance</label>
+          </div>
+        </div>
+
+        <!-- SYSTÈME DE CAISSE -->
+        <div style="border:1.5px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              <span style="font-size:13px;font-weight:700;color:var(--ink)">Système de caisse</span>
+            </div>
+            <select id="prest-caisse-statut" class="form-select" style="width:auto;height:30px;font-size:12px">
+              <option value="a_prevoir">À prévoir</option>
+              <option value="defini">Déjà défini ✓</option>
+              <option value="non">Non nécessaire</option>
+            </select>
+          </div>
+          <div class="form-label" style="margin-bottom:8px">Équipements prévus</div>
+          <div class="check-grid">
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-principale"> Caisse principale</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-ecran-cuisine"> Écran cuisine</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-imprimante"> Imprimantes tickets</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-cb"> Paiement CB intégré</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-stocks"> Gestion des stocks</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-fidelite"> Fidélité client</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-multisites"> Multi-sites</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-livraison"> Livraison</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-click-collect"> Click & Collect</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-compta"> Interface comptable</label>
+          </div>
+        </div>
+
+        <!-- BORNES DE COMMANDE -->
+        <div style="border:1.5px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 22h6M12 18h.01"/></svg>
+              <span style="font-size:13px;font-weight:700;color:var(--ink)">Bornes de commande</span>
+            </div>
+            <select id="prest-bornes-statut" class="form-select" style="width:auto;height:30px;font-size:12px">
+              <option value="a_prevoir">À prévoir</option>
+              <option value="definies">Déjà définies ✓</option>
+              <option value="non">Non nécessaire</option>
+            </select>
+          </div>
+          <div class="form-row" style="margin-bottom:12px">
+            <div class="form-group">
+              <label class="form-label">Nombre de bornes</label>
+              <input type="number" id="bornes-nb" class="form-input" placeholder="0" min="0" style="max-width:100px;font-size:16px">
+            </div>
+          </div>
+          <div class="form-label" style="margin-bottom:8px">Configuration</div>
+          <div class="check-grid">
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="bornes-pied"> Bornes sur pied</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="bornes-mural"> Bornes murales</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="bornes-comptoir"> Bornes comptoir</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="bornes-cb"> Paiement CB intégré</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="bornes-ticket"> Impression ticket</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="bornes-caisse"> Intégration caisse</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="bornes-fidelite"> Programme fidélité</label>
+          </div>
+        </div>
+
+        <!-- AGENCE DE COMMUNICATION -->
+        <div style="border:1.5px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+              <span style="font-size:13px;font-weight:700;color:var(--ink)">Agence de communication</span>
+            </div>
+            <select id="prest-com-statut" class="form-select" style="width:auto;height:30px;font-size:12px">
+              <option value="a_prevoir">À prévoir</option>
+              <option value="missionnee">Déjà missionnée ✓</option>
+              <option value="non">Non nécessaire</option>
+            </select>
+          </div>
+          <div class="form-label" style="margin-bottom:8px">Prestations souhaitées</div>
+          <div class="check-grid">
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-identite"> Identité visuelle</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-logo"> Création logo</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-charte"> Charte graphique</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-enseigne"> Design enseigne</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-vitrine"> Design vitrine</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-imprimes"> Supports imprimés</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-menus"> Menus et cartes</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-flyers"> Flyers</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-cartes-visite"> Cartes de visite</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-signa-int"> Signalétique intérieure</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-signa-ext"> Signalétique extérieure</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-site"> Création site internet</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-seo"> Référencement SEO</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-google"> Fiche Google</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-reseaux"> Réseaux sociaux</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-photo"> Shooting photo</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-video"> Création vidéos</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-campagne"> Campagne d'ouverture</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="com-community"> Community management</label>
+          </div>
+        </div>
+
+        <!-- ÉQUIPEMENTS COMPLÉMENTAIRES -->
+        <div style="border:1.5px solid var(--border);border-radius:10px;padding:14px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            <span style="font-size:13px;font-weight:700;color:var(--ink)">Équipements complémentaires</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
+              <div style="font-size:13px;font-weight:600;color:var(--ink)">Vidéosurveillance</div>
+              <select id="equip-video-statut" class="form-select" style="width:auto;height:30px;font-size:12px">
+                <option value="a_prevoir">À prévoir</option>
+                <option value="defini">Déjà définie ✓</option>
+                <option value="non">Non nécessaire</option>
+              </select>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)">
+              <div style="font-size:13px;font-weight:600;color:var(--ink)">Contrôle d'accès</div>
+              <select id="equip-acces-statut" class="form-select" style="width:auto;height:30px;font-size:12px">
+                <option value="a_prevoir">À prévoir</option>
+                <option value="defini">Déjà défini ✓</option>
+                <option value="non">Non nécessaire</option>
+              </select>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0">
+              <div style="font-size:13px;font-weight:600;color:var(--ink)">Écran d'affichage dynamique</div>
+              <select id="equip-affichage-statut" class="form-select" style="width:auto;height:30px;font-size:12px">
+                <option value="a_prevoir">À prévoir</option>
+                <option value="defini">Déjà défini ✓</option>
+                <option value="non">Non nécessaire</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /prestataires -->
+
+<!-- COL DROITE -->
     <div>
 
       <!-- ÉTUDES & AUTORISATIONS -->
