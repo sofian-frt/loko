@@ -1253,39 +1253,12 @@ input[type=number]{-moz-appearance:textfield}
                 </div>
               </div>
 
-              <!-- Section stockage conditionnelle -->
-              <div id="mezz-stockage-section" style="display:none;margin-bottom:14px;padding:10px;background:white;border-radius:8px;border:1px solid var(--border)">
-                <label class="form-label" style="margin-bottom:8px;display:block">Nature du stockage</label>
-                <div class="check-grid" style="margin-bottom:10px">
-                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-conso"> Consommables</label>
-                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-embal"> Emballages</label>
-                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-boissons"> Boissons</label>
-                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-alim"> Produits alimentaires secs</label>
-                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-frigo"> Produits réfrigérés</label>
-                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-mobilier"> Mobilier</label>
-                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-archives"> Archives</label>
-                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-materiel"> Matériel professionnel</label>
-                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-lourd"> Stock lourd</label>
-                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="mezz-stock-autre"> Autre</label>
-                </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-                  <div class="form-group">
-                    <label class="form-label">Volume estimé (m³)</label>
-                    <input type="number" id="mezz-volume-m3" class="form-input" placeholder="0" oninput="verifierMezzanine()" style="font-size:16px">
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Nombre de palettes</label>
-                    <input type="number" id="mezz-volume-palettes" class="form-input" placeholder="0" oninput="verifierMezzanine()" style="font-size:16px">
-                  </div>
-                </div>
-              </div>
-
               <!-- Surface proposée -->
               <div class="form-group" style="margin-bottom:14px">
-                <label class="form-label">Surface mezzanine (m²)</label>
+                <label class="form-label">Surface mezzanine (m²) <span style="font-weight:400;color:var(--muted)">— modifiable</span></label>
                 <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
-                  <input type="number" id="mezz-surface" class="form-input" placeholder="Auto" oninput="verifierMezzanine()" style="max-width:120px;font-size:16px">
-                  <span style="font-size:12px;color:var(--muted)" id="mezz-surface-hint">calculée automatiquement</span>
+                  <input type="number" id="mezz-surface" class="form-input" placeholder="calculée auto" oninput="verifierMezzanine()" style="max-width:140px;font-size:16px">
+                  <span style="font-size:12px;color:var(--primary)" id="mezz-surface-hint"></span>
                 </div>
               </div>
 
@@ -3454,127 +3427,132 @@ function toggleMezzaninePanel(labelEl){
 }
 
 function verifierMezzanine(){
-  // Afficher/masquer section stockage
+  // Afficher/masquer section stockage -> plus utilisée mais on garde la logique
   const reserveChecked = document.getElementById('mezz-reserve')?.checked;
   const stockageChecked = document.getElementById('mezz-stockage')?.checked;
-  const stockSection = document.getElementById('mezz-stockage-section');
-  if(stockSection) stockSection.style.display = (reserveChecked||stockageChecked) ? 'block' : 'none';
 
-  // Récupérer données projet
+  // ── Données projet ────────────────────────────────────────
+  // Hauteur : on prend la hauteur moyenne calculée depuis proj-hauteur
   const hauteurStr = document.getElementById('proj-hauteur')?.value || '';
-  const surfaceStr = document.getElementById('proj-surface')?.value || '';
-  const typeLocal  = document.getElementById('proj-type-local')?.value || '';
+  const surfaceStr = document.getElementById('proj-surface')?.value  || '';
   const charge     = document.querySelector('input[name="mezz-charge"]:checked')?.value || '';
+  const usagesPublic = document.getElementById('mezz-salle')?.checked;
+  const chargeElevee = charge === 'elevee' || charge === 'public';
+  const isLourd      = chargeElevee || (reserveChecked && charge === 'elevee');
 
   const hauteur = parseFloat(hauteurStr) || 0;
   const surface = parseFloat(surfaceStr) || 0;
 
-  // Utilisation prévue
-  const usagesPublic = ['mezz-salle'].some(id=>document.getElementById(id)?.checked);
-  const usagesLourd  = ['mezz-stockage','mezz-reserve'].some(id=>document.getElementById(id)?.checked);
-  const chargeElevee = charge==='elevee' || charge==='public';
-  const stockLourd   = document.getElementById('mezz-stock-lourd')?.checked;
+  // ── Hauteurs réglementaires ───────────────────────────────
+  // Code du travail / ERP : h libre dessous ≥ 1.90m, h libre dessus ≥ 1.80m
+  // Épaisseur plancher mezzanine ≈ 0.25m
+  const H_DESSOUS  = 1.90;  // hauteur libre minimale sous la mezzanine
+  const H_DESSUS   = 1.80;  // hauteur libre minimale sur la mezzanine
+  const H_PLANCHER = 0.25;  // épaisseur structurelle du plancher
+  const H_MIN      = H_DESSOUS + H_PLANCHER + H_DESSUS; // 3.95m minimum
 
-  const result = document.getElementById('mezz-result');
-  const hintEl = document.getElementById('mezz-surface-hint');
-  if(!result) return;
+  // Si accueil du public → hauteur recommandée ≥ 4.20m
+  const H_ERP = 4.20;
 
-  // Calcul surface max théorique
-  // Réglementaire : hauteur libre sous mezzanine ≥ 1.90m, au-dessus ≥ 1.80m
-  const H_LIBRE_DESSOUS = 1.90;
-  const H_LIBRE_DESSUS  = 1.80;
-  const H_PLANCHER      = 0.25; // épaisseur plancher mezzanine
-  const H_MIN_TOTAL     = H_LIBRE_DESSOUS + H_PLANCHER + H_LIBRE_DESSUS; // 3.95m
+  // ── Calcul hauteurs résultantes ───────────────────────────
+  // On divise la hauteur disponible en 2 niveaux équilibrés
+  // Si hauteur ok : h dessous ≈ (H - H_PLANCHER) * (H_DESSOUS / (H_DESSOUS + H_DESSUS))
+  const hDessous = hauteur > 0
+    ? ((hauteur - H_PLANCHER) * (H_DESSOUS / (H_DESSOUS + H_DESSUS)))
+    : 0;
+  const hDessus = hauteur > 0
+    ? (hauteur - H_PLANCHER - hDessous)
+    : 0;
 
-  // Surface exploitable : max 50% de la surface totale (réglementation ERP courant)
-  // Déduire emprise escalier (~3m²) et circulation (~15%)
-  const surfaceMaxPct  = usagesPublic ? 0.45 : 0.50; // ERP = 45%, autres = 50%
-  const emprise_esc    = surface > 0 ? Math.min(4, surface * 0.05) : 3;
-  const surfaceTheor   = surface > 0 ? Math.max(0, (surface * surfaceMaxPct) - emprise_esc) : 0;
-  const surfaceCorrigee = Math.round(surfaceTheor * 0.85); // 15% circulations
+  // ── Calcul surface exploitable ────────────────────────────
+  // Max réglementaire : 50% de la surface totale (non ERP) / 45% (ERP avec public)
+  const pct = usagesPublic ? 0.45 : 0.50;
+  const surfTheor = surface > 0 ? Math.max(0, surface * pct - 4) : 0; // -4m² escalier
+  const surfEstim = Math.round(surfTheor * 0.85); // -15% circulations
 
-  // Hauteurs résultantes
-  const hDessous = hauteur > 0 ? Math.max(0, hauteur / 2 - H_PLANCHER/2) : 0;
-  const hDessus  = hauteur > 0 ? hauteur - hDessous - H_PLANCHER : 0;
-
-  if(hintEl && surfaceCorrigee > 0){
-    hintEl.textContent = `suggestion : ~${surfaceCorrigee} m²`;
-    if(!document.getElementById('mezz-surface').value){
-      document.getElementById('mezz-surface').value = surfaceCorrigee;
-    }
+  // Mettre à jour le champ si vide
+  const surfField = document.getElementById('mezz-surface');
+  const hintEl    = document.getElementById('mezz-surface-hint');
+  if(surfField && !surfField.value && surfEstim > 0){
+    surfField.value = surfEstim;
+  }
+  if(hintEl && surfEstim > 0){
+    hintEl.textContent = `suggestion : ~${surfEstim} m²`;
   }
 
-  // ── Déterminer le cas ───────────────────────────────────────
-  const contraintes = [];
+  // ── Détermination du cas ──────────────────────────────────
   const motifs = [];
+  const contraintes = [];
 
-  if(hauteur > 0 && hauteur < H_MIN_TOTAL)
-    motifs.push(`hauteur totale insuffisante (${hauteur}m < ${H_MIN_TOTAL}m requis)`);
-  if(hauteur > 0 && hDessous < H_LIBRE_DESSOUS)
-    motifs.push(`hauteur sous mezzanine insuffisante (${hDessous.toFixed(2)}m < 1.90m)`);
-  if(hauteur > 0 && hDessus < H_LIBRE_DESSUS)
-    motifs.push(`hauteur disponible à l'étage insuffisante (${hDessus.toFixed(2)}m < 1.80m)`);
-  if(surface > 0 && surfaceCorrigee < 8)
-    motifs.push('surface trop réduite pour être exploitable (< 8m²)');
-
-  if(usagesPublic && hauteur > 0 && hauteur < 4.2)
-    contraintes.push('accueil du public → hauteur recommandée ≥ 4.20m');
+  if(hauteur > 0){
+    if(hauteur < H_MIN)
+      motifs.push(`Hauteur disponible ${hauteur}m insuffisante (minimum requis : ${H_MIN}m)`);
+    else {
+      if(hDessous < H_DESSOUS)
+        motifs.push(`Hauteur sous mezzanine estimée ${hDessous.toFixed(2)}m < 1.90m réglementaires`);
+      if(hDessus < H_DESSUS)
+        motifs.push(`Hauteur disponible à l'étage estimée ${hDessus.toFixed(2)}m < 1.80m réglementaires`);
+    }
+    if(usagesPublic && hauteur < H_ERP)
+      contraintes.push(`Accueil du public : hauteur ${hauteur}m < 4.20m recommandés`);
+  }
+  if(surface > 0 && surfEstim < 6)
+    motifs.push('Surface exploitable trop réduite (< 6m²)');
   if(usagesPublic)
-    contraintes.push('mezzanine recevant du public → vérification ERP obligatoire');
-  if(chargeElevee || stockLourd)
-    contraintes.push('charge élevée → vérification structurelle impérative');
-  if(surface > 0 && surfaceCorrigee > surface * 0.5)
-    contraintes.push('dépasse 50% de la surface : circulation à revoir');
-  if(hauteur > 0 && hauteur >= H_MIN_TOTAL && hauteur < H_MIN_TOTAL + 0.4)
-    contraintes.push('hauteurs juste suffisantes — prévoir marge de sécurité');
+    contraintes.push('Mezzanine recevant du public → vérification ERP obligatoire');
+  if(chargeElevee)
+    contraintes.push('Charge élevée → calcul de structure renforcé requis');
 
-  // Calcul du cas
-  let cas, html;
+  // ── Rendu résultat ────────────────────────────────────────
+  const result = document.getElementById('mezz-result');
+  if(!result) return;
 
-  if(motifs.length > 0){
-    cas = 3; // Impossible
-    html = `
-      <div style="padding:14px;background:#FEF2F2;border:1.5px solid #FCA5A5;border-radius:10px">
-        <div style="font-size:13px;font-weight:700;color:var(--danger);margin-bottom:8px">❌ Création de mezzanine non recommandée</div>
-        <div style="font-size:11px;color:var(--danger);margin-bottom:8px">Motifs :</div>
-        <ul style="margin:0;padding-left:16px;font-size:12px;color:#991B1B;line-height:1.8">
-          ${motifs.map(m=>`<li>${m}</li>`).join('')}
-        </ul>
-        ${hauteur===0||surface===0 ? '<div style="font-size:11px;color:var(--muted);margin-top:8px">💡 Renseignez la hauteur sous plafond et la surface dans les infos du projet pour un calcul précis</div>' : ''}
-      </div>`;
-  } else if(contraintes.length > 0 || (hauteur===0 && surface===0)){
-    cas = 2; // Possible sous réserve
-    html = `
-      <div style="padding:14px;background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:10px">
-        <div style="font-size:13px;font-weight:700;color:#B45309;margin-bottom:8px">⚠️ Création possible sous réserve d'adaptations</div>
-        ${contraintes.length ? `
-        <div style="font-size:11px;color:#92400E;margin-bottom:6px">Contraintes identifiées :</div>
-        <ul style="margin:0 0 10px;padding-left:16px;font-size:12px;color:#92400E;line-height:1.8">
-          ${contraintes.map(m=>`<li>${m}</li>`).join('')}
-        </ul>` : ''}
-        ${hauteur===0||surface===0 ? '<div style="font-size:11px;color:#92400E;margin-bottom:10px">💡 Renseignez hauteur et surface dans le projet pour affiner le calcul</div>' : `
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px">
-          <div style="text-align:center;padding:8px;background:white;border-radius:6px"><div style="font-size:18px;font-weight:800;color:var(--primary)">${surfaceCorrigee}</div><div style="font-size:10px;color:var(--muted)">m² estimés</div></div>
-          <div style="text-align:center;padding:8px;background:white;border-radius:6px"><div style="font-size:18px;font-weight:800;color:var(--primary)">${hDessous.toFixed(2)}</div><div style="font-size:10px;color:var(--muted)">m sous mezz.</div></div>
-          <div style="text-align:center;padding:8px;background:white;border-radius:6px"><div style="font-size:18px;font-weight:800;color:var(--primary)">${hDessus.toFixed(2)}</div><div style="font-size:10px;color:var(--muted)">m à l'étage</div></div>
-        </div>`}
-        ${_getBesoinsMezzanine(usagesPublic, chargeElevee||stockLourd)}
-      </div>`;
+  const noData = hauteur === 0 && surface === 0;
+  let html = '';
+
+  if(motifs.length > 0 && !noData){
+    // Cas 3 : impossible
+    html = `<div style="padding:14px;background:#FEF2F2;border:1.5px solid #FCA5A5;border-radius:10px">
+      <div style="font-size:13px;font-weight:700;color:var(--danger);margin-bottom:8px">❌ Création de mezzanine non recommandée</div>
+      <ul style="margin:0;padding-left:16px;font-size:12px;color:#991B1B;line-height:1.8">${motifs.map(m=>`<li>${m}</li>`).join('')}</ul>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px">Vérifiez la hauteur sous plafond dans les informations générales du projet.</div>
+    </div>`;
+  } else if(contraintes.length > 0 || noData){
+    // Cas 2 : sous réserve
+    html = `<div style="padding:14px;background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:10px">
+      <div style="font-size:13px;font-weight:700;color:#B45309;margin-bottom:${noData?4:8}px">⚠️ Création possible sous réserve d'adaptations</div>
+      ${noData ? '<div style="font-size:11px;color:#92400E">Renseignez la hauteur sous plafond et la surface dans les informations générales pour vérifier la faisabilité.</div>' : ''}
+      ${contraintes.length ? `<ul style="margin:0;padding-left:16px;font-size:12px;color:#92400E;line-height:1.8">${contraintes.map(m=>`<li>${m}</li>`).join('')}</ul>` : ''}
+      ${!noData ? _chiffresBloc(surfEstim||0, hDessous, hDessus) : ''}
+      ${_getBesoinsMezzanine(usagesPublic, isLourd)}
+    </div>`;
   } else {
-    cas = 1; // Faisable
-    html = `
-      <div style="padding:14px;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:10px">
-        <div style="font-size:13px;font-weight:700;color:#166534;margin-bottom:10px">✅ Création de mezzanine possible</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
-          <div style="text-align:center;padding:8px;background:white;border-radius:6px"><div style="font-size:20px;font-weight:800;color:var(--primary)">${surfaceCorrigee}</div><div style="font-size:10px;color:var(--muted)">m² estimés</div></div>
-          <div style="text-align:center;padding:8px;background:white;border-radius:6px"><div style="font-size:20px;font-weight:800;color:var(--primary)">${hDessous.toFixed(2)}</div><div style="font-size:10px;color:var(--muted)">m sous mezz.</div></div>
-          <div style="text-align:center;padding:8px;background:white;border-radius:6px"><div style="font-size:20px;font-weight:800;color:var(--primary)">${hDessus.toFixed(2)}</div><div style="font-size:10px;color:var(--muted)">m à l'étage</div></div>
-        </div>
-        ${_getBesoinsMezzanine(usagesPublic, chargeElevee||stockLourd)}
-      </div>`;
+    // Cas 1 : faisable
+    html = `<div style="padding:14px;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:10px">
+      <div style="font-size:13px;font-weight:700;color:#166534;margin-bottom:10px">✅ Création de mezzanine possible</div>
+      ${_chiffresBloc(surfEstim||0, hDessous, hDessus)}
+      ${_getBesoinsMezzanine(usagesPublic, isLourd)}
+    </div>`;
   }
 
   result.innerHTML = html;
+}
+
+function _chiffresBloc(surf, hBas, hHaut){
+  return `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0">
+    <div style="text-align:center;padding:8px;background:white;border-radius:6px">
+      <div style="font-size:20px;font-weight:800;color:var(--primary)">${surf}</div>
+      <div style="font-size:10px;color:var(--muted)">m² estimés</div>
+    </div>
+    <div style="text-align:center;padding:8px;background:white;border-radius:6px">
+      <div style="font-size:20px;font-weight:800;color:var(--primary)">${hBas.toFixed(2)}</div>
+      <div style="font-size:10px;color:var(--muted)">m sous mezz.</div>
+    </div>
+    <div style="text-align:center;padding:8px;background:white;border-radius:6px">
+      <div style="font-size:20px;font-weight:800;color:var(--primary)">${hHaut.toFixed(2)}</div>
+      <div style="font-size:10px;color:var(--muted)">m à l'étage</div>
+    </div>
+  </div>`;
 }
 
 function _getBesoinsMezzanine(isPublic, isLourd){
