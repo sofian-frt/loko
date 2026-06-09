@@ -1819,20 +1819,27 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <!-- Infos complémentaires -->
-        <div class="form-section-title" style="margin-bottom:10px">Informations complémentaires</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+          <div class="form-section-title" style="margin:0">Informations complémentaires</div>
+          <button class="btn btn-ghost btn-sm" onclick="estimerDureeEtCompagnons()" style="gap:6px;font-size:11px">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Estimer automatiquement
+          </button>
+        </div>
+        <div id="prov-estimation-hint" style="display:none;margin-bottom:10px;padding:8px 12px;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;font-size:11px;color:var(--primary-dark);line-height:1.7"></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px">
           <div class="form-group">
             <label class="form-label">Durée estimée du chantier</label>
             <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-              <input type="number" id="prov-duree-mois" class="form-input" placeholder="0" min="0" style="max-width:80px;font-size:16px" oninput="calculerFraisProvisoires()">
+              <input type="number" id="prov-duree-mois" class="form-input" placeholder="auto" min="0" style="max-width:80px;font-size:16px" oninput="calculerFraisProvisoires()">
               <span style="font-size:12px;color:var(--muted)">mois</span>
             </div>
           </div>
           <div class="form-group">
             <label class="form-label">Nombre moyen d'intervenants</label>
             <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-              <input type="number" id="prov-nb-intervenants" class="form-input" placeholder="0" min="0" style="max-width:80px;font-size:16px" oninput="calculerFraisProvisoires()">
-              <span style="font-size:12px;color:var(--muted)">personnes</span>
+              <input type="number" id="prov-nb-intervenants" class="form-input" placeholder="auto" min="0" style="max-width:80px;font-size:16px" oninput="calculerFraisProvisoires()">
+              <span style="font-size:12px;color:var(--muted)">compagnons</span>
             </div>
           </div>
         </div>
@@ -3653,6 +3660,85 @@ function updateStructureAuto(){
 }
 
 
+
+
+// ── ESTIMATION AUTOMATIQUE DURÉE & COMPAGNONS ─────────────────
+
+function estimerDureeEtCompagnons(){
+  const surface  = parseFloat(document.getElementById('proj-surface')?.value) || 0;
+  const ids      = id => document.getElementById(id)?.checked;
+  const etatType = document.getElementById('etat-type-local') ?
+    (document.querySelector('#etat-type-local .radio-card.selected')?.getAttribute('onclick')||'').match(/selectEtatLocal\('(\w+)'/)?.[1] || 'brut'
+    : 'brut';
+
+  // ── Facteurs de complexité ─────────────────────────────────
+  let coeff = 1.0;
+  const facteurs = [];
+
+  // Type de local
+  if(etatType === 'curer'){ coeff += 0.4; facteurs.push('curage complet (+40%)'); }
+  else if(etatType === 'semi'){ coeff += 0.15; facteurs.push('semi-aménagé (+15%)'); }
+
+  // Travaux structurels lourds
+  const structLourds = ['tv-mur-porteur','tv-demol-porteur','tv-renforcement-struct',
+    'tv-creation-ouvrage','tv-deplacement-ouvrage','tv-extension','tv-surelevation'].some(ids);
+  if(structLourds){ coeff += 0.35; facteurs.push('travaux structurels (+35%)'); }
+
+  // Mezzanine
+  if(ids('tv-creation-mezzanine')){ coeff += 0.25; facteurs.push('création mezzanine (+25%)'); }
+
+  // Cuisine professionnelle
+  if(ids('tv-cuisine-pro') || ids('tv-four-bois') || ids('tv-four-charbon') || ids('tv-cuisson-gaz')){ coeff += 0.20; facteurs.push('cuisine professionnelle (+20%)'); }
+
+  // Travaux façade
+  if(ids('tv-vitrine-creation') || ids('tv-ouverture-creation')){ coeff += 0.15; facteurs.push('façade (+15%)'); }
+
+  // Contraintes chantier
+  if(ids('ch-site-occupe') || ids('ch-pietonne') || ids('st-site-occupe')){ coeff += 0.20; facteurs.push('site occupé (+20%)'); }
+  if(ids('ch-horaires-decales') || ids('st-horaires-decales')){ coeff += 0.15; facteurs.push('horaires décalés (+15%)'); }
+  if(ids('ch-etaiement') || ids('st-etaiement')){ coeff += 0.15; facteurs.push('étaiement (+15%)'); }
+  if(ids('ch-grutage') || ids('st-grutage')){ coeff += 0.10; facteurs.push('grutage (+10%)'); }
+  if(ids('ch-amiante')){ coeff += 0.25; facteurs.push('amiante (+25%)'); }
+
+  // Réseaux techniques complets
+  const reseauxComplets = ['tv-plomberie-complete','tv-gaz-creation','tv-tgbt','tv-evacuation'].filter(ids).length;
+  if(reseauxComplets >= 3){ coeff += 0.15; facteurs.push('réseaux techniques complets (+15%)'); }
+
+  // ── Base : 1 mois pour 30m² en brut béton ─────────────────
+  // Référence sectorielle : ~30-40m²/mois pour un chantier restauration standard
+  const BASE_M2_PAR_MOIS = 35;
+  const dureeBase = surface > 0 ? surface / BASE_M2_PAR_MOIS : 2;
+  const dureeEstim = Math.max(1, Math.round(dureeBase * coeff * 10) / 10);
+
+  // ── Compagnons : selon surface et densité travaux ──────────
+  // 1 compagnon pour 25-30m² en simultané
+  // Réduit si site occupé / horaires contraints
+  const BASE_M2_PAR_COMPAGNON = 25;
+  let nbCompagnons = surface > 0 ? Math.ceil(surface / BASE_M2_PAR_COMPAGNON) : 2;
+  if(ids('ch-site-occupe') || ids('st-site-occupe')) nbCompagnons = Math.max(1, Math.floor(nbCompagnons * 0.7));
+  if(ids('ch-horaires-decales')) nbCompagnons = Math.max(1, Math.floor(nbCompagnons * 0.8));
+  nbCompagnons = Math.min(nbCompagnons, 15); // plafond raisonnable
+
+  // ── Afficher dans les champs ───────────────────────────────
+  document.getElementById('prov-duree-mois').value = dureeEstim.toFixed(1);
+  document.getElementById('prov-nb-intervenants').value = nbCompagnons;
+
+  // ── Afficher l'explication ─────────────────────────────────
+  const hint = document.getElementById('prov-estimation-hint');
+  if(hint){
+    hint.style.display = 'block';
+    const surfTxt = surface > 0 ? `${surface} m²` : 'surface non renseignée';
+    const facTxt = facteurs.length > 0 ? facteurs.join(', ') : 'aucun facteur particulier';
+    hint.innerHTML = `
+      <strong>Estimation basée sur :</strong> ${surfTxt} · ${etatType === 'brut' ? 'local brut béton' : etatType === 'semi' ? 'semi-aménagé' : 'local à curer'}<br>
+      <strong>Facteurs de complexité :</strong> ${facTxt}<br>
+      <strong>Résultat :</strong> ~${dureeEstim} mois · ~${nbCompagnons} compagnons en simultané<br>
+      <span style="color:var(--muted)">Ces valeurs sont modifiables selon votre expérience du projet.</span>
+    `;
+  }
+
+  calculerFraisProvisoires();
+}
 
 // ── ALIMENTATION PROVISOIRE — CALCUL FRAIS ───────────────────
 
