@@ -708,7 +708,7 @@ input[type=number]{-moz-appearance:textfield}
           <div class="form-group">
             <label class="form-label">Adresse du chantier</label>
             <div style="position:relative">
-              <input id="proj-adresse" class="form-input" placeholder="Commencez à taper l'adresse..."
+              <input id="proj-adresse" class="form-input" placeholder=""
                 autocomplete="off"
                 oninput="searchAdresse(this.value)"
                 onblur="setTimeout(hideAdresseSugg, 200)"
@@ -729,7 +729,7 @@ input[type=number]{-moz-appearance:textfield}
           </div>
           <div class="form-group">
             <label class="form-label">Releveur / Chargé d'affaire</label>
-            <input id="proj-releveur" class="form-input" placeholder="Prénom NOM">
+            <input id="proj-releveur" class="form-input" placeholder="">
           </div>
         </div>
         <div class="form-row">
@@ -748,7 +748,7 @@ input[type=number]{-moz-appearance:textfield}
           </div>
           <div class="form-group">
             <label class="form-label">Activité prévue</label>
-            <input id="proj-activite" class="form-input" placeholder="Ex : Pizzeria italienne, 80 couverts">
+            <input id="proj-activite" class="form-input" placeholder="">
           </div>
         </div>
         <div class="form-row">
@@ -758,13 +758,13 @@ input[type=number]{-moz-appearance:textfield}
           </div>
           <div class="form-group">
             <label class="form-label">Hauteur sous plafond (m)</label>
-            <input id="proj-hauteur" type="number" step="0.1" class="form-input" placeholder="2.70">
+            <input id="proj-hauteur" type="number" step="0.1" class="form-input" placeholder="">
           </div>
         </div>
         <div class="form-row-1">
           <div class="form-group">
             <label class="form-label">Notes libres / Observations générales</label>
-            <textarea id="proj-notes" class="form-textarea" placeholder="Observations importantes, contexte, points d'attention..."></textarea>
+            <textarea id="proj-notes" class="form-textarea" placeholder=""></textarea>
           </div>
         </div>
       </div>
@@ -867,7 +867,7 @@ input[type=number]{-moz-appearance:textfield}
         <div style="margin-top:12px">
           <div class="form-group">
             <label class="form-label">Budget études estimé (€ HT)</label>
-            <input type="number" id="budget-etudes" class="form-input" placeholder="5000" oninput="recalculate()">
+            <input type="number" id="budget-etudes" class="form-input" placeholder="" oninput="recalculate()">
           </div>
         </div>
       </div>
@@ -1030,7 +1030,7 @@ input[type=number]{-moz-appearance:textfield}
           </div>
           <div class="form-group">
             <label class="form-label">Puissance disponible (kVA)</label>
-            <input type="number" id="elec-puissance-dispo" class="form-input" placeholder="Ex : 24" oninput="calcElec()">
+            <input type="number" id="elec-puissance-dispo" class="form-input" placeholder="" oninput="calcElec()">
           </div>
         </div>
         <div class="form-group">
@@ -1465,7 +1465,7 @@ input[type=number]{-moz-appearance:textfield}
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Surface (m²)</label>
-            <input type="number" id="inp-surface" class="form-input" placeholder="150" oninput="recalculate()">
+            <input type="number" id="inp-surface" class="form-input" placeholder="" oninput="recalculate()">
             <div class="form-hint" id="hint-taux">—</div>
           </div>
           <div class="form-group">
@@ -1843,7 +1843,7 @@ input[type=number]{-moz-appearance:textfield}
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Nom du signataire</label>
-            <input id="cp-signataire-nom" class="form-input" placeholder="Prénom NOM" oninput="sauvegarderCompte()">
+            <input id="cp-signataire-nom" class="form-input" placeholder="" oninput="sauvegarderCompte()">
           </div>
           <div class="form-group">
             <label class="form-label">Qualité du signataire</label>
@@ -2058,7 +2058,7 @@ input[type=number]{-moz-appearance:textfield}
           </div>
           <div class="form-group">
             <label class="form-label">Releveur par défaut</label>
-            <input id="cd-releveur-def" class="form-input" placeholder="Prénom NOM" oninput="sauvegarderCompte()">
+            <input id="cd-releveur-def" class="form-input" placeholder="" oninput="sauvegarderCompte()">
           </div>
         </div>
       </div>
@@ -2142,7 +2142,7 @@ input[type=number]{-moz-appearance:textfield}
     <div class="form-row">
       <div class="form-group" style="grid-column:1/-1">
         <label class="form-label">Désignation</label>
-        <input type="text" id="px-designation" class="form-input" placeholder="Ex : Cloison BA13 72/48 simple peau">
+        <input type="text" id="px-designation" class="form-input" placeholder="">
       </div>
       <div class="form-group"><label class="form-label">Lot</label><select id="px-lot" class="form-select"></select></div>
       <div class="form-group"><label class="form-label">Unité</label>
@@ -2619,7 +2619,7 @@ function renderPieceCard(id){
   <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:8px">📐 Métrés<div style="flex:1;height:1px;background:var(--border)"></div></div>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px">
     <div class="form-group"><label class="form-label">Surface (m²)</label><input type="number" class="form-input" value="${p.surface}" placeholder="0" oninput="upP('${id}','surface',+this.value)"></div>
-    <div class="form-group"><label class="form-label">Hauteur (m)</label><input type="number" step="0.05" class="form-input" value="${p.hauteur}" placeholder="2.70" oninput="upP('${id}','hauteur',+this.value)"></div>
+    <div class="form-group"><label class="form-label">Hauteur (m)</label><input type="number" step="0.05" class="form-input" value="${p.hauteur}" placeholder="" oninput="upP('${id}','hauteur',+this.value)"></div>
     <div class="form-group"><label class="form-label">Linéaire murs (ml)</label><input type="number" step="0.1" class="form-input" value="${p.lineaire}" placeholder="0" oninput="upP('${id}','lineaire',+this.value)"></div>
     <div class="form-group"><label class="form-label">Portes (m²)</label><input type="number" step="0.1" class="form-input" value="${p.portes}" oninput="upP('${id}','portes',+this.value)"></div>
     <div class="form-group"><label class="form-label">Vitrages (m²)</label><input type="number" step="0.1" class="form-input" value="${p.vitrages}" oninput="upP('${id}','vitrages',+this.value)"></div>
@@ -4645,7 +4645,7 @@ function afficherDernierChantier(){
   if(dossiers.length > 0) dernierCode = dossiers[dossiers.length-1].code || '';
   if(chantiers.length > 0 && !dernierCode) dernierCode = chantiers[chantiers.length-1].nom || '';
   if(dernierCode){
-    hintEl.innerHTML = '<span style="color:var(--muted)">Dernier chantier : <strong style="font-family:monospace">'+dernierCode+'</strong></span>';
+    hintEl.innerHTML = '<span style="color:var(--muted)">Dernier chantier : <strong style="font-family:monospace;color:var(--ink)">"'+dernierCode+'"</strong></span>';
   } else {
     hintEl.innerHTML = '';
   }
@@ -4912,7 +4912,7 @@ init();
     <!-- Contexte -->
     <div style="margin-bottom:16px">
       <label style="font-size:12px;font-weight:500;color:var(--ink2);display:block;margin-bottom:5px">Contexte (optionnel)</label>
-      <input id="ia-contexte" type="text" class="form-input" placeholder="Ex : tableau électrique triphasé, local de 200m²...">
+      <input id="ia-contexte" type="text" class="form-input" placeholder="">
     </div>
 
     <!-- Upload zone -->
