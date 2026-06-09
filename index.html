@@ -747,7 +747,7 @@ input[type=number]{-moz-appearance:textfield}
 
   </div>
 </div>
-<div class="content">
+<div class="content" onclick="if(window.innerWidth<=768){_get('sidebar').classList.remove('mobile-open');_get('sidebar-overlay').classList.remove('open');_get('sidebar-overlay').style.display='none';}">
 
 
 <!-- ══ PAGE INITIALISATION ══ -->
@@ -761,7 +761,7 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 
   <!-- RÉCAPITULATIF DYNAMIQUE -->
-  <div id="recap-banner" style="display:none;margin-bottom:20px"></div>
+  <div id="recap-banner" style="margin-bottom:20px"></div>
 
   <div class="g2" style="align-items:start;gap:20px">
     <!-- COL GAUCHE -->
@@ -2723,6 +2723,7 @@ function showPage(id){
   if(id==='dashboard')renderDashboard();
   if(id==='compte')renderCompte();
   _get('sidebar').classList.remove('mobile-open');
+  _get('sidebar-overlay').style.display='none';
   _get('sidebar-overlay').classList.remove('open');
   window.scrollTo(0,0);
 }
@@ -5307,6 +5308,13 @@ function genererRapportDPGF(){
         <div id="profil-menu-entreprise" style="font-size:11px;color:var(--muted);margin-top:2px">Non configuré</div>
       </div>
       <div style="padding:6px">
+        <!-- Nouveau projet -->
+        <div style="padding:6px;border-bottom:1px solid var(--border);margin-bottom:4px">
+          <button onclick="reinitialiserProjet();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+            Nouveau projet
+          </button>
+        </div>
         <!-- Drive + Importer (mobile seulement) -->
         <div class="mobile-only-menu" style="padding:6px;border-bottom:1px solid var(--border);margin-bottom:4px">
           <button onclick="connecterDrive();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
@@ -6837,6 +6845,13 @@ async function chargerFichierDrive(fileId){
         <div id="profil-menu-entreprise" style="font-size:11px;color:var(--muted);margin-top:2px">Non configuré</div>
       </div>
       <div style="padding:6px">
+        <!-- Nouveau projet -->
+        <div style="padding:6px;border-bottom:1px solid var(--border);margin-bottom:4px">
+          <button onclick="reinitialiserProjet();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+            Nouveau projet
+          </button>
+        </div>
         <!-- Drive + Importer (mobile seulement) -->
         <div class="mobile-only-menu" style="padding:6px;border-bottom:1px solid var(--border);margin-bottom:4px">
           <button onclick="connecterDrive();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
