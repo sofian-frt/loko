@@ -386,29 +386,97 @@ input[type=number]{-moz-appearance:textfield}
   #page-login ~ * .mobile-topbar,
   body.login-active .mobile-topbar{display:none!important}
   #page-login{padding-top:0;min-height:100dvh}
-  /* Compte & Paramètres mobile */
-  /* Tabs : défilement horizontal, style carrousel */
+  /* ═══ COMPTE & PARAMÈTRES — MOBILE UNIQUEMENT ═══ */
+
+  /* 1. Onglets carrousel horizontal */
   #compte-tabs{
+    display:flex;
+    flex-wrap:nowrap;
     overflow-x:auto;
     -webkit-overflow-scrolling:touch;
     scrollbar-width:none;
-    flex-wrap:nowrap;
-    padding-bottom:2px;
+    gap:0;
+    border-bottom:1px solid var(--border);
+    margin-bottom:20px;
+    padding-bottom:0;
   }
   #compte-tabs::-webkit-scrollbar{display:none}
   #compte-tabs .tab{
     flex-shrink:0;
-    padding:10px 14px;
+    white-space:nowrap;
+    padding:10px 16px;
     font-size:13px;
+    font-weight:500;
+    font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter',system-ui,sans-serif;
   }
-  /* Contenu : tout en colonne, pas de grille côte à côte */
+
+  /* 2. Contenu : colonnes → une seule colonne */
   #page-compte .g2,
-  #page-compte [style*="grid-template-columns:repeat(3"],
-  #page-compte [style*="grid-template-columns:1fr 1fr"],
-  #page-compte [style*="grid-template-columns:repeat(2"]{
+  #page-compte .g3,
+  #page-compte .g4{
+    grid-template-columns:1fr !important;
+    gap:14px;
+  }
+  #page-compte [style*="grid-template-columns:repeat(3"]{grid-template-columns:1fr !important}
+  #page-compte [style*="grid-template-columns:repeat(2"]{grid-template-columns:1fr !important}
+  #page-compte [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important}
+
+  /* 3. Cartes : pleine largeur, pas de débordement */
+  #page-compte .card{
+    width:100%;
+    max-width:100%;
+    box-sizing:border-box;
+    overflow:hidden;
+  }
+
+  /* 4. Bloc profil : flex en colonne sur très petits écrans */
+  #page-compte #gen-avatar + div{
+    min-width:0;
+    overflow:hidden;
+  }
+  #page-compte [style*="display:flex;align-items:center;gap:16px"]{
+    flex-wrap:wrap;
+  }
+
+  /* 5. Zone de danger : bouton pleine largeur */
+  #page-compte [style*="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap"]{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+  }
+  #page-compte .btn-danger,
+  #page-compte [onclick*="supprimerCompte"]{
+    width:100% !important;
+    justify-content:center;
+  }
+
+  /* 6. Inputs et selects : pleine largeur */
+  #page-compte .form-input,
+  #page-compte .form-select,
+  #page-compte .form-textarea{
+    width:100%;
+    box-sizing:border-box;
+    font-size:16px; /* évite le zoom iOS au focus */
+  }
+
+  /* 7. Form-row en colonne */
+  #page-compte .form-row,
+  #page-compte .form-row-1{
     grid-template-columns:1fr !important;
   }
-  #page-compte .card{ width:100%; box-sizing:border-box; }
+
+  /* 8. Titres cohérents */
+  #page-compte .card-title,
+  #page-compte .form-label,
+  #page-compte .form-section-title{
+    font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter',system-ui,sans-serif;
+  }
+
+  /* 9. Scroll horizontal du contenu : désactivé */
+  #page-compte{
+    overflow-x:hidden;
+    max-width:100vw;
+  }
 }
 @media print{
   .sidebar,.topbar,.mobile-topbar,.fab,.topbar-actions{display:none!important}
