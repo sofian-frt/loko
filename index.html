@@ -3737,8 +3737,7 @@ function chargerCompte(){
     mettreAJourProfilMenu(data);
     mettreAJourApercuEntete(data);
 
-    // Appliquer défauts projets si champs vides
-    if(d.releveur_def){ const r=document.getElementById('proj-releveur'); if(r&&!r.value) r.value=d.releveur_def; }
+    // Releveur laissé vide intentionnellement
     if(d.fg_def){ state.fg = parseFloat(d.fg_def)||state.fg; }
     if(d.marge_def){ state.marge = parseFloat(d.marge_def)||state.marge; }
     if(d.region_def){ state.region = d.region_def||state.region; }
