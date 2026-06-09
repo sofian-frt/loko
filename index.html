@@ -623,6 +623,11 @@ input[type=number]{-moz-appearance:textfield}
     </button>
   </div>
   <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="chargerDossier(this)">
+  <!-- RÉINITIALISER -->
+  <button onclick="reinitialiserProjet()" title="Nouveau projet" style="width:34px;height:34px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0" onmouseover="this.style.borderColor='var(--danger)';this.style.color='var(--danger)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--ink)'">
+    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+  </button>
+
   <!-- PROFIL -->
   <div style="position:relative">
     <button id="btn-profil" onclick="toggleProfilMenu()" style="width:34px;height:34px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s" title="Profil & Paramètres">
@@ -4200,6 +4205,50 @@ async function supprimerCompteFirebase(){
       alert('Erreur : ' + e.message);
     }
   }
+}
+
+// ── RÉINITIALISATION PROJET ─────────────────────────────────
+function reinitialiserProjet(){
+  if(!confirm('Réinitialiser le projet en cours ?\n\nToutes les données saisies seront effacées.')) return;
+
+  // Vider tous les champs du formulaire
+  const ids = ['proj-nom','proj-nom-suffix','proj-client','proj-siren','proj-adresse',
+    'proj-date','proj-releveur','proj-type-local','proj-activite','proj-surface',
+    'proj-hauteur','proj-notes'];
+  ids.forEach(id => { const e=document.getElementById(id); if(e) e.value=''; });
+
+  // Réinitialiser l'état
+  state.pieces = [];
+  state.pieceCounter = 0;
+  state.surface = 0;
+  state.etat = {};
+  state.alertes = [];
+
+  // Décocher toutes les checkboxes
+  document.querySelectorAll('.page input[type="checkbox"]').forEach(cb => cb.checked = false);
+
+  // Réinitialiser code chantier
+  genererCodeChantier();
+
+  // Vider SIREN status
+  const siretStatus = document.getElementById('siret-status');
+  const siretInfo = document.getElementById('siret-info');
+  if(siretStatus) siretStatus.textContent = '';
+  if(siretInfo) siretInfo.style.display = 'none';
+
+  // Vider adresse suggestions
+  const sug = document.getElementById('adresse-suggestions');
+  if(sug) sug.style.display = 'none';
+
+  // Masquer le recap banner
+  const banner = document.getElementById('recap-banner');
+  if(banner) banner.style.display = 'none';
+
+  // Retourner à l'initialisation
+  showPage('init');
+  updateRecap();
+
+  showToast('Projet réinitialisé', '#6B7280');
 }
 
 // ── DÉMARRAGE ─────────────────────────────────────────────────
