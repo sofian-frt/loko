@@ -5333,18 +5333,7 @@ async function verifierCodeChantier(suffix){
 }
 
 // Recharger les codes quand Drive se connecte
-var _onDriveConnectOriginal = onDriveTokenReceived;
-async function onDriveTokenReceived(response){
-  await _onDriveConnectOriginal(response);
-  // Après connexion Drive : charger les codes et générer le prochain code chantier
-  setTimeout(async()=>{
-    if(_driveFolderId){
-      await chargerCodesDrive();
-      // Générer automatiquement le prochain code chantier
-      await genererCodeChantier();
-    }
-  }, 1500);
-}
+
 
 // ── EXPORT / IMPORT DOSSIER ──────────────────────────────────────
 function exporterDossier(){
