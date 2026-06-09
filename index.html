@@ -1114,69 +1114,76 @@ input[type=number]{-moz-appearance:textfield}
       <!-- ÉTAT DU LOCAL -->
       <div class="card" style="margin-bottom:16px">
         <div class="card-title">État initial du local</div>
-        <div class="form-section-title">Type de local</div>
-        <div class="radio-cards" id="etat-type-local" style="margin-bottom:16px">
-          <div class="radio-card selected" onclick="selectEtat('type','brut',this)" data-coeff="1.0">
-            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><rect x="3" y="14" width="18" height="4" rx="1"/><rect x="3" y="2" width="18" height="4" rx="1"/></svg></div>
+
+        <!-- 3 choix principaux -->
+        <div class="radio-cards" id="etat-type-local" style="margin-bottom:16px;grid-template-columns:repeat(3,1fr)">
+          <div class="radio-card selected" onclick="selectEtatLocal('brut',this)" data-coeff="1.0">
+            <div class="radio-card-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
             <div class="radio-card-label">Local brut béton</div>
             <div class="radio-card-sub">Aucun aménagement</div>
           </div>
-          <div class="radio-card" onclick="selectEtat('type','semi',this)" data-coeff="0.85">
-            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15 12l-8.5 8.5a2.12 2.12 0 01-3-3L12 9"/><path d="M17.64 15L22 10.64 13.36 2 9 6.36l2.6 2.6"/></svg></div>
+          <div class="radio-card" onclick="selectEtatLocal('semi',this)" data-coeff="0.85">
+            <div class="radio-card-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
             <div class="radio-card-label">Semi-aménagé</div>
             <div class="radio-card-sub">Partiellement réalisé</div>
           </div>
-          <div class="radio-card" onclick="selectEtat('type','ancien-commerce',this)" data-coeff="0.9">
-            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
-            <div class="radio-card-label">Ancien commerce</div>
-            <div class="radio-card-sub">Curage nécessaire</div>
-          </div>
-          <div class="radio-card" onclick="selectEtat('type','ancien-restaurant',this)" data-coeff="0.88">
-            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6h3.5a1.5 1.5 0 011.5 1.5V22"/></svg></div>
-            <div class="radio-card-label">Ancien restaurant</div>
-            <div class="radio-card-sub">Réseaux potentiels</div>
-          </div>
-          <div class="radio-card" onclick="selectEtat('type','ancien-bureau',this)" data-coeff="0.92">
-            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div>
-            <div class="radio-card-label">Ancien bureau</div>
-            <div class="radio-card-sub">Faux plafonds existants</div>
-          </div>
-          <div class="radio-card" onclick="selectEtat('type','a-curer',this)" data-coeff="1.05">
-            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.77 3.77z"/></svg></div>
+          <div class="radio-card" onclick="selectEtatLocal('curer',this)" data-coeff="1.08">
+            <div class="radio-card-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.77 3.77z"/></svg></div>
             <div class="radio-card-label">Local à curer</div>
-            <div class="radio-card-sub">Curage lourd prévu</div>
+            <div class="radio-card-sub">Dépose complète</div>
           </div>
         </div>
 
-        <div class="form-section-title">Réseaux existants</div>
-        <div class="radio-cards" id="etat-reseaux" style="margin-bottom:16px">
-          <div class="radio-card" onclick="selectEtat('reseaux','complets',this)" data-coeff="0.75">
-            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-            <div class="radio-card-label">Réseaux complets</div>
-            <div class="radio-card-sub">Utilisables ou adaptables</div>
+        <!-- BRUT : info automatique -->
+        <div id="etat-brut-info" style="padding:12px;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;font-size:12px;color:var(--primary-dark)">
+          <strong>Tous les lots sont à créer :</strong> Cloisons · Sols · Faux plafonds · Électricité · Plomberie · Ventilation · Climatisation · Extraction
+        </div>
+
+        <!-- SEMI : pièces existantes -->
+        <div id="etat-semi-section" style="display:none;margin-top:16px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <div class="form-section-title" style="margin:0">Composition du local existant</div>
+            <button class="btn btn-primary btn-sm" onclick="ajouterPieceExistante()" style="gap:6px">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+              Ajouter une pièce
+            </button>
           </div>
-          <div class="radio-card selected" onclick="selectEtat('reseaux','partiels',this)" data-coeff="0.88">
-            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
-            <div class="radio-card-label">Réseaux partiels</div>
-            <div class="radio-card-sub">Complément à prévoir</div>
+          <div id="pieces-existantes-list" style="display:flex;flex-direction:column;gap:10px"></div>
+          <div id="pieces-existantes-empty" style="text-align:center;padding:20px;color:var(--muted);font-size:13px">
+            Ajoutez les pièces du local existant
           </div>
-          <div class="radio-card" onclick="selectEtat('reseaux','aucun',this)" data-coeff="1.0">
-            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
-            <div class="radio-card-label">Aucun réseau</div>
-            <div class="radio-card-sub">Tout à créer</div>
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+            <button class="btn btn-primary btn-sm" onclick="syncPiecesVersReleves()" style="gap:6px;width:100%;justify-content:center">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              Envoyer les pièces vers les Relevés
+            </button>
           </div>
         </div>
 
-        <div class="form-section-title">Équipements existants</div>
-        <div class="check-grid" id="etat-equipements">
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="eq-elec"> Électricité existante</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="eq-plomb"> Plomberie existante</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="eq-vmc"> Ventilation existante</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="eq-extraction"> Extraction existante</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="eq-clim"> Climatisation existante</label>
+        <!-- CURER : ancienne activité -->
+        <div id="etat-curer-section" style="display:none;margin-top:16px">
+          <div style="padding:12px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;font-size:12px;color:#92400E;margin-bottom:14px">
+            <strong>Dépose complète :</strong> Sols · Plafonds · Cloisons · Réseaux électriques · Plomberie · Ventilation · Climatisation · Curage complet
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ancienne activité</label>
+            <select id="etat-ancienne-activite" class="form-select" onchange="state.etat.ancienneActivite=this.value;recalculate()">
+              <option value="">— Sélectionner —</option>
+              <option value="restaurant">Restaurant</option>
+              <option value="boulangerie">Boulangerie</option>
+              <option value="coffee-shop">Coffee Shop</option>
+              <option value="commerce">Commerce</option>
+              <option value="bureau">Bureau</option>
+              <option value="pharmacie">Pharmacie</option>
+              <option value="banque">Banque</option>
+              <option value="vide">Local vide</option>
+              <option value="autre">Autre</option>
+            </select>
+          </div>
         </div>
 
-        <div class="form-section-title" style="margin-top:14px">Accès et contraintes</div>
+        <!-- ACCÈS ET CONTRAINTES (toujours visible) -->
+        <div class="form-section-title" style="margin-top:16px">Accès et contraintes</div>
         <div class="check-grid">
           <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="acc-toiture"> Accès toiture</label>
           <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="acc-facade"> Accès façade</label>
@@ -2955,6 +2962,148 @@ function updateRecap(){
   </div>
   ${dateV?`<div style="font-size:11px;color:var(--muted)">📅 Visite : ${dateV}</div>`:''}`;
 }
+
+// ── ÉTAT LOCAL — NOUVELLE LOGIQUE ─────────────────────────────
+const TYPES_PIECES_EXISTANTES = [
+  'Salle','Cuisine','Réserve','Vestiaire','Sanitaires','Bureau',
+  'Local technique','Chambre froide positive','Chambre froide négative',
+  'Préparation froide','Préparation chaude','Laverie','Circulation','Autre'
+];
+const NIVEAUX_INTERVENTION = ['Conserver','Rénover','Refaire totalement','Supprimer'];
+const ELEMENTS_CONSERVES = ['Sol','Faux plafond','Cloisons','Électricité','Plomberie',
+  'Ventilation','Climatisation','Extraction','Menuiseries','Éclairage','Sanitaires'];
+
+let _piecesExistantes = [];
+let _pieceExistanteCounter = 0;
+
+function selectEtatLocal(type, el){
+  // Mise à jour visuelle
+  document.querySelectorAll('#etat-type-local .radio-card').forEach(c=>c.classList.remove('selected'));
+  if(el) el.classList.add('selected');
+
+  // Cacher toutes les sections
+  ['etat-brut-info','etat-semi-section','etat-curer-section'].forEach(id=>{
+    const e = document.getElementById(id);
+    if(e) e.style.display = 'none';
+  });
+
+  state.etat.typeLocal = type;
+  state._etatCoeff = type === 'curer' ? 1.08 : type === 'semi' ? 0.85 : 1.0;
+
+  if(type === 'brut'){
+    const e = document.getElementById('etat-brut-info');
+    if(e) e.style.display = 'block';
+  } else if(type === 'semi'){
+    const e = document.getElementById('etat-semi-section');
+    if(e) e.style.display = 'block';
+  } else if(type === 'curer'){
+    const e = document.getElementById('etat-curer-section');
+    if(e) e.style.display = 'block';
+  }
+
+  recalculate();
+}
+
+function ajouterPieceExistante(){
+  _pieceExistanteCounter++;
+  const id = 'pe' + _pieceExistanteCounter;
+  const piece = {id, type:'Salle', niveau:'Conserver', elements:[]};
+  _piecesExistantes.push(piece);
+  renderPieceExistante(id);
+  const empty = document.getElementById('pieces-existantes-empty');
+  if(empty) empty.style.display = 'none';
+}
+
+function renderPieceExistante(id){
+  const piece = _piecesExistantes.find(p=>p.id===id);
+  if(!piece) return;
+  const list = document.getElementById('pieces-existantes-list');
+  if(!list) return;
+
+  const div = document.createElement('div');
+  div.id = 'pe-card-'+id;
+  div.style.cssText = 'border:1.5px solid var(--border);border-radius:10px;padding:14px;background:white';
+  div.innerHTML = `
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+      <select onchange="updatePieceExistante('${id}','type',this.value)" style="flex:1;min-width:140px;height:34px;border:1.5px solid var(--border);border-radius:6px;padding:0 10px;font-size:13px;font-family:var(--font)">
+        ${TYPES_PIECES_EXISTANTES.map(t=>`<option value="${t}" ${piece.type===t?'selected':''}>${t}</option>`).join('')}
+      </select>
+      <select onchange="updatePieceExistante('${id}','niveau',this.value);updateElementsColor('${id}',this.value)" style="flex:1;min-width:140px;height:34px;border:1.5px solid var(--border);border-radius:6px;padding:0 10px;font-size:13px;font-family:var(--font)">
+        ${NIVEAUX_INTERVENTION.map(n=>`<option value="${n}" ${piece.niveau===n?'selected':''}>${n}</option>`).join('')}
+      </select>
+      <button onclick="supprimerPieceExistante('${id}')" style="background:none;border:1px solid #FCA5A5;border-radius:6px;padding:6px 10px;cursor:pointer;color:var(--danger);font-size:12px;flex-shrink:0">✕</button>
+    </div>
+    <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">Éléments conservés</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px" id="pe-elements-${id}">
+      ${ELEMENTS_CONSERVES.map(el=>`
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;padding:4px 6px;border-radius:6px;border:1px solid var(--border);background:white" id="pe-el-${id}-${el.replace(/\s/g,'_')}">
+          <input type="checkbox" ${piece.elements.includes(el)?'checked':''} onchange="toggleElementConserve('${id}','${el}',this.checked)" style="accent-color:var(--primary)">
+          ${el}
+        </label>`).join('')}
+    </div>
+  `;
+  list.appendChild(div);
+}
+
+function updatePieceExistante(id, key, val){
+  const piece = _piecesExistantes.find(p=>p.id===id);
+  if(piece) piece[key] = val;
+}
+
+function updateElementsColor(id, niveau){
+  const container = document.getElementById('pe-elements-'+id);
+  if(!container) return;
+  const isSuppr = niveau === 'Supprimer';
+  container.style.opacity = isSuppr ? '0.4' : '1';
+  container.style.pointerEvents = isSuppr ? 'none' : '';
+}
+
+function toggleElementConserve(id, el, checked){
+  const piece = _piecesExistantes.find(p=>p.id===id);
+  if(!piece) return;
+  if(checked){ if(!piece.elements.includes(el)) piece.elements.push(el); }
+  else { piece.elements = piece.elements.filter(e=>e!==el); }
+}
+
+function supprimerPieceExistante(id){
+  if(!confirm('Supprimer cette pièce ?')) return;
+  _piecesExistantes = _piecesExistantes.filter(p=>p.id!==id);
+  document.getElementById('pe-card-'+id)?.remove();
+  if(!_piecesExistantes.length){
+    const empty = document.getElementById('pieces-existantes-empty');
+    if(empty) empty.style.display = 'block';
+  }
+  // Syncer avec les relevés
+  syncPiecesVersReleves();
+}
+
+function syncPiecesVersReleves(){
+  // Ajouter les pièces existantes dans les relevés si elles n'y sont pas encore
+  if(state.etat.typeLocal !== 'semi') return;
+  _piecesExistantes.forEach(pe=>{
+    const existeDeja = state.pieces.find(p=>p._sourceId === pe.id);
+    if(!existeDeja && pe.niveau !== 'Supprimer'){
+      state.pieceCounter++;
+      const newId = 'p'+state.pieceCounter;
+      state.pieces.push({
+        _type:'existant', _sourceId:pe.id,
+        id:newId, nom:pe.type, type:pe.type,
+        surface:0, hauteur:2.7, lineaire:0, portes:1.8, vitrages:0, ouvertures:0,
+        fauxPlafond:!pe.elements.includes('Faux plafond'),
+        faience:false, hauteurFaience:1.8, nbMursFaience:0,
+        prises:4,prisesDouble:2,prisesSpec:0,prisesTri:0,rj45:0,camElec:0,bornesWifi:0,ecrans:0,
+        eauFroide:0,eauChaude:0,evacuation:0,wc:0,wcPMR:0,laveMains:0,plonge:0,sipholSol:0,
+        nbPersonnes:0,notes:'Issu de l\'initialisation — '+pe.niveau,
+        _elementsConserves:pe.elements,
+        _mursB:0,_mursN:0,_faience:0
+      });
+    }
+  });
+  updateNbPieces();
+  majResumeReleves();
+  showToast('✅ Pièces synchronisées dans les Relevés');
+}
+
 function selectEtat(cat,val,el){
   state.etat[cat]=val;
   el.closest('.radio-cards').querySelectorAll('.radio-card').forEach(c=>c.classList.remove('selected'));
