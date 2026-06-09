@@ -12,6 +12,11 @@
 <script src="https://accounts.google.com/gsi/client" onload="console.log('GSI chargé ✓')" onerror="console.error('GSI ERREUR de chargement')"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+/* Orthographe native */
+input[spellcheck="true"], textarea[spellcheck="true"] {
+  -webkit-spell-checking: yes;
+  spell-checking: yes;
+}
 /* ═══ RESET & VARIABLES — Pennylane DA ═══ */
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -704,7 +709,7 @@ input[type=number]{-moz-appearance:textfield}
         <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
             <label class="form-label">Nom du chantier</label>
-            <input id="proj-nom-chantier" class="form-input" placeholder="" oninput="corrigerTexte(this);updateProjectHeader()">
+            <input id="proj-nom-chantier" spellcheck="true" class="form-input" placeholder="" oninput="corrigerTexte(this);updateProjectHeader()">
           </div>
           <div class="form-group">
             <label class="form-label">Statut du dossier</label>
@@ -727,7 +732,7 @@ input[type=number]{-moz-appearance:textfield}
         <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
             <label class="form-label">Contact principal</label>
-            <input id="proj-contact" class="form-input" placeholder="" oninput="corrigerNomPropre(this)">
+            <input id="proj-contact" spellcheck="true" class="form-input" placeholder="" oninput="corrigerNomPropre(this)">
           </div>
           <div class="form-group">
             <label class="form-label">Téléphone</label>
@@ -755,7 +760,7 @@ input[type=number]{-moz-appearance:textfield}
           <div class="form-group">
             <label class="form-label">Client <span class="req">*</span></label>
             <div style="display:flex;gap:6px">
-              <input id="proj-client" class="form-input" placeholder="" oninput="corrigerNomPropre(this);updateProjectHeader()" style="flex:1">
+              <input id="proj-client" spellcheck="true" class="form-input" placeholder="" oninput="corrigerNomPropre(this);updateProjectHeader()" style="flex:1">
               <button type="button" onclick="ouvrirHistoriqueClients()" class="btn btn-ghost btn-sm" title="Historique clients" style="flex-shrink:0;padding:8px 10px">
                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </button>
@@ -803,7 +808,7 @@ input[type=number]{-moz-appearance:textfield}
           </div>
           <div class="form-group">
             <label class="form-label">Releveur / Chargé d'affaires</label>
-            <input id="proj-releveur" class="form-input" placeholder="" oninput="corrigerNomPropre(this);updateProjectHeader()">
+            <input id="proj-releveur" spellcheck="true" class="form-input" placeholder="" oninput="corrigerNomPropre(this);updateProjectHeader()">
           </div>
         </div>
 
@@ -819,11 +824,11 @@ input[type=number]{-moz-appearance:textfield}
           </div>
           <div class="form-group">
             <label class="form-label">Activité prévue</label>
-            <select id="proj-activite" class="form-select" onchange="updateProjectHeader();majActiviteAutre()">
+            <select id="proj-activite" spellcheck="true" class="form-select" onchange="updateProjectHeader();majActiviteAutre()">
               <option value="">— Sélectionner —</option>
             </select>
             <div id="proj-activite-autre-wrap" style="display:none;margin-top:6px">
-              <input id="proj-activite-autre" class="form-input" placeholder="Précisez l'activité" oninput="corrigerTexte(this);updateProjectHeader()">
+              <input id="proj-activite-autre" spellcheck="true" class="form-input" placeholder="Précisez l'activité" oninput="corrigerTexte(this);updateProjectHeader()">
             </div>
           </div>
         </div>
@@ -858,7 +863,7 @@ input[type=number]{-moz-appearance:textfield}
         <!-- LIGNE 7 : Observations enrichies -->
         <div class="form-group" style="margin-bottom:0">
           <label class="form-label">Observations générales</label>
-          <textarea id="proj-notes" class="form-textarea" placeholder="" style="min-height:80px" oninput="corrigerTexte(this)"></textarea>
+          <textarea id="proj-notes" spellcheck="true" class="form-textarea" placeholder="" style="min-height:80px" oninput="corrigerTexte(this)"></textarea>
           <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
             <button type="button" onclick="document.getElementById('obs-photos-input').click()" class="btn btn-ghost btn-sm" style="gap:5px;font-size:11px">
               <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
