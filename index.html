@@ -621,13 +621,12 @@ input[type=number]{-moz-appearance:textfield}
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
       Sauvegarder
     </button>
+    <button onclick="reinitialiserProjet()" title="Nouveau projet" class="btn btn-ghost btn-sm" style="gap:6px" >
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+      Nouveau
+    </button>
   </div>
   <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="chargerDossier(this)">
-  <!-- RÉINITIALISER -->
-  <button onclick="reinitialiserProjet()" title="Nouveau projet" style="width:34px;height:34px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0" onmouseover="this.style.borderColor='var(--danger)';this.style.color='var(--danger)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--ink)'">
-    <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
-  </button>
-
   <!-- PROFIL -->
   <div style="position:relative">
     <button id="btn-profil" onclick="toggleProfilMenu()" style="width:34px;height:34px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s" title="Profil & Paramètres">
