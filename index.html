@@ -1779,16 +1779,20 @@ input[type=number]{-moz-appearance:textfield}
             <label class="form-label">Eau</label>
             <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
               <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="site"> Disponible sur site</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="creer"> À créer</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="raccord"> Raccordement provisoire</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="souscomptage"> Sous-comptage — alimentation depuis bâtiment / local / appartement</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="raccord"> Raccordement provisoire Enedis</label>
             </div>
           </div>
           <div class="form-group">
             <label class="form-label">Électricité</label>
             <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="site"> Disponible sur site</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="creer"> À créer</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="raccord"> Raccordement provisoire</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="site" onchange="toggleEnedisInfo()"> Disponible sur site</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="souscomptage" onchange="toggleEnedisInfo()"> Sous-comptage — alimentation depuis bâtiment / local / appartement</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="raccord" onchange="toggleEnedisInfo()"> Raccordement provisoire Enedis</label>
+              <div id="prov-elec-enedis-info" style="display:none;margin-top:6px;padding:8px 10px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:7px;font-size:11px;color:#92400E;line-height:1.6">
+                <strong>À la charge du client :</strong> La demande de raccordement provisoire doit être effectuée par le client auprès de son fournisseur d'énergie (EDF ou autre). Enedis réalise le raccordement sur demande du fournisseur.<br>
+                <span style="color:#B45309">Délai moyen : 3 à 6 semaines · Coût : 1 500 à 4 000 € selon puissance</span>
+              </div>
             </div>
           </div>
         </div>
@@ -1802,21 +1806,7 @@ input[type=number]{-moz-appearance:textfield}
           </div>
         </div>
 
-        <!-- Équipements provisoires -->
-        <div class="form-section-title" style="margin-bottom:8px">Équipements provisoires</div>
-        <div class="check-grid" style="margin-bottom:16px">
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-coffret"> Coffret électrique chantier</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-compteur"> Compteur provisoire</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-eau-pt"> Point d'eau provisoire</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-groupe"> Groupe électrogène</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-wc-chim"> Toilettes chimiques</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-bungalow-sanit"> Bungalow sanitaire</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-base-vie"> Base vie chantier</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-repas"> Espace repas personnel</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-vestiaire"> Vestiaire chantier</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-stockage-mat"> Stockage matériel</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-stockage-dechets"> Stockage déchets</label>
-        </div>
+
 
         <!-- Infos complémentaires -->
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px">
@@ -3893,6 +3883,12 @@ function estimerDureeEtCompagnons(){
 
 // ── ALIMENTATION PROVISOIRE — CALCUL FRAIS ───────────────────
 
+function toggleEnedisInfo(){
+  const val = document.querySelector('input[name="prov-elec"]:checked')?.value;
+  const info = document.getElementById('prov-elec-enedis-info');
+  if(info) info.style.display = val === 'raccord' ? 'block' : 'none';
+}
+
 function calculerFraisProvisoires(){
   const duree = parseFloat(document.getElementById('prov-duree-mois')?.value) || 0;
   const nb    = parseFloat(document.getElementById('prov-nb-intervenants')?.value) || 0;
@@ -3911,13 +3907,13 @@ function calculerFraisProvisoires(){
 
   // Eau
   if(radio('prov-eau')==='raccord'){ lignes.push({l:'Raccordement eau provisoire',m:800,u:'forfait'}); somme+=800; }
-  if(ids('prov-eau-pt')){ const v=150*duree; lignes.push({l:'Point eau provisoire',m:v,u:`${duree} mois`}); somme+=v; }
+
 
   // Élec
   if(radio('prov-elec')==='raccord'){ lignes.push({l:'Raccordement élec provisoire',m:1500,u:'forfait'}); somme+=1500; }
-  if(ids('prov-coffret')){ lignes.push({l:'Coffret électrique chantier',m:800,u:'forfait'}); somme+=800; }
-  if(ids('prov-compteur')){ lignes.push({l:'Compteur provisoire',m:1200,u:'forfait'}); somme+=1200; }
-  if(ids('prov-groupe')){ const v=400*duree; lignes.push({l:'Groupe électrogène',m:v,u:`${duree} mois`}); somme+=v; }
+
+
+
 
   // Sanitaires
   if(ids('prov-wc-chim')){ const v=120*duree; lignes.push({l:'Toilettes chimiques',m:v,u:`${duree} mois`}); somme+=v; }
