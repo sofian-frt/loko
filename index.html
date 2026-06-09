@@ -4673,13 +4673,14 @@ function genererCodeChantier(){
 function afficherDernierChantier(){
   var hintEl = document.getElementById('code-hint');
   if(!hintEl) return;
-  // Chercher dans localStorage et Firestore
-  var dossiers = JSON.parse(localStorage.getItem('lokoo_dossiers') || '[]');
-  var chantiers = JSON.parse(localStorage.getItem('rt_chantiers') || '[]');
-  var dernierCode = '';
-  // Prendre le plus récent
-  if(dossiers.length > 0) dernierCode = dossiers[dossiers.length-1].code || '';
-  if(chantiers.length > 0 && !dernierCode) dernierCode = chantiers[chantiers.length-1].nom || '';
+  // Priorité : Drive > localStorage
+  var dernierCode = _dernierCodeDrive;
+  if(!dernierCode){
+    var dossiers = JSON.parse(localStorage.getItem('lokoo_dossiers') || '[]');
+    var chantiers = JSON.parse(localStorage.getItem('rt_chantiers') || '[]');
+    if(dossiers.length > 0) dernierCode = dossiers[dossiers.length-1].code || '';
+    if(chantiers.length > 0 && !dernierCode) dernierCode = chantiers[chantiers.length-1].nom || '';
+  }
   if(dernierCode){
     hintEl.innerHTML = '<span style="color:var(--muted)">Dernier chantier : <strong style="font-family:monospace;color:var(--ink)">"'+dernierCode+'"</strong></span>';
   } else {
@@ -4687,7 +4688,26 @@ function afficherDernierChantier(){
   }
 }
 
-function verifierCodeChantier(suffix){
+// Cache des codes Drive chargés
+var _codesExistantsDrive = null;
+var _dernierCodeDrive = '';
+
+async function chargerCodesDrive(){
+  if(!_driveToken || !_driveFolderId) return [];
+  try{
+    const q = encodeURIComponent('"'+_driveFolderId+'" in parents and trashed=false and mimeType="application/json"');
+    const r = await fetch('https://www.googleapis.com/drive/v3/files?q='+q+'&fields=files(name)&orderBy=name+desc',
+      {headers:{Authorization:'Bearer '+_driveToken}});
+    const d = await r.json();
+    const codes = (d.files||[]).map(f=>f.name.replace('.json',''));
+    _codesExistantsDrive = codes;
+    // Dernier code = premier dans l'ordre décroissant
+    _dernierCodeDrive = codes.length > 0 ? codes[0] : '';
+    return codes;
+  }catch(e){ return []; }
+}
+
+async function verifierCodeChantier(suffix){
   var statusEl = document.getElementById('code-status');
   var hintEl   = document.getElementById('code-hint');
   var hidden   = document.getElementById('proj-nom');
@@ -4696,27 +4716,65 @@ function verifierCodeChantier(suffix){
   suffix = suffix.replace(/[^0-9]/g,'').slice(0,4);
   var suffixInp = document.getElementById('proj-nom-suffix');
   if(suffixInp) suffixInp.value = suffix;
+
   if(!suffix || suffix.length < 4){
     if(statusEl) statusEl.textContent = '';
-    if(hintEl){ hintEl.textContent = 'Saisissez 4 chiffres'; hintEl.style.color = 'var(--muted)'; }
+    if(hintEl){
+      // Afficher dernier chantier
+      var dernierMsg = _dernierCodeDrive
+        ? '<span style="color:var(--muted)">Dernier code utilisé : <strong style="font-family:monospace">'+_dernierCodeDrive+'</strong></span>'
+        : '';
+      hintEl.innerHTML = dernierMsg;
+    }
     if(hidden) hidden.value = '';
     return;
   }
+
   var codeComplet = prefix + suffix;
   if(hidden) hidden.value = codeComplet;
+  if(statusEl) statusEl.textContent = '⏳';
+
+  // Charger codes Drive si pas encore fait
+  if(_codesExistantsDrive === null && _driveToken){
+    await chargerCodesDrive();
+  }
+
+  // Vérifier dans localStorage ET Drive
   var chantiers = JSON.parse(localStorage.getItem('rt_chantiers') || '[]');
   var dossiers  = JSON.parse(localStorage.getItem('lokoo_dossiers') || '[]');
-  var tousLesCodes = chantiers.map(function(c){ return c.nom||''; })
+  var codesLocaux = chantiers.map(function(c){ return c.nom||''; })
     .concat(dossiers.map(function(d){ return d.code||''; }));
+  var codesDrive = _codesExistantsDrive || [];
+  var tousLesCodes = codesLocaux.concat(codesDrive);
+
   var doublon = tousLesCodes.indexOf(codeComplet) >= 0;
+  var dernierInfo = _dernierCodeDrive
+    ? '<br><span style="color:var(--muted);font-size:10px">Dernier code utilisé : <strong style="font-family:monospace">'+_dernierCodeDrive+'</strong></span>'
+    : '';
+
   if(doublon){
     if(statusEl) statusEl.textContent = '⚠️';
-    if(hintEl) hintEl.innerHTML = '<span style="color:var(--danger);font-weight:600">Ce code existe déjà — choisissez un autre numéro</span>';
+    if(hintEl) hintEl.innerHTML =
+      '<span style="color:var(--danger);font-weight:600">Ce code chantier existe déjà. Veuillez saisir un autre code.</span>' + dernierInfo;
+    if(hidden) hidden.value = ''; // Invalider le code
   } else {
     if(statusEl) statusEl.textContent = '✅';
-    if(hintEl) hintEl.innerHTML = '<span style="color:var(--success);font-family:monospace;font-weight:600">'+codeComplet+'</span>';
+    if(hintEl) hintEl.innerHTML =
+      '<span style="color:var(--success);font-family:monospace;font-weight:600">'+codeComplet+'</span>' + dernierInfo;
   }
   updateProjectHeader();
+}
+
+// Recharger les codes quand Drive se connecte
+var _onDriveConnectOriginal = onDriveTokenReceived;
+async function onDriveTokenReceived(response){
+  await _onDriveConnectOriginal(response);
+  // Attendre que le dossier soit trouvé puis charger les codes
+  setTimeout(async()=>{
+    if(_driveFolderId) await chargerCodesDrive();
+    // Mettre à jour l'affichage du dernier code
+    afficherDernierChantier();
+  }, 1500);
 }
 
 // ── EXPORT / IMPORT DOSSIER ──────────────────────────────────────
