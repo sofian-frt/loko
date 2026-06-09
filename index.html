@@ -3704,20 +3704,31 @@ function estimerDureeEtCompagnons(){
   const reseauxComplets = ['tv-plomberie-complete','tv-gaz-creation','tv-tgbt','tv-evacuation'].filter(ids).length;
   if(reseauxComplets >= 3){ coeff += 0.15; facteurs.push('réseaux techniques complets (+15%)'); }
 
-  // ── Base : 1 mois pour 30m² en brut béton ─────────────────
-  // Référence sectorielle : ~30-40m²/mois pour un chantier restauration standard
-  const BASE_M2_PAR_MOIS = 35;
-  const dureeBase = surface > 0 ? surface / BASE_M2_PAR_MOIS : 2;
+  // ── Base durée ────────────────────────────────────────────
+  // Référence : ~70-80m²/mois pour un chantier aménagement restauration
+  // (hors gros œuvre et structure lourde)
+  const BASE_M2_PAR_MOIS = 75;
+  const dureeBase = surface > 0 ? surface / BASE_M2_PAR_MOIS : 1.5;
   const dureeEstim = Math.max(1, Math.round(dureeBase * coeff * 10) / 10);
 
-  // ── Compagnons : selon surface et densité travaux ──────────
-  // 1 compagnon pour 25-30m² en simultané
-  // Réduit si site occupé / horaires contraints
-  const BASE_M2_PAR_COMPAGNON = 25;
-  let nbCompagnons = surface > 0 ? Math.ceil(surface / BASE_M2_PAR_COMPAGNON) : 2;
-  if(ids('ch-site-occupe') || ids('st-site-occupe')) nbCompagnons = Math.max(1, Math.floor(nbCompagnons * 0.7));
-  if(ids('ch-horaires-decales')) nbCompagnons = Math.max(1, Math.floor(nbCompagnons * 0.8));
-  nbCompagnons = Math.min(nbCompagnons, 15); // plafond raisonnable
+  // ── Compagnons : selon intensité des travaux ───────────────
+  // Un corps d'état ~50m² à la fois, mais pas tous simultanément
+  // On compte les corps d'état actifs en parallèle
+  let corpsEtat = 2; // minimum : gros œuvre + finitions
+  if(ids('tv-mur-porteur')||ids('tv-demol-porteur')||ids('tv-renforcement-struct')) corpsEtat++;
+  if(ids('tv-plomberie-complete')||ids('tv-evacuation')) corpsEtat++;
+  if(ids('tv-tgbt')||ids('tv-elec-augmentation')) corpsEtat++;
+  if(ids('tv-hotte-pro')||ids('tv-cta')||ids('tv-extraction-creation')) corpsEtat++;
+  if(ids('tv-ue')||ids('tv-ui')) corpsEtat++;
+  if(ids('tv-cuisine-pro')) corpsEtat++;
+  if(ids('tv-vitrine-creation')||ids('tv-habillage-facade')) corpsEtat++;
+
+  // 2-3 compagnons par corps d'état en moyenne
+  let nbCompagnons = Math.round(corpsEtat * 2.5);
+  if(surface > 300) nbCompagnons = Math.round(nbCompagnons * 1.3);
+  if(ids('ch-site-occupe') || ids('st-site-occupe')) nbCompagnons = Math.max(2, Math.floor(nbCompagnons * 0.7));
+  if(ids('ch-horaires-decales')) nbCompagnons = Math.max(2, Math.floor(nbCompagnons * 0.8));
+  nbCompagnons = Math.min(Math.max(nbCompagnons, 2), 20);
 
   // ── Afficher dans les champs ───────────────────────────────
   document.getElementById('prov-duree-mois').value = dureeEstim.toFixed(1);
