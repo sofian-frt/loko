@@ -4807,9 +4807,10 @@ function afficherLogin(){
   document.getElementById('sidebar').style.display = 'none';
   document.getElementById('main-topbar').style.display = 'none';
   document.getElementById('sidebar-overlay').classList.remove('open');
-  // Masquer topbar mobile sur la page login
   const mt = document.querySelector('.mobile-topbar');
-  if(mt) mt.style.display = 'none';
+  if(mt) mt.style.setProperty('display','none','important');
+  const fab = document.querySelector('.fab');
+  if(fab) fab.style.setProperty('display','none','important');
 }
 
 const ACTIVITES_PAR_TYPE = {
@@ -4840,9 +4841,13 @@ function afficherApp(){
   document.getElementById('app-main').style.display = 'flex';
   document.getElementById('sidebar').style.display = '';
   document.getElementById('main-topbar').style.display = '';
-  // Remettre topbar mobile quand on entre dans l'app
+  // Remettre topbar mobile + fab quand on entre dans l'app
   const mt = document.querySelector('.mobile-topbar');
-  if(mt) mt.style.display = '';
+  if(mt) mt.style.removeProperty('display');
+  const fab = document.querySelector('.fab');
+  if(fab) fab.style.removeProperty('display');
+  const fab = document.querySelector('.fab');
+  if(fab) fab.style.display = '';
   majLogoSidebar();
   genererCodeChantierAvecAttente();
   if(_userData){
