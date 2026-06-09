@@ -507,6 +507,20 @@ input[type=number]{-moz-appearance:textfield}
         </div>
       </div>
     </div>
+    <!-- Suivi admin -->
+    <div id="sidebar-suivi-admin" style="display:none;margin-bottom:8px;padding:8px 10px;background:var(--bg);border-radius:6px;border:1px solid var(--border)">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+        <div>
+          <div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em">Créé le</div>
+          <div id="sidebar-suivi-creation" style="font-size:10px;font-weight:600;color:var(--ink2)">—</div>
+        </div>
+        <div>
+          <div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em">Modifié le</div>
+          <div id="sidebar-suivi-modif" style="font-size:10px;font-weight:600;color:var(--ink2)">—</div>
+        </div>
+      </div>
+    </div>
+
     <div style="display:flex;align-items:center;justify-content:space-between">
       <span class="version-tag">V1.3 · Stable</span>
       <button class="btn btn-sm btn-ghost" onclick="exportPrint()" style="font-size:11px"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button>
@@ -5486,11 +5500,11 @@ function majSuiviAdmin(){
   const el = id => document.getElementById(id);
   if(el('suivi-modif')) el('suivi-modif').textContent = now;
   if(el('suivi-modif-par')) el('suivi-modif-par').textContent = user;
-  // Mettre à jour la topbar
-  const tb = document.getElementById('topbar-suivi-admin');
-  if(tb) tb.style.display = 'flex';
-  const tbModif = document.getElementById('topbar-suivi-modif');
-  if(tbModif) tbModif.textContent = now;
+  // Mettre à jour la sidebar
+  const sb = document.getElementById('sidebar-suivi-admin');
+  if(sb) sb.style.display = 'block';
+  const sbModif = document.getElementById('sidebar-suivi-modif');
+  if(sbModif) sbModif.textContent = now;
 }
 
 
