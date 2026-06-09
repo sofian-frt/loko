@@ -457,7 +457,7 @@ input[type=number]{-moz-appearance:textfield}
 }
 </style>
 </head>
-<body>
+<body onclick="if(!event.target.closest('#profil-menu') && !event.target.closest('#mobile-profil-btn') && !event.target.closest('#btn-profil')){document.querySelectorAll('.dropdown-menu').forEach(m=>m.style.display='none')}">
 
 <!-- MOBILE TOPBAR -->
 <div class="mobile-topbar" id="mobile-topbar-bar" style="display:none">
@@ -4035,7 +4035,10 @@ function afficherSignature(src){
 function toggleProfilMenu(){
   const menu = document.getElementById('profil-menu');
   if(!menu) return;
-  menu.style.display = menu.style.display==='none' ? 'block' : 'none';
+  const isVisible = menu.style.display === 'block';
+  // Fermer tous les menus ouverts
+  document.querySelectorAll('.dropdown-menu').forEach(m => m.style.display = 'none');
+  menu.style.display = isVisible ? 'none' : 'block';
 }
 
 // Fermer le menu profil en cliquant dehors
@@ -5301,7 +5304,7 @@ function genererRapportDPGF(){
   </div>
 
 </div>
-    <div id="profil-menu" style="display:none;position:fixed;top:62px;right:12px;background:white;border:1.5px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 8px 40px rgba(0,0,0,.2);min-width:240px;z-index:9999;overflow:hidden">
+    <div id="profil-menu" class="dropdown-menu" style="display:none;position:fixed;top:62px;right:12px;background:white;border:1.5px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 8px 40px rgba(0,0,0,.2);min-width:240px;z-index:9999;overflow:hidden">
       <div id="profil-menu-header" style="padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg)">
         <div id="profil-menu-nom" style="font-size:13px;font-weight:700;color:var(--ink)">Mon compte</div>
         <div id="profil-menu-entreprise" style="font-size:11px;color:var(--muted);margin-top:2px">Non configuré</div>
@@ -6831,7 +6834,7 @@ async function chargerFichierDrive(fileId){
 
 
 </div><!-- fin app-main -->
-    <div id="profil-menu" style="display:none;position:fixed;top:62px;right:12px;background:white;border:1.5px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 8px 40px rgba(0,0,0,.2);min-width:240px;z-index:9999;overflow:hidden">
+    <div id="profil-menu" class="dropdown-menu" style="display:none;position:fixed;top:62px;right:12px;background:white;border:1.5px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 8px 40px rgba(0,0,0,.2);min-width:240px;z-index:9999;overflow:hidden">
       <div id="profil-menu-header" style="padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg)">
         <div id="profil-menu-nom" style="font-size:13px;font-weight:700;color:var(--ink)">Mon compte</div>
         <div id="profil-menu-entreprise" style="font-size:11px;color:var(--muted);margin-top:2px">Non configuré</div>
