@@ -362,7 +362,7 @@ input[type=number]{-moz-appearance:textfield}
 .synth-item-val{font-size:15px;font-weight:700;color:var(--ink)}
 
 /* ═══ MOBILE ═══ */
-.mobile-topbar{display:none;position:fixed;top:0;left:0;right:0;background:#FFFFFF;border-bottom:1px solid var(--border);padding:0 16px;height:54px;z-index:500;align-items:center;justify-content:space-between}
+.mobile-topbar{display:none;position:fixed;top:0;left:0;right:0;width:100%;background:#FFFFFF;border-bottom:1px solid var(--border);padding:0 16px;height:54px;z-index:500;align-items:center;justify-content:space-between;box-sizing:border-box}
 .hamburger{background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:var(--ink)}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:199}
 .fab{display:none;position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--primary);color:white;font-size:24px;border:none;cursor:pointer;box-shadow:var(--shadow-lg);z-index:150;align-items:center;justify-content:center}
@@ -489,7 +489,7 @@ input[type=number]{-moz-appearance:textfield}
 <body>
 
 <!-- MOBILE TOPBAR -->
-<div class="mobile-topbar" style="position:relative;display:none">
+<div class="mobile-topbar" style="display:none">
   <!-- Hamburger gauche -->
   <button class="hamburger" onclick="toggleMobileSidebar()" aria-label="Menu">
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
