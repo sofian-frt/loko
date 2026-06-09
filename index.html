@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lokoo V1.1 — Relevé & Chiffrage Locaux Commerciaux</title>
 <!-- Firebase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -2246,11 +2247,93 @@ input[type=number]{-moz-appearance:textfield}
 
 <!-- ══ PAGE DASHBOARD ══ -->
 <div class="page" id="page-dashboard">
-  <div class="page-header">
-    <h2>Tableau de bord</h2>
-    <p>Indicateurs globaux · Ratios · Historique</p>
+  <!-- Header -->
+  <div class="page-header-actions" style="margin-bottom:20px">
+    <div class="page-header" style="margin-bottom:0">
+      <h2>Tableau de bord</h2>
+      <p id="dashboard-subtitle">Vue globale de votre activité</p>
+    </div>
+    <button class="btn btn-primary" onclick="openModalChantier()" style="flex-shrink:0">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      Nouveau chantier
+    </button>
   </div>
-  <div id="dashboard-content"></div>
+
+  <!-- KPI CARDS -->
+  <div id="db-kpi-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px"></div>
+
+  <!-- CHARTS ROW -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px">
+    <div class="card" style="min-height:220px">
+      <div class="card-title" style="margin-bottom:16px">📅 Chantiers par mois</div>
+      <canvas id="db-chart-mois" height="160"></canvas>
+    </div>
+    <div class="card" style="min-height:220px">
+      <div class="card-title" style="margin-bottom:16px">🗂 Répartition des statuts</div>
+      <div id="db-statuts-bars" style="display:flex;flex-direction:column;gap:7px"></div>
+    </div>
+  </div>
+
+  <!-- FINANCIAL + ALERTES -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:16px">💶 Résumé financier</div>
+      <canvas id="db-chart-finance" height="180"></canvas>
+    </div>
+    <div class="card" id="db-alertes-card">
+      <div class="card-title" style="margin-bottom:14px">🔔 Centre d'alertes</div>
+      <div id="db-alertes-list"></div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="card" style="padding:0;overflow:hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)">
+      <div style="font-weight:700;font-size:14px">Tous les chantiers</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <input id="db-search" class="form-input" style="width:180px;height:32px;font-size:12px" placeholder="🔍 Rechercher..." oninput="renderDashboardTable()">
+        <select id="db-filter-statut" class="form-select" style="height:32px;font-size:12px;padding:0 28px 0 10px" onchange="renderDashboardTable()">
+          <option value="">Tous les statuts</option>
+          <option value="nouveau">Nouveau</option>
+          <option value="releve_a_faire">Relevé à faire</option>
+          <option value="releve_effectue">Relevé effectué</option>
+          <option value="etude_en_cours">Étude en cours</option>
+          <option value="chiffrage_en_cours">Chiffrage en cours</option>
+          <option value="devis_envoye">Devis envoyé</option>
+          <option value="devis_accepte">Devis accepté</option>
+          <option value="travaux_en_cours">Travaux en cours</option>
+          <option value="chantier_termine">Chantier terminé</option>
+        </select>
+      </div>
+    </div>
+    <div id="db-table-wrap" style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead>
+          <tr style="background:var(--surface2);border-bottom:1px solid var(--border)">
+            <th style="padding:10px 16px;text-align:left;font-weight:600;color:var(--mid);white-space:nowrap">Code</th>
+            <th style="padding:10px 12px;text-align:left;font-weight:600;color:var(--mid)">Chantier</th>
+            <th style="padding:10px 12px;text-align:left;font-weight:600;color:var(--mid)">Client</th>
+            <th style="padding:10px 12px;text-align:left;font-weight:600;color:var(--mid)">Type</th>
+            <th style="padding:10px 12px;text-align:right;font-weight:600;color:var(--mid)">Surface</th>
+            <th style="padding:10px 12px;text-align:right;font-weight:600;color:var(--mid)">Estimé HT</th>
+            <th style="padding:10px 12px;text-align:center;font-weight:600;color:var(--mid)">Devis fait</th>
+            <th style="padding:10px 12px;text-align:center;font-weight:600;color:var(--mid)">Devis envoyé</th>
+            <th style="padding:10px 12px;text-align:left;font-weight:600;color:var(--mid)">Statut</th>
+            <th style="padding:10px 12px;text-align:left;font-weight:600;color:var(--mid)">Modifié</th>
+            <th style="padding:10px 16px;text-align:right;font-weight:600;color:var(--mid)">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="db-table-body"></tbody>
+      </table>
+    </div>
+    <div id="db-mobile-cards" style="display:none;padding:12px;flex-direction:column;gap:10px"></div>
+    <div id="db-table-empty" style="display:none;padding:40px;text-align:center;color:var(--muted)">
+      <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24" style="margin:0 auto 12px;display:block;opacity:.3"><path d="M2 20h20M4 20V10M20 20V10M8 20v-5h8v5M12 10V4M8 7l4-3 4 3"/></svg>
+      <div style="font-size:14px;font-weight:600">Aucun chantier trouvé</div>
+      <div style="font-size:12px;margin-top:4px">Créez votre premier chantier pour commencer</div>
+      <button class="btn btn-primary btn-sm" onclick="openModalChantier()" style="margin-top:14px">+ Nouveau chantier</button>
+    </div>
+  </div>
 </div>
 
 </div><!-- /content -->
@@ -2289,28 +2372,61 @@ input[type=number]{-moz-appearance:textfield}
 </div>
 
 <!-- MODAL CHANTIER -->
-<div id="modal-chantier" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;align-items:center;justify-content:center">
-  <div style="background:white;border-radius:var(--radius-xl);padding:28px;max-width:700px;width:90%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)">
+<div id="modal-chantier" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:center;justify-content:center;padding:16px">
+  <div style="background:white;border-radius:var(--radius-xl);padding:28px;max-width:720px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg)">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
-      <div><div style="font-size:17px;font-weight:700">Nouveau chantier</div></div>
-      <button onclick="closeModal('modal-chantier')" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)">✕</button>
+      <div>
+        <div style="font-size:17px;font-weight:700" id="modal-chantier-title">Nouveau chantier</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px">Renseignez les informations du projet</div>
+      </div>
+      <button onclick="closeModal('modal-chantier')" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted);line-height:1">✕</button>
     </div>
+    <input type="hidden" id="ch-edit-id">
+    <!-- Identification -->
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:10px">Identification</div>
     <div class="form-row">
-      <div class="form-group" style="grid-column:1/-1"><label class="form-label">Nom du chantier</label><input type="text" id="ch-nom" class="form-input" placeholder="Restaurant La Belle Époque — Paris 11e"></div>
+      <div class="form-group" style="grid-column:1/-1"><label class="form-label">Nom du chantier *</label><input type="text" id="ch-nom" class="form-input" placeholder="Restaurant La Belle Époque — Paris 11e"></div>
+      <div class="form-group"><label class="form-label">Client *</label><input type="text" id="ch-client" class="form-input" placeholder="Dupont SAS"></div>
       <div class="form-group"><label class="form-label">Type de local</label><select id="ch-type" class="form-select"></select></div>
       <div class="form-group"><label class="form-label">Surface (m²)</label><input type="number" id="ch-surface" class="form-input" placeholder="200"></div>
       <div class="form-group"><label class="form-label">Ville</label><input type="text" id="ch-ville" class="form-input" placeholder="Paris"></div>
-      <div class="form-group"><label class="form-label">Gamme</label><select id="ch-gamme" class="form-select"><option value="eco">Économique</option><option value="std" selected>Standard</option><option value="premium">Premium</option><option value="luxe">Luxe</option></select></div>
-      <div class="form-group"><label class="form-label">Budget prévu HT (€)</label><input type="number" id="ch-budget-prevu" class="form-input" placeholder="180000"></div>
-      <div class="form-group"><label class="form-label">Budget réel HT (€)</label><input type="number" id="ch-budget-reel" class="form-input" placeholder="195000"></div>
-      <div class="form-group"><label class="form-label">Durée prévue (sem.)</label><input type="number" id="ch-duree-prevue" class="form-input" placeholder="10"></div>
-      <div class="form-group"><label class="form-label">Durée réelle (sem.)</label><input type="number" id="ch-duree-reelle" class="form-input" placeholder="12"></div>
-      <div class="form-group"><label class="form-label">Statut</label><select id="ch-statut" class="form-select"><option value="en_cours">En cours</option><option value="termine">Terminé</option></select></div>
-      <div class="form-group" style="grid-column:1/-1"><label class="form-label">Notes</label><textarea id="ch-notes" class="form-textarea" placeholder="Difficultés, points d'attention..."></textarea></div>
     </div>
+    <!-- Statut & Devis -->
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:16px 0 10px">Statut & Devis</div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Statut du dossier</label>
+        <select id="ch-statut" class="form-select">
+          <option value="nouveau">🆕 Nouveau</option>
+          <option value="releve_a_faire">📋 Relevé à faire</option>
+          <option value="releve_effectue">✅ Relevé effectué</option>
+          <option value="etude_en_cours">🔍 Étude en cours</option>
+          <option value="chiffrage_en_cours" selected>💰 Chiffrage en cours</option>
+          <option value="devis_envoye">📤 Devis envoyé</option>
+          <option value="devis_accepte">🤝 Devis accepté</option>
+          <option value="travaux_en_cours">🔨 Travaux en cours</option>
+          <option value="chantier_termine">🏁 Chantier terminé</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Devis fait ?</label>
+        <select id="ch-devis-fait" class="form-select"><option value="non">Non</option><option value="oui">Oui</option></select>
+      </div>
+      <div class="form-group"><label class="form-label">Devis envoyé ?</label>
+        <select id="ch-devis-envoye" class="form-select"><option value="non">Non</option><option value="oui">Oui</option></select>
+      </div>
+    </div>
+    <!-- Financier -->
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:16px 0 10px">Financier</div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Montant travaux estimé HT (€)</label><input type="number" id="ch-budget-prevu" class="form-input" placeholder="180 000"></div>
+      <div class="form-group"><label class="form-label">Montant devis HT (€)</label><input type="number" id="ch-montant-devis" class="form-input" placeholder="185 000"></div>
+      <div class="form-group"><label class="form-label">Budget réel HT (€)</label><input type="number" id="ch-budget-reel" class="form-input" placeholder="195 000"></div>
+      <div class="form-group"><label class="form-label">Gamme</label><select id="ch-gamme" class="form-select"><option value="eco">Économique</option><option value="std" selected>Standard</option><option value="premium">Premium</option><option value="luxe">Luxe</option></select></div>
+    </div>
+    <!-- Notes -->
+    <div class="form-group" style="margin-top:8px"><label class="form-label">Notes</label><textarea id="ch-notes" class="form-textarea" placeholder="Difficultés, points d'attention..."></textarea></div>
     <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;border-top:1px solid var(--border);padding-top:16px">
       <button class="btn btn-secondary" onclick="closeModal('modal-chantier')">Annuler</button>
-      <button class="btn btn-primary" onclick="saveChantier()">Enregistrer</button>
+      <button class="btn btn-primary" onclick="saveChantier()">Enregistrer le chantier</button>
     </div>
   </div>
 </div>
@@ -3316,68 +3432,367 @@ function filterChantiers(s,el){filtreStatut=s;renderChantiers();}
 function renderChantiers(){
   const grid=_get('chantiers-grid');if(!grid)return;
   let data=DB.chantiers;if(filtreStatut!=='tous')data=data.filter(c=>c.statut===filtreStatut);
-  if(!data.length){grid.innerHTML='<div style="grid-column:1/-1"><div class="alert info"><div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M2 20h20M4 20V10M20 20V10M8 20v-5h8v5M12 10V4M8 7l4-3 4 3"/></svg></div><div class="alert-body"><div class="alert-title">Aucun chantier</div><div class="alert-desc">Ajoutez vos projets pour alimenter la base de comparaison</div></div></div></div>';return;}
+  if(!data.length){grid.innerHTML='<div style="grid-column:1/-1"><div class="alert info"><div class="alert-icon">🏗</div><div class="alert-body"><div class="alert-title">Aucun chantier</div><div class="alert-desc">Ajoutez vos projets</div></div></div></div>';return;}
   grid.innerHTML=data.map(ch=>{
     const t=TYPES[ch.type]||{icon:'🏪',label:ch.type};
-    const eB=ch.budget_reel&&ch.budget_prevu?Math.round((ch.budget_reel-ch.budget_prevu)/ch.budget_prevu*100):null;
-    const eD=ch.duree_reelle&&ch.duree_prevue?ch.duree_reelle-ch.duree_prevue:null;
-    const m2=ch.budget_reel&&ch.surface?Math.round(ch.budget_reel/ch.surface):null;
-    return `<div class="card"><div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:14px"><div><div style="font-size:11px;color:var(--muted);font-weight:500;margin-bottom:3px">${t.icon} ${t.label} · ${ch.surface} m² · ${ch.ville||'—'}</div><div style="font-size:15px;font-weight:700">${ch.nom}</div></div><span class="badge ${ch.statut==='termine'?'badge-success':'badge-primary'}">${ch.statut==='termine'?'Terminé':'En cours'}</span></div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
-      <div style="text-align:center"><div style="font-size:10px;color:var(--muted);font-weight:500">Prévu</div><div style="font-size:13px;font-weight:700">${ch.budget_prevu?fmt(ch.budget_prevu):'—'}</div></div>
-      <div style="text-align:center"><div style="font-size:10px;color:var(--muted);font-weight:500">Réel</div><div style="font-size:13px;font-weight:700">${ch.budget_reel?fmt(ch.budget_reel):'—'}</div>${eB!==null?`<div style="font-size:10px;font-weight:700;color:${eB>0?'var(--danger)':'var(--success)'}">${eB>0?'+':''}${eB}%</div>`:''}</div>
-      <div style="text-align:center"><div style="font-size:10px;color:var(--muted);font-weight:500">€/m²</div><div style="font-size:13px;font-weight:700">${m2?fmtN(m2)+' €':'—'}</div></div>
-      <div style="text-align:center"><div style="font-size:10px;color:var(--muted);font-weight:500">Durée</div><div style="font-size:13px;font-weight:700">${ch.duree_reelle||ch.duree_prevue||'—'}${(ch.duree_reelle||ch.duree_prevue)?' s.':''}</div>${eD!==null?`<div style="font-size:10px;font-weight:700;color:${eD>0?'var(--danger)':'var(--success)'}">${eD>0?'+':''}${eD} s.</div>`:''}</div>
-    </div>
-    ${ch.notes?`<div style="font-size:11px;color:var(--muted);line-height:1.6;border-top:1px solid var(--border);padding-top:10px;margin-top:12px">${ch.notes}</div>`:''}
-    </div>`;
+    return `<div class="card"><div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:12px"><div><div style="font-size:11px;color:var(--muted);font-weight:500;margin-bottom:3px">${t.icon} ${t.label} · ${ch.surface||'?'} m²</div><div style="font-size:15px;font-weight:700">${ch.nom}</div><div style="font-size:12px;color:var(--mid)">${ch.client||'—'}</div></div><span class="badge ${ch.statut==='chantier_termine'?'badge-success':'badge-primary'}">${STATUT_LABELS[ch.statut]||ch.statut}</span></div><div style="display:flex;gap:16px;font-size:12px"><div><span style="color:var(--muted)">Estimé : </span><strong>${ch.budget_prevu?fmt(ch.budget_prevu):'—'}</strong></div><div><span style="color:var(--muted)">Devis : </span><strong>${ch.devis_fait==='oui'?'✅':'❌'}</strong></div></div></div>`;
   }).join('');
 }
-function openModalChantier(){
-  ['ch-nom','ch-surface','ch-ville','ch-budget-prevu','ch-budget-reel','ch-duree-prevue','ch-duree-reelle','ch-notes'].forEach(id=>{const e=_get(id);if(e)e.value='';});
-  const m=_get('modal-chantier');if(m)m.style.display='flex';
+
+function openModalChantier(editId){
+  const modal=_get('modal-chantier');if(!modal)return;
+  const titleEl=_get('modal-chantier-title');
+  const idInput=_get('ch-edit-id');
+  if(idInput) idInput.value='';
+  ['ch-nom','ch-client','ch-surface','ch-ville','ch-budget-prevu','ch-montant-devis','ch-budget-reel','ch-notes'].forEach(id=>{const e=_get(id);if(e)e.value='';});
+  const sf=_get('ch-statut');if(sf)sf.value='chiffrage_en_cours';
+  const df=_get('ch-devis-fait');if(df)df.value='non';
+  const de=_get('ch-devis-envoye');if(de)de.value='non';
+  const gf=_get('ch-gamme');if(gf)gf.value='std';
+  if(editId){
+    const ch=DB.chantiers.find(c=>c.id==editId);
+    if(ch){
+      if(titleEl)titleEl.textContent='Modifier le chantier';
+      if(idInput)idInput.value=ch.id;
+      ['nom','client','surface','ville'].forEach(k=>{const e=_get('ch-'+k);if(e)e.value=ch[k]||'';});
+      if(_get('ch-budget-prevu'))_get('ch-budget-prevu').value=ch.budget_prevu||'';
+      if(_get('ch-montant-devis'))_get('ch-montant-devis').value=ch.montant_devis||'';
+      if(_get('ch-budget-reel'))_get('ch-budget-reel').value=ch.budget_reel||'';
+      if(_get('ch-notes'))_get('ch-notes').value=ch.notes||'';
+      if(sf)sf.value=ch.statut||'chiffrage_en_cours';
+      if(df)df.value=ch.devis_fait||'non';
+      if(de)de.value=ch.devis_envoye||'non';
+      if(gf)gf.value=ch.gamme||'std';
+    }
+  } else {
+    if(titleEl)titleEl.textContent='Nouveau chantier';
+  }
+  modal.style.display='flex';
 }
+
 function saveChantier(){
   const nom=_val('ch-nom','').trim(),surf=parseFloat(_val('ch-surface',''));
-  if(!nom||!surf){alert('Nom et surface obligatoires.');return;}
-  DB.chantiers.push({id:Date.now(),nom,type:_val('ch-type','restaurant'),surface:surf,
+  if(!nom){alert('Le nom du chantier est obligatoire.');return;}
+  const editId=_val('ch-edit-id','');
+  const now=new Date();
+  const dateStr=now.toLocaleDateString('fr-FR');
+  const data={
+    nom,client:_val('ch-client',''),type:_val('ch-type','restaurant'),surface:surf||0,
     ville:_val('ch-ville',''),gamme:_val('ch-gamme','std'),
-    budget_prevu:parseFloat(_val('ch-budget-prevu',''))||0,budget_reel:parseFloat(_val('ch-budget-reel',''))||0,
-    duree_prevue:parseInt(_val('ch-duree-prevue',''))||0,duree_reelle:parseInt(_val('ch-duree-reelle',''))||0,
-    statut:_val('ch-statut','en_cours'),notes:_val('ch-notes',''),date:new Date().toLocaleDateString('fr-FR')});
-  saveDB();closeModal('modal-chantier');renderChantiers();
+    budget_prevu:parseFloat(_val('ch-budget-prevu',''))||0,
+    montant_devis:parseFloat(_val('ch-montant-devis',''))||0,
+    budget_reel:parseFloat(_val('ch-budget-reel',''))||0,
+    statut:_val('ch-statut','chiffrage_en_cours'),
+    devis_fait:_val('ch-devis-fait','non'),
+    devis_envoye:_val('ch-devis-envoye','non'),
+    notes:_val('ch-notes',''),
+    date_modif:dateStr
+  };
+  if(editId){
+    const idx=DB.chantiers.findIndex(c=>c.id==editId);
+    if(idx>=0){DB.chantiers[idx]={...DB.chantiers[idx],...data};}
+  } else {
+    data.id=Date.now();
+    data.date=dateStr;
+    data.code='CH-'+String(DB.chantiers.length+1).padStart(3,'0');
+    DB.chantiers.push(data);
+  }
+  saveDB();closeModal('modal-chantier');
+  renderDashboard();renderChantiers();
+  showToast(editId?'Chantier modifié ✓':'Chantier créé ✓');
 }
+
+function deleteChantier(id){
+  if(!confirm('Supprimer ce chantier ?'))return;
+  DB.chantiers=DB.chantiers.filter(c=>c.id!=id);
+  saveDB();renderDashboard();renderChantiers();
+}
+
+// ── STATUT HELPERS ────────────────────────────────────────────
+const STATUT_LABELS={
+  nouveau:'Nouveau',
+  releve_a_faire:'Relevé à faire',
+  releve_effectue:'Relevé effectué',
+  etude_en_cours:'Étude en cours',
+  chiffrage_en_cours:'Chiffrage en cours',
+  devis_envoye:'Devis envoyé',
+  devis_accepte:'Devis accepté',
+  travaux_en_cours:'Travaux en cours',
+  chantier_termine:'Chantier terminé'
+};
+const STATUT_COLORS={
+  nouveau:'#6B7280',
+  releve_a_faire:'#B45309',
+  releve_effectue:'#0EA5E9',
+  etude_en_cours:'#8B5CF6',
+  chiffrage_en_cours:'#635BFF',
+  devis_envoye:'#EA580C',
+  devis_accepte:'#16A34A',
+  travaux_en_cours:'#D97706',
+  chantier_termine:'#00875A'
+};
+
 // ── DASHBOARD ─────────────────────────────────────────────────
+let _dbChartMois = null;
+let _dbChartFin = null;
+
 function renderDashboard(){
-  const dc=_get('dashboard-content');if(!dc)return;
-  const tot=DB.chantiers.length;const ter=DB.chantiers.filter(c=>c.statut==='termine');
-  if(!tot&&!DB.prix.length){dc.innerHTML='<div class="alert info"><div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div><div class="alert-body"><div class="alert-title">Ajoutez des chantiers et des prix pour voir les indicateurs</div></div></div>';return;}
-  const aM2=ter.filter(c=>c.budget_reel&&c.surface);
-  const m2M=aM2.length?Math.round(aM2.reduce((a,c)=>a+c.budget_reel/c.surface,0)/aM2.length):null;
-  const bTot=DB.chantiers.reduce((a,c)=>a+(c.budget_reel||c.budget_prevu||0),0);
-  const sTot=DB.chantiers.reduce((a,c)=>a+c.surface,0);
-  const byT={};DB.chantiers.forEach(c=>{byT[c.type]=(byT[c.type]||0)+1;});
-  const der=ter.filter(c=>c.budget_prevu&&c.budget_reel);
-  const dM=der.length?der.reduce((a,c)=>a+(c.budget_reel-c.budget_prevu)/c.budget_prevu,0)/der.length*100:null;
-  dc.innerHTML=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px">
-    <div class="kpi"><div class="kpi-label">Chantiers total</div><div class="kpi-val">${tot}</div></div>
-    <div class="kpi"><div class="kpi-label">Terminés</div><div class="kpi-val">${ter.length}</div></div>
-    <div class="kpi"><div class="kpi-label">Prix en bibliothèque</div><div class="kpi-val">${DB.prix.length}</div></div>
-    <div class="kpi"><div class="kpi-label">€/m² moyen</div><div class="kpi-val kpi-val-sm">${m2M?fmtN(m2M)+' €':'—'}</div></div>
-  </div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-    <div class="card"><div class="card-title">Répartition par type</div>${!tot?'<div style="color:var(--muted);font-size:12px;text-align:center;padding:20px">Aucun chantier</div>':Object.entries(byT).map(([k,n])=>{const t=TYPES[k]||{icon:'🏪',label:k};return `<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:12px;font-weight:600">${t.icon} ${t.label}</span><span style="font-size:11px;color:var(--muted)">${n} ch.</span></div><div class="progress-bar"><div class="progress-fill" style="width:${(n/tot)*100}%"></div></div></div>`;}).join('')}</div>
-    <div class="card"><div class="card-title">Résumé financier</div>
-      <div style="display:flex;flex-direction:column">
-        <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)"><span style="font-size:12px;color:var(--mid)">Volume total</span><span style="font-size:13px;font-weight:700">${fmt(bTot)}</span></div>
-        <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border)"><span style="font-size:12px;color:var(--mid)">Surface totale</span><span style="font-size:13px;font-weight:700">${fmtN(sTot)} m²</span></div>
-        ${dM!==null?`<div style="display:flex;justify-content:space-between;padding:9px 0"><span style="font-size:12px;color:var(--mid)">Dérive budgétaire moy.</span><span style="font-size:13px;font-weight:700;color:${dM>5?'var(--danger)':'var(--success)'}">${dM>0?'+':''}${dM.toFixed(1)}%</span></div>`:''}
+  const ch=DB.chantiers;
+  const tot=ch.length;
+  const actifs=ch.filter(c=>c.statut!=='chantier_termine').length;
+  const devisAFaire=ch.filter(c=>c.devis_fait!=='oui').length;
+  const devisEnvoyes=ch.filter(c=>c.devis_envoye==='oui').length;
+  const devisAcceptes=ch.filter(c=>c.statut==='devis_accepte').length;
+  const totalEstime=ch.reduce((a,c)=>a+(c.budget_prevu||0),0);
+  const totalDevis=ch.reduce((a,c)=>a+(c.montant_devis||0),0);
+  const txTransfo=devisEnvoyes>0?Math.round(devisAcceptes/devisEnvoyes*100):0;
+
+  // Subtitle
+  const sub=_get('dashboard-subtitle');
+  if(sub)sub.textContent=`${tot} chantier${tot!==1?'s':''} · Mis à jour le ${new Date().toLocaleDateString('fr-FR')}`;
+
+  // KPI GRID
+  const kpiGrid=_get('db-kpi-grid');
+  if(kpiGrid){
+    const kpis=[
+      {icon:'🏗',label:'Total chantiers',val:tot,color:'var(--primary)',bg:'var(--primary-light)'},
+      {icon:'⚡',label:'Chantiers actifs',val:actifs,color:'#0EA5E9',bg:'#F0F9FF'},
+      {icon:'📝',label:'Devis à faire',val:devisAFaire,color:'#EA580C',bg:'#FFF7ED'},
+      {icon:'📤',label:'Devis envoyés',val:devisEnvoyes,color:'#8B5CF6',bg:'#F5F3FF'},
+      {icon:'🤝',label:'Devis acceptés',val:devisAcceptes,color:'#16A34A',bg:'#F0FDF4'},
+      {icon:'💰',label:'Travaux estimés HT',val:totalEstime?fmtN(totalEstime)+' €':'—',color:'var(--ink)',bg:'var(--surface2)',big:true},
+      {icon:'📋',label:'Montant devis HT',val:totalDevis?fmtN(totalDevis)+' €':'—',color:'var(--ink)',bg:'var(--surface2)',big:true},
+      {icon:'🎯',label:'Taux transformation',val:txTransfo+'%',color:txTransfo>50?'#16A34A':'#EA580C',bg:txTransfo>50?'#F0FDF4':'#FFF7ED'},
+    ];
+    kpiGrid.style.gridTemplateColumns='repeat(4,1fr)';
+    kpiGrid.innerHTML=kpis.map(k=>`
+      <div class="card" style="padding:16px 18px;border-left:3px solid ${k.color};transition:all .15s" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="font-size:20px">${k.icon}</div>
+          <div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;text-align:right">${k.label}</div>
+        </div>
+        <div style="font-size:${k.big?'18px':'24px'};font-weight:800;color:${k.color};line-height:1">${k.val}</div>
+      </div>
+    `).join('');
+  }
+
+  // HISTOGRAMME PAR MOIS
+  renderChartMois(ch);
+
+  // STATUTS BARS
+  const statutsBars=_get('db-statuts-bars');
+  if(statutsBars){
+    const bySt={};
+    ch.forEach(c=>{bySt[c.statut]=(bySt[c.statut]||0)+1;});
+    const allStatuts=Object.keys(STATUT_LABELS);
+    const maxVal=Math.max(...allStatuts.map(s=>bySt[s]||0),1);
+    statutsBars.innerHTML=allStatuts.map(s=>{
+      const n=bySt[s]||0;
+      if(n===0)return '';
+      const pct=Math.round(n/maxVal*100);
+      return `<div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+          <span style="font-size:11px;font-weight:600;color:var(--ink2)">${STATUT_LABELS[s]}</span>
+          <span style="font-size:11px;color:var(--muted)">${n}</span>
+        </div>
+        <div style="height:7px;background:var(--border);border-radius:20px;overflow:hidden">
+          <div style="height:100%;width:${pct}%;background:${STATUT_COLORS[s]};border-radius:20px;transition:width .5s ease"></div>
+        </div>
+      </div>`;
+    }).filter(Boolean).join('') || '<div style="color:var(--muted);font-size:12px;padding:12px 0">Aucun chantier enregistré</div>';
+  }
+
+  // GRAPHIQUE FINANCIER
+  renderChartFinance(ch, totalEstime, totalDevis);
+
+  // ALERTES
+  renderAlertes(ch);
+
+  // TABLE
+  renderDashboardTable();
+}
+
+function renderChartMois(ch){
+  const canvas=_get('db-chart-mois');if(!canvas)return;
+  const now=new Date();
+  const labels=[];const data=[];
+  for(let i=5;i>=0;i--){
+    const d=new Date(now.getFullYear(),now.getMonth()-i,1);
+    labels.push(d.toLocaleDateString('fr-FR',{month:'short',year:'2-digit'}));
+    const mStr=d.toLocaleDateString('fr-FR');
+    const count=ch.filter(c=>{
+      if(!c.date)return false;
+      const parts=c.date.split('/');
+      if(parts.length<2)return false;
+      return parseInt(parts[1])===d.getMonth()+1 && parseInt(parts[2])===d.getFullYear();
+    }).length;
+    data.push(count);
+  }
+  if(_dbChartMois)_dbChartMois.destroy();
+  const ctx=canvas.getContext('2d');
+  _dbChartMois=new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels,
+      datasets:[{
+        label:'Chantiers',
+        data,
+        backgroundColor:'rgba(99,91,255,0.15)',
+        borderColor:'#635BFF',
+        borderWidth:2,
+        borderRadius:6,
+        borderSkipped:false
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11},color:'#8C93A3'}},
+        y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:11},color:'#8C93A3',stepSize:1},beginAtZero:true}
+      }
+    }
+  });
+}
+
+function renderChartFinance(ch, totalEstime, totalDevis){
+  const canvas=_get('db-chart-finance');if(!canvas)return;
+  const totalAccepte=ch.filter(c=>c.statut==='devis_accepte').reduce((a,c)=>a+(c.montant_devis||c.budget_prevu||0),0);
+  if(_dbChartFin)_dbChartFin.destroy();
+  const ctx=canvas.getContext('2d');
+  _dbChartFin=new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:['Estimé','Devis envoyés','Devis acceptés'],
+      datasets:[{
+        data:[totalEstime,totalDevis,totalAccepte],
+        backgroundColor:['rgba(99,91,255,0.15)','rgba(139,92,246,0.15)','rgba(22,163,74,0.15)'],
+        borderColor:['#635BFF','#8B5CF6','#16A34A'],
+        borderWidth:2,borderRadius:8,borderSkipped:false
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:11},color:'#8C93A3'}},
+        y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:11},color:'#8C93A3',callback:v=>v>=1000?(v/1000).toFixed(0)+'k €':v+' €'},beginAtZero:true}
+      }
+    }
+  });
+}
+
+function renderAlertes(ch){
+  const list=_get('db-alertes-list');if(!list)return;
+  const alertes=[];
+  const sansDevis=ch.filter(c=>c.devis_fait!=='oui'&&c.statut!=='nouveau'&&c.statut!=='releve_a_faire');
+  if(sansDevis.length)alertes.push({icon:'📝',color:'#EA580C',bg:'#FFF7ED',titre:`${sansDevis.length} chantier${sansDevis.length>1?'s':''} sans devis`,desc:'Chiffrage à effectuer'});
+  const sansMontant=ch.filter(c=>!c.budget_prevu&&c.statut!=='nouveau');
+  if(sansMontant.length)alertes.push({icon:'💰',color:'#B45309',bg:'#FFFBEB',titre:`${sansMontant.length} chantier${sansMontant.length>1?'s':''} sans montant estimatif`,desc:'Renseignez le budget prévisionnel'});
+  const releveEnAttente=ch.filter(c=>c.statut==='releve_a_faire');
+  if(releveEnAttente.length)alertes.push({icon:'📋',color:'#8B5CF6',bg:'#F5F3FF',titre:`${releveEnAttente.length} relevé${releveEnAttente.length>1?'s':''} en attente`,desc:'Planifier les relevés de métrés'});
+  const devisAEnvoyer=ch.filter(c=>c.devis_fait==='oui'&&c.devis_envoye!=='oui');
+  if(devisAEnvoyer.length)alertes.push({icon:'📤',color:'#0EA5E9',bg:'#F0F9FF',titre:`${devisAEnvoyer.length} devis à envoyer`,desc:'Devis prêts, en attente d\'envoi'});
+
+  if(!alertes.length){
+    list.innerHTML='<div style="text-align:center;padding:20px 0;color:var(--success)"><div style="font-size:28px;margin-bottom:8px">✅</div><div style="font-size:13px;font-weight:600">Tout est à jour</div><div style="font-size:11px;color:var(--muted);margin-top:4px">Aucune alerte en cours</div></div>';
+    return;
+  }
+  list.innerHTML=alertes.map(a=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;background:${a.bg};border:1px solid ${a.color}22;margin-bottom:8px">
+      <div style="font-size:20px;flex-shrink:0">${a.icon}</div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:${a.color}">${a.titre}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">${a.desc}</div>
       </div>
     </div>
-  </div>`;
+  `).join('');
 }
+
+function renderDashboardTable(){
+  const tbody=_get('db-table-body');
+  const empty=_get('db-table-empty');
+  const tableWrap=_get('db-table-wrap');
+  if(!tbody)return;
+  const search=(_val('db-search','')||'').toLowerCase();
+  const filterSt=_val('db-filter-statut','')||'';
+  let data=[...DB.chantiers].sort((a,b)=>(b.id||0)-(a.id||0));
+  if(search)data=data.filter(c=>(c.nom||'').toLowerCase().includes(search)||(c.client||'').toLowerCase().includes(search)||(c.code||'').toLowerCase().includes(search));
+  if(filterSt)data=data.filter(c=>c.statut===filterSt);
+
+  const isMobile=window.innerWidth<720;
+  const mobileCards=_get('db-mobile-cards');
+
+  if(!data.length){
+    if(tableWrap)tableWrap.style.display='none';
+    if(mobileCards)mobileCards.style.display='none';
+    if(empty)empty.style.display='block';
+    return;
+  }
+  if(empty)empty.style.display='none';
+
+  if(isMobile){
+    if(tableWrap)tableWrap.style.display='none';
+    if(mobileCards){mobileCards.style.display='flex';
+      mobileCards.innerHTML=data.map(ch=>{
+        const t=TYPES[ch.type]||{icon:'🏪',label:ch.type};
+        const sc=STATUT_COLORS[ch.statut]||'#6B7280';
+        const sl=STATUT_LABELS[ch.statut]||ch.statut;
+        return `<div class="card" style="padding:14px">
+          <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px">
+            <div><div style="font-size:10px;font-family:monospace;color:var(--muted)">${ch.code||'—'}</div><div style="font-size:14px;font-weight:700;margin-top:2px">${ch.nom}</div><div style="font-size:11px;color:var(--mid)">${ch.client||'—'}</div></div>
+            <span style="font-size:10px;font-weight:700;background:${sc}18;color:${sc};padding:3px 8px;border-radius:20px;white-space:nowrap">${sl}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+            <div style="font-size:11px;color:var(--muted)">${t.icon} ${t.label}</div>
+            <div style="font-size:11px;color:var(--muted)">${ch.surface||'?'} m²</div>
+            <div style="font-size:11px;font-weight:700">${ch.budget_prevu?fmtN(ch.budget_prevu)+' €':'—'}</div>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center;justify-content:space-between">
+            <div style="display:flex;gap:8px">
+              <span style="font-size:11px">Devis fait : <strong style="color:${ch.devis_fait==='oui'?'var(--success)':'var(--danger)'}">${ch.devis_fait==='oui'?'✅ Oui':'❌ Non'}</strong></span>
+              <span style="font-size:11px">Envoyé : <strong style="color:${ch.devis_envoye==='oui'?'var(--success)':'var(--danger)'}">${ch.devis_envoye==='oui'?'✅':'❌'}</strong></span>
+            </div>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-sm" onclick="showPage('init')" style="font-size:10px;padding:4px 8px">Ouvrir</button>
+              <button class="btn btn-ghost btn-sm" onclick="openModalChantier(${ch.id})" style="font-size:10px;padding:4px 8px">✏️</button>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  } else {
+    if(tableWrap)tableWrap.style.display='block';
+    if(mobileCards)mobileCards.style.display='none';
+    tbody.innerHTML=data.map((ch,i)=>{
+      const t=TYPES[ch.type]||{icon:'🏪',label:ch.type};
+      const sc=STATUT_COLORS[ch.statut]||'#6B7280';
+      const sl=STATUT_LABELS[ch.statut]||ch.statut;
+      const bg=i%2===0?'white':'var(--surface2)';
+      return `<tr style="background:${bg};border-bottom:1px solid var(--border)" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='${bg}'">
+        <td style="padding:10px 16px;font-family:monospace;font-size:11px;color:var(--muted);white-space:nowrap">${ch.code||'—'}</td>
+        <td style="padding:10px 12px;font-weight:600;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${ch.nom}</td>
+        <td style="padding:10px 12px;color:var(--mid);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${ch.client||'—'}</td>
+        <td style="padding:10px 12px;white-space:nowrap">${t.icon} <span style="font-size:11px;color:var(--mid)">${t.label}</span></td>
+        <td style="padding:10px 12px;text-align:right;font-weight:600">${ch.surface||'?'} m²</td>
+        <td style="padding:10px 12px;text-align:right;font-weight:700">${ch.budget_prevu?fmtN(ch.budget_prevu)+' €':'—'}</td>
+        <td style="padding:10px 12px;text-align:center"><span style="font-size:13px">${ch.devis_fait==='oui'?'✅':'❌'}</span></td>
+        <td style="padding:10px 12px;text-align:center"><span style="font-size:13px">${ch.devis_envoye==='oui'?'✅':'❌'}</span></td>
+        <td style="padding:10px 12px;white-space:nowrap"><span style="font-size:10px;font-weight:700;background:${sc}18;color:${sc};padding:3px 8px;border-radius:20px">${sl}</span></td>
+        <td style="padding:10px 12px;font-size:11px;color:var(--muted);white-space:nowrap">${ch.date_modif||ch.date||'—'}</td>
+        <td style="padding:10px 16px;text-align:right;white-space:nowrap">
+          <button class="btn btn-sm" onclick="showPage('init')" style="font-size:11px;padding:4px 10px;margin-right:4px">Ouvrir</button>
+          <button class="btn btn-ghost btn-sm" onclick="openModalChantier(${ch.id})" style="font-size:11px;padding:4px 8px" title="Modifier">✏️</button>
+          <button class="btn btn-ghost btn-sm" onclick="deleteChantier(${ch.id})" style="font-size:11px;padding:4px 8px;color:var(--danger)" title="Supprimer">🗑</button>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+}
+
 // ── UTILS & EXPORT ────────────────────────────────────────────
 function closeModal(id){const m=_get(id);if(m)m.style.display='none';}
+
 document.addEventListener('click',e=>{
   if(e.target.id==='modal-prix'||e.target.id==='modal-chantier')closeModal(e.target.id);
 });
@@ -3976,9 +4391,15 @@ function afficherApp(){
   chargerCompte();
   setTimeout(()=>{
     majActiviteOptions();
-    
+    // Atterrir sur le dashboard après connexion Drive
+    if(_driveToken){
+      showPage('dashboard');
+    } else {
+      // Attendre la connexion Drive puis aller au dashboard
+      showPage('dashboard');
+    }
   }, 300);
-  console.log('Lokoo V3.7 ✓ — Connecté:', _currentUser.email);
+  console.log('Lokoo V4.9 ✓ — Connecté:', _currentUser.email);
 }
 
 function switchLoginTab(tab){
@@ -4901,6 +5322,18 @@ function genererRapportDPGF(){
   .signature-box { padding:20px; border:1px solid #e5e7eb; border-radius:8px; min-height:100px; }
   .signature-label { font-size:11px; font-weight:600; color:#6b7280; margin-bottom:6px; }
   @media print { .page { padding:15mm 12mm; } }
+
+/* ═══ DASHBOARD RESPONSIVE ═══ */
+@media (max-width: 900px){
+  #db-kpi-grid{grid-template-columns:repeat(2,1fr)!important}
+}
+@media (max-width: 650px){
+  #db-kpi-grid{grid-template-columns:1fr 1fr!important}
+  .page#page-dashboard > div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
+  #db-table-wrap{display:none!important}
+  #db-mobile-cards{display:flex!important}
+}
+
 </style>
 </head>
 <body>
@@ -6225,8 +6658,8 @@ function connecterDrive(){
         if(av && u.picture){ av.src=u.picture; av.style.display='inline-block'; }
         if(nm) nm.textContent = u.given_name||u.name||'Drive';
         showToast('✅ Google Drive connecté !');
-        trouverOuCreerDossier();
-      }).catch(e=>{ showToast('✅ Drive connecté'); trouverOuCreerDossier(); });
+        trouverOuCreerDossier().then(()=>{ showPage('dashboard'); });
+      }).catch(e=>{ showToast('✅ Drive connecté'); trouverOuCreerDossier().then(()=>{ showPage('dashboard'); }); });
     }
   });
 
