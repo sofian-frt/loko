@@ -369,6 +369,8 @@ input[type=number]{-moz-appearance:textfield}
 
 @media(max-width:768px){
   .sidebar{transform:translateX(-100%)}
+  .sidebar-close-btn{display:block!important}
+  #profil-menu{position:fixed!important;top:60px!important;right:12px!important;left:12px!important;width:auto!important}
   .sidebar.mobile-open{transform:translateX(0)}
   .sidebar-overlay.open{display:block}
   .main{margin-left:0;padding-top:54px}
@@ -419,7 +421,7 @@ input[type=number]{-moz-appearance:textfield}
 
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar" style="display:none">
-  <div class="sidebar-header">
+  <div class="sidebar-header" style="display:flex;align-items:center;justify-content:space-between">
     <button onclick="showPage('init')" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:0;text-align:left;transition:opacity .15s" onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='1'">
       <div style="width:32px;height:32px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
         <span style="font-size:14px;font-weight:900;color:white;font-family:var(--font)">L</span>
@@ -429,6 +431,8 @@ input[type=number]{-moz-appearance:textfield}
         <div style="font-size:9px;color:var(--muted);font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-top:1px">Relevé & Chiffrage</div>
       </div>
     </button>
+    <!-- Bouton fermer sidebar — mobile uniquement -->
+    <button onclick="toggleMobileSidebar()" class="sidebar-close-btn" style="display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:var(--muted);font-size:20px;line-height:1" style="background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:var(--muted);font-size:20px;line-height:1">✕</button>
   </div>
 
   <div class="nav-group">
@@ -654,7 +658,7 @@ input[type=number]{-moz-appearance:textfield}
     <button id="btn-profil" onclick="toggleProfilMenu()" style="width:34px;height:34px;border-radius:50%;background:#635BFF;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s;box-shadow:0 2px 6px rgba(99,91,255,.3)" title="Profil & Paramètres">
       <span id="profil-initiales" style="font-size:12px;font-weight:700;color:white">?</span>
     </button>
-    <div id="profil-menu" style="display:none;position:absolute;top:calc(100% + 8px);right:0;background:white;border:1.5px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);min-width:220px;z-index:500;overflow:hidden">
+    <div id="profil-menu" style="display:none;position:absolute;top:calc(100% + 8px);right:0;background:white;border:1.5px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);min-width:220px;z-index:1000;overflow:hidden">
       <div id="profil-menu-header" style="padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg)">
         <div id="profil-menu-nom" style="font-size:13px;font-weight:700;color:var(--ink)">Mon compte</div>
         <div id="profil-menu-entreprise" style="font-size:11px;color:var(--muted);margin-top:2px">Non configuré</div>
@@ -4667,9 +4671,11 @@ function toggleProfilMenu(){
 
 document.addEventListener('click', function(e){
   const btn = document.getElementById('btn-profil');
+  const btnM = document.getElementById('mobile-btn-compte');
   const menu = document.getElementById('profil-menu');
-  if(menu && btn && !btn.contains(e.target) && !menu.contains(e.target)){
-    menu.style.display='none';
+  if(menu && !menu.contains(e.target)){
+    const clickedTrigger = (btn && btn.contains(e.target)) || (btnM && btnM.contains(e.target));
+    if(!clickedTrigger) menu.style.display='none';
   }
 });
 
@@ -4846,8 +4852,6 @@ function afficherApp(){
   if(mt) mt.style.removeProperty('display');
   const fab = document.querySelector('.fab');
   if(fab) fab.style.removeProperty('display');
-  const fab = document.querySelector('.fab');
-  if(fab) fab.style.display = '';
   majLogoSidebar();
   genererCodeChantierAvecAttente();
   if(_userData){
