@@ -4220,9 +4220,9 @@ function afficherApp(){
   document.getElementById('app-main').style.display = 'flex';
   document.getElementById('sidebar').style.display = '';
   document.getElementById('main-topbar').style.display = '';
-  // Réafficher mobile topbar
-  const mobileTopbar = document.querySelector('.mobile-topbar');
-  if(mobileTopbar) mobileTopbar.style.display = 'flex';
+  // Réafficher mobile topbar seulement sur mobile
+  const mobileTopbar = document.getElementById('mobile-topbar-bar');
+  if(mobileTopbar) mobileTopbar.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
   majLogoSidebar();
   // Générer le code chantier — attendre que Drive soit prêt
   genererCodeChantierAvecAttente();
