@@ -4061,21 +4061,21 @@ function afficherApp(){
   document.getElementById('sidebar').style.display = '';
   document.getElementById('main-topbar').style.display = '';
   majLogoSidebar();
-  // Si Drive déjà connecté, générer le code chantier
+  // Générer le code chantier (Drive ou pas)
   setTimeout(async()=>{
-    if(_driveToken && _driveFolderId){
-      if(_codesExistantsDrive === null) await chargerCodesDrive();
+    try{
+      if(typeof _driveToken !== 'undefined' && _driveToken && typeof _driveFolderId !== 'undefined' && _driveFolderId){
+        if(_codesExistantsDrive === null) await chargerCodesDrive();
+      }
       await genererCodeChantier();
-    } else {
-      genererCodeChantier(); // affiche le message "Connectez Drive"
-    }
-  }, 500);
+    }catch(e){ console.error('genererCodeChantier error:', e); }
+  }, 800);
   // Charger les données depuis Firestore
   if(_userData){
     appliquerDonneesUtilisateur(_userData);
   }
   // Init app
-  genererCodeChantier();
+  // genererCodeChantier appelé dans afficherApp() après Firebase
   renderRecapBanner();
   // Préremplir date du jour
   const dateEl = document.getElementById('proj-date');
