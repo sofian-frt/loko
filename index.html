@@ -12,49 +12,44 @@
 <script src="https://accounts.google.com/gsi/client" onload="console.log('GSI chargé ✓')" onerror="console.error('GSI ERREUR de chargement')"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* Orthographe native */
-input[spellcheck="true"], textarea[spellcheck="true"] {
-  -webkit-spell-checking: yes;
-  spell-checking: yes;
-}
 /* ═══ RESET & VARIABLES — Pennylane DA ═══ */
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#FFFFFF;
+  --bg:#F7F8FA;
   --surface:#FFFFFF;
-  --surface2:#F6F8FA;
+  --surface2:#F4F5F7;
   --border:#E8EAED;
-  --border2:#CDD0D5;
-  --ink:#0A0A0B;
-  --ink2:#30313D;
-  --mid:#5C6070;
-  --muted:#A3AABF;
-  --primary:#635BFF;
-  --primary-dark:#4F46E5;
-  --primary-light:#F5F4FF;
-  --primary-border:#C7C4FF;
+  --border2:#D1D5DB;
+  --ink:#1A1F36;
+  --ink2:#374151;
+  --mid:#6B7280;
+  --muted:#9CA3AF;
+  --primary:#00C896;
+  --primary-dark:#00A87E;
+  --primary-light:#E6FAF5;
+  --primary-border:#A7F3D8;
   --cyan:#0EA5E9;
   --cyan-light:#F0F9FF;
-  --success:#00875A;
-  --success-light:#E3FCEF;
-  --warn:#B45309;
+  --success:#00C896;
+  --success-light:#E6FAF5;
+  --warn:#F59E0B;
   --warn-light:#FFFBEB;
-  --danger:#C0392B;
+  --danger:#EF4444;
   --danger-light:#FEF2F2;
-  --orange:#EA580C;
+  --orange:#F97316;
   --orange-light:#FFF7ED;
   --shadow-sm:0 1px 3px rgba(0,0,0,.04),0 1px 2px rgba(0,0,0,.03);
   --shadow:0 2px 8px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);
   --shadow-md:0 4px 16px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.04);
   --shadow-lg:0 12px 32px rgba(0,0,0,.1),0 4px 8px rgba(0,0,0,.04);
-  --radius-sm:6px;
-  --radius:8px;
-  --radius-lg:12px;
-  --radius-xl:16px;
-  --font:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Inter',system-ui,sans-serif;
+  --radius-sm:8px;
+  --radius:10px;
+  --radius-lg:14px;
+  --radius-xl:18px;
+  --font:'Inter',-apple-system,sans-serif;
 }
-html{font-size:15px;scroll-behavior:smooth;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
-body{background:#FFFFFF;color:var(--ink);font-family:var(--font);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased}
+html{font-size:15px;scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);min-height:100vh;line-height:1.5}
 input,select,textarea,button{font-family:var(--font)}
 input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 input[type=number]{-moz-appearance:textfield}
@@ -62,8 +57,8 @@ input[type=number]{-moz-appearance:textfield}
 /* ═══ LAYOUT ═══ */
 .app{display:flex;min-height:100vh}
 .sidebar{
-  width:220px;flex-shrink:0;background:#FFFFFF;
-  border-right:1px solid #E8EAED;
+  width:230px;flex-shrink:0;background:var(--surface);
+  border-right:1px solid var(--border);
   display:flex;flex-direction:column;
   position:fixed;top:0;left:0;height:100vh;
   z-index:200;overflow-y:auto;
@@ -86,7 +81,7 @@ input[type=number]{-moz-appearance:textfield}
   width:100%;text-align:left;transition:all .15s;
   margin-bottom:2px;position:relative;
 }
-.nav-item:hover{background:#F6F8FA;color:#0A0A0B}
+.nav-item:hover{background:var(--bg);color:var(--ink)}
 .nav-item.active{background:var(--primary-light);color:var(--primary-dark);font-weight:600}
 .nav-item.active .nav-icon{color:var(--primary)}
 .nav-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0;color:var(--muted)}
@@ -107,13 +102,14 @@ input[type=number]{-moz-appearance:textfield}
   padding:3px 10px;border-radius:20px;display:inline-block;
 }
 /* MAIN */
-.main{margin-left:220px;flex:1;min-height:100vh;display:flex;flex-direction:column;}
+.main{margin-left:230px;flex:1;min-height:100vh;display:flex;flex-direction:column;}
 /* TOPBAR */
 .topbar{
   position:sticky;top:0;z-index:200;
-  background:#FFFFFF;
-  border-bottom:1px solid #E8EAED;
-  padding:0 24px;height:56px;
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:0 28px;height:58px;
   display:flex;align-items:center;justify-content:space-between;
 }
 .topbar-left{display:flex;align-items:center;gap:12px}
@@ -135,15 +131,15 @@ input[type=number]{-moz-appearance:textfield}
 /* ═══ BUTTONS ═══ */
 .btn{
   display:inline-flex;align-items:center;gap:6px;
-  padding:9px 20px;border-radius:6px;
+  padding:9px 18px;border-radius:var(--radius);
   font-size:13px;font-weight:600;cursor:pointer;
-  border:1.5px solid transparent;transition:all .12s;
-  line-height:1;white-space:nowrap;letter-spacing:.01em;
+  border:1.5px solid transparent;transition:all .15s;
+  line-height:1;white-space:nowrap;
 }
 .btn-sm{padding:6px 12px;font-size:12px;border-radius:var(--radius-sm)}
 .btn-lg{padding:12px 24px;font-size:14px;border-radius:var(--radius-lg)}
-.btn-primary{background:var(--primary);color:white;border-color:var(--primary);box-shadow:0 2px 5px rgba(99,91,255,.3);letter-spacing:.01em}
-.btn-primary:hover{background:#5850E8;border-color:#5850E8;box-shadow:0 4px 14px rgba(99,91,255,.4)}
+.btn-primary{background:var(--primary);color:white;border-color:var(--primary)}
+.btn-primary:hover{background:var(--primary-dark);border-color:var(--primary-dark)}
 .btn-secondary{background:white;color:var(--ink2);border-color:var(--border2)}
 .btn-secondary:hover{background:var(--bg);border-color:var(--border2)}
 .btn-ghost{background:none;color:var(--mid);border-color:transparent}
@@ -155,21 +151,21 @@ input[type=number]{-moz-appearance:textfield}
 
 /* ═══ PAGE HEADER ═══ */
 .page-header{margin-bottom:28px}
-.page-header h2{font-size:26px;font-weight:800;color:#0A0A0B;letter-spacing:-.8px;margin-bottom:8px;line-height:1.15}
+.page-header h2{font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.4px;margin-bottom:4px}
 .page-header p{font-size:13px;color:var(--mid);line-height:1.6}
 .page-header-actions{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
 
 /* ═══ CARDS ═══ */
 .card{
-  background:#FFFFFF;border:1px solid #E8EAED;
-  border-radius:8px;padding:20px;
-  box-shadow:0 1px 2px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.03);
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:24px;
+  box-shadow:var(--shadow-sm);
 }
 .card-sm{padding:16px;border-radius:var(--radius)}
 .card-flat{box-shadow:none}
 .card-title{
-  font-size:11px;font-weight:600;letter-spacing:.08em;
-  text-transform:uppercase;color:#A3AABF;margin-bottom:16px;
+  font-size:11px;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:16px;
 }
 .section-title{
   font-size:13px;font-weight:600;color:var(--ink);
@@ -191,27 +187,27 @@ input[type=number]{-moz-appearance:textfield}
 .form-label{font-size:12px;font-weight:500;color:var(--ink2)}
 .form-label .req{color:var(--danger)}
 .form-input{
-  padding:10px 14px;border:1.5px solid #E0E3E8;
-  border-radius:6px;font-size:14px;
-  color:#0A0A0B;background:#FFFFFF;outline:none;
-  transition:border-color .12s,box-shadow .12s;width:100%;
+  padding:9px 13px;border:1.5px solid var(--border2);
+  border-radius:var(--radius-sm);font-size:13px;
+  color:var(--ink);background:white;outline:none;
+  transition:border-color .15s,box-shadow .15s;width:100%;
 }
-.form-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,91,255,.15)}
+.form-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,200,150,.12)}
 .form-input.filled{border-color:var(--primary);background:var(--primary-light)}
 .form-select{
-  padding:10px 36px 10px 14px;border:1.5px solid #E0E3E8;
-  border-radius:6px;font-size:14px;
+  padding:9px 36px 9px 13px;border:1.5px solid var(--border2);
+  border-radius:var(--radius-sm);font-size:13px;
   color:var(--ink);background:white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;
   appearance:none;outline:none;cursor:pointer;width:100%;transition:border-color .15s;
 }
-.form-select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,91,255,.15)}
+.form-select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,200,150,.12)}
 .form-textarea{
   padding:9px 13px;border:1.5px solid var(--border2);
   border-radius:var(--radius-sm);font-size:13px;
   color:var(--ink);background:white;outline:none;
   resize:vertical;min-height:80px;width:100%;transition:border-color .15s;
 }
-.form-textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,91,255,.15)}
+.form-textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,200,150,.12)}
 .form-hint{font-size:11px;color:var(--muted)}
 .form-section{margin-bottom:24px}
 .form-section-title{
@@ -277,8 +273,8 @@ input[type=number]{-moz-appearance:textfield}
 .badge-muted{background:var(--bg);color:var(--mid);border:1px solid var(--border)}
 
 /* ═══ TABS ═══ */
-.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:24px;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
-.tab{padding:10px 14px;font-size:12px;font-weight:500;color:var(--mid);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .15s;font-family:var(--font);flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:24px;gap:2px;overflow-x:auto}
+.tab{padding:10px 18px;font-size:13px;font-weight:500;color:var(--mid);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .15s;font-family:var(--font)}
 .tab:hover{color:var(--ink)}
 .tab.active{color:var(--primary-dark);border-bottom-color:var(--primary);font-weight:600}
 
@@ -368,83 +364,18 @@ input[type=number]{-moz-appearance:textfield}
 .fab{display:none;position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--primary);color:white;font-size:24px;border:none;cursor:pointer;box-shadow:var(--shadow-lg);z-index:150;align-items:center;justify-content:center}
 
 @media(max-width:768px){
-  /* Sidebar */
-  .sidebar{
-    transform:translateX(-100%);
-    transition:transform .25s cubic-bezier(.4,0,.2,1);
-    z-index:400;
-    width:280px;
-  }
-  .sidebar.mobile-open{transform:translateX(0);box-shadow:0 0 40px rgba(0,0,0,.2)}
-  .sidebar-overlay{transition:opacity .25s}
-  .sidebar-overlay.open{display:block;opacity:1}
-
-  /* Layout */
-  .main{margin-left:0;padding-top:60px}
-  .content{padding:16px 14px}
-  .topbar{display:none}
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.mobile-open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
+  .main{margin-left:0;padding-top:54px}
   .mobile-topbar{display:flex}
-
-  /* Grilles */
+  .content{padding:16px}
   .g2,.g3,.g4,.g-auto{grid-template-columns:1fr}
   .form-row,.form-row-3{grid-template-columns:1fr}
-  .form-row-1{grid-template-columns:1fr}
+  .fab{display:flex}
+  .topbar{display:none}
   .radio-cards{grid-template-columns:repeat(2,1fr)}
   .check-grid{grid-template-columns:1fr 1fr}
-
-  /* Cards */
-  .card{padding:16px}
-  .card-title{font-size:13px}
-  .page-header h2{font-size:20px}
-  .page-header p{font-size:12px}
-
-  /* Boutons actions */
-  .page-header-actions{flex-direction:column;gap:12px}
-  .page-header-actions .btn{width:100%;justify-content:center}
-
-  /* FAB */
-  .fab{display:flex}
-
-  /* Recap banner */
-  #recap-banner .g2{grid-template-columns:1fr}
-
-  /* Topbar mobile */
-  .mobile-topbar{
-    height:56px;
-    padding:0 16px;
-    background:#FFFFFF;
-    border-bottom:1px solid #E6E8EB;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    position:fixed;
-    top:0;left:0;right:0;
-    z-index:300;
-    gap:12px;
-  }
-
-  /* Inputs plus grands sur mobile */
-  .form-input,.form-select,.form-textarea{
-    font-size:16px !important; /* évite le zoom iOS */
-    padding:11px 14px;
-  }
-
-  /* Navigation sidebar mobile */
-  .nav-item{
-    padding:13px 20px;
-    font-size:14px;
-  }
-  .nav-label{
-    padding:16px 20px 6px;
-    font-size:10px;
-  }
-
-  /* Tabs */
-  .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;white-space:nowrap}
-  .tab{flex-shrink:0;font-size:12px;padding:7px 14px}
-
-  /* Recap banner mobile */
-  #recap-banner{margin-bottom:14px}
 }
 @media print{
   .sidebar,.topbar,.mobile-topbar,.fab,.topbar-actions{display:none!important}
@@ -455,24 +386,16 @@ input[type=number]{-moz-appearance:textfield}
 </style>
 </head>
 <body>
+
 <!-- MOBILE TOPBAR -->
-<div class="mobile-topbar" id="mobile-topbar-bar" style="display:none">
-  <button class="hamburger" onclick="toggleMobileSidebar()" aria-label="Menu" style="width:36px;height:36px;border-radius:8px;background:none;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink)">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+<div class="mobile-topbar">
+  <button class="hamburger" onclick="toggleMobileSidebar()" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
     </svg>
   </button>
-  <!-- Logo centré cliquable -->
-  <button onclick="showPage('init')" style="position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:none;border:none;cursor:pointer;padding:4px 10px;border-radius:10px">
-    <div style="width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(99,91,255,.4)">
-      <span style="font-size:18px;font-weight:900;color:white;font-family:var(--font)">L</span>
-    </div>
-    <span style="font-size:20px;font-weight:900;color:var(--ink);letter-spacing:-0.5px">lokoo<span style="color:var(--primary)">.io</span></span>
-  </button>
-  <!-- Profil -->
-  <button id="mobile-profil-btn" ontouchstart="event.preventDefault();toggleProfilMenu()" onclick="toggleProfilMenu()" style="width:40px;height:40px;border-radius:50%;background:var(--primary);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:auto;-webkit-tap-highlight-color:transparent;touch-action:manipulation;box-shadow:0 2px 8px rgba(99,91,255,.3)">
-    <span id="mobile-profil-initiales" style="font-size:11px;font-weight:700;color:white;pointer-events:none">?</span>
-  </button>
+  <div class="logo-text" id="mobile-page-title">Lokoo.io</div>
+
 </div>
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileSidebar()" style="display:none"></div>
 
@@ -480,7 +403,7 @@ input[type=number]{-moz-appearance:textfield}
 <aside class="sidebar" id="sidebar" style="display:none">
   <div class="sidebar-header">
     <button onclick="showPage('init')" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:0;text-align:left;transition:opacity .15s" onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='1'">
-      <div style="width:32px;height:32px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(99,91,255,.3)">
+      <div style="width:32px;height:32px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
         <span style="font-size:14px;font-weight:900;color:white;font-family:var(--font)">L</span>
       </div>
       <div>
@@ -495,9 +418,6 @@ input[type=number]{-moz-appearance:textfield}
     <button class="nav-item active" onclick="showPage('init')" id="nav-init">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><path d="M9 12h6M9 16h4"/></svg></span> Initialisation
     </button>
-    <button class="nav-item" onclick="showPage('analyse-ia')" id="nav-analyse-ia">
-      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg></span> Analyse IA
-    </button>
     <button class="nav-item" onclick="showPage('releves-existant')" id="nav-releves-existant">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 21L21 3M3 21h7M3 21v-7"/></svg></span> Relevés & Métrés
       <span class="badge badge-muted" id="nb-pieces-existant" style="margin-left:auto">0</span>
@@ -505,8 +425,10 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 
   <div class="nav-group">
-    <span class="nav-label">Dimensionnement</span>
-
+    <span class="nav-label">Technique</span>
+    <button class="nav-item" onclick="showPage('recap')" id="nav-recap">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span> Récapitulatif
+    </button>
 
     <button class="nav-item" onclick="showPage('eclairage')" id="nav-eclairage">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 014.9 11.9c-.6.6-1.9 2.1-1.9 3.1v.1H9v-.1c0-1-.8-2.2-1.9-3.1A7 7 0 0112 2z"/></svg></span> Éclairage
@@ -523,14 +445,8 @@ input[type=number]{-moz-appearance:textfield}
     <button class="nav-item" onclick="showPage('clim')" id="nav-clim">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1"/></svg></span> Climatisation
     </button>
-    <button class="nav-item" onclick="showPage('securite-incendie')" id="nav-securite-incendie">
-      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2c0 0-7 6-7 12a7 7 0 0014 0c0-6-7-12-7-12z"/><path d="M12 8v4M12 16h.01"/></svg></span> Sécurité incendie
-    </button>
-    <button class="nav-item" onclick="showPage('accessibilite-pmr')" id="nav-accessibilite-pmr">
-      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><path d="M12 7v7M9 14l-2 4h10l-2-4"/><path d="M9 10h6"/></svg></span> Accessibilité PMR
-    </button>
-    <button class="nav-item" onclick="showPage('facade-enseigne')" id="nav-facade-enseigne">
-      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="13" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></span> Façade & Enseigne
+    <button class="nav-item" onclick="showPage('facade')" id="nav-facade">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg></span> Façade & Études
     </button>
   </div>
 
@@ -540,7 +456,7 @@ input[type=number]{-moz-appearance:textfield}
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Pré-chiffrage
     </button>
     <button class="nav-item" onclick="showPage('chiffrage')" id="nav-chiffrage">
-      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></span> DPGF
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></span> Chiffrage détaillé
     </button>
     <button class="nav-item" onclick="showPage('synthese')" id="nav-synthese">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span> Synthèse
@@ -567,45 +483,19 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 
   <div class="sidebar-footer">
-    <div id="sidebar-suivi-admin" style="display:none;margin-bottom:8px;padding:8px 10px;background:var(--bg);border-radius:6px;border:1px solid var(--border)">
-      <div style="display:flex;justify-content:space-between;gap:8px">
-        <div>
-          <div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em">Créé le</div>
-          <div id="sidebar-suivi-creation" style="font-size:10px;font-weight:600;color:var(--ink2)">—</div>
-        </div>
-        <div>
-          <div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em">Modifié</div>
-          <div id="sidebar-suivi-modif" style="font-size:10px;font-weight:600;color:var(--ink2)">—</div>
-        </div>
-      </div>
-    </div>
-    <!-- Suivi admin -->
-    <div id="sidebar-suivi-admin" style="display:none;margin-bottom:8px;padding:8px 10px;background:var(--bg);border-radius:6px;border:1px solid var(--border)">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
-        <div>
-          <div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em">Créé le</div>
-          <div id="sidebar-suivi-creation" style="font-size:10px;font-weight:600;color:var(--ink2)">—</div>
-        </div>
-        <div>
-          <div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em">Modifié le</div>
-          <div id="sidebar-suivi-modif" style="font-size:10px;font-weight:600;color:var(--ink2)">—</div>
-        </div>
-      </div>
-    </div>
-
     <div style="display:flex;align-items:center;justify-content:space-between">
       <span class="version-tag">V1.3 · Stable</span>
-      <button class="btn btn-sm btn-ghost" onclick="sauvegarderDrive()" style="font-size:11px;gap:4px"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></button>
+      <button class="btn btn-sm btn-ghost" onclick="exportPrint()" style="font-size:11px"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button>
     </div>
   </div>
 </aside>
 
 <!-- FAB mobile synthèse -->
-
+<button class="fab" onclick="showPage('synthese')" title="Synthèse"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></button>
 
 
 <!-- ══ PAGE LOGIN ══ -->
-<div id="page-login" style="display:flex;align-items:flex-start;justify-content:center;min-height:100vh;background:var(--bg);padding:40px 20px 20px">
+<div id="page-login" style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bg);padding:20px">
   <div style="width:100%;max-width:420px">
     <!-- Logo -->
     <div style="text-align:center;margin-bottom:32px">
@@ -719,9 +609,9 @@ input[type=number]{-moz-appearance:textfield}
       <span id="drive-username" style="font-size:11px;color:var(--mid)"></span>
       <button class="btn btn-ghost btn-sm" onclick="deconnecterDrive()" style="padding:3px 6px;font-size:10px">✕</button>
     </div>
-    <button class="btn btn-ghost btn-sm" onclick="sauvegarderDrive()" style="gap:6px">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-      Sauvegarder
+    <button class="btn btn-ghost btn-sm" onclick="exportPrint()" style="gap:6px">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Imprimer
     </button>
     <button class="btn btn-ghost btn-sm" onclick="ouvrirListeDrive()" style="gap:6px">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -737,13 +627,31 @@ input[type=number]{-moz-appearance:textfield}
     </button>
   </div>
   <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="chargerDossier(this)">
-
   <!-- PROFIL -->
   <div style="position:relative">
-    <button id="btn-profil" onclick="toggleProfilMenu()" style="width:34px;height:34px;border-radius:50%;background:var(--primary);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s;box-shadow:0 2px 6px rgba(99,91,255,.3)" title="Profil & Paramètres">
+    <button id="btn-profil" onclick="toggleProfilMenu()" style="width:34px;height:34px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s" title="Profil & Paramètres">
       <span id="profil-initiales" style="font-size:12px;font-weight:700;color:white">?</span>
     </button>
-
+    <div id="profil-menu" style="display:none;position:absolute;top:calc(100% + 8px);right:0;background:white;border:1.5px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);min-width:220px;z-index:500;overflow:hidden">
+      <div id="profil-menu-header" style="padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg)">
+        <div id="profil-menu-nom" style="font-size:13px;font-weight:700;color:var(--ink)">Mon compte</div>
+        <div id="profil-menu-entreprise" style="font-size:11px;color:var(--muted);margin-top:2px">Non configuré</div>
+      </div>
+      <div style="padding:6px">
+        <button onclick="showPage('compte');toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Mon compte
+        </button>
+        <button onclick="showPage('compte');document.getElementById('tab-entreprise').click();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+          Mon entreprise
+        </button>
+        <button onclick="showPage('compte');document.getElementById('tab-preferences').click();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          Préférences
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 <div class="content">
@@ -756,11 +664,13 @@ input[type=number]{-moz-appearance:textfield}
       <h2>Initialisation du projet</h2>
       <p>Renseignez les informations générales avant de commencer les relevés sur site</p>
     </div>
-
+    <button class="btn btn-primary" onclick="showPage('releves')">
+      Commencer les relevés →
+    </button>
   </div>
 
   <!-- RÉCAPITULATIF DYNAMIQUE -->
-  <div id="recap-banner" style="margin-bottom:20px"></div>
+  <div id="recap-banner" style="display:none;margin-bottom:20px"></div>
 
   <div class="g2" style="align-items:start;gap:20px">
     <!-- COL GAUCHE -->
@@ -790,47 +700,6 @@ input[type=number]{-moz-appearance:textfield}
 
         </div>
 
-        <!-- LIGNE 1b : Nom chantier + Statut -->
-        <div class="form-row" style="margin-bottom:14px">
-          <div class="form-group">
-            <label class="form-label">Nom du chantier</label>
-            <input id="proj-nom-chantier" spellcheck="true" class="form-input" placeholder="" oninput="corrigerTexte(this);updateProjectHeader()">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Statut du dossier</label>
-            <select id="proj-statut" class="form-select" onchange="updateProjectHeader()">
-              <option value="nouveau">Nouveau</option>
-              <option value="releve-a-realiser">Relevé à réaliser</option>
-              <option value="releve-effectue">Relevé effectué</option>
-              <option value="etude-en-cours">Étude en cours</option>
-              <option value="chiffrage-en-cours">Chiffrage en cours</option>
-              <option value="devis-envoye">Devis envoyé</option>
-              <option value="devis-accepte">Devis accepté</option>
-              <option value="travaux-en-cours">Travaux en cours</option>
-              <option value="chantier-termine">Chantier terminé</option>
-              <option value="archive">Dossier archivé</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- LIGNE 1c : Contact principal -->
-        <div class="form-row" style="margin-bottom:14px">
-          <div class="form-group">
-            <label class="form-label">Contact principal</label>
-            <input id="proj-contact" spellcheck="true" class="form-input" placeholder="" oninput="corrigerNomPropre(this)">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Téléphone</label>
-            <input id="proj-tel" class="form-input" placeholder="" type="tel">
-          </div>
-        </div>
-        <div class="form-row" style="margin-bottom:14px">
-          <div class="form-group" style="grid-column:1/-1">
-            <label class="form-label">Email</label>
-            <input id="proj-email" class="form-input" placeholder="" type="email">
-          </div>
-        </div>
-
         <!-- LIGNE 2 : SIREN + Client -->
         <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
@@ -845,7 +714,7 @@ input[type=number]{-moz-appearance:textfield}
           <div class="form-group">
             <label class="form-label">Client <span class="req">*</span></label>
             <div style="display:flex;gap:6px">
-              <input id="proj-client" spellcheck="true" class="form-input" placeholder="" oninput="corrigerNomPropre(this);updateProjectHeader()" style="flex:1">
+              <input id="proj-client" class="form-input" placeholder="" oninput="updateProjectHeader()" style="flex:1">
               <button type="button" onclick="ouvrirHistoriqueClients()" class="btn btn-ghost btn-sm" title="Historique clients" style="flex-shrink:0;padding:8px 10px">
                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </button>
@@ -893,7 +762,7 @@ input[type=number]{-moz-appearance:textfield}
           </div>
           <div class="form-group">
             <label class="form-label">Releveur / Chargé d'affaires</label>
-            <input id="proj-releveur" spellcheck="true" class="form-input" placeholder="" oninput="corrigerNomPropre(this);updateProjectHeader()">
+            <input id="proj-releveur" class="form-input" placeholder="" oninput="updateProjectHeader()">
           </div>
         </div>
 
@@ -901,20 +770,28 @@ input[type=number]{-moz-appearance:textfield}
         <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
             <label class="form-label">Type de local</label>
-            <select id="proj-type-local" class="form-select" onchange="updateProjectHeader();majActiviteOptions()">
+            <select id="proj-type-local" class="form-select" onchange="updateProjectHeader()">
               <option value="restaurant">Restaurant</option>
+              <option value="commerce">Commerce</option>
+              <option value="bureau">Bureaux</option>
+              <option value="pharmacie">Pharmacie</option>
               <option value="boulangerie">Boulangerie</option>
-              <option value="coffee-shop">Coffee Shop</option>
+              <option value="sport">Salle de sport</option>
+              <option value="entrepot">Entrepôt</option>
+              <option value="hotel">Hôtel</option>
+              <option value="cabinet">Cabinet médical</option>
+              <option value="erp">ERP</option>
+              <option value="cafe">Café / Coffee shop</option>
+              <option value="salon">Salon de coiffure</option>
+              <option value="boutique">Boutique</option>
+              <option value="institut">Institut de beauté</option>
+              <option value="autre">Autre</option>
             </select>
           </div>
           <div class="form-group">
             <label class="form-label">Activité prévue</label>
-            <select id="proj-activite" spellcheck="true" class="form-select" onchange="updateProjectHeader();majActiviteAutre()">
-              <option value="">— Sélectionner —</option>
-            </select>
-            <div id="proj-activite-autre-wrap" style="display:none;margin-top:6px">
-              <input id="proj-activite-autre" spellcheck="true" class="form-input" placeholder="Précisez l'activité" oninput="corrigerTexte(this);updateProjectHeader()">
-            </div>
+            <input id="proj-activite" class="form-input" placeholder=""
+              oninput="updateProjectHeader()">
           </div>
         </div>
 
@@ -948,7 +825,7 @@ input[type=number]{-moz-appearance:textfield}
         <!-- LIGNE 7 : Observations enrichies -->
         <div class="form-group" style="margin-bottom:0">
           <label class="form-label">Observations générales</label>
-          <textarea id="proj-notes" spellcheck="true" class="form-textarea" placeholder="" style="min-height:80px" oninput="corrigerTexte(this)"></textarea>
+          <textarea id="proj-notes" class="form-textarea" placeholder="" style="min-height:80px"></textarea>
           <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
             <button type="button" onclick="document.getElementById('obs-photos-input').click()" class="btn btn-ghost btn-sm" style="gap:5px;font-size:11px">
               <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
@@ -979,10 +856,6 @@ input[type=number]{-moz-appearance:textfield}
           </div>
         </div>
       </div>
-
-
-
-
 
       <!-- MODAL HISTORIQUE CLIENTS -->
       <div id="modal-clients" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:600;align-items:center;justify-content:center">
@@ -1137,83 +1010,6 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
-
-<!-- ══ PAGE ANALYSE IA ══ -->
-<div class="page" id="page-analyse-ia">
-  <div class="page-header-actions">
-    <div class="page-header">
-      <h2>Analyse IA & Documents</h2>
-      <p>Gérez les documents du dossier · L'IA extrait et résume automatiquement les informations clés</p>
-    </div>
-    <input id="ia-analyse-key" type="password" class="form-input" placeholder="Clé API sk-ant-..."
-      style="font-family:monospace;font-size:11px;width:220px"
-      oninput="localStorage.setItem('lokoo_api_key',this.value)">
-  </div>
-
-  <div class="g2" style="gap:20px;align-items:start">
-    <!-- COLONNE GAUCHE : Documents -->
-    <div>
-      <div class="card" style="margin-bottom:16px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div class="card-title" style="margin-bottom:0">Documents du dossier</div>
-          <button onclick="resumerTousDocuments()" class="btn btn-secondary btn-sm" style="gap:6px">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-            Résumer tous
-          </button>
-        </div>
-        <div id="docs-grid" style="display:flex;flex-direction:column;gap:6px"></div>
-        <input type="file" id="doc-upload-input" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" style="display:none" onchange="ajouterDocuments(this)">
-      </div>
-
-      <!-- Résumé global -->
-      <div id="resumé-global-card" class="card" style="display:none;border:1.5px solid var(--primary-border);background:var(--primary-light)">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <div class="card-title" style="color:var(--primary-dark);margin-bottom:0">Résumé global</div>
-          <button onclick="appliquerResultatsIA()" class="btn btn-primary btn-sm">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            Appliquer au dossier
-          </button>
-        </div>
-        <div id="resumé-global-content" style="font-size:13px;line-height:1.8;color:var(--ink)"></div>
-      </div>
-    </div>
-
-    <!-- COLONNE DROITE : Analyse document -->
-    <div>
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">Analyser un document</div>
-        <div id="ia-doc-drop-zone"
-          style="border:2px dashed var(--border2);border-radius:10px;padding:30px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);margin-bottom:12px"
-          onclick="document.getElementById('ia-doc-input').click()"
-          ondragover="event.preventDefault();this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
-          ondragleave="this.style.borderColor='var(--border2)';this.style.background='var(--bg)'"
-          ondrop="handleIADocDrop(event)">
-          <svg width="28" height="28" fill="none" stroke="var(--muted)" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 8px;display:block"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M12 12v6M9 15l3-3 3 3"/></svg>
-          <div style="font-size:13px;font-weight:600;color:var(--ink2)">Glissez ou cliquez</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:4px">PDF, Image, Word</div>
-        </div>
-        <input type="file" id="ia-doc-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="analyserDocumentIA(this)">
-        <button onclick="analyserDocumentIAManuel()" class="btn btn-primary btn-full" style="gap:6px">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          Analyser avec l'IA
-        </button>
-      </div>
-
-      <!-- Résultats analyse -->
-      <div id="ia-analyse-results" style="display:none" class="card">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <div class="card-title" style="margin-bottom:0">Résultats</div>
-          <button onclick="appliquerResultatsIA()" class="btn btn-primary btn-sm">Appliquer</button>
-        </div>
-        <div id="ia-analyse-content" style="font-size:12px;line-height:1.8;white-space:pre-wrap;color:var(--ink);max-height:400px;overflow-y:auto"></div>
-        <div id="ia-extracted-card" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
-          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Données extraites</div>
-          <div id="ia-extracted-fields" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- ══ PAGE RELEVÉS & MÉTRÉS ══ -->
 <div class="page" id="page-releves-existant">
@@ -1654,207 +1450,303 @@ input[type=number]{-moz-appearance:textfield}
 </div>
 
 
-<!-- ══ PAGE SÉCURITÉ INCENDIE ══ -->
-<div class="page" id="page-securite-incendie">
+<!-- ══ PAGE FAÇADE ══ -->
+<div class="page" id="page-facade">
   <div class="page-header">
-    <h2>Sécurité incendie</h2>
-    <p>Dimensionnement · Réglementation ERP · Désenfumage · Détection</p>
+    <h2>Façade & Conformité ERP</h2>
+    <p>Façade · Capacité d'accueil · Conformité PMR · Dégagements</p>
   </div>
-  <div id="securite-incendie-content">
-    <div class="g2" style="gap:20px;align-items:start">
-      <div class="card">
-        <div class="card-title">Classification ERP</div>
+
+  <div class="g2" style="gap:20px;align-items:start">
+    <div>
+      <!-- FAÇADE -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Façade & Vitrine</div>
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Type ERP</label>
-            <select id="erp-type" class="form-select">
-              <option value="">— Sélectionner —</option>
-              <option value="N">Type N — Restaurants et débits de boissons</option>
-              <option value="M">Type M — Magasins de vente</option>
-              <option value="W">Type W — Administrations, banques, bureaux</option>
-              <option value="U">Type U — Établissements de soins</option>
-              <option value="L">Type L — Salles de spectacles</option>
-              <option value="autre">Autre type</option>
-            </select>
+            <label class="form-label">Largeur vitrine (m)</label>
+            <input type="number" step="0.1" id="facade-l" class="form-input" placeholder="5.0" oninput="calcFacade()">
           </div>
           <div class="form-group">
-            <label class="form-label">Catégorie ERP</label>
-            <select id="erp-categorie" class="form-select">
-              <option value="">— Sélectionner —</option>
-              <option value="1">1ère catégorie — plus de 1500 pers.</option>
-              <option value="2">2ème catégorie — 701 à 1500 pers.</option>
-              <option value="3">3ème catégorie — 301 à 700 pers.</option>
-              <option value="4">4ème catégorie — jusqu'à 300 pers.</option>
-              <option value="5">5ème catégorie — petits établissements</option>
-            </select>
+            <label class="form-label">Hauteur vitrine (m)</label>
+            <input type="number" step="0.1" id="facade-h" class="form-input" placeholder="3.2" oninput="calcFacade()">
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Effectif prévu (personnes)</label>
-            <input id="erp-effectif" type="number" class="form-input" placeholder="">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Nombre de niveaux</label>
-            <input id="erp-niveaux" type="number" class="form-input" placeholder="">
-          </div>
+        <div class="check-grid" style="margin-bottom:12px">
+          <label class="check-item" onclick="toggleCheck(this);calcFacade()"><input type="checkbox" id="facade-rideau"> Rideau métallique</label>
+          <label class="check-item" onclick="toggleCheck(this);calcFacade()"><input type="checkbox" id="facade-enseigne"> Enseigne en façade</label>
+          <label class="check-item" onclick="toggleCheck(this);calcFacade()"><input type="checkbox" id="facade-grille-vent"> Grilles ventilation façade</label>
+          <label class="check-item" onclick="toggleCheck(this);calcFacade()"><input type="checkbox" id="facade-modification"> Modification façade prévue</label>
+          <label class="check-item" onclick="toggleCheck(this);calcFacade()"><input type="checkbox" id="facade-copro"> Copropriété</label>
         </div>
+        <div id="facade-alertes"></div>
       </div>
-      <div class="card">
-        <div class="card-title">Moyens de secours</div>
+
+      <!-- ERP & CAPACITÉ -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Capacité d'accueil & ERP</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Surface salle / accueil (m²)</label>
+            <input type="number" id="erp-surface-salle" class="form-input" placeholder="120" oninput="calcERP()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Surface circulation (m²)</label>
+            <input type="number" id="erp-surface-circu" class="form-input" placeholder="20" oninput="calcERP()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Largeur portes (cm)</label>
+            <input type="number" id="erp-largeur-porte" class="form-input" placeholder="90" oninput="calcERP()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre d'issues de secours</label>
+            <input type="number" id="erp-issues" class="form-input" placeholder="2" oninput="calcERP()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Largeur dégagements mini (cm)</label>
+            <input type="number" id="erp-degagement" class="form-input" placeholder="140" oninput="calcERP()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Type ERP prévu</label>
+            <select id="erp-type" class="form-select" onchange="calcERP()">
+              <option value="N">N — Restaurants</option>
+              <option value="M">M — Magasins</option>
+              <option value="W">W — Bureaux</option>
+              <option value="U">U — Établissements de soins</option>
+              <option value="J">J — Petites structures</option>
+            </select>
+          </div>
+        </div>
         <div class="check-grid">
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-extincteurs"> Extincteurs</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-ria"> RIA (Robinets d'incendie armés)</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-sprinkler"> Sprinklers</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-ssi"> SSI (Système de sécurité incendie)</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-desenfumage"> Désenfumage</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-detection"> Détection automatique</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-eclairage-secu"> Éclairage de sécurité</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-alarme"> Alarme incendie</label>
+          <label class="check-item" onclick="toggleCheck(this);calcERP()"><input type="checkbox" id="erp-pmr-wc"> WC PMR prévu</label>
+          <label class="check-item" onclick="toggleCheck(this);calcERP()"><input type="checkbox" id="erp-giration"> Giration fauteuil OK (1.50m)</label>
+          <label class="check-item" onclick="toggleCheck(this);calcERP()"><input type="checkbox" id="erp-rampe"> Rampe d'accès si besoin</label>
+          <label class="check-item" onclick="toggleCheck(this);calcERP()"><input type="checkbox" id="erp-baes-prevu"> BAES prévu</label>
         </div>
       </div>
     </div>
-    <div class="card" style="margin-top:16px">
-      <div class="card-title">Observations sécurité incendie</div>
-      <textarea id="si-notes" class="form-textarea" placeholder="" spellcheck="true"></textarea>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;margin-top:20px">
-    <button class="btn btn-ghost" onclick="showPage('ventilation')">← Ventilation</button>
-    <button class="btn btn-primary" onclick="showPage('accessibilite-pmr')">Accessibilité PMR →</button>
-  </div>
-</div>
 
-<!-- ══ PAGE ACCESSIBILITÉ PMR ══ -->
-<div class="page" id="page-accessibilite-pmr">
-  <div class="page-header">
-    <h2>Accessibilité PMR</h2>
-    <p>Personnes à mobilité réduite · Normes Ad'AP · Dimensionnement</p>
-  </div>
-  <div class="g2" style="gap:20px;align-items:start">
-    <div class="card">
-      <div class="card-title">Obligations PMR</div>
-      <div class="check-grid">
-        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-entree"> Entrée accessible (largeur ≥ 90 cm)</label>
-        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-wc"> WC PMR (dimensions réglementaires)</label>
-        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-circulation"> Circulation intérieure ≥ 140 cm</label>
-        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-rampe"> Rampe d'accès (pente ≤ 5%)</label>
-        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-parking"> Place de parking PMR</label>
-        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-ascenseur"> Ascenseur (si R+1 ou plus)</label>
-        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-signalisation"> Signalisation adaptée</label>
-        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-comptoir"> Comptoir/accueil accessible</label>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">Dérogations & Statut</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Statut Ad'AP</label>
-          <select id="pmr-statut" class="form-select">
-            <option value="">— Sélectionner —</option>
-            <option value="conforme">Conforme</option>
-            <option value="derogation">Dérogation accordée</option>
-            <option value="travaux">Travaux de mise en conformité prévus</option>
-            <option value="non-concerne">Non concerné</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Nombre de places PMR parking</label>
-          <input id="pmr-nb-places" type="number" class="form-input" placeholder="">
+    <div>
+      <!-- RÉSULTATS ERP -->
+      <div class="card" style="margin-bottom:16px;border:2px solid var(--primary-border)">
+        <div class="card-title">Capacité & Catégorie ERP</div>
+        <div id="erp-result">
+          <div style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Renseignez la surface salle</div>
         </div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Observations PMR</label>
-        <textarea id="pmr-notes" class="form-textarea" placeholder="" spellcheck="true" style="min-height:80px"></textarea>
-      </div>
+      <div id="erp-alertes"></div>
     </div>
   </div>
-  <div style="display:flex;justify-content:space-between;margin-top:20px">
-    <button class="btn btn-ghost" onclick="showPage('securite-incendie')">← Sécurité incendie</button>
-    <button class="btn btn-primary" onclick="showPage('facade-enseigne')">Façade & Enseigne →</button>
-  </div>
-</div>
-
-<!-- ══ PAGE FAÇADE & ENSEIGNE ══ -->
-<div class="page" id="page-facade-enseigne">
-  <div class="page-header">
-    <h2>Façade & Enseigne</h2>
-    <p>Devanture commerciale · Enseigne · Menuiseries extérieures · Autorisations</p>
-  </div>
-  <div class="g2" style="gap:20px;align-items:start">
-    <div class="card">
-      <div class="card-title">Façade commerciale</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Largeur façade (ml)</label>
-          <input id="facade-largeur" type="number" step="0.1" class="form-input" placeholder="">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Hauteur façade (m)</label>
-          <input id="facade-hauteur" type="number" step="0.1" class="form-input" placeholder="">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Type de façade</label>
-          <select id="facade-type" class="form-select">
-            <option value="">— Sélectionner —</option>
-            <option value="vitrine">Vitrine commerciale</option>
-            <option value="rideau">Façade rideau</option>
-            <option value="maçonnerie">Maçonnerie</option>
-            <option value="bardage">Bardage</option>
-            <option value="mixte">Mixte</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Matériau</label>
-          <input id="facade-materiau" class="form-input" placeholder="" spellcheck="true">
-        </div>
-      </div>
-      <div class="check-grid" style="margin-top:10px">
-        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="facade-store"> Store banne</label>
-        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="facade-rideau-metal"> Rideau métallique</label>
-        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="facade-interphone"> Interphone / Digicode</label>
-        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="facade-seuil"> Seuil de porte à reprendre</label>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title">Enseigne</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Type d'enseigne</label>
-          <select id="enseigne-type" class="form-select">
-            <option value="">— Sélectionner —</option>
-            <option value="bandeau">Bandeau lumineux</option>
-            <option value="caisson">Caisson lumineux</option>
-            <option value="lettres">Lettres découpées</option>
-            <option value="neon">Néon / LED</option>
-            <option value="totem">Totem</option>
-            <option value="drapeau">Enseigne drapeau</option>
-            <option value="non">Pas d'enseigne</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Surface enseigne (m²)</label>
-          <input id="enseigne-surface" type="number" step="0.1" class="form-input" placeholder="">
-        </div>
-      </div>
-      <div class="check-grid" style="margin-top:8px">
-        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="enseigne-dp"> Déclaration préalable requise</label>
-        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="enseigne-accord-bailleur"> Accord bailleur requis</label>
-        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="enseigne-mairie"> Autorisation mairie</label>
-      </div>
-      <div class="form-group" style="margin-top:12px">
-        <label class="form-label">Observations façade & enseigne</label>
-        <textarea id="facade-notes" class="form-textarea" placeholder="" spellcheck="true" style="min-height:80px"></textarea>
-      </div>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:space-between;margin-top:20px">
-    <button class="btn btn-ghost" onclick="showPage('accessibilite-pmr')">← Accessibilité PMR</button>
+  <div style="display:flex;justify-content:space-between;margin-top:24px">
+    <button class="btn btn-secondary" onclick="showPage('clim')">← Climatisation</button>
     <button class="btn btn-primary" onclick="showPage('prechiffrage')">Pré-chiffrage →</button>
   </div>
 </div>
+
+
+<!-- ══ PAGE PRÉ-CHIFFRAGE ══ -->
+<div class="page" id="page-prechiffrage">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Pré-chiffrage</h2>
+      <p>Budget rapide · Répartition par lot · Comparaison projets similaires</p>
+    </div>
+    <button class="btn btn-success" onclick="showPage('synthese')">Voir la synthèse →</button>
+  </div>
+
+  <div class="g2" style="gap:20px;align-items:start">
+    <!-- PARAMÈTRES -->
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Type de local & Gamme</div>
+        <div id="type-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px"></div>
+        <div class="card-title" style="margin-top:8px">Niveau de gamme</div>
+        <div id="gamme-row" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"></div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Paramètres du projet</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Surface (m²)</label>
+            <input type="number" id="inp-surface" class="form-input" placeholder="" oninput="recalculate()">
+            <div class="form-hint" id="hint-taux">—</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" id="lbl-places">Places assises</label>
+            <input type="number" id="inp-places" class="form-input" placeholder="60" oninput="recalculate()">
+            <div class="form-hint" id="hint-places">Pour calcul mobilier</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Ville / Région</label>
+            <select id="inp-region" class="form-select" onchange="recalculate()">
+              <option value="idf">Île-de-France (+15 %)</option>
+              <option value="paca">PACA (+8 %)</option>
+              <option value="std" selected>Autres régions (base)</option>
+              <option value="rural">Zone rurale (−5 %)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Niveau de rénovation</label>
+            <select id="inp-renov" class="form-select" onchange="recalculate()">
+              <option value="0.7">Rafraîchissement (×0,7)</option>
+              <option value="1" selected>Rénovation standard (×1,0)</option>
+              <option value="1.3">Restructuration (×1,3)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Frais généraux</label>
+            <div class="slider-wrap">
+              <input type="range" min="0" max="25" value="8" id="sl-fg" oninput="syncSlider('fg');recalculate()">
+              <div class="slider-display" id="sv-fg">8 %</div>
+            </div>
+            <div class="form-hint" id="hint-fg">= — €</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Marge nette</label>
+            <div class="slider-wrap">
+              <input type="range" min="0" max="35" value="10" id="sl-marge" oninput="syncSlider('marge');recalculate()">
+              <div class="slider-display" id="sv-marge">10 %</div>
+            </div>
+            <div class="form-hint" id="hint-marge">= — €</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Complexité chantier</label>
+          <div class="slider-wrap">
+            <input type="range" min="1" max="5" value="3" id="sl-complexite" oninput="syncSlider('complexite');recalculate()">
+            <div class="slider-display" id="sv-complexite">3/5</div>
+          </div>
+          <div class="form-hint" id="hint-complexite">Aléas : 5 %</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Contraintes spécifiques</div>
+        <div class="check-grid">
+          <label class="check-item" onclick="toggleCheck(this);recalculate()"><input type="checkbox" id="chk-erp"> Contraintes ERP</label>
+          <label class="check-item" onclick="toggleCheck(this);recalculate()"><input type="checkbox" id="chk-cuisine"> Cuisine professionnelle</label>
+          <label class="check-item" onclick="toggleCheck(this);recalculate()"><input type="checkbox" id="chk-pmr"> Accessibilité PMR</label>
+          <label class="check-item" onclick="toggleCheck(this);recalculate()"><input type="checkbox" id="chk-amiante"> Suspicion amiante</label>
+        </div>
+      </div>
+
+      <!-- KPI -->
+      <div class="g4" id="kpi-grid">
+        <div class="kpi"><div class="kpi-label">€/m² Travaux</div><div class="kpi-val kpi-val-sm" id="kpi-m2-trav">—</div></div>
+        <div class="kpi"><div class="kpi-label">€/m² Total</div><div class="kpi-val kpi-val-sm" id="kpi-m2-total">—</div></div>
+        <div class="kpi"><div class="kpi-label">Semaines</div><div class="kpi-val kpi-val-sm" id="kpi-duree">—</div></div>
+        <div class="kpi" id="kpi-risque-card"><div class="kpi-label">Risque</div><div class="kpi-val kpi-val-sm" id="kpi-risque">—</div></div>
+      </div>
+    </div>
+
+    <!-- RÉSULTATS -->
+    <div>
+      <div class="g3" style="margin-bottom:16px">
+        <div class="card card-flat" style="border-top:3px solid var(--border2);text-align:center;padding:16px">
+          <div class="card-title" style="margin-bottom:8px">Budget bas</div>
+          <div style="font-size:18px;font-weight:700;color:var(--mid)" id="bud-bas">—</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px" id="bud-bas-m2">—</div>
+        </div>
+        <div class="card card-flat" style="border-top:3px solid var(--primary);text-align:center;padding:16px">
+          <div class="card-title" style="margin-bottom:8px">Budget moyen</div>
+          <div style="font-size:18px;font-weight:700;color:var(--primary)" id="bud-moy">—</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px" id="bud-moy-m2">—</div>
+        </div>
+        <div class="card card-flat" style="border-top:3px solid var(--danger);text-align:center;padding:16px">
+          <div class="card-title" style="margin-bottom:8px">Budget haut</div>
+          <div style="font-size:18px;font-weight:700;color:var(--danger)" id="bud-haut">—</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:4px" id="bud-haut-m2">—</div>
+        </div>
+      </div>
+
+      <div class="lots-table" id="lots-container">
+        <div class="lots-header">
+          <span>Lot de travaux</span><span>%</span><span>Montant HT</span>
+        </div>
+        <div id="lots-body"></div>
+        <div class="lots-sep" id="comps-header" style="display:none">
+          <span>Budgets complémentaires</span><span></span><span></span>
+        </div>
+        <div id="comps-body"></div>
+        <div id="totaux-block" style="padding:16px 18px;background:var(--bg);border-top:1px solid var(--border)"></div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Répartition par lot</div>
+        <div id="bars-container"></div>
+      </div>
+
+      <div id="similar-box" style="display:none" class="card" style="margin-bottom:16px">
+        <div class="card-title" id="similar-title">Projets similaires</div>
+        <div id="similar-content"></div>
+      </div>
+
+      <div style="background:var(--warn-light);border:1px solid #FDE68A;border-left:3px solid var(--warn);border-radius:var(--radius);padding:14px 16px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--warn);margin-bottom:8px">❌ Toujours exclus</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px 18px">
+          <span style="font-size:11px;color:var(--mid)">— Désamiantage</span>
+          <span style="font-size:11px;color:var(--mid)">— Gros œuvre structurel</span>
+          <span style="font-size:11px;color:var(--mid)">— Architecte / BET</span>
+          <span style="font-size:11px;color:var(--mid)">— Bureau de contrôle / SPS</span>
+          <span style="font-size:11px;color:var(--mid)">— Chambres froides &gt; 4 m²</span>
+          <span style="font-size:11px;color:var(--mid)">— Sprinklage</span>
+          <span style="font-size:11px;color:var(--mid)">— Désenfumage motorisé</span>
+          <span style="font-size:11px;color:var(--mid)">— Taxes et raccordements</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══ PAGE CHIFFRAGE DÉTAILLÉ ══ -->
+<div class="page" id="page-chiffrage">
+  <div class="page-header">
+    <h2>Chiffrage détaillé</h2>
+    <p>Déboursé sec · Main-d'œuvre · Matériaux · Sous-traitance · FG · Aléas · Marge</p>
+  </div>
+  <div class="alert info" style="margin-bottom:20px">
+    <div class="alert-icon">ℹ️</div>
+    <div class="alert-body">
+      <div class="alert-title">Basé sur le pré-chiffrage en cours</div>
+      <div class="alert-desc">Renseignez les paramètres dans le pré-chiffrage pour calculer le détail</div>
+    </div>
+  </div>
+  <div id="detail-content"></div>
+</div>
+
+
+<!-- ══ PAGE SYNTHÈSE ══ -->
+<div class="page" id="page-synthese">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Synthèse du projet</h2>
+      <p>Récapitulatif complet · Alertes · Chiffrage global</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-secondary" onclick="exportPrint()"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimer</button>
+    </div>
+  </div>
+  <div id="synthese-content">
+    <div class="alert info">
+      <div class="alert-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></div>
+      <div class="alert-body">
+        <div class="alert-title">Renseignez les onglets pour générer la synthèse</div>
+        <div class="alert-desc">Commencez par l'initialisation, puis les relevés et les modules techniques</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- ══ PAGE BIBLIOTHÈQUE ══ -->
 <div class="page" id="page-bibliotheque">
@@ -2409,11 +2301,6 @@ input[type=number]{-moz-appearance:textfield}
 <!-- JAVASCRIPT -->
 <script>
 'use strict';
-// Variables Drive — déclarées en premier
-let _driveToken = null;
-let _driveFolderId = null;
-let _codesExistantsDrive = null;
-let _dernierCodeDrive = '';
 // ── REFS ─────────────────────────────────────────────────────
 const REGIONS={idf:1.15,paca:1.08,std:1.0,rural:0.95};
 const GAMMES=[
@@ -2674,24 +2561,18 @@ function _val(id,def=''){const e=_get(id);return e?e.value:def;}
 function _chk(id){const e=_get(id);return e?e.checked:false;}
 // ── NAVIGATION ────────────────────────────────────────────────
 const PAGE_META={
-  // ── PROJET ──
-  init:{title:'Initialisation du projet',step:'Étape 1/12'},
-  'analyse-ia':{title:'Analyse IA & Documents',step:'Étape 2/12'},
-  'releves-existant':{title:'Relevés & Métrés',step:'Étape 3/12'},
-  // ── DIMENSIONNEMENT ──
-  eclairage:{title:'Éclairage',step:'Étape 4/12'},
-  electricite:{title:'Électricité',step:'Étape 5/12'},
-  plomberie:{title:'Plomberie',step:'Étape 6/12'},
-  ventilation:{title:'Ventilation & Extraction',step:'Étape 7/12'},
-  clim:{title:'Climatisation',step:'Étape 8/12'},
-  'securite-incendie':{title:'Sécurité incendie',step:'Étape 9/12'},
-  'accessibilite-pmr':{title:'Accessibilité PMR',step:'Étape 10/12'},
-  'facade-enseigne':{title:'Façade & Enseigne',step:'Étape 11/12'},
-  // ── CHIFFRAGE ──
-  prechiffrage:{title:'Pré-chiffrage rapide',step:'Étape 12/12'},
-  chiffrage:{title:'DPGF',step:'Chiffrage'},
+  init:{title:'Initialisation du projet',step:'Étape 1/8'},
+  releves:{title:'Relevés & Métrés',step:'Étape 2/8'},
+  eclairage:{title:'Éclairage',step:'Étape 3/8'},
+  electricite:{title:'Électricité',step:'Étape 4/8'},
+  plomberie:{title:'Plomberie',step:'Étape 5/8'},
+  ventilation:{title:'Ventilation & Extraction',step:'Étape 6/8'},
+  clim:{title:'Climatisation',step:'Étape 7/8'},
+  facade:{title:'Façade & Conformité ERP',step:'Étape 8/8'},
+  recap:{title:'Récapitulatif projet',step:'Vue d\'ensemble'},
+  prechiffrage:{title:'Pré-chiffrage rapide',step:'Chiffrage'},
+  chiffrage:{title:'Chiffrage détaillé',step:'Chiffrage'},
   synthese:{title:'Synthèse du projet',step:'Synthèse'},
-  // ── BASE ──
   bibliotheque:{title:'Bibliothèque de prix',step:'Base'},
   chantiers:{title:'Chantiers',step:'Base'},
   dashboard:{title:'Tableau de bord',step:'Base'},
@@ -2712,10 +2593,6 @@ function showPage(id){
   if(id==='clim'){renderClimPieces();calcClim();}
   if(id==='facade'){calcFacade();calcERP();}
   if(id==='recap')renderRecap();
-  if(id==='securite-incendie')renderSecuriteIncendie();
-  if(id==='accessibilite-pmr')renderPMR();
-  if(id==='facade-enseigne')renderFacadeEnseigne();
-  if(id==='analyse-ia')renderAnalyseIA();
   if(id==='releves-existant')renderRelevesPage();
   
   if(id==='init')renderRecapBanner();
@@ -2727,7 +2604,6 @@ function showPage(id){
   if(id==='dashboard')renderDashboard();
   if(id==='compte')renderCompte();
   _get('sidebar').classList.remove('mobile-open');
-  _get('sidebar-overlay').style.display='none';
   _get('sidebar-overlay').classList.remove('open');
   window.scrollTo(0,0);
 }
@@ -2737,7 +2613,6 @@ function toggleMobileSidebar(){
 }
 // ── INIT PROJET ───────────────────────────────────────────────
 function updateProjectHeader(){
-  majSuiviAdmin();
   const surf=_val('proj-surface');
   if(surf){const i=_get('inp-surface');if(i)i.value=surf;state.surface=parseFloat(surf)||0;recalculate();}
   updateRecap();
@@ -3862,7 +3737,8 @@ function chargerCompte(){
     mettreAJourProfilMenu(data);
     mettreAJourApercuEntete(data);
 
-    // Releveur laissé vide intentionnellement
+    // Appliquer défauts projets si champs vides
+    if(d.releveur_def){ const r=document.getElementById('proj-releveur'); if(r&&!r.value) r.value=d.releveur_def; }
     if(d.fg_def){ state.fg = parseFloat(d.fg_def)||state.fg; }
     if(d.marge_def){ state.marge = parseFloat(d.marge_def)||state.marge; }
     if(d.region_def){ state.region = d.region_def||state.region; }
@@ -3903,9 +3779,6 @@ function mettreAJourProfilMenu(data){
   const initiales = ((prenom[0]||'')+(nom[0]||'')).toUpperCase() || '?';
   const el = document.getElementById('profil-initiales');
   if(el) el.textContent = initiales;
-  // Mobile
-  const mobileEl = document.getElementById('mobile-profil-initiales');
-  if(mobileEl) mobileEl.textContent = initiales;
   const elNom = document.getElementById('profil-menu-nom');
   if(elNom) elNom.textContent = [prenom,nom].filter(Boolean).join(' ') || 'Mon compte';
   const elEnt = document.getElementById('profil-menu-entreprise');
@@ -4034,31 +3907,10 @@ function afficherSignature(src){
   if(placeholder) placeholder.style.display='none';
 }
 
-// Fermeture menus au toucher extérieur
-document.addEventListener('touchstart', function(e){
-  var menu = document.getElementById('profil-menu');
-  var btnDesktop = document.getElementById('btn-profil');
-  var btnMobile = document.getElementById('mobile-profil-btn');
-  if(menu && menu.style.display === 'block'){
-    if(!menu.contains(e.target) && !(btnDesktop && btnDesktop.contains(e.target)) && !(btnMobile && btnMobile.contains(e.target))){
-      menu.style.display = 'none';
-    }
-  }
-  var sb = document.getElementById('sidebar');
-  var ov = document.getElementById('sidebar-overlay');
-  if(sb && sb.classList.contains('mobile-open') && !sb.contains(e.target)){
-    sb.classList.remove('mobile-open');
-    if(ov){ ov.classList.remove('open'); ov.style.display='none'; }
-  }
-}, {passive:true});
-
 function toggleProfilMenu(){
   const menu = document.getElementById('profil-menu');
   if(!menu) return;
-  const isVisible = menu.style.display === 'block';
-  // Fermer tous les menus ouverts
-  document.querySelectorAll('.dropdown-menu').forEach(m => m.style.display = 'none');
-  menu.style.display = isVisible ? 'none' : 'block';
+  menu.style.display = menu.style.display==='none' ? 'block' : 'none';
 }
 
 // Fermer le menu profil en cliquant dehors
@@ -4211,18 +4063,13 @@ function afficherLogin(){
   document.getElementById('sidebar').style.display = 'none';
   document.getElementById('main-topbar').style.display = 'none';
   document.getElementById('sidebar-overlay').style.display = 'none';
-  const mt = document.getElementById('mobile-topbar-bar');
-  if(mt) mt.style.display = 'none';
 }
 
 function afficherApp(){
   document.getElementById('page-login').style.display = 'none';
   document.getElementById('app-main').style.display = 'flex';
   document.getElementById('sidebar').style.display = '';
-  // Topbar desktop toujours visible, mobile-topbar cachée par CSS media query
-  document.getElementById('main-topbar').style.display = 'flex';
-  const mobileTopbar = document.getElementById('mobile-topbar-bar');
-  if(mobileTopbar) mobileTopbar.style.display = '';
+  document.getElementById('main-topbar').style.display = '';
   majLogoSidebar();
   // Générer le code chantier — attendre que Drive soit prêt
   genererCodeChantierAvecAttente();
@@ -4236,12 +4083,20 @@ function afficherApp(){
   // Préremplir date du jour
   const dateEl = document.getElementById('proj-date');
   if(dateEl && !dateEl.value) dateEl.value = new Date().toISOString().slice(0,10);
-  // Releveur : champ vide par défaut
+  // Préremplir releveur avec utilisateur connecté si vide
+  const relEl = document.getElementById('proj-releveur');
+  if(relEl && !relEl.value && _currentUser){
+    const raw2 = localStorage.getItem('lokoo_compte');
+    if(raw2){
+      try{
+        const d2 = JSON.parse(raw2);
+        const p2 = d2.profil||{};
+        const nom = [p2.prenom, p2.nom].filter(Boolean).join(' ');
+        if(nom) relEl.value = nom;
+      }catch(e){}
+    }
+  }
   chargerCompte();
-  setTimeout(()=>{
-    majActiviteOptions();
-    initSuiviAdmin();
-  }, 300);
   console.log('Lokoo V3.7 ✓ — Connecté:', _currentUser.email);
 }
 
@@ -4931,695 +4786,6 @@ function renderRelevesType(type){
 }
 
 
-
-
-// ── CORRECTION AUTOMATIQUE ───────────────────────────────────
-function corrigerTexte(input){
-  if(!input || !input.value) return;
-  const val = input.value;
-  const pos = input.selectionStart;
-  
-  // Mettre la première lettre en majuscule
-  let corrected = val.charAt(0).toUpperCase() + val.slice(1);
-  
-  // Corriger les espaces multiples
-  corrected = corrected.replace(/  +/g, ' ');
-  
-  // Majuscule après . ! ? : et retour à la ligne
-  corrected = corrected.replace(/([.!?:]\s+)([a-zàâäéèêëîïôöùûüç])/g, 
-    (m, p1, p2) => p1 + p2.toUpperCase());
-  
-  if(corrected !== val){
-    input.value = corrected;
-    // Restaurer la position du curseur
-    try{ input.setSelectionRange(pos, pos); }catch(e){}
-  }
-}
-
-function corrigerNomPropre(input){
-  if(!input || !input.value) return;
-  const val = input.value;
-  const pos = input.selectionStart;
-  
-  // Title case : première lettre de chaque mot en majuscule
-  let corrected = val.replace(/(?:^|\s|-)([a-zàâäéèêëîïôöùûüç])/g, 
-    m => m.toUpperCase());
-  
-  // Corriger espaces multiples
-  corrected = corrected.replace(/  +/g, ' ');
-  
-  if(corrected !== val){
-    input.value = corrected;
-    try{ input.setSelectionRange(pos, pos); }catch(e){}
-  }
-}
-
-
-
-// ── ANALYSE IA DOCUMENTS ─────────────────────────────────────
-var _iaDocBase64 = null;
-var _iaDocType = null;
-var _iaResultatsExtraits = {};
-
-function handleIADocDrop(e){
-  e.preventDefault();
-  document.getElementById('ia-doc-drop-zone').style.borderColor='var(--border2)';
-  document.getElementById('ia-doc-drop-zone').style.background='var(--bg)';
-  const file = e.dataTransfer.files[0];
-  if(file) traiterFichierIA(file);
-}
-
-function analyserDocumentIA(input){
-  const file = input.files[0];
-  if(file) traiterFichierIA(file);
-  input.value='';
-}
-
-function traiterFichierIA(file){
-  const zone = document.getElementById('ia-doc-drop-zone');
-  zone.innerHTML = `<div style="font-size:13px;font-weight:600;color:var(--primary)">📄 ${file.name}</div><div style="font-size:11px;color:var(--muted);margin-top:4px">${Math.round(file.size/1024)} Ko · Prêt à analyser</div>`;
-  
-  const reader = new FileReader();
-  reader.onload = e => {
-    _iaDocBase64 = e.target.result.split(',')[1];
-    _iaDocType = file.type || 'image/jpeg';
-  };
-  reader.readAsDataURL(file);
-}
-
-async function analyserDocumentIAManuel(){
-  const apiKey = document.getElementById('ia-analyse-key')?.value?.trim() || localStorage.getItem('lokoo_api_key');
-  if(!apiKey){ showToast('Saisissez votre clé API Anthropic', '#EF4444'); return; }
-  if(!_iaDocBase64){ showToast('Importez un document d\'abord', '#EF4444'); return; }
-
-  const btn = document.querySelector('[onclick="analyserDocumentIAManuel()"]');
-  if(btn){ btn.textContent = '⏳ Analyse...'; btn.disabled=true; }
-
-  const prompt = `Tu es un expert en bâtiment et en construction. Analyse ce document et extrait les informations suivantes si présentes :
-- Nom/raison sociale du client ou locataire
-- Adresse du local/chantier
-- Surface totale (m²)
-- Type de local ou activité
-- Hauteur sous plafond
-- Informations sur le bailleur/propriétaire
-- Contact principal
-- Contraintes spécifiques mentionnées (ERP, PMR, normes...)
-- Travaux mentionnés ou autorisés
-- Dates importantes
-
-Réponds en JSON structuré avec ces clés : client, adresse, surface, type_local, hauteur, bailleur, contact, contraintes, travaux, dates, autres_infos.
-Si une information n'est pas trouvée, mets null.`;
-
-  try{
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
-      },
-      body: JSON.stringify({
-        model:'claude-opus-4-5',
-        max_tokens:2000,
-        messages:[{
-          role:'user',
-          content:[
-            {type:'image', source:{type:'base64', media_type:_iaDocType, data:_iaDocBase64}},
-            {type:'text', text:prompt}
-          ]
-        }]
-      })
-    });
-
-    const data = await resp.json();
-    if(data.error) throw new Error(data.error.message);
-    const texte = data.content[0].text;
-
-    // Afficher résultats
-    document.getElementById('ia-analyse-results').style.display='block';
-    document.getElementById('ia-analyse-content').textContent = texte;
-
-    // Parser le JSON extrait
-    try{
-      const jsonMatch = texte.match(/\{[\s\S]*\}/);
-      if(jsonMatch){
-        _iaResultatsExtraits = JSON.parse(jsonMatch[0]);
-        afficherChampsExtraits(_iaResultatsExtraits);
-      }
-    }catch(e){ console.log('Pas de JSON parsable'); }
-
-    // Historique
-    sauvegarderHistoriqueIA(texte);
-
-  }catch(err){
-    showToast('Erreur : '+err.message, '#EF4444');
-  }
-
-  if(btn){ btn.textContent = 'Analyser'; btn.disabled=false; }
-}
-
-function afficherChampsExtraits(data){
-  const card = document.getElementById('ia-extracted-card');
-  const fields = document.getElementById('ia-extracted-fields');
-  if(!card || !fields) return;
-
-  const labels = {
-    client:'Client', adresse:'Adresse', surface:'Surface (m²)',
-    type_local:'Type de local', hauteur:'Hauteur (m)', contact:'Contact',
-    contraintes:'Contraintes', travaux:'Travaux', bailleur:'Bailleur'
-  };
-
-  const html = Object.entries(labels)
-    .filter(([k]) => data[k] && data[k] !== 'null')
-    .map(([k,label]) => `
-      <div style="padding:10px 12px;background:white;border-radius:8px;border:1px solid var(--border)">
-        <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">${label}</div>
-        <div style="font-size:13px;font-weight:600;color:var(--ink)">${Array.isArray(data[k])?data[k].join(', '):data[k]}</div>
-      </div>`).join('');
-
-  if(html){ card.style.display='block'; fields.innerHTML=html; }
-}
-
-function appliquerResultatsIA(){
-  if(!_iaResultatsExtraits) return;
-  const d = _iaResultatsExtraits;
-  const set = (id,v) => { const e=document.getElementById(id); if(e&&v&&v!=='null') e.value=v; };
-  if(d.client) set('proj-client', d.client);
-  if(d.adresse) set('proj-adresse', d.adresse);
-  if(d.surface) set('proj-surface', String(d.surface).replace(/[^0-9.]/g,''));
-  if(d.hauteur) set('proj-hauteur-min', String(d.hauteur).replace(/[^0-9.]/g,''));
-  if(d.contact) set('proj-contact', d.contact);
-  updateProjectHeader();
-  showToast('✅ Données appliquées au dossier');
-  showPage('init');
-}
-
-function sauvegarderHistoriqueIA(texte){
-  const histo = JSON.parse(localStorage.getItem('lokoo_ia_histo')||'[]');
-  histo.unshift({date:new Date().toLocaleString('fr-FR'), extrait:texte.slice(0,200)+'...'});
-  if(histo.length>10) histo.pop();
-  localStorage.setItem('lokoo_ia_histo', JSON.stringify(histo));
-}
-
-function renderAnalyseIA(){
-  initDocsGrid();
-  // Restaurer clé API
-  const key = localStorage.getItem('lokoo_api_key')||'';
-  const keyEl = document.getElementById('ia-analyse-key');
-  if(keyEl) keyEl.value = key;
-  // Afficher historique
-  const histo = JSON.parse(localStorage.getItem('lokoo_ia_histo')||'[]');
-  const histoEl = document.getElementById('ia-historique');
-  const listeEl = document.getElementById('ia-historique-liste');
-  if(histoEl && histo.length>0){
-    histoEl.style.display='block';
-    listeEl.innerHTML = histo.map(h=>`
-      <div style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px">
-        <div style="color:var(--muted);margin-bottom:2px">${h.date}</div>
-        <div style="color:var(--ink2)">${h.extrait}</div>
-      </div>`).join('');
-  }
-}
-
-
-
-// ── RAPPORT DPGF ─────────────────────────────────────────────
-function genererRapportDPGF(){
-  const nom = _val('proj-nom') || 'CHT-XXXX';
-  const nomChantier = _val('proj-nom-chantier') || '';
-  const client = _val('proj-client') || '—';
-  const adresse = _val('proj-adresse') || '—';
-  const surface = _val('proj-surface') || '—';
-  const typeLocal = _val('proj-type-local') || 'restaurant';
-  const activite = _val('proj-activite') || '—';
-  const date = _val('proj-date') || new Date().toISOString().slice(0,10);
-  const releveur = _val('proj-releveur') || '—';
-  const cur = TYPES[typeLocal] || TYPES.restaurant;
-  const gam = GAMMES.find(g=>g.key===state.activeGamme) || GAMMES[1];
-
-  // Calculs financiers
-  const s = state.surface || parseFloat(surface) || 0;
-  const cR = REGIONS[state.region||'std'] || 1;
-  const bB = s > 0 ? s * cur.taux * gam.coeff * cR * (state.renov||1) : 0;
-  const fg = state.fg || 8;
-  const marge = state.marge || 10;
-  const cA = 0.02 + ((state.complexite||3)-1)*0.02;
-  const mFG = bB * fg / 100;
-  const mAl = (bB + mFG) * cA;
-  const bM = bB + mFG + mAl;
-  const mMa = bM * (marge/100) / (1-marge/100);
-  const tT = bM + mMa;
-
-  // Données entreprise
-  const compteRaw = localStorage.getItem('lokoo_compte');
-  let entreprise = {raison:'', adresse:'', siret:'', tva:'', web:''};
-  try{ const d = JSON.parse(compteRaw||'{}'); entreprise = {...entreprise, ...(d.entreprise||{})}; }catch(e){}
-
-  // Logo entreprise
-  const logoData = localStorage.getItem('lokoo_logo') || '';
-
-  // Lots pour le DPGF
-  const lots = cur.lots || [];
-  const lotsHtml = lots.map((l,i) => {
-    const montant = Math.round(tT * l.pct / 100);
-    return `
-      <tr style="border-bottom:1px solid #e5e7eb">
-        <td style="padding:10px 14px;font-size:13px;font-weight:600;color:#374151">${String(i+1).padStart(2,'0')} - ${l.nom}</td>
-        <td style="padding:10px 14px;font-size:12px;color:#6b7280;text-align:center">${l.pct}%</td>
-        <td style="padding:10px 14px;font-size:13px;font-weight:700;color:#111827;text-align:right">${fmt(montant)} HT</td>
-      </tr>`;
-  }).join('');
-
-  // Pièces relevées
-  const piecesExist = state.pieces.filter(p=>(p._type||'existant')==='existant');
-  const piecesProjet = state.pieces.filter(p=>p._type==='projet');
-  const surfExist = piecesExist.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
-  const surfProjet = piecesProjet.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
-
-  const dateFormatee = new Date(date).toLocaleDateString('fr-FR',{year:'numeric',month:'long',day:'numeric'});
-  const dateAujourdhui = new Date().toLocaleDateString('fr-FR',{year:'numeric',month:'long',day:'numeric'});
-
-  const rapport = `<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>Rapport DPGF — ${nom}</title>
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Segoe UI',Arial,sans-serif; color:#111827; background:white; }
-  .page { width:210mm; min-height:297mm; margin:0 auto; padding:20mm 18mm; }
-  .header { display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:20px; border-bottom:3px solid #111827; margin-bottom:28px; }
-  .logo-zone { max-height:60px; max-width:160px; }
-  .logo-zone img { max-height:60px; max-width:160px; object-fit:contain; }
-  .company-info { text-align:right; font-size:11px; color:#6b7280; line-height:1.7; }
-  .doc-title { font-size:28px; font-weight:800; color:#111827; margin-bottom:6px; letter-spacing:-0.5px; }
-  .doc-subtitle { font-size:13px; color:#6b7280; margin-bottom:24px; }
-  .badge { display:inline-block; padding:3px 12px; background:#f0fdf4; border:1px solid #86efac; border-radius:20px; font-size:11px; font-weight:600; color:#16a34a; }
-  .section-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:#9ca3af; margin:28px 0 12px; }
-  .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
-  .info-item { padding:12px 14px; background:#f9fafb; border-radius:8px; border:1px solid #e5e7eb; }
-  .info-label { font-size:10px; font-weight:600; color:#9ca3af; text-transform:uppercase; margin-bottom:3px; }
-  .info-value { font-size:13px; font-weight:600; color:#111827; }
-  table { width:100%; border-collapse:collapse; margin-bottom:20px; }
-  thead tr { background:#111827; }
-  thead th { padding:10px 14px; font-size:11px; font-weight:600; color:white; text-align:left; letter-spacing:.05em; }
-  thead th:last-child { text-align:right; }
-  tfoot tr { background:#f0fdf4; border-top:2px solid #111827; }
-  tfoot td { padding:12px 14px; font-size:13px; font-weight:700; }
-  .total-row td { font-size:15px; font-weight:800; color:#059669; }
-  .total-row td:last-child { text-align:right; }
-  .alert-box { padding:14px 18px; background:#fef3c7; border:1.5px solid #fcd34d; border-radius:8px; font-size:12px; color:#92400e; margin-bottom:16px; }
-  .footer { margin-top:40px; padding-top:16px; border-top:1px solid #e5e7eb; display:flex; justify-content:space-between; font-size:10px; color:#9ca3af; }
-  .signature-zone { margin-top:40px; display:grid; grid-template-columns:1fr 1fr; gap:40px; }
-  .signature-box { padding:20px; border:1px solid #e5e7eb; border-radius:8px; min-height:100px; }
-  .signature-label { font-size:11px; font-weight:600; color:#6b7280; margin-bottom:6px; }
-  @media print { .page { padding:15mm 12mm; } }
-</style>
-</head>
-<body>
-<div class="page">
-
-  <!-- EN-TÊTE -->
-  <div class="header">
-    <div>
-      ${logoData ? `<div class="logo-zone"><img src="${logoData}" alt="Logo"></div>` : `<div style="font-size:22px;font-weight:900;color:#111827">${entreprise.raison||'lokoo.io'}</div>`}
-      ${entreprise.raison ? `<div style="font-size:11px;color:#6b7280;margin-top:6px">${entreprise.raison}</div>` : ''}
-    </div>
-    <div class="company-info">
-      ${entreprise.adresse ? `<div>${entreprise.adresse}</div>` : ''}
-      ${entreprise.siret ? `<div>SIRET : ${entreprise.siret}</div>` : ''}
-      ${entreprise.tva ? `<div>TVA : ${entreprise.tva}</div>` : ''}
-      ${entreprise.web ? `<div>${entreprise.web}</div>` : ''}
-    </div>
-  </div>
-
-  <!-- TITRE -->
-  <div class="doc-title">Rapport DPGF</div>
-  <div class="doc-subtitle">Décomposition du Prix Global et Forfaitaire · Accompagnement du chiffrage</div>
-  <span class="badge">${nom}</span>
-  ${nomChantier ? `<span class="badge" style="margin-left:8px;background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8">${nomChantier}</span>` : ''}
-
-  <!-- INFORMATIONS PROJET -->
-  <div class="section-title">Informations du projet</div>
-  <div class="info-grid">
-    <div class="info-item"><div class="info-label">Client / Maître d'ouvrage</div><div class="info-value">${client}</div></div>
-    <div class="info-item"><div class="info-label">Adresse du chantier</div><div class="info-value">${adresse}</div></div>
-    <div class="info-item"><div class="info-label">Type de local</div><div class="info-value">${cur.label}</div></div>
-    <div class="info-item"><div class="info-label">Activité prévue</div><div class="info-value">${activite}</div></div>
-    <div class="info-item"><div class="info-label">Surface totale</div><div class="info-value">${s > 0 ? s+' m²' : surface+' m²'}</div></div>
-    <div class="info-item"><div class="info-label">Gamme de prestation</div><div class="info-value">${gam.label}</div></div>
-    <div class="info-item"><div class="info-label">Date de visite</div><div class="info-value">${dateFormatee}</div></div>
-    <div class="info-item"><div class="info-label">Chargé d'affaires</div><div class="info-value">${releveur}</div></div>
-  </div>
-
-  <!-- MÉTRÉS RELEVÉS -->
-  ${(piecesExist.length > 0 || piecesProjet.length > 0) ? `
-  <div class="section-title">Données relevées</div>
-  <div class="info-grid">
-    <div class="info-item"><div class="info-label">Pièces existantes</div><div class="info-value">${piecesExist.length} pièces · ${surfExist.toFixed(1)} m²</div></div>
-    <div class="info-item"><div class="info-label">Pièces projet</div><div class="info-value">${piecesProjet.length} pièces · ${surfProjet.toFixed(1)} m²</div></div>
-  </div>` : ''}
-
-  <!-- DPGF — DÉCOMPOSITION PAR LOTS -->
-  <div class="section-title">Décomposition du prix global et forfaitaire</div>
-  <table>
-    <thead>
-      <tr>
-        <th>Désignation du lot</th>
-        <th style="text-align:center">Répartition</th>
-        <th style="text-align:right">Montant HT</th>
-      </tr>
-    </thead>
-    <tbody>
-      ${lotsHtml}
-    </tbody>
-    <tfoot>
-      <tr><td colspan="2" style="font-size:13px;font-weight:700">Déboursé sec</td><td style="text-align:right;font-size:13px;font-weight:700">${fmt(bB)} HT</td></tr>
-      <tr><td colspan="2" style="font-size:12px;color:#6b7280">Frais généraux (${fg}%)</td><td style="text-align:right;font-size:12px;color:#6b7280">+ ${fmt(mFG)} HT</td></tr>
-      <tr><td colspan="2" style="font-size:12px;color:#6b7280">Aléas (${Math.round(cA*100)}%)</td><td style="text-align:right;font-size:12px;color:#6b7280">+ ${fmt(mAl)} HT</td></tr>
-      <tr><td colspan="2" style="font-size:12px;color:#6b7280">Marge nette (${marge}%)</td><td style="text-align:right;font-size:12px;color:#6b7280">+ ${fmt(mMa)} HT</td></tr>
-      <tr class="total-row"><td colspan="2">TOTAL GÉNÉRAL HT</td><td>${fmt(tT)} HT</td></tr>
-    </tfoot>
-  </table>
-  ${s > 0 ? `<div style="text-align:right;font-size:12px;color:#6b7280;margin-top:-12px;margin-bottom:20px">Soit ${Math.round(tT/s)} €/m² HT</div>` : ''}
-
-  <!-- ZONES DE SIGNATURE -->
-  <div class="section-title">Validation</div>
-  <div class="signature-zone">
-    <div class="signature-box">
-      <div class="signature-label">Le Maître d'ouvrage</div>
-      <div style="font-size:11px;color:#9ca3af;margin-top:4px">Bon pour accord · Date et signature</div>
-    </div>
-    <div class="signature-box">
-      <div class="signature-label">L'Entreprise</div>
-      <div style="font-size:11px;color:#9ca3af;margin-top:4px">${entreprise.raison||''} · Date et signature</div>
-    </div>
-  </div>
-
-  <!-- PIED DE PAGE -->
-  <div class="footer">
-    <div>Document généré par lokoo.io · ${dateAujourdhui}</div>
-    <div>${nom} · ${nomChantier||client}</div>
-  </div>
-
-</div>
-    <div id="profil-menu" class="dropdown-menu" style="display:none;position:fixed;top:64px;right:12px;background:white;border:1.5px solid #e5e7eb;border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,.25);min-width:240px;z-index:99999;overflow:hidden;max-height:80vh;overflow-y:auto">
-      <div id="profil-menu-header" style="padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg)">
-        <div id="profil-menu-nom" style="font-size:13px;font-weight:700;color:var(--ink)">Mon compte</div>
-        <div id="profil-menu-entreprise" style="font-size:11px;color:var(--muted);margin-top:2px">Non configuré</div>
-      </div>
-      <div style="padding:6px">
-        <!-- Nouveau projet -->
-        <div style="padding:6px;border-bottom:1px solid var(--border);margin-bottom:4px">
-          <button onclick="reinitialiserProjet();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
-            Nouveau projet
-          </button>
-        </div>
-        <!-- Drive + Importer (mobile seulement) -->
-        <div class="mobile-only-menu" style="padding:6px;border-bottom:1px solid var(--border);margin-bottom:4px">
-          <button style="width:100%;text-align:left;padding:14px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:14px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font);touch-action:manipulation;-webkit-tap-highlight-color:transparent;min-height:44px" onclick="connecterDrive();toggleProfilMenu()">
-            <svg width="14" height="14" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8H0c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="M43.65 25L29.9 1.2C28.55 2 27.4 3.1 26.6 4.5L1.2 49.15A9 9 0 000 53.65h27.5z" fill="#00ac47"/><path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5H59.8l5.85 11.2z" fill="#ea4335"/><path d="M43.65 25L57.4 1.2C56.05.4 54.5 0 52.9 0H34.4c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="M59.8 53.65H27.5L13.75 77.45c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="M73.4 26.35l-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3L43.65 25l16.15 28H87.3c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg>
-            Google Drive
-          </button>
-          <button style="width:100%;text-align:left;padding:14px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:14px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font);touch-action:manipulation;-webkit-tap-highlight-color:transparent;min-height:44px" onclick="ouvrirListeDrive();toggleProfilMenu()">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Importer un dossier
-          </button>
-          <button style="width:100%;text-align:left;padding:14px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:14px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font);touch-action:manipulation;-webkit-tap-highlight-color:transparent;min-height:44px" onclick="sauvegarderDrive();toggleProfilMenu()">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-            Sauvegarder
-          </button>
-        </div>
-        <button onclick="showPage('compte');toggleProfilMenu()" style="width:100%;text-align:left;padding:14px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:14px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font);touch-action:manipulation;min-height:44px">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Mon compte
-        </button>
-        <button onclick="showPage('compte');document.getElementById('tab-entreprise').click();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
-          Mon entreprise
-        </button>
-        <button onclick="showPage('compte');document.getElementById('tab-preferences').click();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-          Préférences
-        </button>
-      </div>
-    </div>
-</body>
-</html>`;
-
-  // Générer les descriptions IA des lots puis ouvrir le rapport
-  const apiKey = localStorage.getItem('lokoo_api_key');
-  if(apiKey){
-    showToast('Génération des descriptions IA en cours...');
-    genererDescriptionsIAEtOuvrir(rapport, lots, cur, activite, s, apiKey);
-  } else {
-    ouvrirRapport(rapport, '');
-  }
-}
-
-async function genererDescriptionsIAEtOuvrir(rapport, lots, cur, activite, surface, apiKey){
-  try{
-    const lotsDesc = lots.map(l=>l.nom).join(', ');
-    const prompt = `Tu es un expert en rénovation de locaux commerciaux. 
-Pour un projet de ${cur.label} (${activite}), surface ${surface} m², génère une description professionnelle et concise pour CHAQUE lot de travaux suivant.
-Lots : ${lotsDesc}
-
-Pour chaque lot, donne exactement 2-3 phrases décrivant les prestations prévues, les matériaux standards et les normes applicables.
-Réponds UNIQUEMENT en JSON avec ce format :
-{"descriptions": {"NOM_LOT": "Description du lot..."}}
-Sans aucun texte avant ou après le JSON.`;
-
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-opus-4-5', max_tokens:2000, messages:[{role:'user',content:prompt}]})
-    });
-    const data = await resp.json();
-    const texte = data.content[0].text;
-    
-    let descriptions = {};
-    try{
-      const jsonMatch = texte.match(/\{[\s\S]*\}/);
-      if(jsonMatch) descriptions = JSON.parse(jsonMatch[0]).descriptions || {};
-    }catch(e){ console.warn('Parse JSON IA failed'); }
-    
-    ouvrirRapport(rapport, descriptions);
-  }catch(e){
-    console.error('IA error:', e);
-    ouvrirRapport(rapport, {});
-  }
-}
-
-function ouvrirRapport(rapportHtml, descriptions){
-  // Injecter les descriptions IA dans le rapport
-  let rapportFinal = rapportHtml;
-  if(descriptions && Object.keys(descriptions).length > 0){
-    // Remplacer chaque ligne de lot par version avec description
-    Object.entries(descriptions).forEach(([nom, desc]) => {
-      const escaped = nom.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      rapportFinal = rapportFinal.replace(
-        new RegExp(`(<td[^>]*>\\d+ - ${escaped}</td>)(</tr>)`, 'g'),
-        `$1<tr><td colspan="3" style="padding:4px 14px 10px;font-size:11px;color:#6b7280;font-style:italic;border-bottom:1px solid #e5e7eb">${desc}</td></tr>`
-      );
-    });
-  }
-  
-  const win = window.open('', '_blank');
-  win.document.write(rapportFinal);
-  win.document.close();
-  setTimeout(()=>{ win.focus(); win.print(); }, 800);
-}
-
-
-// ── ACTIVITÉ DYNAMIQUE ────────────────────────────────────────
-const ACTIVITES_PAR_TYPE = {
-  'restaurant': ['Kebab','Sandwicherie','Burger','Tacos','Pizza','Grillades','Cuisine turque','Cuisine libanaise','Cuisine asiatique','Cuisine italienne','Cuisine indienne','Cuisine africaine','Brasserie','Restaurant traditionnel','Fast-food','Fast casual','Food court','Traiteur','Dark kitchen','Autre'],
-  'boulangerie': ['Boulangerie artisanale','Boulangerie-pâtisserie','Terminal de cuisson','Boulangerie-snacking','Autre'],
-  'coffee-shop': ['Coffee Shop','Salon de thé','Bubble Tea','Coffee Shop & Pâtisserie','Coffee Shop & Restauration légère','Autre']
-};
-
-function majActiviteOptions(){
-  const type = document.getElementById('proj-type-local')?.value || 'restaurant';
-  const sel = document.getElementById('proj-activite');
-  if(!sel) return;
-  const opts = ACTIVITES_PAR_TYPE[type] || ACTIVITES_PAR_TYPE['restaurant'];
-  sel.innerHTML = '<option value="">— Sélectionner —</option>' +
-    opts.map(o=>`<option value="${o}">${o}</option>`).join('');
-  majActiviteAutre();
-}
-
-function majActiviteAutre(){
-  const sel = document.getElementById('proj-activite');
-  const wrap = document.getElementById('proj-activite-autre-wrap');
-  if(!sel || !wrap) return;
-  wrap.style.display = sel.value === 'Autre' ? 'block' : 'none';
-}
-
-// ── DOCUMENTS DOSSIER ─────────────────────────────────────────
-const TYPES_DOCS = [
-  // Administratif
-  {id:'bail', label:'Bail commercial'},
-  {id:'reglement-copro', label:'Règlement de copropriété'},
-  {id:'autorisation-bailleur', label:'Autorisation du bailleur'},
-  // Plans
-  {id:'plan-exist', label:'Plan existant'},
-  {id:'plan-projet', label:'Plan projet'},
-  {id:'plan-facade', label:'Plan façade'},
-  // Photos
-  {id:'photos', label:'Photos'},
-  // Autorisations
-  {id:'declaration-prealable', label:'Déclaration préalable'},
-  {id:'autorisation-travaux', label:'Autorisation de travaux'},
-  // Techniques
-  {id:'cctp', label:'CCTP'},
-  {id:'notice-descriptive', label:'Notice descriptive'},
-  {id:'cahier-prestations', label:'Cahier de prestations'},
-  {id:'autres', label:'Autres documents'},
-];
-
-var _documentsProjet = {};
-
-function initDocsGrid(){
-  const grid = document.getElementById('docs-grid');
-  if(!grid) return;
-  grid.innerHTML = TYPES_DOCS.map(d=>`
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;background:white;transition:all .15s"
-      id="doc-card-${d.id}">
-      <div style="display:flex;align-items:center;gap:10px">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="color:var(--muted);flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
-        <div>
-          <div style="font-size:12px;font-weight:600;color:var(--ink)">${d.label}</div>
-          <div id="doc-files-${d.id}" style="font-size:10px;color:var(--muted)">Aucun fichier</div>
-        </div>
-      </div>
-      <div style="display:flex;gap:6px">
-        <button class="btn btn-ghost btn-sm" style="font-size:11px;padding:4px 8px"
-          onclick="document.getElementById('doc-upload-input').setAttribute('data-type','${d.id}');document.getElementById('doc-upload-input').click()">
-          + Ajouter
-        </button>
-        <button class="btn btn-secondary btn-sm" style="font-size:11px;padding:4px 8px;display:none" id="btn-analyse-${d.id}"
-          onclick="analyserDocumentParType('${d.id}')">
-          Analyser
-        </button>
-      </div>
-    </div>`).join('');
-}
-
-async function resumerTousDocuments(){
-  const apiKey = localStorage.getItem('lokoo_api_key');
-  if(!apiKey){ showToast('Clé API requise', '#EF4444'); return; }
-  const docs = Object.entries(_documentsProjet).filter(([k,v])=>v&&v.length>0);
-  if(!docs.length){ showToast('Aucun document importé', '#EF4444'); return; }
-
-  showToast('Résumé en cours...');
-  const listeDoc = docs.map(([k,v])=>`- ${TYPES_DOCS.find(d=>d.id===k)?.label||k} : ${v.map(f=>f.name).join(', ')}`).join('\n');
-
-  try{
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({
-        model:'claude-opus-4-5', max_tokens:1500,
-        messages:[{role:'user',content:`Voici la liste des documents disponibles pour ce projet de rénovation de local commercial :\n${listeDoc}\n\nFais un résumé structuré de ce que ces documents permettent de faire et ce qui manque encore pour compléter le dossier. Sois concis et pratique.`}]
-      })
-    });
-    const data = await resp.json();
-    const texte = data.content[0].text;
-    const card = document.getElementById('resumé-global-card');
-    const cont = document.getElementById('resumé-global-content');
-    if(card) card.style.display='block';
-    if(cont) cont.textContent = texte;
-  }catch(e){ showToast('Erreur: '+e.message,'#EF4444'); }
-}
-
-async function analyserDocumentParType(type){
-  const docs = _documentsProjet[type];
-  if(!docs||!docs.length) return;
-  showToast('Analyse en cours...');
-  // Utiliser la dernière image importée
-  const lastDoc = docs[docs.length-1];
-  if(lastDoc.data){
-    _iaDocBase64 = lastDoc.data.split(',')[1];
-    _iaDocType = lastDoc.type||'image/jpeg';
-    await analyserDocumentIAManuel();
-  }
-}
-
-function ajouterDocuments(input){
-  const type = input.getAttribute('data-type') || 'autres';
-  const files = Array.from(input.files);
-  if(!_documentsProjet[type]) _documentsProjet[type] = [];
-  files.forEach(f => {
-    const reader = new FileReader();
-    reader.onload = e => {
-      _documentsProjet[type].push({name:f.name, size:f.size, type:f.type, data:e.target.result, date:new Date().toISOString()});
-      // Mettre à jour l'affichage
-      const filesEl = document.getElementById('doc-files-'+type);
-      const card = document.getElementById('doc-card-'+type);
-      const btnAnalyse = document.getElementById('btn-analyse-'+type);
-      if(filesEl) filesEl.textContent = _documentsProjet[type].length+' fichier(s)';
-      if(card){ card.style.borderColor='var(--primary)'; }
-      if(btnAnalyse) btnAnalyse.style.display='inline-flex';
-    };
-    reader.readAsDataURL(f);
-  });
-  input.value = '';
-  majSuiviAdmin();
-}
-
-// ── SUIVI ADMINISTRATIF ───────────────────────────────────────
-function initSuiviAdmin(){
-  const now = new Date().toLocaleString('fr-FR', {day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'});
-  const user = (() => {
-    try{
-      const d = JSON.parse(localStorage.getItem('lokoo_compte')||'{}');
-      const p = d.profil||{};
-      return [p.prenom,p.nom].filter(Boolean).join(' ') || (_currentUser?.email||'—');
-    }catch(e){ return '—'; }
-  })();
-  const el = id => document.getElementById(id);
-  if(el('suivi-creation')) el('suivi-creation').textContent = now;
-  if(el('suivi-cree-par')) el('suivi-cree-par').textContent = user;
-  if(el('suivi-modif')) el('suivi-modif').textContent = now;
-  if(el('suivi-modif-par')) el('suivi-modif-par').textContent = user;
-  // Stocker
-  if(!state._suiviCreation){ state._suiviCreation = now; state._suiviCreePar = user; }
-  // Sidebar
-  const sb2 = document.getElementById('sidebar-suivi-admin');
-  if(sb2) sb2.style.display = 'block';
-  const sbCreation = document.getElementById('sidebar-suivi-creation');
-  const sbModif2 = document.getElementById('sidebar-suivi-modif');
-  if(sbCreation) sbCreation.textContent = now;
-  if(sbModif2) sbModif2.textContent = now;
-}
-
-function majSuiviAdmin(){
-  const now = new Date().toLocaleString('fr-FR', {day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'});
-  const user = (() => {
-    try{
-      const d = JSON.parse(localStorage.getItem('lokoo_compte')||'{}');
-      const p = d.profil||{};
-      return [p.prenom,p.nom].filter(Boolean).join(' ') || (_currentUser?.email||'—');
-    }catch(e){ return '—'; }
-  })();
-  const el = id => document.getElementById(id);
-  if(el('suivi-modif')) el('suivi-modif').textContent = now;
-  if(el('suivi-modif-par')) el('suivi-modif-par').textContent = user;
-  // Mettre à jour la sidebar
-  const sb = document.getElementById('sidebar-suivi-admin');
-  if(sb) sb.style.display = 'block';
-  const sbModif = document.getElementById('sidebar-suivi-modif');
-  if(sbModif) sbModif.textContent = now;
-}
-
-
-
-function renderSecuriteIncendie(){}
-function renderPMR(){}
-function renderFacadeEnseigne(){}
-
 // ── DÉMARRAGE ─────────────────────────────────────────────────
 // ── RÉCAPITULATIF ─────────────────────────────────────────────
 function renderRecapBanner(){
@@ -5668,9 +4834,8 @@ function renderRecapBanner(){
       <div style="display:flex;align-items:center;gap:14px">
         <div style="width:44px;height:44px;background:rgba(255,255,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0">${cur.icon}</div>
         <div>
-          <div style="font-size:17px;font-weight:800;color:white">${nomChantier||client||'Projet sans nom'}</div>
-          <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2px">${client&&adresse?client+' · '+adresse:client||adresse||'—'}</div>
-          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;font-family:monospace">${nom||''}</div>
+          <div style="font-size:17px;font-weight:800;color:white">${nom||'Projet sans nom'}</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2px">${client||'—'} ${adresse?'· '+adresse:''}</div>
         </div>
       </div>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
@@ -5789,7 +4954,6 @@ function renderRecap(){
   if(!el) return;
 
   const nom = _val('proj-nom');
-  const nomChantier = _val('proj-nom-chantier');
   const client = _val('proj-client');
   const adresse = _val('proj-adresse');
   const surface = parseFloat(_val('proj-surface')) || 0;
@@ -6123,7 +5287,9 @@ function afficherDernierChantier(){
   }
 }
 
-// Cache des codes Drive — déclarés en haut du script
+// Cache des codes Drive chargés
+var _codesExistantsDrive = null;
+var _dernierCodeDrive = '';
 
 async function chargerCodesDrive(){
   if(!_driveToken || !_driveFolderId) return [];
@@ -6642,7 +5808,8 @@ document.getElementById('modal-ia-photo').addEventListener('click', function(e){
 const GOOGLE_CLIENT_ID = '927977439875-90eu5j3r7vfm74j4v9afbdg8d7ae0el6.apps.googleusercontent.com';
 const DRIVE_FOLDER_NAME = 'Lokoo - Dossiers Chantiers';
 
-// _driveToken déclaré plus haut
+let _driveToken = null;
+let _driveFolderId = null;
 
 function connecterDrive(){
   // Diagnostic complet
@@ -6685,17 +5852,8 @@ function connecterDrive(){
         if(nm) nm.textContent = u.given_name||u.name||'Drive';
         // Notif
         showToast('✅ Google Drive connecté !');
-        // Trouver/créer dossier puis générer code chantier
-        trouverOuCreerDossier().then(async () => {
-          await chargerCodesDrive();
-          await genererCodeChantier();
-        });
-      }).catch(async e => {
-        showToast('✅ Drive connecté');
-        await trouverOuCreerDossier();
-        await chargerCodesDrive();
-        await genererCodeChantier();
-      });
+        trouverOuCreerDossier();
+      }).catch(e=>{ showToast('✅ Drive connecté'); trouverOuCreerDossier(); });
     }
   });
 
@@ -6867,47 +6025,5 @@ async function chargerFichierDrive(fileId){
 
 
 </div><!-- fin app-main -->
-    <div id="profil-menu" class="dropdown-menu" style="display:none;position:fixed;top:64px;right:12px;background:white;border:1.5px solid #e5e7eb;border-radius:14px;box-shadow:0 8px 40px rgba(0,0,0,.25);min-width:240px;z-index:99999;overflow:hidden;max-height:80vh;overflow-y:auto">
-      <div id="profil-menu-header" style="padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg)">
-        <div id="profil-menu-nom" style="font-size:13px;font-weight:700;color:var(--ink)">Mon compte</div>
-        <div id="profil-menu-entreprise" style="font-size:11px;color:var(--muted);margin-top:2px">Non configuré</div>
-      </div>
-      <div style="padding:6px">
-        <!-- Nouveau projet -->
-        <div style="padding:6px;border-bottom:1px solid var(--border);margin-bottom:4px">
-          <button onclick="reinitialiserProjet();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
-            Nouveau projet
-          </button>
-        </div>
-        <!-- Drive + Importer (mobile seulement) -->
-        <div class="mobile-only-menu" style="padding:6px;border-bottom:1px solid var(--border);margin-bottom:4px">
-          <button style="width:100%;text-align:left;padding:14px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:14px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font);touch-action:manipulation;-webkit-tap-highlight-color:transparent;min-height:44px" onclick="connecterDrive();toggleProfilMenu()">
-            <svg width="14" height="14" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8H0c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="M43.65 25L29.9 1.2C28.55 2 27.4 3.1 26.6 4.5L1.2 49.15A9 9 0 000 53.65h27.5z" fill="#00ac47"/><path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5H59.8l5.85 11.2z" fill="#ea4335"/><path d="M43.65 25L57.4 1.2C56.05.4 54.5 0 52.9 0H34.4c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="M59.8 53.65H27.5L13.75 77.45c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="M73.4 26.35l-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3L43.65 25l16.15 28H87.3c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg>
-            Google Drive
-          </button>
-          <button style="width:100%;text-align:left;padding:14px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:14px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font);touch-action:manipulation;-webkit-tap-highlight-color:transparent;min-height:44px" onclick="ouvrirListeDrive();toggleProfilMenu()">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Importer un dossier
-          </button>
-          <button style="width:100%;text-align:left;padding:14px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:14px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font);touch-action:manipulation;-webkit-tap-highlight-color:transparent;min-height:44px" onclick="sauvegarderDrive();toggleProfilMenu()">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-            Sauvegarder
-          </button>
-        </div>
-        <button onclick="showPage('compte');toggleProfilMenu()" style="width:100%;text-align:left;padding:14px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:14px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font);touch-action:manipulation;min-height:44px">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Mon compte
-        </button>
-        <button onclick="showPage('compte');document.getElementById('tab-entreprise').click();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
-          Mon entreprise
-        </button>
-        <button onclick="showPage('compte');document.getElementById('tab-preferences').click();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-          Préférences
-        </button>
-      </div>
-    </div>
 </body>
 </html>
