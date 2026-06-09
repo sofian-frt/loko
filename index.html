@@ -1129,198 +1129,187 @@ input[type=number]{-moz-appearance:textfield}
 
 
       <!-- TRAVAUX PRÉVUS -->
+      <!-- AUTORISATIONS, ÉTUDES & TRAVAUX PRÉVUS -->
       <div class="card" style="margin-bottom:16px" id="card-travaux">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-          <div>
-            <div class="card-title" style="margin-bottom:4px">Travaux prévus</div>
-            <div style="font-size:12px;color:var(--muted)">Cochez les travaux envisagés — les autorisations et intervenants seront déterminés automatiquement</div>
-          </div>
-          <button class="btn btn-primary btn-sm" onclick="analyserTravauxIA()" id="btn-analyse-travaux" style="gap:6px;flex-shrink:0">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
-            Analyser avec l'IA
-          </button>
+        <div class="card-title" style="margin-bottom:4px">Autorisations, études & travaux prévus</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:16px">Cochez les travaux envisagés — autorisations, intervenants et délais sont déterminés automatiquement</div>
+
+        <!-- TABS -->
+        <div class="tabs" id="travaux-tabs" style="margin-bottom:16px">
+          <button class="tab active" onclick="switchTravauxTab('travaux',this)">Travaux prévus</button>
+          <button class="tab" onclick="switchTravauxTab('autorisations',this)">Autorisations</button>
+          <button class="tab" onclick="switchTravauxTab('intervenants',this)">Intervenants</button>
+          <button class="tab" onclick="switchTravauxTab('documents',this)">Documents</button>
         </div>
 
-        <!-- Catégories travaux en accordéon -->
-        <div id="travaux-categories" style="display:flex;flex-direction:column;gap:8px">
+        <!-- TAB TRAVAUX -->
+        <div id="tv-tab-travaux">
+          <div style="display:flex;flex-direction:column;gap:8px" id="travaux-categories">
 
-          <!-- Façade & Enseigne -->
-          <div class="travaux-cat" id="cat-facade">
-            <div class="travaux-cat-header" onclick="toggleCat('facade')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
-              <div style="display:flex;align-items:center;gap:8px">
-                <span style="font-size:16px">🏢</span>
-                <span style="font-size:13px;font-weight:600;color:var(--ink)">Façade & Enseigne</span>
-                <span id="cat-facade-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span>
-              </div>
-              <svg id="cat-facade-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s;flex-shrink:0"><path d="M6 9l6 6 6-6"/></svg>
+            <!-- Façade & Enseigne -->
+            <div><div onclick="toggleCat('facade')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
+              <div style="display:flex;align-items:center;gap:8px"><span>🏢</span><span style="font-size:13px;font-weight:600">Façade & Enseigne</span><span id="cat-facade-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span></div>
+              <svg id="cat-facade-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s"><path d="M6 9l6 6 6-6"/></svg>
             </div>
-            <div id="cat-facade-body" style="display:none;padding:12px 14px 4px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <div id="cat-facade-body" style="display:none;padding:10px 14px 4px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('facade')"><input type="checkbox" id="tv-vitrine-creation"> Création d'une vitrine</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('facade')"><input type="checkbox" id="tv-vitrine-modif"> Modification d'une vitrine</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('facade')"><input type="checkbox" id="tv-porte-creation"> Création d'une porte</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('facade')"><input type="checkbox" id="tv-porte-modif"> Modification d'une porte</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('facade')"><input type="checkbox" id="tv-ouverture-creation"> Création d'une ouverture en façade</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('facade')"><input type="checkbox" id="tv-ouverture-creation"> Création ouverture en façade</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('facade')"><input type="checkbox" id="tv-ouverture-fermeture"> Fermeture d'une ouverture</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('facade')"><input type="checkbox" id="tv-habillage-facade"> Habillage de façade</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('facade')"><input type="checkbox" id="tv-enseigne-bandeau"> Enseigne bandeau</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('facade')"><input type="checkbox" id="tv-enseigne-drapeau"> Enseigne drapeau</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('facade')"><input type="checkbox" id="tv-ecran-led"> Écran LED</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('facade')"><input type="checkbox" id="tv-store-banne"> Store banne</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('facade')"><input type="checkbox" id="tv-habillage-facade"> Habillage de façade</label>
-            </div>
-          </div>
+            </div></div>
 
-          <!-- Extraction & Ventilation -->
-          <div class="travaux-cat" id="cat-extraction">
-            <div class="travaux-cat-header" onclick="toggleCat('extraction')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
-              <div style="display:flex;align-items:center;gap:8px">
-                <span style="font-size:16px">💨</span>
-                <span style="font-size:13px;font-weight:600;color:var(--ink)">Extraction & Ventilation</span>
-                <span id="cat-extraction-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span>
-              </div>
-              <svg id="cat-extraction-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s;flex-shrink:0"><path d="M6 9l6 6 6-6"/></svg>
+            <!-- Extraction & Ventilation -->
+            <div><div onclick="toggleCat('extraction')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
+              <div style="display:flex;align-items:center;gap:8px"><span>💨</span><span style="font-size:13px;font-weight:600">Extraction & Ventilation</span><span id="cat-extraction-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span></div>
+              <svg id="cat-extraction-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s"><path d="M6 9l6 6 6-6"/></svg>
             </div>
-            <div id="cat-extraction-body" style="display:none;padding:12px 14px 4px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <div id="cat-extraction-body" style="display:none;padding:10px 14px 4px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('extraction')"><input type="checkbox" id="tv-extraction-creation"> Création d'une extraction</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('extraction')"><input type="checkbox" id="tv-extraction-reutilisation"> Réutilisation extraction existante</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('extraction')"><input type="checkbox" id="tv-extraction-modif"> Modification extraction existante</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('extraction')"><input type="checkbox" id="tv-extraction-modif"> Modification extraction</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('extraction')"><input type="checkbox" id="tv-extraction-facade"> Extraction en façade</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('extraction')"><input type="checkbox" id="tv-extraction-toiture"> Extraction en toiture</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('extraction')"><input type="checkbox" id="tv-tourelle"> Tourelle d'extraction</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('extraction')"><input type="checkbox" id="tv-hotte-pro"> Hotte professionnelle</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('extraction')"><input type="checkbox" id="tv-tourelle"> Tourelle d'extraction</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('extraction')"><input type="checkbox" id="tv-cta"> CTA</label>
-            </div>
-          </div>
+            </div></div>
 
-          <!-- Climatisation -->
-          <div class="travaux-cat" id="cat-clim">
-            <div class="travaux-cat-header" onclick="toggleCat('clim')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
-              <div style="display:flex;align-items:center;gap:8px">
-                <span style="font-size:16px">❄️</span>
-                <span style="font-size:13px;font-weight:600;color:var(--ink)">Climatisation</span>
-                <span id="cat-clim-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span>
-              </div>
-              <svg id="cat-clim-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s;flex-shrink:0"><path d="M6 9l6 6 6-6"/></svg>
+            <!-- Climatisation -->
+            <div><div onclick="toggleCat('clim')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
+              <div style="display:flex;align-items:center;gap:8px"><span>❄️</span><span style="font-size:13px;font-weight:600">Climatisation</span><span id="cat-clim-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span></div>
+              <svg id="cat-clim-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s"><path d="M6 9l6 6 6-6"/></svg>
             </div>
-            <div id="cat-clim-body" style="display:none;padding:12px 14px 4px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('clim')"><input type="checkbox" id="tv-ue"> Installation unités extérieures</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('clim')"><input type="checkbox" id="tv-ui"> Installation unités intérieures</label>
+            <div id="cat-clim-body" style="display:none;padding:10px 14px 4px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('clim')"><input type="checkbox" id="tv-ue"> Unités extérieures</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('clim')"><input type="checkbox" id="tv-ui"> Unités intérieures</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('clim')"><input type="checkbox" id="tv-groupe-toiture"> Groupe en toiture</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('clim')"><input type="checkbox" id="tv-groupe-facade"> Groupe en façade</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('clim')"><input type="checkbox" id="tv-groupe-cour"> Groupe en cour intérieure</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('clim')"><input type="checkbox" id="tv-percement-frigo"> Percement passage frigorifique</label>
-            </div>
-          </div>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('clim')"><input type="checkbox" id="tv-percement-frigo"> Percement frigorifique</label>
+            </div></div>
 
-          <!-- Structure -->
-          <div class="travaux-cat" id="cat-structure">
-            <div class="travaux-cat-header" onclick="toggleCat('structure')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
-              <div style="display:flex;align-items:center;gap:8px">
-                <span style="font-size:16px">🏗</span>
-                <span style="font-size:13px;font-weight:600;color:var(--ink)">Structure</span>
-                <span id="cat-structure-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span>
-              </div>
-              <svg id="cat-structure-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s;flex-shrink:0"><path d="M6 9l6 6 6-6"/></svg>
+            <!-- Structure -->
+            <div><div onclick="toggleCat('structure')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
+              <div style="display:flex;align-items:center;gap:8px"><span>🏗</span><span style="font-size:13px;font-weight:600">Structure</span><span id="cat-structure-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span></div>
+              <svg id="cat-structure-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s"><path d="M6 9l6 6 6-6"/></svg>
             </div>
-            <div id="cat-structure-body" style="display:none;padding:12px 14px 4px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <div id="cat-structure-body" style="display:none;padding:10px 14px 4px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-mur-porteur"> Ouverture mur porteur</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-demol-porteur"> Démolition mur porteur</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-tremie"> Création d'une trémie</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-renforcement"> Renforcement structure</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-demol-porteur"> Démolition mur porteur</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-plancher"> Création d'un plancher</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-extension"> Extension</label>
-            </div>
-          </div>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('structure')"><input type="checkbox" id="tv-surelevation"> Surélévation</label>
+            </div></div>
 
-          <!-- Aménagement intérieur -->
-          <div class="travaux-cat" id="cat-amenagement">
-            <div class="travaux-cat-header" onclick="toggleCat('amenagement')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
-              <div style="display:flex;align-items:center;gap:8px">
-                <span style="font-size:16px">🪑</span>
-                <span style="font-size:13px;font-weight:600;color:var(--ink)">Aménagement intérieur</span>
-                <span id="cat-amenagement-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span>
-              </div>
-              <svg id="cat-amenagement-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s;flex-shrink:0"><path d="M6 9l6 6 6-6"/></svg>
+            <!-- Aménagement intérieur -->
+            <div><div onclick="toggleCat('amenagement')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
+              <div style="display:flex;align-items:center;gap:8px"><span>🪑</span><span style="font-size:13px;font-weight:600">Aménagement intérieur</span><span id="cat-amenagement-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span></div>
+              <svg id="cat-amenagement-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s"><path d="M6 9l6 6 6-6"/></svg>
             </div>
-            <div id="cat-amenagement-body" style="display:none;padding:12px 14px 4px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <div id="cat-amenagement-body" style="display:none;padding:10px 14px 4px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('amenagement')"><input type="checkbox" id="tv-redistribution"> Redistribution complète</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('amenagement')"><input type="checkbox" id="tv-sanitaires-pmr"> Création sanitaires PMR</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('amenagement')"><input type="checkbox" id="tv-sanitaires-pmr"> Sanitaires PMR</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('amenagement')"><input type="checkbox" id="tv-circulations"> Modification circulations</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('amenagement')"><input type="checkbox" id="tv-cuisine-pro"> Création cuisine professionnelle</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('amenagement')"><input type="checkbox" id="tv-comptoir"> Création d'un comptoir</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('amenagement')"><input type="checkbox" id="tv-chambre-froide"> Création chambre froide</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('amenagement')"><input type="checkbox" id="tv-reserve"> Création d'une réserve</label>
-            </div>
-          </div>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('amenagement')"><input type="checkbox" id="tv-cuisine-pro"> Cuisine professionnelle</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('amenagement')"><input type="checkbox" id="tv-comptoir"> Comptoir</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('amenagement')"><input type="checkbox" id="tv-chambre-froide"> Chambre froide</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('amenagement')"><input type="checkbox" id="tv-reserve"> Réserve</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('amenagement')"><input type="checkbox" id="tv-degagements-erp"> Modification dégagements ERP</label>
+            </div></div>
 
-          <!-- Réseaux techniques -->
-          <div class="travaux-cat" id="cat-reseaux">
-            <div class="travaux-cat-header" onclick="toggleCat('reseaux')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
-              <div style="display:flex;align-items:center;gap:8px">
-                <span style="font-size:16px">⚡</span>
-                <span style="font-size:13px;font-weight:600;color:var(--ink)">Réseaux techniques</span>
-                <span id="cat-reseaux-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span>
-              </div>
-              <svg id="cat-reseaux-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s;flex-shrink:0"><path d="M6 9l6 6 6-6"/></svg>
+            <!-- Réseaux techniques -->
+            <div><div onclick="toggleCat('reseaux')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
+              <div style="display:flex;align-items:center;gap:8px"><span>⚡</span><span style="font-size:13px;font-weight:600">Réseaux techniques</span><span id="cat-reseaux-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span></div>
+              <svg id="cat-reseaux-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s"><path d="M6 9l6 6 6-6"/></svg>
             </div>
-            <div id="cat-reseaux-body" style="display:none;padding:12px 14px 4px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('reseaux')"><input type="checkbox" id="tv-gaz-creation"> Création alimentation gaz</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('reseaux')"><input type="checkbox" id="tv-gaz-modif"> Modification alimentation gaz</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('reseaux')"><input type="checkbox" id="tv-elec-augmentation"> Augmentation puissance électrique</label>
+            <div id="cat-reseaux-body" style="display:none;padding:10px 14px 4px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('reseaux')"><input type="checkbox" id="tv-gaz-creation"> Alimentation gaz</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('reseaux')"><input type="checkbox" id="tv-gaz-modif"> Modification gaz</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('reseaux')"><input type="checkbox" id="tv-elec-augmentation"> Augmentation puissance élec.</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('reseaux')"><input type="checkbox" id="tv-tgbt"> Création TGBT</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('reseaux')"><input type="checkbox" id="tv-plomberie-complete"> Création plomberie complète</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('reseaux')"><input type="checkbox" id="tv-bac-graisse"> Création bac à graisse</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('reseaux')"><input type="checkbox" id="tv-evacuation"> Création évacuation EU/EV</label>
-            </div>
-          </div>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('reseaux')"><input type="checkbox" id="tv-plomberie-complete"> Plomberie complète</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('reseaux')"><input type="checkbox" id="tv-bac-graisse"> Bac à graisse</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('reseaux')"><input type="checkbox" id="tv-evacuation"> Évacuation EU/EV</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('reseaux')"><input type="checkbox" id="tv-incendie"> Réseau incendie</label>
+            </div></div>
 
-          <!-- Équipements commerciaux -->
-          <div class="travaux-cat" id="cat-equipements">
-            <div class="travaux-cat-header" onclick="toggleCat('equipements')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
-              <div style="display:flex;align-items:center;gap:8px">
-                <span style="font-size:16px">💻</span>
-                <span style="font-size:13px;font-weight:600;color:var(--ink)">Équipements commerciaux</span>
-                <span id="cat-equipements-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span>
-              </div>
-              <svg id="cat-equipements-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s;flex-shrink:0"><path d="M6 9l6 6 6-6"/></svg>
+            <!-- Cuisine -->
+            <div><div onclick="toggleCat('cuisine')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
+              <div style="display:flex;align-items:center;gap:8px"><span>🍳</span><span style="font-size:13px;font-weight:600">Cuisine</span><span id="cat-cuisine-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span></div>
+              <svg id="cat-cuisine-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s"><path d="M6 9l6 6 6-6"/></svg>
             </div>
-            <div id="cat-equipements-body" style="display:none;padding:12px 14px 4px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('equipements')"><input type="checkbox" id="tv-borne-commande"> Installation borne de commande</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('equipements')"><input type="checkbox" id="tv-caisse"> Installation système de caisse</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('equipements')"><input type="checkbox" id="tv-videosurveillance"> Installation vidéosurveillance</label>
-            </div>
-          </div>
-
-          <!-- Cuisine -->
-          <div class="travaux-cat" id="cat-cuisine">
-            <div class="travaux-cat-header" onclick="toggleCat('cuisine')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
-              <div style="display:flex;align-items:center;gap:8px">
-                <span style="font-size:16px">🍳</span>
-                <span style="font-size:13px;font-weight:600;color:var(--ink)">Cuisine</span>
-                <span id="cat-cuisine-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span>
-              </div>
-              <svg id="cat-cuisine-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s;flex-shrink:0"><path d="M6 9l6 6 6-6"/></svg>
-            </div>
-            <div id="cat-cuisine-body" style="display:none;padding:12px 14px 4px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <div id="cat-cuisine-body" style="display:none;padding:10px 14px 4px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('cuisine')"><input type="checkbox" id="tv-cuisson-gaz"> Cuisson gaz</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('cuisine')"><input type="checkbox" id="tv-cuisson-elec"> Cuisson électrique</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('cuisine')"><input type="checkbox" id="tv-four-bois"> Four à bois</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('cuisine')"><input type="checkbox" id="tv-four-charbon"> Four à charbon</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('cuisine')"><input type="checkbox" id="tv-four-pizza"> Four à pizza</label>
-              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('cuisine')"><input type="checkbox" id="tv-rotisserie"> Rôtisserie</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('cuisine')"><input type="checkbox" id="tv-grill-charbon"> Grill à charbon</label>
+              <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('cuisine')"><input type="checkbox" id="tv-rotisserie"> Rôtisserie</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('cuisine')"><input type="checkbox" id="tv-plancha"> Plancha</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('cuisine')"><input type="checkbox" id="tv-friteuses"> Friteuses</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('cuisine')"><input type="checkbox" id="tv-cf-positive"> Chambre froide positive</label>
               <label class="check-item" onclick="toggleCheck(this);updateTravauxCount('cuisine')"><input type="checkbox" id="tv-cf-negative"> Chambre froide négative</label>
+            </div></div>
+
+          </div><!-- /travaux-categories -->
+          <div style="margin-top:16px;text-align:right">
+            <button class="btn btn-primary" onclick="analyserTravauxAuto();switchTravauxTab('autorisations',document.querySelector('#travaux-tabs .tab:nth-child(2)'))" style="gap:6px">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              Générer autorisations & intervenants
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB AUTORISATIONS -->
+        <div id="tv-tab-autorisations" style="display:none">
+          <div id="tv-autorisations-content">
+            <div style="text-align:center;padding:30px;color:var(--muted)">
+              <div style="font-size:32px;margin-bottom:8px">⚖️</div>
+              <div style="font-size:13px;font-weight:600">Cochez les travaux puis cliquez sur "Générer"</div>
             </div>
           </div>
+        </div>
 
-        </div><!-- /travaux-categories -->
+        <!-- TAB INTERVENANTS -->
+        <div id="tv-tab-intervenants" style="display:none">
+          <div id="tv-intervenants-content">
+            <div style="text-align:center;padding:30px;color:var(--muted)">
+              <div style="font-size:32px;margin-bottom:8px">👥</div>
+              <div style="font-size:13px;font-weight:600">Cochez les travaux puis cliquez sur "Générer"</div>
+            </div>
+          </div>
+        </div>
 
-        <!-- RÉSULTAT ANALYSE IA -->
-        <div id="travaux-analyse-result" style="display:none;margin-top:20px"></div>
+        <!-- TAB DOCUMENTS -->
+        <div id="tv-tab-documents" style="display:none">
+          <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Documents disponibles pour ce projet</div>
+          <div class="check-grid">
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="doc-plans-existants"> Plans existants</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="doc-plans-bailleur"> Plans bailleur</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="doc-plans-archi"> Plans architecte</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="doc-doe"> DOE</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="doc-dta"> DTA Amiante</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="doc-structure"> Rapport structure</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="doc-bc"> Rapport bureau de contrôle</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="doc-erp"> Dossier ERP</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="doc-autorisations"> Autorisations obtenues</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="doc-photos"> Photos du local</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="doc-devis"> Devis existants</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="doc-aucun"> Aucun document</label>
+          </div>
+        </div>
 
       </div><!-- /card-travaux -->
+
 
       <!-- ÉTAT DU LOCAL -->
       <div class="card" style="margin-bottom:16px">
@@ -3172,11 +3161,20 @@ function updateRecap(){
 
 // ── TRAVAUX PRÉVUS & ANALYSE IA ───────────────────────────────
 
+function switchTravauxTab(tab, el){
+  ['travaux','autorisations','intervenants','documents'].forEach(t=>{
+    const d = document.getElementById('tv-tab-'+t);
+    if(d) d.style.display = t===tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('#travaux-tabs .tab').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+}
+
 function toggleCat(cat){
   const body  = document.getElementById('cat-'+cat+'-body');
   const arrow = document.getElementById('cat-'+cat+'-arrow');
   if(!body) return;
-  const open = body.style.display !== 'none' && body.style.display !== '';
+  const open = body.style.display === 'grid';
   body.style.display  = open ? 'none' : 'grid';
   if(arrow) arrow.style.transform = open ? '' : 'rotate(180deg)';
 }
@@ -3191,188 +3189,206 @@ function updateTravauxCount(cat){
 }
 
 function getTravauxCoches(){
-  const coches = [];
+  const LABELS = {
+    'tv-vitrine-creation':"Création d'une vitrine",'tv-vitrine-modif':"Modification d'une vitrine",
+    'tv-porte-creation':"Création d'une porte",'tv-porte-modif':"Modification d'une porte",
+    'tv-ouverture-creation':"Création ouverture en façade",'tv-ouverture-fermeture':"Fermeture d'une ouverture",
+    'tv-habillage-facade':'Habillage de façade','tv-enseigne-bandeau':'Enseigne bandeau',
+    'tv-enseigne-drapeau':'Enseigne drapeau','tv-ecran-led':'Écran LED','tv-store-banne':'Store banne',
+    'tv-extraction-creation':'Création extraction','tv-extraction-modif':'Modification extraction',
+    'tv-extraction-facade':'Extraction en façade','tv-extraction-toiture':'Extraction en toiture',
+    'tv-hotte-pro':"Hotte professionnelle",'tv-tourelle':"Tourelle d'extraction",'tv-cta':"CTA",
+    'tv-ue':'Unités extérieures','tv-ui':'Unités intérieures','tv-groupe-toiture':'Groupe en toiture',
+    'tv-groupe-facade':'Groupe en façade','tv-groupe-cour':'Groupe en cour intérieure','tv-percement-frigo':'Percement frigorifique',
+    'tv-mur-porteur':'Ouverture mur porteur','tv-demol-porteur':'Démolition mur porteur',
+    'tv-tremie':"Création trémie",'tv-renforcement':"Renforcement structure",
+    'tv-plancher':"Création plancher",'tv-extension':"Extension",'tv-surelevation':"Surélévation",
+    'tv-redistribution':'Redistribution complète','tv-sanitaires-pmr':'Sanitaires PMR',
+    'tv-circulations':'Modification circulations','tv-cuisine-pro':'Cuisine professionnelle',
+    'tv-comptoir':'Comptoir','tv-chambre-froide':"Chambre froide",'tv-reserve':"Réserve",
+    'tv-degagements-erp':'Modification dégagements ERP',
+    'tv-gaz-creation':'Alimentation gaz','tv-gaz-modif':'Modification gaz',
+    'tv-elec-augmentation':'Augmentation puissance électrique','tv-tgbt':'TGBT',
+    'tv-plomberie-complete':'Plomberie complète','tv-bac-graisse':'Bac à graisse',
+    'tv-evacuation':"Évacuation EU/EV",'tv-incendie':"Réseau incendie",
+    'tv-cuisson-gaz':'Cuisson gaz','tv-cuisson-elec':'Cuisson électrique',
+    'tv-four-bois':'Four à bois','tv-four-charbon':'Four à charbon','tv-four-pizza':'Four à pizza',
+    'tv-grill-charbon':'Grill à charbon','tv-rotisserie':'Rôtisserie','tv-plancha':'Plancha',
+    'tv-friteuses':'Friteuses','tv-cf-positive':'Chambre froide positive','tv-cf-negative':'Chambre froide négative'
+  };
+  const result = [];
   document.querySelectorAll('#travaux-categories input[type=checkbox]:checked').forEach(cb=>{
-    coches.push(cb.id);
+    result.push({id:cb.id, label:LABELS[cb.id]||cb.id});
   });
-  return coches;
+  return result;
 }
 
-async function analyserTravauxIA(){
+// Analyse règles automatiques (sans IA)
+function analyserTravauxAuto(){
   const coches = getTravauxCoches();
-  const btn = document.getElementById('btn-analyse-travaux');
-  const result = document.getElementById('travaux-analyse-result');
-  if(!result) return;
+  const ids = coches.map(c=>c.id);
+  const labels = coches.map(c=>c.label);
 
   if(!coches.length){
     showToast('Cochez au moins un type de travaux', '#EA580C');
     return;
   }
 
-  const apiKey = localStorage.getItem('lokoo_api_key');
-  if(!apiKey){
-    result.style.display = 'block';
-    result.innerHTML = `<div class="alert" style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:10px;padding:14px">
-      <div style="font-size:13px;font-weight:600;color:#92400E;margin-bottom:6px">⚠️ Clé API requise</div>
-      <div style="font-size:12px;color:#78350F">Renseignez votre clé API Anthropic dans l'onglet <strong>Analyse IA</strong> pour activer l'analyse automatique.</div>
-    </div>`;
+  // ── RÈGLES AUTORISATIONS ──────────────────────────────────
+  const autorisations = [];
+
+  const besoinsAT = ids.some(id=>['tv-redistribution','tv-sanitaires-pmr','tv-circulations',
+    'tv-degagements-erp','tv-cuisine-pro','tv-mur-porteur','tv-demol-porteur','tv-tremie'].includes(id));
+  const besoinsDP = ids.some(id=>['tv-vitrine-creation','tv-vitrine-modif','tv-porte-creation',
+    'tv-ouverture-creation','tv-ouverture-fermeture','tv-habillage-facade','tv-groupe-facade',
+    'tv-extraction-facade','tv-extraction-toiture'].includes(id));
+  const besoinsPC = ids.some(id=>['tv-extension','tv-surelevation','tv-plancher'].includes(id));
+  const besoinsEnseigne = ids.some(id=>['tv-enseigne-bandeau','tv-enseigne-drapeau','tv-ecran-led','tv-store-banne'].includes(id));
+  const besoinsAccordBailleur = ids.some(id=>['tv-extraction-toiture','tv-groupe-facade','tv-groupe-toiture',
+    'tv-extraction-facade','tv-enseigne-bandeau','tv-enseigne-drapeau'].includes(id));
+  const besoinsAccordCopro = ids.some(id=>['tv-extraction-toiture','tv-groupe-toiture','tv-extension','tv-surelevation'].includes(id));
+
+  const AUTORISATIONS_DEF = [
+    {key:'AT', nom:'Autorisation de Travaux (AT)', condition:besoinsAT,
+     delai:'2 mois', peut_avant:false,
+     travaux:labels.filter((_,i)=>['tv-redistribution','tv-sanitaires-pmr','tv-circulations','tv-degagements-erp','tv-cuisine-pro','tv-mur-porteur','tv-demol-porteur','tv-tremie'].includes(ids[i])),
+     risques:'Infraction ERP — mise en demeure, fermeture administrative, remise en état aux frais du propriétaire'},
+    {key:'DP', nom:'Déclaration Préalable (DP)', condition:besoinsDP,
+     delai:'1 mois (ABF : 2 mois)', peut_avant:false,
+     travaux:labels.filter((_,i)=>['tv-vitrine-creation','tv-vitrine-modif','tv-porte-creation','tv-ouverture-creation','tv-ouverture-fermeture','tv-habillage-facade','tv-groupe-facade','tv-extraction-facade','tv-extraction-toiture'].includes(ids[i])),
+     risques:"Infraction urbanisme — amende jusqu'à 6 000 €/m², remise en état, procès-verbal"},
+    {key:'PC', nom:'Permis de Construire (PC)', condition:besoinsPC,
+     delai:'3 mois (ABF : 5 mois)', peut_avant:false,
+     travaux:labels.filter((_,i)=>['tv-extension','tv-surelevation','tv-plancher'].includes(ids[i])),
+     risques:'Infraction urbanisme majeure — amende, démolition ordonnée par le tribunal'},
+    {key:'ENS', nom:"Autorisation d'enseigne", condition:besoinsEnseigne,
+     delai:'1 mois', peut_avant:false,
+     travaux:labels.filter((_,i)=>['tv-enseigne-bandeau','tv-enseigne-drapeau','tv-ecran-led','tv-store-banne'].includes(ids[i])),
+     risques:"Dépose d'enseigne imposée, amende de 1 500 € à 6 000 €"},
+    {key:'BAIL', nom:'Accord Bailleur', condition:besoinsAccordBailleur,
+     delai:'Variable selon bail', peut_avant:false,
+     travaux:labels.filter((_,i)=>['tv-extraction-toiture','tv-groupe-facade','tv-groupe-toiture','tv-extraction-facade','tv-enseigne-bandeau','tv-enseigne-drapeau'].includes(ids[i])),
+     risques:'Résiliation du bail, obligation de remise en état à la charge du locataire'},
+    {key:'COPRO', nom:'Accord Copropriété', condition:besoinsAccordCopro,
+     delai:'Assemblée générale (1-6 mois)', peut_avant:false,
+     travaux:labels.filter((_,i)=>['tv-extraction-toiture','tv-groupe-toiture','tv-extension','tv-surelevation'].includes(ids[i])),
+     risques:'Action en justice de la copropriété, remise en état imposée'},
+  ];
+
+  afficherAutorisations(AUTORISATIONS_DEF.filter(a=>a.condition));
+
+  // ── RÈGLES INTERVENANTS ───────────────────────────────────
+  const intervenants = [];
+  if(ids.some(id=>['tv-mur-porteur','tv-demol-porteur','tv-tremie','tv-renforcement','tv-extension','tv-surelevation','tv-plancher'].includes(id)))
+    intervenants.push({nom:"Bureau d'études Structure", niveau:'Obligatoire', raison:'Ouverture/démolition éléments porteurs'});
+  if(ids.some(id=>['tv-vitrine-creation','tv-porte-creation','tv-ouverture-creation','tv-extension','tv-surelevation'].includes(id)))
+    intervenants.push({nom:'Architecte', niveau:'Recommandé', raison:'Modifications de façade ou extension'});
+  if(ids.some(id=>['tv-cuisine-pro','tv-cf-positive','tv-cf-negative','tv-four-bois','tv-four-charbon','tv-four-pizza'].includes(id)))
+    intervenants.push({nom:'Cuisiniste', niveau:'Recommandé', raison:'Installation cuisine professionnelle'});
+  if(ids.some(id=>['tv-hotte-pro','tv-cta','tv-tourelle','tv-extraction-toiture','tv-ue','tv-ui','tv-groupe-toiture'].includes(id)))
+    intervenants.push({nom:"Bureau d'études CVC", niveau:'Recommandé', raison:'Ventilation, extraction et climatisation'});
+  if(ids.some(id=>['tv-tgbt','tv-elec-augmentation'].includes(id)))
+    intervenants.push({nom:"Bureau d'études Électricité", niveau:'Recommandé', raison:'Puissance et TGBT'});
+  if(ids.some(id=>['tv-plomberie-complete','tv-bac-graisse','tv-evacuation'].includes(id)))
+    intervenants.push({nom:"Bureau d'études Plomberie", niveau:'À prévoir', raison:'Réseau plomberie complet'});
+  if(ids.some(id=>['tv-sanitaires-pmr','tv-redistribution','tv-degagements-erp'].includes(id)))
+    intervenants.push({nom:'Bureau de contrôle', niveau:'Recommandé', raison:'ERP — accessibilité et sécurité'});
+  if(ids.some(id=>['tv-mur-porteur','tv-demol-porteur','tv-extension','tv-redistribution'].includes(id)))
+    intervenants.push({nom:'Coordinateur SPS', niveau:'À prévoir', raison:'Travaux à risque'});
+  if(ids.some(id=>['tv-enseigne-bandeau','tv-enseigne-drapeau','tv-ecran-led'].includes(id)))
+    intervenants.push({nom:'Agence de communication', niveau:'Optionnel', raison:'Enseigne et identité visuelle'});
+  if(ids.some(id=>['tv-cuisine-pro','tv-cf-positive','tv-cf-negative'].includes(id)))
+    intervenants.push({nom:'Food Consulting', niveau:'Optionnel', raison:'Optimisation cuisine et flux'});
+
+  afficherIntervenants(intervenants);
+  showToast('✅ Autorisations et intervenants générés');
+}
+
+function afficherAutorisations(liste){
+  const el = document.getElementById('tv-autorisations-content');
+  if(!el) return;
+
+  if(!liste.length){
+    el.innerHTML = `<div style="text-align:center;padding:24px;color:var(--success)"><div style="font-size:32px;margin-bottom:8px">✅</div><div style="font-size:13px;font-weight:600">Aucune autorisation requise</div><div style="font-size:12px;color:var(--muted);margin-top:4px">Les travaux sélectionnés ne nécessitent pas d'autorisation administrative</div></div>`;
     return;
   }
 
-  if(btn){ btn.textContent = '⏳ Analyse en cours...'; btn.disabled = true; }
-  result.style.display = 'block';
-  result.innerHTML = `<div style="text-align:center;padding:24px;color:var(--muted)">
-    <div style="font-size:24px;margin-bottom:8px">🤖</div>
-    <div style="font-size:13px;font-weight:600">Analyse des travaux en cours...</div>
-  </div>`;
-
-  // Mapper les IDs vers des labels lisibles
-  const LABELS = {
-    'tv-vitrine-creation':'Création d\'une vitrine','tv-vitrine-modif':'Modification d\'une vitrine',
-    'tv-porte-creation':'Création d\'une porte','tv-porte-modif':'Modification d\'une porte',
-    'tv-ouverture-creation':'Création ouverture en façade','tv-ouverture-fermeture':'Fermeture d\'une ouverture',
-    'tv-enseigne-bandeau':'Enseigne bandeau','tv-enseigne-drapeau':'Enseigne drapeau',
-    'tv-ecran-led':'Écran LED','tv-store-banne':'Store banne','tv-habillage-facade':'Habillage de façade',
-    'tv-extraction-creation':'Création extraction','tv-extraction-reutilisation':'Réutilisation extraction',
-    'tv-extraction-modif':'Modification extraction','tv-extraction-facade':'Extraction en façade',
-    'tv-extraction-toiture':'Extraction en toiture','tv-tourelle':'Tourelle d\'extraction',
-    'tv-hotte-pro':'Hotte professionnelle','tv-cta':'CTA',
-    'tv-ue':'Unités extérieures clim','tv-ui':'Unités intérieures clim',
-    'tv-groupe-toiture':'Groupe en toiture','tv-groupe-facade':'Groupe en façade',
-    'tv-groupe-cour':'Groupe en cour intérieure','tv-percement-frigo':'Percement frigorifique',
-    'tv-mur-porteur':'Ouverture mur porteur','tv-tremie':'Création trémie',
-    'tv-renforcement':'Renforcement structure','tv-demol-porteur':'Démolition mur porteur',
-    'tv-plancher':'Création plancher','tv-extension':'Extension',
-    'tv-redistribution':'Redistribution complète','tv-sanitaires-pmr':'Sanitaires PMR',
-    'tv-circulations':'Modification circulations','tv-cuisine-pro':'Cuisine professionnelle',
-    'tv-comptoir':'Comptoir','tv-chambre-froide':'Chambre froide','tv-reserve':'Réserve',
-    'tv-gaz-creation':'Alimentation gaz','tv-gaz-modif':'Modification gaz',
-    'tv-elec-augmentation':'Augmentation puissance électrique','tv-tgbt':'TGBT',
-    'tv-plomberie-complete':'Plomberie complète','tv-bac-graisse':'Bac à graisse','tv-evacuation':'Évacuation EU/EV',
-    'tv-borne-commande':'Borne de commande','tv-caisse':'Système de caisse','tv-videosurveillance':'Vidéosurveillance',
-    'tv-cuisson-gaz':'Cuisson gaz','tv-cuisson-elec':'Cuisson électrique',
-    'tv-four-bois':'Four à bois','tv-four-charbon':'Four à charbon','tv-four-pizza':'Four à pizza',
-    'tv-rotisserie':'Rôtisserie','tv-grill-charbon':'Grill à charbon','tv-plancha':'Plancha',
-    'tv-friteuses':'Friteuses','tv-cf-positive':'Chambre froide positive','tv-cf-negative':'Chambre froide négative'
-  };
-
-  const listeLabel = coches.map(id => LABELS[id]||id).join(', ');
-  const typeLocal  = _val('proj-type-local','restaurant');
-  const activite   = _val('proj-activite','');
-
-  const prompt = `Tu es un expert en réglementation des travaux pour locaux commerciaux en France (ERP, urbanisme, copropriété).
-
-Projet : ${typeLocal}${activite?' — '+activite:''}
-
-Travaux prévus :
-${listeLabel}
-
-Analyse ces travaux et réponds UNIQUEMENT en JSON valide (sans balises markdown) avec cette structure exacte :
-{
-  "autorisations": [
-    {
-      "nom": "Déclaration Préalable",
-      "obligatoire": true,
-      "travaux_concernes": ["..."],
-      "delai_reglementaire": "1 mois",
-      "peut_demarrer_avant": false,
-      "risques": "Infraction urbanisme, remise en état..."
-    }
-  ],
-  "intervenants": [
-    {
-      "nom": "Architecte",
-      "niveau": "Recommandé",
-      "raison": "..."
-    }
-  ],
-  "alertes": [
-    {
-      "niveau": "danger",
-      "texte": "..."
-    }
-  ]
+  el.innerHTML = liste.map(a=>`
+    <div style="border:1.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;background:white">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <span style="font-size:18px">📋</span>
+        <span style="font-size:14px;font-weight:700;color:var(--ink)">${a.nom}</span>
+        <span style="font-size:10px;background:var(--danger);color:white;padding:2px 8px;border-radius:10px">Obligatoire</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+        <div>
+          <div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:4px">Statut</div>
+          <select id="aut-statut-${a.key}" style="width:100%;height:32px;border:1.5px solid var(--border);border-radius:6px;padding:0 8px;font-size:12px;font-family:var(--font)">
+            <option value="a_deposer">À déposer</option>
+            <option value="depose">Déposé</option>
+            <option value="accorde">Accordé ✅</option>
+            <option value="refuse">Refusé ❌</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:4px">Délai réglementaire</div>
+          <div style="height:32px;display:flex;align-items:center;font-size:12px;font-weight:600;color:var(--primary)">${a.delai}</div>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:4px">Date de dépôt</div>
+          <input type="date" id="aut-depot-${a.key}" style="width:100%;height:32px;border:1.5px solid var(--border);border-radius:6px;padding:0 8px;font-size:12px;font-family:var(--font)">
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:4px">Date de réponse</div>
+          <input type="date" id="aut-reponse-${a.key}" style="width:100%;height:32px;border:1.5px solid var(--border);border-radius:6px;padding:0 8px;font-size:12px;font-family:var(--font)">
+        </div>
+      </div>
+      ${a.travaux.length ? `<div style="font-size:11px;color:var(--mid);margin-bottom:8px">🎯 <strong>Travaux concernés :</strong> ${a.travaux.join(', ')}</div>` : ''}
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="font-size:11px;color:var(--mid)">Travaux avant obtention :</span>
+        <span style="font-size:11px;font-weight:700;color:${a.peut_avant?'var(--success)':'var(--danger)'}">${a.peut_avant?'✅ Oui':'❌ Non'}</span>
+      </div>
+      <div style="padding:8px 10px;background:#FEF2F2;border-radius:6px;font-size:11px;color:var(--danger)">⚠️ ${a.risques}</div>
+    </div>`).join('');
 }
 
-Niveaux intervenants : "Obligatoire", "Recommandé", "À prévoir", "Optionnel"
-Niveaux alertes : "danger", "warning", "info"
-Sois précis et exhaustif sur les obligations légales françaises.`;
+function afficherIntervenants(liste){
+  const el = document.getElementById('tv-intervenants-content');
+  if(!el) return;
 
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514', max_tokens:2000,
-        messages:[{role:'user', content:prompt}]
-      })
-    });
-    const data = await resp.json();
-    const text = data.content?.[0]?.text || '';
-    let analyse;
-    try { analyse = JSON.parse(text.replace(/```json|```/g,'').trim()); }
-    catch(e){ throw new Error('Réponse IA invalide'); }
-    afficherResultatAnalyse(analyse);
-  } catch(e){
-    result.innerHTML = `<div style="padding:14px;background:var(--danger-light);border:1px solid #FCA5A5;border-radius:10px;font-size:12px;color:var(--danger)">Erreur : ${e.message}</div>`;
-  } finally {
-    if(btn){ btn.innerHTML = '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg> Analyser avec l\'IA'; btn.disabled = false; }
-  }
+  const TOUS = [
+    'Architecte','Cuisiniste',"Bureau d'études Structure","Bureau d'études CVC",
+    "Bureau d'études Électricité","Bureau d'études Plomberie",'Bureau de contrôle',
+    'Coordinateur SPS','Géomètre','Food Consulting','Agence de communication',
+    'Fournisseur système de caisse','Fournisseur bornes de commande'
+  ];
+  const niveauBadge = {'Obligatoire':'var(--danger)','Recommandé':'#0EA5E9','À prévoir':'#B45309','Optionnel':'var(--muted)'};
+
+  el.innerHTML = TOUS.map(nom=>{
+    const found = liste.find(i=>i.nom===nom);
+    const niveau = found?.niveau || 'Non nécessaire';
+    const raison = found?.raison || '';
+    const key = nom.replace(/[^a-zA-Z]/g,'_');
+    return `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);gap:10px;flex-wrap:wrap">
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:6px">
+            ${found ? `<span style="font-size:10px;background:${niveauBadge[niveau]};color:white;padding:2px 7px;border-radius:10px;flex-shrink:0">${niveau}</span>` : ''}
+            <span style="font-size:12px;font-weight:600;color:${found?'var(--ink)':'var(--muted)'}">${nom}</span>
+          </div>
+          ${raison ? `<div style="font-size:11px;color:var(--muted);margin-top:2px">${raison}</div>` : ''}
+        </div>
+        <select id="int-${key}" style="font-size:11px;border:1.5px solid var(--border);border-radius:6px;padding:4px 8px;font-family:var(--font);flex-shrink:0">
+          <option value="a_prevoir" ${!found||niveau==='À prévoir'?'selected':''}>À prévoir</option>
+          <option value="missionne" ${niveau==='Déjà missionné'?'selected':''}>Déjà missionné ✅</option>
+          <option value="non_necessaire" ${!found&&niveau!=='À prévoir'?'selected':''}>Non nécessaire</option>
+        </select>
+      </div>`;
+  }).join('');
 }
 
-function afficherResultatAnalyse(a){
-  const result = document.getElementById('travaux-analyse-result');
-  if(!result) return;
-
-  const niveauColor = {danger:'var(--danger)',warning:'#B45309',info:'#0EA5E9'};
-  const niveauBg    = {danger:'#FEF2F2',warning:'#FFFBEB',info:'#F0F9FF'};
-
-  const alertesHTML = (a.alertes||[]).map(al=>`
-    <div style="display:flex;gap:10px;padding:10px 12px;background:${niveauBg[al.niveau]||'#F9FAFB'};border-radius:8px;border-left:3px solid ${niveauColor[al.niveau]||'#6B7280'}">
-      <span style="flex-shrink:0">${al.niveau==='danger'?'🔴':al.niveau==='warning'?'⚠️':'ℹ️'}</span>
-      <span style="font-size:12px;color:var(--ink2)">${al.texte}</span>
-    </div>`).join('');
-
-  const autHTML = (a.autorisations||[]).map(au=>`
-    <div style="border:1.5px solid ${au.obligatoire?'#FCA5A5':'var(--border)'};border-radius:10px;padding:14px;background:${au.obligatoire?'#FEF2F2':'white'}">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-        <span style="font-size:16px">${au.obligatoire?'🔴':'🟡'}</span>
-        <span style="font-size:13px;font-weight:700;color:var(--ink)">${au.nom}</span>
-        <span style="font-size:10px;padding:2px 8px;border-radius:10px;background:${au.obligatoire?'var(--danger)':'#B45309'};color:white">${au.obligatoire?'Obligatoire':'Recommandé'}</span>
-      </div>
-      <div style="font-size:11px;color:var(--mid);display:grid;grid-template-columns:1fr 1fr;gap:6px">
-        <div>⏱ Délai : <strong>${au.delai_reglementaire||'—'}</strong></div>
-        <div>${au.peut_demarrer_avant?'✅ Peut démarrer avant':'❌ Attendre accord'}</div>
-        <div style="grid-column:1/-1">🎯 Travaux : ${(au.travaux_concernes||[]).join(', ')}</div>
-        ${au.risques?`<div style="grid-column:1/-1;color:var(--danger)">⚠️ ${au.risques}</div>`:''}
-      </div>
-    </div>`).join('');
-
-  const statuts = {'Obligatoire':'🔴','Recommandé':'🟠','À prévoir':'🟡','Optionnel':'🟢'};
-  const intHTML = (a.intervenants||[]).map(iv=>`
-    <div style="display:flex;align-items:start;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);gap:10px">
-      <div>
-        <div style="font-size:12px;font-weight:600;color:var(--ink)">${statuts[iv.niveau]||'•'} ${iv.nom}</div>
-        <div style="font-size:11px;color:var(--muted);margin-top:2px">${iv.raison||''}</div>
-      </div>
-      <select onchange="state.etat['intervenant_'+this.dataset.nom]=this.value" data-nom="${iv.nom.replace(/\s/g,'_')}" style="font-size:11px;border:1px solid var(--border);border-radius:6px;padding:3px 6px;flex-shrink:0;font-family:var(--font)">
-        <option value="a_prevoir" ${iv.niveau==='À prévoir'?'selected':''}>À prévoir</option>
-        <option value="missionne">Déjà missionné</option>
-        <option value="non_necessaire">Non nécessaire</option>
-      </select>
-    </div>`).join('');
-
-  result.innerHTML = `
-    <div style="border-top:2px solid var(--primary);padding-top:16px">
-      <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:14px">🤖 Analyse IA — Résultats</div>
-
-      ${alertesHTML ? `<div style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px">Alertes</div><div style="display:flex;flex-direction:column;gap:6px">${alertesHTML}</div></div>` : ''}
-
-      ${autHTML ? `<div style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px">Autorisations nécessaires</div><div style="display:flex;flex-direction:column;gap:8px">${autHTML}</div></div>` : ''}
-
-      ${intHTML ? `<div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px">Intervenants recommandés</div>${intHTML}</div>` : ''}
-    </div>`;
-}
+// Alias pour compatibilité
+function analyserTravauxIA(){ analyserTravauxAuto(); switchTravauxTab('autorisations', document.querySelector('#travaux-tabs .tab:nth-child(2)')); }
 
 // ── ÉTAT LOCAL — NOUVELLE LOGIQUE ─────────────────────────────
 const TYPES_PIECES_EXISTANTES = [
