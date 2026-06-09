@@ -3561,7 +3561,7 @@ function rechercherSiren(v){
       if(infoEl){
         infoEl.style.cssText='display:block;margin-top:6px;padding:12px 14px;background:#E6FAF5;border:1.5px solid #A7F3D8;border-radius:8px;font-size:12px;color:#1A1F36;line-height:1.9';
         infoEl.innerHTML=
-          '<strong style="font-size:13px;color:#00A87E">'+nom+'</strong><br>'+
+          '<strong style="font-size:13px;color:#635BFF">'+nom+'</strong><br>'+
           (forme ? '<span style="color:#6B7280">Statut juridique :</span> '+forme+'<br>' : '')+
           (ape ? '<span style="color:#6B7280">Code APE :</span> '+ape+'<br>' : '')+
           (siretFormate ? '<span style="color:#6B7280">SIRET siège :</span> '+siretFormate+'<br>' : '')+
@@ -5268,7 +5268,7 @@ function renderRecapBanner(){
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
         <div style="text-align:center">
           <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:600;text-transform:uppercase;margin-bottom:2px">Avancement</div>
-          <div style="font-size:22px;font-weight:800;color:${pct>=80?'#00C896':pct>=50?'#F59E0B':'#EF4444'}">${pct}%</div>
+          <div style="font-size:22px;font-weight:800;color:${pct>=80?'#635BFF':pct>=50?'#F59E0B':'#EF4444'}">${pct}%</div>
         </div>
         ${bB>0?`<div style="text-align:center">
           <div style="font-size:10px;color:rgba(255,255,255,.5);font-weight:600;text-transform:uppercase;margin-bottom:2px">Prix vente HT</div>
