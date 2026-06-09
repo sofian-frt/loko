@@ -495,6 +495,18 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 
   <div class="sidebar-footer">
+    <div id="sidebar-suivi-admin" style="display:none;margin-bottom:8px;padding:8px 10px;background:var(--bg);border-radius:6px;border:1px solid var(--border)">
+      <div style="display:flex;justify-content:space-between;gap:8px">
+        <div>
+          <div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em">Créé le</div>
+          <div id="sidebar-suivi-creation" style="font-size:10px;font-weight:600;color:var(--ink2)">—</div>
+        </div>
+        <div>
+          <div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em">Modifié</div>
+          <div id="sidebar-suivi-modif" style="font-size:10px;font-weight:600;color:var(--ink2)">—</div>
+        </div>
+      </div>
+    </div>
     <div style="display:flex;align-items:center;justify-content:space-between">
       <span class="version-tag">V1.3 · Stable</span>
       <button class="btn btn-sm btn-ghost" onclick="exportPrint()" style="font-size:11px"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button>
@@ -639,13 +651,6 @@ input[type=number]{-moz-appearance:textfield}
     </button>
   </div>
   <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="chargerDossier(this)">
-  <!-- SUIVI ADMIN -->
-  <div id="topbar-suivi-admin" style="display:none;flex-direction:column;justify-content:center;padding:0 12px;border-left:1px solid var(--border);border-right:1px solid var(--border);margin:0 4px;line-height:1.4">
-    <div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em">Créé le</div>
-    <div id="topbar-suivi-creation" style="font-size:10px;font-weight:600;color:var(--ink2)">—</div>
-    <div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-top:2px">Modifié le</div>
-    <div id="topbar-suivi-modif" style="font-size:10px;font-weight:600;color:var(--ink2)">—</div>
-  </div>
 
   <!-- PROFIL -->
   <div style="position:relative">
@@ -5460,13 +5465,13 @@ function initSuiviAdmin(){
   if(el('suivi-modif-par')) el('suivi-modif-par').textContent = user;
   // Stocker
   if(!state._suiviCreation){ state._suiviCreation = now; state._suiviCreePar = user; }
-  // Topbar
-  const tb = document.getElementById('topbar-suivi-admin');
-  if(tb) tb.style.display = 'flex';
-  const tbCreation = document.getElementById('topbar-suivi-creation');
-  const tbModif = document.getElementById('topbar-suivi-modif');
-  if(tbCreation) tbCreation.textContent = now;
-  if(tbModif) tbModif.textContent = now;
+  // Sidebar
+  const sb2 = document.getElementById('sidebar-suivi-admin');
+  if(sb2) sb2.style.display = 'block';
+  const sbCreation = document.getElementById('sidebar-suivi-creation');
+  const sbModif2 = document.getElementById('sidebar-suivi-modif');
+  if(sbCreation) sbCreation.textContent = now;
+  if(sbModif2) sbModif2.textContent = now;
 }
 
 function majSuiviAdmin(){
