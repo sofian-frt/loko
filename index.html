@@ -454,7 +454,17 @@ input[type=number]{-moz-appearance:textfield}
 }
 </style>
 </head>
-<body onclick="if(!event.target.closest('#profil-menu') && !event.target.closest('#mobile-profil-btn') && !event.target.closest('#btn-profil')){document.querySelectorAll('.dropdown-menu').forEach(m=>m.style.display='none')}">
+<body onclick="
+  if(!event.target.closest('#profil-menu') && !event.target.closest('#mobile-profil-btn') && !event.target.closest('#btn-profil')){
+    document.querySelectorAll('.dropdown-menu').forEach(m=>m.style.display='none');
+  }
+  if(window.innerWidth<=768 && !event.target.closest('.sidebar') && !event.target.closest('.hamburger')){
+    var sb=document.getElementById('sidebar');
+    var ov=document.getElementById('sidebar-overlay');
+    if(sb) sb.classList.remove('mobile-open');
+    if(ov){ov.classList.remove('open');ov.style.display='none';}
+  }
+">
 
 <!-- MOBILE TOPBAR -->
 <div class="mobile-topbar" id="mobile-topbar-bar" style="display:none">
@@ -747,7 +757,7 @@ input[type=number]{-moz-appearance:textfield}
 
   </div>
 </div>
-<div class="content" onclick="if(window.innerWidth<=768){_get('sidebar').classList.remove('mobile-open');_get('sidebar-overlay').classList.remove('open');_get('sidebar-overlay').style.display='none';}">
+<div class="content">
 
 
 <!-- ══ PAGE INITIALISATION ══ -->
