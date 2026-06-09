@@ -814,7 +814,7 @@ input[type=number]{-moz-appearance:textfield}
 
   <!-- PROFIL -->
   <div style="position:relative">
-    <button id="btn-profil" onclick="toggleProfilMenu()" style="width:34px;height:34px;border-radius:50%;background:#635BFF;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s;box-shadow:0 2px 6px rgba(99,91,255,.3)" title="Profil & Paramètres">
+    <button id="btn-profil" onclick="toggleProfilMenu(event)" style="width:34px;height:34px;border-radius:50%;background:#635BFF;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s;box-shadow:0 2px 6px rgba(99,91,255,.3)" title="Profil & Paramètres">
       <span id="profil-initiales" style="font-size:12px;font-weight:700;color:white">?</span>
     </button>
     <div id="profil-menu" style="display:none;position:absolute;top:calc(100% + 8px);right:0;background:white;border:1.5px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);min-width:220px;z-index:1000;overflow:hidden">
@@ -4838,7 +4838,8 @@ document.addEventListener('click', function(e){
   }
 });
 
-function toggleProfilMenu(){
+function toggleProfilMenu(e){
+  if(e) e.stopPropagation();
   const menu = document.getElementById('profil-menu');
   if(!menu) return;
   menu.style.display = menu.style.display==='none' ? 'block' : 'none';
@@ -4846,11 +4847,11 @@ function toggleProfilMenu(){
 
 document.addEventListener('click', function(e){
   const _btn  = document.getElementById('btn-profil');
-  const _btnM = document.getElementById('mobile-btn-compte');
   const _menu = document.getElementById('profil-menu');
-  if(_menu && !_menu.contains(e.target)){
-    const clickedTrigger = (_btn && _btn.contains(e.target)) || (_btnM && _btnM.contains(e.target));
-    if(!clickedTrigger) _menu.style.display='none';
+  if(_menu && _menu.style.display !== 'none'){
+    if(!_menu.contains(e.target) && (!_btn || !_btn.contains(e.target))){
+      _menu.style.display='none';
+    }
   }
 });
 
