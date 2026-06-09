@@ -695,11 +695,9 @@ input[type=number]{-moz-appearance:textfield}
                 —
               </div>
 
-              <div id="code-status" style="font-size:18px;flex-shrink:0"></div>
             </div>
             <input type="hidden" id="proj-nom" value="">
             <input type="hidden" id="proj-nom-suffix" value="">
-            <div id="code-hint" style="font-size:11px;margin-top:4px;color:var(--muted)"></div>
           </div>
 
         </div>
@@ -6439,7 +6437,6 @@ async function genererCodeChantier(){
 
   var suffixInp = document.getElementById('proj-nom-suffix');
   var hidden = document.getElementById('proj-nom');
-  var hintEl = document.getElementById('code-hint');
 
   var prefix = yy + '-CHT-';
   var codesExistants = DB.chantiers.map(d=>d.code||'')
@@ -6459,16 +6456,6 @@ async function genererCodeChantier(){
 
   var display = document.getElementById('code-chantier-display');
   if(display) display.textContent = codeComplet;
-
-  var statusEl = document.getElementById('code-status');
-  if(statusEl) statusEl.textContent = '✅';
-
-  var hintEl = document.getElementById('code-hint');
-  if(hintEl){
-    var lastCodes = DB.chantiers.map(d=>d.code).filter(Boolean);
-    var lastCode = lastCodes[lastCodes.length-1] || '';
-    if(lastCode) hintEl.innerHTML = '<span style="color:var(--muted)">Dernier code : <strong style="font-family:monospace;color:var(--ink)">'+lastCode+'</strong></span>';
-  }
   updateProjectHeader();
 }
 
@@ -6488,54 +6475,16 @@ function afficherDernierChantier(){
 
 // Drive supprimé — codes gérés via DB.chantiers
 
-async function verifierCodeChantier(suffix){
-  var statusEl = document.getElementById('code-status');
-  var hintEl   = document.getElementById('code-hint');
+function verifierCodeChantier(suffix){
   var hidden   = document.getElementById('proj-nom');
   var prefixEl = document.getElementById('code-prefix');
   var prefix   = prefixEl ? prefixEl.textContent : '26-CHT-';
   suffix = suffix.replace(/[^0-9]/g,'').slice(0,4);
   var suffixInp = document.getElementById('proj-nom-suffix');
   if(suffixInp) suffixInp.value = suffix;
-
-  if(!suffix || suffix.length < 4){
-    if(statusEl) statusEl.textContent = '';
-    if(hintEl){
-      var lastCode2 = DB.chantiers.map(d=>d.code).filter(Boolean).slice(-1)[0] || '';
-      var dernierMsg = lastCode2
-        ? '<span style="color:var(--muted)">Dernier code : <strong style="font-family:monospace">'+lastCode2+'</strong></span>'
-        : '';
-      hintEl.innerHTML = dernierMsg;
-    }
-    if(hidden) hidden.value = '';
-    return;
-  }
-
-  var codeComplet = prefix + suffix;
+  var codeComplet = suffix.length === 4 ? prefix + suffix : '';
   if(hidden) hidden.value = codeComplet;
-  if(statusEl) statusEl.textContent = '⏳';
-
-  var dossiers = JSON.parse(localStorage.getItem('lokoo_dossiers') || '[]');
-  var codesLocaux = DB.chantiers.map(function(c){ return c.code||c.nom||''; })
-    .concat(dossiers.map(function(d){ return d.code||''; }));
-  var tousLesCodes = codesLocaux;
-  var doublon = tousLesCodes.indexOf(codeComplet) >= 0;
-  var lastCode = DB.chantiers.map(d=>d.code).filter(Boolean).slice(-1)[0] || '';
-  var dernierInfo = lastCode
-    ? '<br><span style="color:var(--muted);font-size:10px">Dernier code : <strong style="font-family:monospace">'+lastCode+'</strong></span>'
-    : '';
-
-  if(doublon){
-    if(statusEl) statusEl.textContent = '⚠️';
-    if(hintEl) hintEl.innerHTML =
-      '<span style="color:var(--danger);font-weight:600">Ce code chantier existe déjà. Veuillez saisir un autre code.</span>' + dernierInfo;
-    if(hidden) hidden.value = ''; // Invalider le code
-  } else {
-    if(statusEl) statusEl.textContent = '✅';
-    if(hintEl) hintEl.innerHTML =
-      '<span style="color:var(--success);font-family:monospace;font-weight:600">'+codeComplet+'</span>' + dernierInfo;
-  }
-  updateProjectHeader();
+  if(codeComplet) updateProjectHeader();
 }
 
 // ── EXPORT / IMPORT DOSSIER ──────────────────────────────────────
