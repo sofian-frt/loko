@@ -495,6 +495,18 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 
   <div class="sidebar-footer">
+    <div id="sidebar-suivi-admin" style="display:none;margin-bottom:8px;padding:8px 10px;background:var(--bg);border-radius:6px;border:1px solid var(--border)">
+      <div style="display:flex;justify-content:space-between;gap:8px">
+        <div>
+          <div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em">Créé le</div>
+          <div id="sidebar-suivi-creation" style="font-size:10px;font-weight:600;color:var(--ink2)">—</div>
+        </div>
+        <div>
+          <div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em">Modifié</div>
+          <div id="sidebar-suivi-modif" style="font-size:10px;font-weight:600;color:var(--ink2)">—</div>
+        </div>
+      </div>
+    </div>
     <div style="display:flex;align-items:center;justify-content:space-between">
       <span class="version-tag">V1.3 · Stable</span>
       <button class="btn btn-sm btn-ghost" onclick="exportPrint()" style="font-size:11px"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button>
@@ -639,6 +651,7 @@ input[type=number]{-moz-appearance:textfield}
     </button>
   </div>
   <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="chargerDossier(this)">
+
   <!-- PROFIL -->
   <div style="position:relative">
     <button id="btn-profil" onclick="toggleProfilMenu()" style="width:34px;height:34px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s" title="Profil & Paramètres">
@@ -2612,18 +2625,24 @@ function _val(id,def=''){const e=_get(id);return e?e.value:def;}
 function _chk(id){const e=_get(id);return e?e.checked:false;}
 // ── NAVIGATION ────────────────────────────────────────────────
 const PAGE_META={
-  init:{title:'Initialisation du projet',step:'Étape 1/8'},
-  releves:{title:'Relevés & Métrés',step:'Étape 2/8'},
-  eclairage:{title:'Éclairage',step:'Étape 3/8'},
-  electricite:{title:'Électricité',step:'Étape 4/8'},
-  plomberie:{title:'Plomberie',step:'Étape 5/8'},
-  ventilation:{title:'Ventilation & Extraction',step:'Étape 6/8'},
-  clim:{title:'Climatisation',step:'Étape 7/8'},
-  facade:{title:'Façade & Conformité ERP',step:'Étape 8/8'},
-  recap:{title:'Récapitulatif projet',step:'Vue d\'ensemble'},
-  prechiffrage:{title:'Pré-chiffrage rapide',step:'Chiffrage'},
+  // ── PROJET ──
+  init:{title:'Initialisation du projet',step:'Étape 1/12'},
+  'analyse-ia':{title:'Analyse IA & Documents',step:'Étape 2/12'},
+  'releves-existant':{title:'Relevés & Métrés',step:'Étape 3/12'},
+  // ── DIMENSIONNEMENT ──
+  eclairage:{title:'Éclairage',step:'Étape 4/12'},
+  electricite:{title:'Électricité',step:'Étape 5/12'},
+  plomberie:{title:'Plomberie',step:'Étape 6/12'},
+  ventilation:{title:'Ventilation & Extraction',step:'Étape 7/12'},
+  clim:{title:'Climatisation',step:'Étape 8/12'},
+  'securite-incendie':{title:'Sécurité incendie',step:'Étape 9/12'},
+  'accessibilite-pmr':{title:'Accessibilité PMR',step:'Étape 10/12'},
+  'facade-enseigne':{title:'Façade & Enseigne',step:'Étape 11/12'},
+  // ── CHIFFRAGE ──
+  prechiffrage:{title:'Pré-chiffrage rapide',step:'Étape 12/12'},
   chiffrage:{title:'DPGF',step:'Chiffrage'},
   synthese:{title:'Synthèse du projet',step:'Synthèse'},
+  // ── BASE ──
   bibliotheque:{title:'Bibliothèque de prix',step:'Base'},
   chantiers:{title:'Chantiers',step:'Base'},
   dashboard:{title:'Tableau de bord',step:'Base'},
@@ -5431,7 +5450,7 @@ function ajouterDocuments(input){
 
 // ── SUIVI ADMINISTRATIF ───────────────────────────────────────
 function initSuiviAdmin(){
-  const now = new Date().toLocaleString('fr-FR');
+  const now = new Date().toLocaleString('fr-FR', {day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'});
   const user = (() => {
     try{
       const d = JSON.parse(localStorage.getItem('lokoo_compte')||'{}');
@@ -5446,10 +5465,17 @@ function initSuiviAdmin(){
   if(el('suivi-modif-par')) el('suivi-modif-par').textContent = user;
   // Stocker
   if(!state._suiviCreation){ state._suiviCreation = now; state._suiviCreePar = user; }
+  // Sidebar
+  const sb2 = document.getElementById('sidebar-suivi-admin');
+  if(sb2) sb2.style.display = 'block';
+  const sbCreation = document.getElementById('sidebar-suivi-creation');
+  const sbModif2 = document.getElementById('sidebar-suivi-modif');
+  if(sbCreation) sbCreation.textContent = now;
+  if(sbModif2) sbModif2.textContent = now;
 }
 
 function majSuiviAdmin(){
-  const now = new Date().toLocaleString('fr-FR');
+  const now = new Date().toLocaleString('fr-FR', {day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'});
   const user = (() => {
     try{
       const d = JSON.parse(localStorage.getItem('lokoo_compte')||'{}');
@@ -5460,6 +5486,11 @@ function majSuiviAdmin(){
   const el = id => document.getElementById(id);
   if(el('suivi-modif')) el('suivi-modif').textContent = now;
   if(el('suivi-modif-par')) el('suivi-modif-par').textContent = user;
+  // Mettre à jour la topbar
+  const tb = document.getElementById('topbar-suivi-admin');
+  if(tb) tb.style.display = 'flex';
+  const tbModif = document.getElementById('topbar-suivi-modif');
+  if(tbModif) tbModif.textContent = now;
 }
 
 
