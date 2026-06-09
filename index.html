@@ -423,6 +423,9 @@ input[type=number]{-moz-appearance:textfield}
     <button class="nav-item active" onclick="showPage('init')" id="nav-init">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><path d="M9 12h6M9 16h4"/></svg></span> Initialisation
     </button>
+    <button class="nav-item" onclick="showPage('analyse-ia')" id="nav-analyse-ia">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg></span> Analyse IA
+    </button>
     <button class="nav-item" onclick="showPage('releves-existant')" id="nav-releves-existant">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 21L21 3M3 21h7M3 21v-7"/></svg></span> Relevés & Métrés
       <span class="badge badge-muted" id="nb-pieces-existant" style="margin-left:auto">0</span>
@@ -1080,6 +1083,69 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
+
+<!-- ══ PAGE ANALYSE IA ══ -->
+<div class="page" id="page-analyse-ia">
+  <div class="page-header">
+    <h2>Analyse intelligente IA</h2>
+    <p>Importez vos documents — l'IA extrait automatiquement les informations clés du dossier</p>
+  </div>
+
+  <!-- Zone d'import -->
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">Importer un document à analyser</div>
+    <div id="ia-doc-drop-zone" style="border:2px dashed var(--border2);border-radius:12px;padding:40px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)"
+      onclick="document.getElementById('ia-doc-input').click()"
+      ondragover="event.preventDefault();this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
+      ondragleave="this.style.borderColor='var(--border2)';this.style.background='var(--bg)'"
+      ondrop="handleIADocDrop(event)">
+      <svg width="36" height="36" fill="none" stroke="var(--muted)" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 12px;display:block"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M12 12v6M9 15l3-3 3 3"/></svg>
+      <div style="font-size:14px;font-weight:600;color:var(--ink2)">Glissez un document ou cliquez pour importer</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px">PDF, Word, Image · Bail, Plan, CCTP, Notice descriptive...</div>
+    </div>
+    <input type="file" id="ia-doc-input" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" style="display:none" onchange="analyserDocumentIA(this)">
+
+    <!-- Clé API -->
+    <div style="margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px">
+        <label class="form-label" style="margin-bottom:4px">Clé API Anthropic</label>
+        <input id="ia-analyse-key" type="password" class="form-input" placeholder="sk-ant-..."
+          style="font-family:monospace;font-size:12px"
+          oninput="localStorage.setItem('lokoo_api_key',this.value)">
+      </div>
+      <button onclick="analyserDocumentIAManuel()" class="btn btn-primary btn-sm" style="margin-top:20px;gap:6px">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        Analyser
+      </button>
+    </div>
+  </div>
+
+  <!-- Résultats -->
+  <div id="ia-analyse-results" style="display:none">
+    <div class="card" style="margin-bottom:16px;border:1.5px solid var(--primary-border);background:var(--primary-light)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div class="card-title" style="color:var(--primary-dark);margin-bottom:0">Résultats de l'analyse</div>
+        <button onclick="appliquerResultatsIA()" class="btn btn-primary btn-sm">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Appliquer au dossier
+        </button>
+      </div>
+      <div id="ia-analyse-content" style="font-size:13px;line-height:1.8;white-space:pre-wrap;color:var(--ink)"></div>
+    </div>
+
+    <!-- Données extraites -->
+    <div class="card" id="ia-extracted-card" style="display:none">
+      <div class="card-title">Données extraites — à appliquer au dossier</div>
+      <div id="ia-extracted-fields" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
+    </div>
+  </div>
+
+  <!-- Historique -->
+  <div id="ia-historique" style="display:none" class="card">
+    <div class="card-title">Historique des analyses</div>
+    <div id="ia-historique-liste"></div>
+  </div>
+</div>
 
 <!-- ══ PAGE RELEVÉS & MÉTRÉS ══ -->
 <div class="page" id="page-releves-existant">
@@ -2663,6 +2729,7 @@ function showPage(id){
   if(id==='clim'){renderClimPieces();calcClim();}
   if(id==='facade'){calcFacade();calcERP();}
   if(id==='recap')renderRecap();
+  if(id==='analyse-ia')renderAnalyseIA();
   if(id==='releves-existant')renderRelevesPage();
   
   if(id==='init')renderRecapBanner();
@@ -4889,6 +4956,173 @@ function corrigerNomPropre(input){
   if(corrected !== val){
     input.value = corrected;
     try{ input.setSelectionRange(pos, pos); }catch(e){}
+  }
+}
+
+
+
+// ── ANALYSE IA DOCUMENTS ─────────────────────────────────────
+var _iaDocBase64 = null;
+var _iaDocType = null;
+var _iaResultatsExtraits = {};
+
+function handleIADocDrop(e){
+  e.preventDefault();
+  document.getElementById('ia-doc-drop-zone').style.borderColor='var(--border2)';
+  document.getElementById('ia-doc-drop-zone').style.background='var(--bg)';
+  const file = e.dataTransfer.files[0];
+  if(file) traiterFichierIA(file);
+}
+
+function analyserDocumentIA(input){
+  const file = input.files[0];
+  if(file) traiterFichierIA(file);
+  input.value='';
+}
+
+function traiterFichierIA(file){
+  const zone = document.getElementById('ia-doc-drop-zone');
+  zone.innerHTML = `<div style="font-size:13px;font-weight:600;color:var(--primary)">📄 ${file.name}</div><div style="font-size:11px;color:var(--muted);margin-top:4px">${Math.round(file.size/1024)} Ko · Prêt à analyser</div>`;
+  
+  const reader = new FileReader();
+  reader.onload = e => {
+    _iaDocBase64 = e.target.result.split(',')[1];
+    _iaDocType = file.type || 'image/jpeg';
+  };
+  reader.readAsDataURL(file);
+}
+
+async function analyserDocumentIAManuel(){
+  const apiKey = document.getElementById('ia-analyse-key')?.value?.trim() || localStorage.getItem('lokoo_api_key');
+  if(!apiKey){ showToast('Saisissez votre clé API Anthropic', '#EF4444'); return; }
+  if(!_iaDocBase64){ showToast('Importez un document d\'abord', '#EF4444'); return; }
+
+  const btn = document.querySelector('[onclick="analyserDocumentIAManuel()"]');
+  if(btn){ btn.textContent = '⏳ Analyse...'; btn.disabled=true; }
+
+  const prompt = `Tu es un expert en bâtiment et en construction. Analyse ce document et extrait les informations suivantes si présentes :
+- Nom/raison sociale du client ou locataire
+- Adresse du local/chantier
+- Surface totale (m²)
+- Type de local ou activité
+- Hauteur sous plafond
+- Informations sur le bailleur/propriétaire
+- Contact principal
+- Contraintes spécifiques mentionnées (ERP, PMR, normes...)
+- Travaux mentionnés ou autorisés
+- Dates importantes
+
+Réponds en JSON structuré avec ces clés : client, adresse, surface, type_local, hauteur, bailleur, contact, contraintes, travaux, dates, autres_infos.
+Si une information n'est pas trouvée, mets null.`;
+
+  try{
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body: JSON.stringify({
+        model:'claude-opus-4-5',
+        max_tokens:2000,
+        messages:[{
+          role:'user',
+          content:[
+            {type:'image', source:{type:'base64', media_type:_iaDocType, data:_iaDocBase64}},
+            {type:'text', text:prompt}
+          ]
+        }]
+      })
+    });
+
+    const data = await resp.json();
+    if(data.error) throw new Error(data.error.message);
+    const texte = data.content[0].text;
+
+    // Afficher résultats
+    document.getElementById('ia-analyse-results').style.display='block';
+    document.getElementById('ia-analyse-content').textContent = texte;
+
+    // Parser le JSON extrait
+    try{
+      const jsonMatch = texte.match(/\{[\s\S]*\}/);
+      if(jsonMatch){
+        _iaResultatsExtraits = JSON.parse(jsonMatch[0]);
+        afficherChampsExtraits(_iaResultatsExtraits);
+      }
+    }catch(e){ console.log('Pas de JSON parsable'); }
+
+    // Historique
+    sauvegarderHistoriqueIA(texte);
+
+  }catch(err){
+    showToast('Erreur : '+err.message, '#EF4444');
+  }
+
+  if(btn){ btn.textContent = 'Analyser'; btn.disabled=false; }
+}
+
+function afficherChampsExtraits(data){
+  const card = document.getElementById('ia-extracted-card');
+  const fields = document.getElementById('ia-extracted-fields');
+  if(!card || !fields) return;
+
+  const labels = {
+    client:'Client', adresse:'Adresse', surface:'Surface (m²)',
+    type_local:'Type de local', hauteur:'Hauteur (m)', contact:'Contact',
+    contraintes:'Contraintes', travaux:'Travaux', bailleur:'Bailleur'
+  };
+
+  const html = Object.entries(labels)
+    .filter(([k]) => data[k] && data[k] !== 'null')
+    .map(([k,label]) => `
+      <div style="padding:10px 12px;background:white;border-radius:8px;border:1px solid var(--border)">
+        <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">${label}</div>
+        <div style="font-size:13px;font-weight:600;color:var(--ink)">${Array.isArray(data[k])?data[k].join(', '):data[k]}</div>
+      </div>`).join('');
+
+  if(html){ card.style.display='block'; fields.innerHTML=html; }
+}
+
+function appliquerResultatsIA(){
+  if(!_iaResultatsExtraits) return;
+  const d = _iaResultatsExtraits;
+  const set = (id,v) => { const e=document.getElementById(id); if(e&&v&&v!=='null') e.value=v; };
+  if(d.client) set('proj-client', d.client);
+  if(d.adresse) set('proj-adresse', d.adresse);
+  if(d.surface) set('proj-surface', String(d.surface).replace(/[^0-9.]/g,''));
+  if(d.hauteur) set('proj-hauteur-min', String(d.hauteur).replace(/[^0-9.]/g,''));
+  if(d.contact) set('proj-contact', d.contact);
+  updateProjectHeader();
+  showToast('✅ Données appliquées au dossier');
+  showPage('init');
+}
+
+function sauvegarderHistoriqueIA(texte){
+  const histo = JSON.parse(localStorage.getItem('lokoo_ia_histo')||'[]');
+  histo.unshift({date:new Date().toLocaleString('fr-FR'), extrait:texte.slice(0,200)+'...'});
+  if(histo.length>10) histo.pop();
+  localStorage.setItem('lokoo_ia_histo', JSON.stringify(histo));
+}
+
+function renderAnalyseIA(){
+  // Restaurer clé API
+  const key = localStorage.getItem('lokoo_api_key')||'';
+  const keyEl = document.getElementById('ia-analyse-key');
+  if(keyEl) keyEl.value = key;
+  // Afficher historique
+  const histo = JSON.parse(localStorage.getItem('lokoo_ia_histo')||'[]');
+  const histoEl = document.getElementById('ia-historique');
+  const listeEl = document.getElementById('ia-historique-liste');
+  if(histoEl && histo.length>0){
+    histoEl.style.display='block';
+    listeEl.innerHTML = histo.map(h=>`
+      <div style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px">
+        <div style="color:var(--muted);margin-bottom:2px">${h.date}</div>
+        <div style="color:var(--ink2)">${h.extrait}</div>
+      </div>`).join('');
   }
 }
 
