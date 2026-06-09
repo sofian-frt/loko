@@ -6123,9 +6123,7 @@ function afficherDernierChantier(){
   }
 }
 
-// Cache des codes Drive chargés
-// var _codesExistantsDrive = nul// l;
-var _dernierCodeDrive = '';
+// Cache des codes Drive — déclarés en haut du script
 
 async function chargerCodesDrive(){
   if(!_driveToken || !_driveFolderId) return [];
@@ -6834,7 +6832,7 @@ async function ouvrirListeDrive(){
   }
 }
 
-async async function chargerFichierDrive(fileId){
+async function chargerFichierDrive(fileId){
   if(!_driveToken) return;
   try{
     const r = await fetch('https://www.googleapis.com/drive/v3/files/'+fileId+'?alt=media',
