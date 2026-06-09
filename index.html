@@ -398,7 +398,7 @@ input[type=number]{-moz-appearance:textfield}
 <body>
 
 <!-- MOBILE TOPBAR -->
-<div class="mobile-topbar" style="position:relative">
+<div class="mobile-topbar" style="position:relative;display:none">
   <!-- Hamburger gauche -->
   <button class="hamburger" onclick="toggleMobileSidebar()" aria-label="Menu">
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
@@ -528,7 +528,7 @@ input[type=number]{-moz-appearance:textfield}
 </aside>
 
 <!-- FAB mobile synthèse -->
-<button class="fab" onclick="showPage('synthese')" title="Synthèse"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></button>
+<button class="fab" onclick="showPage('synthese')" style="display:none" title="Synthèse"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></button>
 
 <!-- ══ PAGE LOGIN ══ -->
 <div id="page-login" style="display:flex;align-items:center;justify-content:center;min-height:100vh;min-height:100dvh;background:var(--bg);padding:20px">
@@ -4849,7 +4849,7 @@ function afficherApp(){
   document.getElementById('main-topbar').style.display = '';
   // Remettre topbar mobile + fab quand on entre dans l'app
   const mt = document.querySelector('.mobile-topbar');
-  if(mt) mt.style.removeProperty('display');
+  if(mt) mt.style.display = 'flex';
   const fab = document.querySelector('.fab');
   if(fab) fab.style.removeProperty('display');
   majLogoSidebar();
