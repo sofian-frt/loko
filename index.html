@@ -10,7 +10,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
-<script src="https://accounts.google.com/gsi/client" onload="console.log('GSI chargé ✓')" onerror="console.error('GSI ERREUR de chargement')"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* Orthographe native */
@@ -616,25 +615,16 @@ input[type=number]{-moz-appearance:textfield}
     </div>
   </div>
   <div class="topbar-actions" style="position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:8px">
-    <button id="btn-drive-connect" class="btn btn-secondary btn-sm" onclick="connecterDrive()" title="Connecter Google Drive" style="gap:6px">
-      <svg width="14" height="14" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8H0c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="M43.65 25L29.9 1.2C28.55 2 27.4 3.1 26.6 4.5L1.2 49.15A9 9 0 000 53.65h27.5z" fill="#00ac47"/><path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5H59.8l5.85 11.2z" fill="#ea4335"/><path d="M43.65 25L57.4 1.2C56.05.4 54.5 0 52.9 0H34.4c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="M59.8 53.65H27.5L13.75 77.45c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="M73.4 26.35l-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3L43.65 25l16.15 28H87.3c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg>
-      Google Drive
-    </button>
-    <div id="btn-drive-user" style="display:none;align-items:center;gap:6px">
-      <svg width="14" height="14" viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8H0c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="M43.65 25L29.9 1.2C28.55 2 27.4 3.1 26.6 4.5L1.2 49.15A9 9 0 000 53.65h27.5z" fill="#00ac47"/><path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5H59.8l5.85 11.2z" fill="#ea4335"/><path d="M43.65 25L57.4 1.2C56.05.4 54.5 0 52.9 0H34.4c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="M59.8 53.65H27.5L13.75 77.45c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="M73.4 26.35l-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3L43.65 25l16.15 28H87.3c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg>
-      <span id="drive-username" style="font-size:11px;color:var(--mid)"></span>
-      <button class="btn btn-ghost btn-sm" onclick="deconnecterDrive()" style="padding:3px 6px;font-size:10px">✕</button>
-    </div>
     <button class="btn btn-ghost btn-sm" onclick="exportPrint()" style="gap:6px">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
       Imprimer
     </button>
-    <button class="btn btn-ghost btn-sm" onclick="ouvrirListeDrive()" style="gap:6px">
+    <button class="btn btn-ghost btn-sm" onclick="ouvrirListeCloud()" style="gap:6px">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-      Importer
+      Projets
     </button>
-    <button class="btn btn-secondary btn-sm" onclick="sauvegarderDrive()" style="gap:6px">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+    <button id="btn-cloud-save" class="btn btn-secondary btn-sm" onclick="sauvegarderCloud()" style="gap:6px">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
       Sauvegarder
     </button>
     <button onclick="reinitialiserProjet()" title="Nouveau projet" class="btn btn-ghost btn-sm" style="gap:6px" >
@@ -4391,15 +4381,13 @@ function afficherApp(){
   chargerCompte();
   setTimeout(()=>{
     majActiviteOptions();
-    // Atterrir sur le dashboard après connexion Drive
-    if(_driveToken){
-      showPage('dashboard');
-    } else {
-      // Attendre la connexion Drive puis aller au dashboard
-      showPage('dashboard');
-    }
+    showPage('dashboard');
   }, 300);
-  console.log('Lokoo V4.9 ✓ — Connecté:', _currentUser.email);
+  chargerDBFirestore(_currentUser.uid).then(()=>{
+    renderDashboard();
+    renderChantiers();
+  });
+  console.log('Lokoo V5.0 ✓ — Connecté:', _currentUser.email);
 }
 
 function switchLoginTab(tab){
@@ -6026,12 +6014,8 @@ function renderRecap(){
 async function genererCodeChantierAvecAttente(tentatives){
   tentatives = tentatives || 0;
   try{
-    if(typeof _driveToken !== 'undefined' && _driveToken){
-      if(!_driveFolderId) await trouverOuCreerDossier();
-      if(_driveFolderId && _codesExistantsDrive === null) await chargerCodesDrive();
-    }
-    await genererCodeChantier();
-  } catch(e){
+    // Cloud sync géré par Firestore
+ catch(e){
     if(tentatives < 5){
       setTimeout(()=> genererCodeChantierAvecAttente(tentatives+1), 1000);
     } else {
@@ -6050,24 +6034,8 @@ async function genererCodeChantier(){
   var hidden = document.getElementById('proj-nom');
   var hintEl = document.getElementById('code-hint');
 
-  console.log('genererCodeChantier — driveToken:', !!_driveToken, '— driveFolderId:', !!_driveFolderId, '— codes:', _codesExistantsDrive?.length);
-
-  if(!_driveToken){
-    if(suffixInp) suffixInp.value = '';
-    if(hidden) hidden.value = '';
-    var display2 = document.getElementById('code-chantier-display');
-    if(display2){ display2.textContent = '—'; display2.style.color='var(--muted)'; }
-    var hintEl2 = document.getElementById('code-hint');
-    if(hintEl2) hintEl2.innerHTML = '<span style="color:var(--warn)"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Connectez Google Drive pour générer le code chantier</span>';
-    return;
-  }
-
-  if(_driveFolderId && _codesExistantsDrive === null){
-    await chargerCodesDrive();
-  }
-
   var prefix = yy + '-CHT-';
-  var codesExistants = (_codesExistantsDrive || [])
+  var codesExistants = DB.chantiers.map(d=>d.code||'')
     .concat(JSON.parse(localStorage.getItem('lokoo_dossiers')||'[]').map(d=>d.code||''))
     .filter(c => c.startsWith(prefix));
 
@@ -6089,8 +6057,10 @@ async function genererCodeChantier(){
   if(statusEl) statusEl.textContent = '✅';
 
   var hintEl = document.getElementById('code-hint');
-  if(hintEl && _dernierCodeDrive){
-    hintEl.innerHTML = '<span style="color:var(--muted)">Dernier code utilisé : <strong style="font-family:monospace;color:var(--ink)">"'+_dernierCodeDrive+'"</strong></span>';
+  if(hintEl){
+    var lastCodes = DB.chantiers.map(d=>d.code).filter(Boolean);
+    var lastCode = lastCodes[lastCodes.length-1] || '';
+    if(lastCode) hintEl.innerHTML = '<span style="color:var(--muted)">Dernier code : <strong style="font-family:monospace;color:var(--ink)">'+lastCode+'</strong></span>';
   }
   updateProjectHeader();
 }
@@ -6098,13 +6068,10 @@ async function genererCodeChantier(){
 function afficherDernierChantier(){
   var hintEl = document.getElementById('code-hint');
   if(!hintEl) return;
-  var dernierCode = _dernierCodeDrive;
-  if(!dernierCode){
-    var dossiers = JSON.parse(localStorage.getItem('lokoo_dossiers') || '[]');
-    var chantiers = JSON.parse(localStorage.getItem('rt_chantiers') || '[]');
-    if(dossiers.length > 0) dernierCode = dossiers[dossiers.length-1].code || '';
-    if(chantiers.length > 0 && !dernierCode) dernierCode = chantiers[chantiers.length-1].nom || '';
-  }
+  var dossiers = JSON.parse(localStorage.getItem('lokoo_dossiers') || '[]');
+  var dernierCode = '';
+  if(DB.chantiers.length > 0) dernierCode = DB.chantiers[DB.chantiers.length-1].code || DB.chantiers[DB.chantiers.length-1].nom || '';
+  if(!dernierCode && dossiers.length > 0) dernierCode = dossiers[dossiers.length-1].code || '';
   if(dernierCode){
     hintEl.innerHTML = '<span style="color:var(--muted)">Dernier chantier : <strong style="font-family:monospace;color:var(--ink)">"'+dernierCode+'"</strong></span>';
   } else {
@@ -6112,22 +6079,7 @@ function afficherDernierChantier(){
   }
 }
 
-var _codesExistantsDrive = null;
-var _dernierCodeDrive = '';
-
-async function chargerCodesDrive(){
-  if(!_driveToken || !_driveFolderId) return [];
-  try{
-    const q = encodeURIComponent('"'+_driveFolderId+'" in parents and trashed=false and mimeType="application/json"');
-    const r = await fetch('https://www.googleapis.com/drive/v3/files?q='+q+'&fields=files(name)&orderBy=name+desc',
-      {headers:{Authorization:'Bearer '+_driveToken}});
-    const d = await r.json();
-    const codes = (d.files||[]).map(f=>f.name.replace('.json',''));
-    _codesExistantsDrive = codes;
-    _dernierCodeDrive = codes.length > 0 ? codes[0] : '';
-    return codes;
-  }catch(e){ return []; }
-}
+// Drive supprimé — codes gérés via DB.chantiers
 
 async function verifierCodeChantier(suffix){
   var statusEl = document.getElementById('code-status');
@@ -6142,8 +6094,9 @@ async function verifierCodeChantier(suffix){
   if(!suffix || suffix.length < 4){
     if(statusEl) statusEl.textContent = '';
     if(hintEl){
-      var dernierMsg = _dernierCodeDrive
-        ? '<span style="color:var(--muted)">Dernier code utilisé : <strong style="font-family:monospace">'+_dernierCodeDrive+'</strong></span>'
+      var lastCode2 = DB.chantiers.map(d=>d.code).filter(Boolean).slice(-1)[0] || '';
+      var dernierMsg = lastCode2
+        ? '<span style="color:var(--muted)">Dernier code : <strong style="font-family:monospace">'+lastCode2+'</strong></span>'
         : '';
       hintEl.innerHTML = dernierMsg;
     }
@@ -6155,20 +6108,14 @@ async function verifierCodeChantier(suffix){
   if(hidden) hidden.value = codeComplet;
   if(statusEl) statusEl.textContent = '⏳';
 
-  if(_codesExistantsDrive === null && _driveToken){
-    await chargerCodesDrive();
-  }
-
-  var chantiers = JSON.parse(localStorage.getItem('rt_chantiers') || '[]');
-  var dossiers  = JSON.parse(localStorage.getItem('lokoo_dossiers') || '[]');
-  var codesLocaux = chantiers.map(function(c){ return c.nom||''; })
+  var dossiers = JSON.parse(localStorage.getItem('lokoo_dossiers') || '[]');
+  var codesLocaux = DB.chantiers.map(function(c){ return c.code||c.nom||''; })
     .concat(dossiers.map(function(d){ return d.code||''; }));
-  var codesDrive = _codesExistantsDrive || [];
-  var tousLesCodes = codesLocaux.concat(codesDrive);
-
+  var tousLesCodes = codesLocaux;
   var doublon = tousLesCodes.indexOf(codeComplet) >= 0;
-  var dernierInfo = _dernierCodeDrive
-    ? '<br><span style="color:var(--muted);font-size:10px">Dernier code utilisé : <strong style="font-family:monospace">'+_dernierCodeDrive+'</strong></span>'
+  var lastCode = DB.chantiers.map(d=>d.code).filter(Boolean).slice(-1)[0] || '';
+  var dernierInfo = lastCode
+    ? '<br><span style="color:var(--muted);font-size:10px">Dernier code : <strong style="font-family:monospace">'+lastCode+'</strong></span>'
     : '';
 
   if(doublon){
@@ -6596,222 +6543,173 @@ document.getElementById('modal-ia-photo').addEventListener('click', function(e){
 });
 </script>
 
-<!-- MODAL LISTE DRIVE -->
-<div id="modal-drive-liste" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:800;align-items:center;justify-content:center">
-  <div style="background:white;border-radius:16px;padding:28px;max-width:680px;width:90%;max-height:85vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.3)">
+<!-- MODAL LISTE CLOUD -->
+<div id="modal-cloud-liste" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:800;align-items:center;justify-content:center;padding:16px">
+  <div style="background:white;border-radius:16px;padding:28px;max-width:680px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.3)">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
       <div>
-        <div style="font-size:17px;font-weight:700">Dossiers sauvegardés sur Drive</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:2px" id="drive-liste-subtitle">Chargement...</div>
+        <div style="font-size:17px;font-weight:700">☁️ Projets sauvegardés</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px" id="cloud-liste-subtitle">Chargement...</div>
       </div>
-      <button onclick="document.getElementById('modal-drive-liste').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)">✕</button>
+      <button onclick="document.getElementById('modal-cloud-liste').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted)">✕</button>
     </div>
-    <div id="drive-liste-content">
-      <div style="text-align:center;padding:40px;color:var(--muted)">⏳ Chargement des dossiers...</div>
+    <div id="cloud-liste-content">
+      <div style="text-align:center;padding:40px;color:var(--muted)">⏳ Chargement...</div>
     </div>
   </div>
 </div>
 
 <script>
-// ── GOOGLE DRIVE INTEGRATION ─────────────────────────────────
-const GOOGLE_CLIENT_ID = '927977439875-90eu5j3r7vfm74j4v9afbdg8d7ae0el6.apps.googleusercontent.com';
-const DRIVE_FOLDER_NAME = 'Lokoo - Dossiers Chantiers';
+// ── CLOUD STORAGE (Firestore) ─────────────────────────────────
 
-let _driveToken = null;
-let _driveFolderId = null;
-
-function connecterDrive(){
-  console.log('connecterDrive appelé');
-  console.log('google défini:', typeof google !== 'undefined');
-  console.log('google.accounts:', typeof google !== 'undefined' && typeof google.accounts !== 'undefined');
-
-  if(typeof google === 'undefined'){
-    alert('⚠️ Google Identity Services pas chargé.\nVérifiez votre connexion internet et rechargez la page.');
-    return;
-  }
-  if(typeof google.accounts === 'undefined'){
-    alert('⚠️ google.accounts non disponible.\nRechargez la page et réessayez.');
-    return;
-  }
-  if(typeof google.accounts.oauth2 === 'undefined'){
-    alert('⚠️ google.accounts.oauth2 non disponible.\nRechargez la page.');
-    return;
-  }
-
-  console.log('Initialisation du token client...');
-  const client = google.accounts.oauth2.initTokenClient({
-    client_id: GOOGLE_CLIENT_ID,
-    scope: 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.profile',
-    callback: function(resp){
-      if(resp.error){ alert('Erreur : ' + resp.error); return; }
-      _driveToken = resp.access_token;
-
-      fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-        headers:{Authorization:'Bearer '+_driveToken}
-      }).then(r=>r.json()).then(u=>{
-        const btn = document.getElementById('btn-drive-connect');
-        const userDiv = document.getElementById('btn-drive-user');
-        if(btn) btn.style.display = 'none';
-        if(userDiv) userDiv.style.display = 'flex';
-        const av = document.getElementById('drive-avatar');
-        const nm = document.getElementById('drive-username');
-        if(av && u.picture){ av.src=u.picture; av.style.display='inline-block'; }
-        if(nm) nm.textContent = u.given_name||u.name||'Drive';
-        showToast('✅ Google Drive connecté !');
-        trouverOuCreerDossier().then(()=>{ showPage('dashboard'); });
-      }).catch(e=>{ showToast('✅ Drive connecté'); trouverOuCreerDossier().then(()=>{ showPage('dashboard'); }); });
-    }
-  });
-
-  client.requestAccessToken({prompt:''});
+// ── saveDB : localStorage + Firestore sync ──────────────────
+const _saveQueue = {timer:null};
+function saveDB(){
+  localStorage.setItem('rt_prix', JSON.stringify(DB.prix));
+  localStorage.setItem('rt_chantiers', JSON.stringify(DB.chantiers));
+  localStorage.setItem('rt_chiffrages', JSON.stringify(DB.chiffrages));
+  _set('nb-prix', DB.prix.length);
+  _set('nb-chantiers', DB.chantiers.length);
+  // Sync Firestore avec debounce 1.5s
+  clearTimeout(_saveQueue.timer);
+  _saveQueue.timer = setTimeout(syncDBFirestore, 1500);
 }
 
-function deconnecterDrive(){
-  if(_driveToken && typeof google !== 'undefined'){
-    google.accounts.oauth2.revoke(_driveToken);
-  }
-  _driveToken = null;
-  _driveFolderId = null;
-  const btn = document.getElementById('btn-drive-connect');
-  const userDiv = document.getElementById('btn-drive-user');
-  if(btn) btn.style.display = 'inline-flex';
-  if(userDiv) userDiv.style.display = 'none';
-}
-
-function showToast(msg, color){
-  const el = document.createElement('div');
-  el.style.cssText = 'position:fixed;top:70px;right:20px;background:'+(color||'var(--primary)')+';color:white;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.2)';
-  el.textContent = msg;
-  document.body.appendChild(el);
-  setTimeout(()=>el.remove(), 3000);
-}
-
-async function trouverOuCreerDossier(){
-  if(!_driveToken) return null;
+async function syncDBFirestore(){
+  if(!_currentUser) return;
   try{
-    const q = encodeURIComponent("name=\""+DRIVE_FOLDER_NAME+"\" and mimeType=\"application/vnd.google-apps.folder\" and trashed=false");
-    const r = await fetch('https://www.googleapis.com/drive/v3/files?q='+q+'&fields=files(id,name)',
-      {headers:{Authorization:'Bearer '+_driveToken}});
-    const d = await r.json();
-    if(d.files && d.files.length > 0){ _driveFolderId = d.files[0].id; return _driveFolderId; }
-    const cr = await fetch('https://www.googleapis.com/drive/v3/files',{
-      method:'POST',
-      headers:{Authorization:'Bearer '+_driveToken,'Content-Type':'application/json'},
-      body:JSON.stringify({name:DRIVE_FOLDER_NAME,mimeType:'application/vnd.google-apps.folder'})
-    });
-    const f = await cr.json();
-    _driveFolderId = f.id;
-    return _driveFolderId;
-  }catch(e){ console.error('Dossier error:',e); return null; }
+    await db.collection('users').doc(_currentUser.uid).set({
+      db: { prix: DB.prix, chantiers: DB.chantiers, chiffrages: DB.chiffrages },
+      dbUpdatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, {merge:true});
+  } catch(e){ console.error('Sync DB Firestore:', e); }
 }
 
-async function sauvegarderDrive(){
-  if(!_driveToken){ connecterDrive(); return; }
-  if(!_driveFolderId) await trouverOuCreerDossier();
+async function chargerDBFirestore(uid){
+  try{
+    const doc = await db.collection('users').doc(uid).get();
+    if(doc.exists && doc.data().db){
+      const remote = doc.data().db;
+      // Merge : priorité remote si plus récent (on prend remote directement)
+      if(remote.chantiers && remote.chantiers.length >= DB.chantiers.length){
+        DB.chantiers = remote.chantiers;
+        localStorage.setItem('rt_chantiers', JSON.stringify(DB.chantiers));
+      }
+      if(remote.prix && remote.prix.length >= DB.prix.length){
+        DB.prix = remote.prix;
+        localStorage.setItem('rt_prix', JSON.stringify(DB.prix));
+      }
+      if(remote.chiffrages && remote.chiffrages.length >= DB.chiffrages.length){
+        DB.chiffrages = remote.chiffrages;
+        localStorage.setItem('rt_chiffrages', JSON.stringify(DB.chiffrages));
+      }
+      _set('nb-prix', DB.prix.length);
+      _set('nb-chantiers', DB.chantiers.length);
+    }
+  } catch(e){ console.error('Chargement DB Firestore:', e); }
+}
 
-  const code = document.getElementById('proj-nom')?.value || 'CHT';
+// ── Sauvegarder projet en cours ────────────────────────────────
+async function sauvegarderCloud(){
+  if(!_currentUser){ showToast('Connectez-vous pour sauvegarder', '#EF4444'); return; }
+  const btn = document.getElementById('btn-cloud-save');
+  if(btn){ btn.textContent = '⏳ Sauvegarde...'; btn.disabled = true; }
+  
+  const code = _val('proj-nom','') || 'Sans nom';
   const data = {
-    version:'1.0', exportDate:new Date().toISOString(), codeChantier:code,
+    version:'2.0', savedAt: new Date().toISOString(),
+    codeChantier: code,
     projet:{
       nom:_val('proj-nom'), client:_val('proj-client'), siren:_val('proj-siren'),
       adresse:_val('proj-adresse'), date:_val('proj-date'), releveur:_val('proj-releveur'),
       typeLocal:_val('proj-type-local'), activite:_val('proj-activite'),
       surface:_val('proj-surface'), hauteur:_val('proj-hauteur'), notes:_val('proj-notes')
     },
-    pieces:state.pieces, etat:state.etat,
-    chiffrage:{surface:state.surface,fg:state.fg,marge:state.marge,
-      complexite:state.complexite,region:state.region,renov:state.renov,
-      activeType:state.activeType,activeGamme:state.activeGamme}
+    pieces: state.pieces,
+    etat: state.etat,
+    chiffrage:{
+      surface:state.surface, fg:state.fg, marge:state.marge,
+      complexite:state.complexite, region:state.region, renov:state.renov,
+      activeType:state.activeType, activeGamme:state.activeGamme
+    }
   };
 
-  const fileName = code+'.json';
-  const jsonBlob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
-
-  const q = encodeURIComponent('"'+_driveFolderId+'" in parents and name="'+fileName+'" and trashed=false');
-  const sr = await fetch('https://www.googleapis.com/drive/v3/files?q='+q+'&fields=files(id)',
-    {headers:{Authorization:'Bearer '+_driveToken}});
-  const se = await sr.json();
-  const existId = se.files && se.files.length > 0 ? se.files[0].id : null;
-
-  const meta = existId ? {name:fileName} : {name:fileName, parents:[_driveFolderId]};
-  const form = new FormData();
-  form.append('metadata', new Blob([JSON.stringify(meta)], {type:'application/json'}));
-  form.append('file', jsonBlob);
-
-  const url = existId
-    ? 'https://www.googleapis.com/upload/drive/v3/files/'+existId+'?uploadType=multipart'
-    : 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart';
-
-  const up = await fetch(url, {
-    method: existId ? 'PATCH' : 'POST',
-    headers: {Authorization:'Bearer '+_driveToken},
-    body: form
-  });
-
-  if(up.ok){
-    showToast(''+fileName+' sauvegardé sur Drive');
-  } else {
-    const e = await up.json();
-    showToast('❌ Erreur : '+(e.error?.message||'inconnue'), '#EF4444');
+  const slug = code.replace(/[^a-zA-Z0-9_\-]/g,'_').substring(0,40) + '_' + Date.now();
+  
+  try{
+    await db.collection('users').doc(_currentUser.uid)
+      .collection('projets').doc(slug).set(data);
+    showToast('☁️ Projet sauvegardé !');
+  } catch(e){
+    showToast('❌ Erreur : ' + e.message, '#EF4444');
+  } finally {
+    if(btn){ btn.textContent = 'Sauvegarder'; btn.disabled = false; }
   }
 }
 
-async function ouvrirListeDrive(){
-  if(!_driveToken){ connecterDrive(); return; }
-  if(!_driveFolderId) await trouverOuCreerDossier();
-
-  document.getElementById('modal-drive-liste').style.display = 'flex';
-  document.getElementById('drive-liste-subtitle').textContent = DRIVE_FOLDER_NAME;
-  document.getElementById('drive-liste-content').innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">⏳ Chargement...</div>';
-
+// ── Ouvrir liste projets cloud ─────────────────────────────────
+async function ouvrirListeCloud(){
+  if(!_currentUser){ showToast('Connectez-vous pour accéder aux projets', '#EF4444'); return; }
+  const modal = document.getElementById('modal-cloud-liste');
+  const content = document.getElementById('cloud-liste-content');
+  const subtitle = document.getElementById('cloud-liste-subtitle');
+  if(!modal) return;
+  modal.style.display = 'flex';
+  if(content) content.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">⏳ Chargement...</div>';
+  
   try{
-    const q = encodeURIComponent("\""+_driveFolderId+"\" in parents and trashed=false and mimeType=\"application/json\"");
-    const r = await fetch('https://www.googleapis.com/drive/v3/files?q='+q+'&fields=files(id,name,modifiedTime)&orderBy=modifiedTime+desc',
-      {headers:{Authorization:'Bearer '+_driveToken}});
-    const d = await r.json();
-    const files = d.files||[];
-
-    if(!files.length){
-      document.getElementById('drive-liste-content').innerHTML =
-        '<div style="text-align:center;padding:40px;color:var(--muted)">Aucun dossier sauvegardé<br><small>Utilisez Sauvegarder Drive</small></div>';
+    const snap = await db.collection('users').doc(_currentUser.uid)
+      .collection('projets').orderBy('savedAt','desc').limit(30).get();
+    const docs = snap.docs.map(d => ({id:d.id, ...d.data()}));
+    
+    if(subtitle) subtitle.textContent = docs.length + ' projet(s) sauvegardé(s)';
+    
+    if(!docs.length){
+      content.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)"><div style="font-size:32px;margin-bottom:10px">☁️</div><div style="font-weight:600">Aucun projet sauvegardé</div><div style="font-size:12px;margin-top:6px">Utilisez le bouton Sauvegarder dans la barre du haut</div></div>';
       return;
     }
-
-    document.getElementById('drive-liste-subtitle').textContent = files.length+' dossier(s) · '+DRIVE_FOLDER_NAME;
-    document.getElementById('drive-liste-content').innerHTML = files.map(f=>`
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1.5px solid var(--border);border-radius:10px;margin-bottom:8px;background:white;transition:all .15s"
+    
+    content.innerHTML = docs.map(d => {
+      const date = d.savedAt ? new Date(d.savedAt).toLocaleString('fr-FR') : '—';
+      const p = d.projet || {};
+      return `<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1.5px solid var(--border);border-radius:10px;margin-bottom:8px;background:white;transition:all .15s;cursor:pointer"
         onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
         onmouseout="this.style.borderColor='var(--border)';this.style.background='white'">
         <div>
-          <div style="font-size:13px;font-weight:700;font-family:monospace">${f.name.replace('.json','')}</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:3px">📅 ${new Date(f.modifiedTime).toLocaleString('fr-FR')}</div>
+          <div style="font-size:13px;font-weight:700">${p.nom || d.codeChantier || d.id}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:3px">${p.client || ''} ${p.surface ? '· ' + p.surface + ' m²' : ''}</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px">📅 ${date}</div>
         </div>
-        <button class="btn btn-primary btn-sm" onclick="chargerFichierDrive('${f.id}')">Ouvrir</button>
-      </div>`).join('');
-  }catch(e){
-    document.getElementById('drive-liste-content').innerHTML = '<div style="color:var(--danger);padding:20px">Erreur : '+e.message+'</div>';
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-primary btn-sm" onclick="chargerProjetCloud('${d.id}')">Ouvrir</button>
+          <button class="btn btn-ghost btn-sm" onclick="supprimerProjetCloud('${d.id}',this)" style="color:var(--danger)">🗑</button>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e){
+    if(content) content.innerHTML = '<div style="color:var(--danger);padding:20px">Erreur : ' + e.message + '</div>';
   }
 }
 
-async function chargerFichierDrive(fileId){
-  if(!_driveToken) return;
+async function chargerProjetCloud(docId){
+  if(!_currentUser) return;
   try{
-    const r = await fetch('https://www.googleapis.com/drive/v3/files/'+fileId+'?alt=media',
-      {headers:{Authorization:'Bearer '+_driveToken}});
-    const d = await r.json();
-    if(!d.projet){ alert('Fichier invalide'); return; }
+    const doc = await db.collection('users').doc(_currentUser.uid)
+      .collection('projets').doc(docId).get();
+    if(!doc.exists || !doc.data().projet){ alert('Projet introuvable'); return; }
+    const d = doc.data();
     const p = d.projet;
-    const sv = (id,v)=>{ const e=document.getElementById(id); if(e&&v!=null) e.value=v; };
-    sv('proj-nom',p.nom); sv('proj-client',p.client); sv('proj-siren',p.siren);
-    sv('proj-adresse',p.adresse); sv('proj-date',p.date); sv('proj-releveur',p.releveur);
-    sv('proj-type-local',p.typeLocal); sv('proj-activite',p.activite);
-    sv('proj-surface',p.surface); sv('proj-hauteur',p.hauteur); sv('proj-notes',p.notes);
-    if(d.pieces){ state.pieces=d.pieces; state.pieceCounter=d.pieces.length; }
+    const sv = (id,v) => { const e=document.getElementById(id); if(e && v!=null) e.value=v; };
+    sv('proj-nom', p.nom); sv('proj-client', p.client); sv('proj-siren', p.siren);
+    sv('proj-adresse', p.adresse); sv('proj-date', p.date); sv('proj-releveur', p.releveur);
+    sv('proj-type-local', p.typeLocal); sv('proj-activite', p.activite);
+    sv('proj-surface', p.surface); sv('proj-hauteur', p.hauteur); sv('proj-notes', p.notes);
+    if(d.pieces){ state.pieces = d.pieces; state.pieceCounter = d.pieces.length; }
     if(d.chiffrage){
-      const c=d.chiffrage;
-      state.surface=c.surface||0; state.fg=c.fg||8; state.marge=c.marge||10;
-      state.complexite=c.complexite||3; state.region=c.region||'std'; state.renov=c.renov||1;
-      state.activeType=c.activeType||'restaurant'; state.activeGamme=c.activeGamme||'std';
+      const ch = d.chiffrage;
+      state.surface=ch.surface||0; state.fg=ch.fg||8; state.marge=ch.marge||10;
+      state.complexite=ch.complexite||3; state.region=ch.region||'std'; state.renov=ch.renov||1;
+      state.activeType=ch.activeType||'restaurant'; state.activeGamme=ch.activeGamme||'std';
       ['sl-fg','sl-marge','sl-complexite'].forEach(id=>{
         const e=document.getElementById(id);
         if(e) e.value = id==='sl-fg'?state.fg:id==='sl-marge'?state.marge:state.complexite;
@@ -6819,11 +6717,36 @@ async function chargerFichierDrive(fileId){
       const si=document.getElementById('inp-surface'); if(si) si.value=state.surface;
     }
     updateRecap();
-    document.getElementById('modal-drive-liste').style.display='none';
+    document.getElementById('modal-cloud-liste').style.display = 'none';
     showPage('init');
-    showToast('📂 Dossier chargé avec succès');
-  }catch(e){ alert('Erreur : '+e.message); }
+    showToast('☁️ Projet chargé avec succès');
+  } catch(e){ alert('Erreur : ' + e.message); }
 }
+
+async function supprimerProjetCloud(docId, btn){
+  if(!confirm('Supprimer ce projet sauvegardé ?')) return;
+  if(btn) btn.textContent = '⏳';
+  try{
+    await db.collection('users').doc(_currentUser.uid)
+      .collection('projets').doc(docId).delete();
+    showToast('Projet supprimé');
+    ouvrirListeCloud();
+  } catch(e){ showToast('Erreur : ' + e.message, '#EF4444'); }
+}
+
+function showToast(msg, color){
+  const el = document.createElement('div');
+  el.style.cssText = 'position:fixed;top:70px;right:20px;background:'+(color||'var(--primary)')+';color:white;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.2);animation:fadeIn .2s ease';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(), 3000);
+}
+
+// Stub pour éviter les erreurs résiduelles
+function connecterDrive(){}
+function deconnecterDrive(){}
+function sauvegarderDrive(){ sauvegarderCloud(); }
+function ouvrirListeDrive(){ ouvrirListeCloud(); }
 </script>
 
 </div><!-- fin app-main -->
