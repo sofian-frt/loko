@@ -386,6 +386,40 @@ input[type=number]{-moz-appearance:textfield}
   #page-login ~ * .mobile-topbar,
   body.login-active .mobile-topbar{display:none!important}
   #page-login{padding-top:0;min-height:100dvh}
+  /* Compte & Paramètres : tabs en bas, sticky, défilement horizontal */
+  #compte-tabs{
+    position:fixed;
+    bottom:0;left:0;right:0;
+    background:white;
+    border-top:1px solid var(--border);
+    border-bottom:none;
+    margin-bottom:0;
+    padding:6px 8px;
+    gap:4px;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    z-index:400;
+    justify-content:flex-start;
+  }
+  #compte-tabs::-webkit-scrollbar{display:none}
+  #compte-tabs .tab{
+    padding:8px 14px;
+    font-size:12px;
+    border-bottom:none;
+    border-radius:20px;
+    background:var(--surface2);
+    color:var(--mid);
+    flex-shrink:0;
+    margin-bottom:0;
+  }
+  #compte-tabs .tab.active{
+    background:var(--primary);
+    color:white;
+    border-bottom:none;
+  }
+  /* Ajouter padding-bottom à la page compte pour ne pas cacher le contenu sous les tabs */
+  #page-compte{padding-bottom:72px}
 }
 @media print{
   .sidebar,.topbar,.mobile-topbar,.fab,.topbar-actions{display:none!important}
