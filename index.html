@@ -12,6 +12,11 @@
 <script src="https://accounts.google.com/gsi/client" onload="console.log('GSI chargé ✓')" onerror="console.error('GSI ERREUR de chargement')"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+/* Orthographe native */
+input[spellcheck="true"], textarea[spellcheck="true"] {
+  -webkit-spell-checking: yes;
+  spell-checking: yes;
+}
 /* ═══ RESET & VARIABLES — Pennylane DA ═══ */
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -418,6 +423,9 @@ input[type=number]{-moz-appearance:textfield}
     <button class="nav-item active" onclick="showPage('init')" id="nav-init">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><path d="M9 12h6M9 16h4"/></svg></span> Initialisation
     </button>
+    <button class="nav-item" onclick="showPage('analyse-ia')" id="nav-analyse-ia">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg></span> Analyse IA
+    </button>
     <button class="nav-item" onclick="showPage('releves-existant')" id="nav-releves-existant">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 21L21 3M3 21h7M3 21v-7"/></svg></span> Relevés & Métrés
       <span class="badge badge-muted" id="nb-pieces-existant" style="margin-left:auto">0</span>
@@ -425,10 +433,8 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 
   <div class="nav-group">
-    <span class="nav-label">Technique</span>
-    <button class="nav-item" onclick="showPage('recap')" id="nav-recap">
-      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span> Récapitulatif
-    </button>
+    <span class="nav-label">Dimensionnement</span>
+
 
     <button class="nav-item" onclick="showPage('eclairage')" id="nav-eclairage">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4M12 2a7 7 0 014.9 11.9c-.6.6-1.9 2.1-1.9 3.1v.1H9v-.1c0-1-.8-2.2-1.9-3.1A7 7 0 0112 2z"/></svg></span> Éclairage
@@ -700,6 +706,47 @@ input[type=number]{-moz-appearance:textfield}
 
         </div>
 
+        <!-- LIGNE 1b : Nom chantier + Statut -->
+        <div class="form-row" style="margin-bottom:14px">
+          <div class="form-group">
+            <label class="form-label">Nom du chantier</label>
+            <input id="proj-nom-chantier" spellcheck="true" class="form-input" placeholder="" oninput="corrigerTexte(this);updateProjectHeader()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Statut du dossier</label>
+            <select id="proj-statut" class="form-select" onchange="updateProjectHeader()">
+              <option value="nouveau">Nouveau</option>
+              <option value="releve-a-realiser">Relevé à réaliser</option>
+              <option value="releve-effectue">Relevé effectué</option>
+              <option value="etude-en-cours">Étude en cours</option>
+              <option value="chiffrage-en-cours">Chiffrage en cours</option>
+              <option value="devis-envoye">Devis envoyé</option>
+              <option value="devis-accepte">Devis accepté</option>
+              <option value="travaux-en-cours">Travaux en cours</option>
+              <option value="chantier-termine">Chantier terminé</option>
+              <option value="archive">Dossier archivé</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- LIGNE 1c : Contact principal -->
+        <div class="form-row" style="margin-bottom:14px">
+          <div class="form-group">
+            <label class="form-label">Contact principal</label>
+            <input id="proj-contact" spellcheck="true" class="form-input" placeholder="" oninput="corrigerNomPropre(this)">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Téléphone</label>
+            <input id="proj-tel" class="form-input" placeholder="" type="tel">
+          </div>
+        </div>
+        <div class="form-row" style="margin-bottom:14px">
+          <div class="form-group" style="grid-column:1/-1">
+            <label class="form-label">Email</label>
+            <input id="proj-email" class="form-input" placeholder="" type="email">
+          </div>
+        </div>
+
         <!-- LIGNE 2 : SIREN + Client -->
         <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
@@ -714,7 +761,7 @@ input[type=number]{-moz-appearance:textfield}
           <div class="form-group">
             <label class="form-label">Client <span class="req">*</span></label>
             <div style="display:flex;gap:6px">
-              <input id="proj-client" class="form-input" placeholder="" oninput="updateProjectHeader()" style="flex:1">
+              <input id="proj-client" spellcheck="true" class="form-input" placeholder="" oninput="corrigerNomPropre(this);updateProjectHeader()" style="flex:1">
               <button type="button" onclick="ouvrirHistoriqueClients()" class="btn btn-ghost btn-sm" title="Historique clients" style="flex-shrink:0;padding:8px 10px">
                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </button>
@@ -762,7 +809,7 @@ input[type=number]{-moz-appearance:textfield}
           </div>
           <div class="form-group">
             <label class="form-label">Releveur / Chargé d'affaires</label>
-            <input id="proj-releveur" class="form-input" placeholder="" oninput="updateProjectHeader()">
+            <input id="proj-releveur" spellcheck="true" class="form-input" placeholder="" oninput="corrigerNomPropre(this);updateProjectHeader()">
           </div>
         </div>
 
@@ -770,28 +817,20 @@ input[type=number]{-moz-appearance:textfield}
         <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
             <label class="form-label">Type de local</label>
-            <select id="proj-type-local" class="form-select" onchange="updateProjectHeader()">
+            <select id="proj-type-local" class="form-select" onchange="updateProjectHeader();majActiviteOptions()">
               <option value="restaurant">Restaurant</option>
-              <option value="commerce">Commerce</option>
-              <option value="bureau">Bureaux</option>
-              <option value="pharmacie">Pharmacie</option>
               <option value="boulangerie">Boulangerie</option>
-              <option value="sport">Salle de sport</option>
-              <option value="entrepot">Entrepôt</option>
-              <option value="hotel">Hôtel</option>
-              <option value="cabinet">Cabinet médical</option>
-              <option value="erp">ERP</option>
-              <option value="cafe">Café / Coffee shop</option>
-              <option value="salon">Salon de coiffure</option>
-              <option value="boutique">Boutique</option>
-              <option value="institut">Institut de beauté</option>
-              <option value="autre">Autre</option>
+              <option value="coffee-shop">Coffee Shop</option>
             </select>
           </div>
           <div class="form-group">
             <label class="form-label">Activité prévue</label>
-            <input id="proj-activite" class="form-input" placeholder=""
-              oninput="updateProjectHeader()">
+            <select id="proj-activite" spellcheck="true" class="form-select" onchange="updateProjectHeader();majActiviteAutre()">
+              <option value="">— Sélectionner —</option>
+            </select>
+            <div id="proj-activite-autre-wrap" style="display:none;margin-top:6px">
+              <input id="proj-activite-autre" spellcheck="true" class="form-input" placeholder="Précisez l'activité" oninput="corrigerTexte(this);updateProjectHeader()">
+            </div>
           </div>
         </div>
 
@@ -825,7 +864,7 @@ input[type=number]{-moz-appearance:textfield}
         <!-- LIGNE 7 : Observations enrichies -->
         <div class="form-group" style="margin-bottom:0">
           <label class="form-label">Observations générales</label>
-          <textarea id="proj-notes" class="form-textarea" placeholder="" style="min-height:80px"></textarea>
+          <textarea id="proj-notes" spellcheck="true" class="form-textarea" placeholder="" style="min-height:80px" oninput="corrigerTexte(this)"></textarea>
           <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
             <button type="button" onclick="document.getElementById('obs-photos-input').click()" class="btn btn-ghost btn-sm" style="gap:5px;font-size:11px">
               <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
@@ -853,6 +892,31 @@ input[type=number]{-moz-appearance:textfield}
               <button type="button" onclick="arreterNoteVocale()" class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger);font-size:11px">Arrêter</button>
             </div>
             <div id="vocale-audios" style="margin-top:8px"></div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- SUIVI ADMINISTRATIF -->
+      <div class="card" style="margin-bottom:16px;background:var(--bg)">
+        <div class="card-title">Suivi administratif</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+          <div style="padding:8px 12px;background:white;border-radius:8px;border:1px solid var(--border)">
+            <div style="color:var(--muted);margin-bottom:2px">Date de création</div>
+            <div id="suivi-creation" style="font-weight:600;color:var(--ink)">—</div>
+          </div>
+          <div style="padding:8px 12px;background:white;border-radius:8px;border:1px solid var(--border)">
+            <div style="color:var(--muted);margin-bottom:2px">Créé par</div>
+            <div id="suivi-cree-par" style="font-weight:600;color:var(--ink)">—</div>
+          </div>
+          <div style="padding:8px 12px;background:white;border-radius:8px;border:1px solid var(--border)">
+            <div style="color:var(--muted);margin-bottom:2px">Dernière modification</div>
+            <div id="suivi-modif" style="font-weight:600;color:var(--ink)">—</div>
+          </div>
+          <div style="padding:8px 12px;background:white;border-radius:8px;border:1px solid var(--border)">
+            <div style="color:var(--muted);margin-bottom:2px">Modifié par</div>
+            <div id="suivi-modif-par" style="font-weight:600;color:var(--ink)">—</div>
           </div>
         </div>
       </div>
@@ -1010,6 +1074,83 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
+
+<!-- ══ PAGE ANALYSE IA ══ -->
+<div class="page" id="page-analyse-ia">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Analyse IA & Documents</h2>
+      <p>Gérez les documents du dossier · L'IA extrait et résume automatiquement les informations clés</p>
+    </div>
+    <input id="ia-analyse-key" type="password" class="form-input" placeholder="Clé API sk-ant-..."
+      style="font-family:monospace;font-size:11px;width:220px"
+      oninput="localStorage.setItem('lokoo_api_key',this.value)">
+  </div>
+
+  <div class="g2" style="gap:20px;align-items:start">
+    <!-- COLONNE GAUCHE : Documents -->
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div class="card-title" style="margin-bottom:0">Documents du dossier</div>
+          <button onclick="resumerTousDocuments()" class="btn btn-secondary btn-sm" style="gap:6px">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            Résumer tous
+          </button>
+        </div>
+        <div id="docs-grid" style="display:flex;flex-direction:column;gap:6px"></div>
+        <input type="file" id="doc-upload-input" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" style="display:none" onchange="ajouterDocuments(this)">
+      </div>
+
+      <!-- Résumé global -->
+      <div id="resumé-global-card" class="card" style="display:none;border:1.5px solid var(--primary-border);background:var(--primary-light)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="card-title" style="color:var(--primary-dark);margin-bottom:0">Résumé global</div>
+          <button onclick="appliquerResultatsIA()" class="btn btn-primary btn-sm">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Appliquer au dossier
+          </button>
+        </div>
+        <div id="resumé-global-content" style="font-size:13px;line-height:1.8;color:var(--ink)"></div>
+      </div>
+    </div>
+
+    <!-- COLONNE DROITE : Analyse document -->
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Analyser un document</div>
+        <div id="ia-doc-drop-zone"
+          style="border:2px dashed var(--border2);border-radius:10px;padding:30px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);margin-bottom:12px"
+          onclick="document.getElementById('ia-doc-input').click()"
+          ondragover="event.preventDefault();this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
+          ondragleave="this.style.borderColor='var(--border2)';this.style.background='var(--bg)'"
+          ondrop="handleIADocDrop(event)">
+          <svg width="28" height="28" fill="none" stroke="var(--muted)" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 8px;display:block"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M12 12v6M9 15l3-3 3 3"/></svg>
+          <div style="font-size:13px;font-weight:600;color:var(--ink2)">Glissez ou cliquez</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">PDF, Image, Word</div>
+        </div>
+        <input type="file" id="ia-doc-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="analyserDocumentIA(this)">
+        <button onclick="analyserDocumentIAManuel()" class="btn btn-primary btn-full" style="gap:6px">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          Analyser avec l'IA
+        </button>
+      </div>
+
+      <!-- Résultats analyse -->
+      <div id="ia-analyse-results" style="display:none" class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="card-title" style="margin-bottom:0">Résultats</div>
+          <button onclick="appliquerResultatsIA()" class="btn btn-primary btn-sm">Appliquer</button>
+        </div>
+        <div id="ia-analyse-content" style="font-size:12px;line-height:1.8;white-space:pre-wrap;color:var(--ink);max-height:400px;overflow-y:auto"></div>
+        <div id="ia-extracted-card" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Données extraites</div>
+          <div id="ia-extracted-fields" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ══ PAGE RELEVÉS & MÉTRÉS ══ -->
 <div class="page" id="page-releves-existant">
@@ -2593,6 +2734,7 @@ function showPage(id){
   if(id==='clim'){renderClimPieces();calcClim();}
   if(id==='facade'){calcFacade();calcERP();}
   if(id==='recap')renderRecap();
+  if(id==='analyse-ia')renderAnalyseIA();
   if(id==='releves-existant')renderRelevesPage();
   
   if(id==='init')renderRecapBanner();
@@ -2613,6 +2755,7 @@ function toggleMobileSidebar(){
 }
 // ── INIT PROJET ───────────────────────────────────────────────
 function updateProjectHeader(){
+  majSuiviAdmin();
   const surf=_val('proj-surface');
   if(surf){const i=_get('inp-surface');if(i)i.value=surf;state.surface=parseFloat(surf)||0;recalculate();}
   updateRecap();
@@ -3737,8 +3880,7 @@ function chargerCompte(){
     mettreAJourProfilMenu(data);
     mettreAJourApercuEntete(data);
 
-    // Appliquer défauts projets si champs vides
-    if(d.releveur_def){ const r=document.getElementById('proj-releveur'); if(r&&!r.value) r.value=d.releveur_def; }
+    // Releveur laissé vide intentionnellement
     if(d.fg_def){ state.fg = parseFloat(d.fg_def)||state.fg; }
     if(d.marge_def){ state.marge = parseFloat(d.marge_def)||state.marge; }
     if(d.region_def){ state.region = d.region_def||state.region; }
@@ -4083,20 +4225,12 @@ function afficherApp(){
   // Préremplir date du jour
   const dateEl = document.getElementById('proj-date');
   if(dateEl && !dateEl.value) dateEl.value = new Date().toISOString().slice(0,10);
-  // Préremplir releveur avec utilisateur connecté si vide
-  const relEl = document.getElementById('proj-releveur');
-  if(relEl && !relEl.value && _currentUser){
-    const raw2 = localStorage.getItem('lokoo_compte');
-    if(raw2){
-      try{
-        const d2 = JSON.parse(raw2);
-        const p2 = d2.profil||{};
-        const nom = [p2.prenom, p2.nom].filter(Boolean).join(' ');
-        if(nom) relEl.value = nom;
-      }catch(e){}
-    }
-  }
+  // Releveur : champ vide par défaut
   chargerCompte();
+  setTimeout(()=>{
+    majActiviteOptions();
+    initSuiviAdmin();
+  }, 300);
   console.log('Lokoo V3.7 ✓ — Connecté:', _currentUser.email);
 }
 
@@ -4786,6 +4920,388 @@ function renderRelevesType(type){
 }
 
 
+
+
+// ── CORRECTION AUTOMATIQUE ───────────────────────────────────
+function corrigerTexte(input){
+  if(!input || !input.value) return;
+  const val = input.value;
+  const pos = input.selectionStart;
+  
+  // Mettre la première lettre en majuscule
+  let corrected = val.charAt(0).toUpperCase() + val.slice(1);
+  
+  // Corriger les espaces multiples
+  corrected = corrected.replace(/  +/g, ' ');
+  
+  // Majuscule après . ! ? : et retour à la ligne
+  corrected = corrected.replace(/([.!?:]\s+)([a-zàâäéèêëîïôöùûüç])/g, 
+    (m, p1, p2) => p1 + p2.toUpperCase());
+  
+  if(corrected !== val){
+    input.value = corrected;
+    // Restaurer la position du curseur
+    try{ input.setSelectionRange(pos, pos); }catch(e){}
+  }
+}
+
+function corrigerNomPropre(input){
+  if(!input || !input.value) return;
+  const val = input.value;
+  const pos = input.selectionStart;
+  
+  // Title case : première lettre de chaque mot en majuscule
+  let corrected = val.replace(/(?:^|\s|-)([a-zàâäéèêëîïôöùûüç])/g, 
+    m => m.toUpperCase());
+  
+  // Corriger espaces multiples
+  corrected = corrected.replace(/  +/g, ' ');
+  
+  if(corrected !== val){
+    input.value = corrected;
+    try{ input.setSelectionRange(pos, pos); }catch(e){}
+  }
+}
+
+
+
+// ── ANALYSE IA DOCUMENTS ─────────────────────────────────────
+var _iaDocBase64 = null;
+var _iaDocType = null;
+var _iaResultatsExtraits = {};
+
+function handleIADocDrop(e){
+  e.preventDefault();
+  document.getElementById('ia-doc-drop-zone').style.borderColor='var(--border2)';
+  document.getElementById('ia-doc-drop-zone').style.background='var(--bg)';
+  const file = e.dataTransfer.files[0];
+  if(file) traiterFichierIA(file);
+}
+
+function analyserDocumentIA(input){
+  const file = input.files[0];
+  if(file) traiterFichierIA(file);
+  input.value='';
+}
+
+function traiterFichierIA(file){
+  const zone = document.getElementById('ia-doc-drop-zone');
+  zone.innerHTML = `<div style="font-size:13px;font-weight:600;color:var(--primary)">📄 ${file.name}</div><div style="font-size:11px;color:var(--muted);margin-top:4px">${Math.round(file.size/1024)} Ko · Prêt à analyser</div>`;
+  
+  const reader = new FileReader();
+  reader.onload = e => {
+    _iaDocBase64 = e.target.result.split(',')[1];
+    _iaDocType = file.type || 'image/jpeg';
+  };
+  reader.readAsDataURL(file);
+}
+
+async function analyserDocumentIAManuel(){
+  const apiKey = document.getElementById('ia-analyse-key')?.value?.trim() || localStorage.getItem('lokoo_api_key');
+  if(!apiKey){ showToast('Saisissez votre clé API Anthropic', '#EF4444'); return; }
+  if(!_iaDocBase64){ showToast('Importez un document d\'abord', '#EF4444'); return; }
+
+  const btn = document.querySelector('[onclick="analyserDocumentIAManuel()"]');
+  if(btn){ btn.textContent = '⏳ Analyse...'; btn.disabled=true; }
+
+  const prompt = `Tu es un expert en bâtiment et en construction. Analyse ce document et extrait les informations suivantes si présentes :
+- Nom/raison sociale du client ou locataire
+- Adresse du local/chantier
+- Surface totale (m²)
+- Type de local ou activité
+- Hauteur sous plafond
+- Informations sur le bailleur/propriétaire
+- Contact principal
+- Contraintes spécifiques mentionnées (ERP, PMR, normes...)
+- Travaux mentionnés ou autorisés
+- Dates importantes
+
+Réponds en JSON structuré avec ces clés : client, adresse, surface, type_local, hauteur, bailleur, contact, contraintes, travaux, dates, autres_infos.
+Si une information n'est pas trouvée, mets null.`;
+
+  try{
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body: JSON.stringify({
+        model:'claude-opus-4-5',
+        max_tokens:2000,
+        messages:[{
+          role:'user',
+          content:[
+            {type:'image', source:{type:'base64', media_type:_iaDocType, data:_iaDocBase64}},
+            {type:'text', text:prompt}
+          ]
+        }]
+      })
+    });
+
+    const data = await resp.json();
+    if(data.error) throw new Error(data.error.message);
+    const texte = data.content[0].text;
+
+    // Afficher résultats
+    document.getElementById('ia-analyse-results').style.display='block';
+    document.getElementById('ia-analyse-content').textContent = texte;
+
+    // Parser le JSON extrait
+    try{
+      const jsonMatch = texte.match(/\{[\s\S]*\}/);
+      if(jsonMatch){
+        _iaResultatsExtraits = JSON.parse(jsonMatch[0]);
+        afficherChampsExtraits(_iaResultatsExtraits);
+      }
+    }catch(e){ console.log('Pas de JSON parsable'); }
+
+    // Historique
+    sauvegarderHistoriqueIA(texte);
+
+  }catch(err){
+    showToast('Erreur : '+err.message, '#EF4444');
+  }
+
+  if(btn){ btn.textContent = 'Analyser'; btn.disabled=false; }
+}
+
+function afficherChampsExtraits(data){
+  const card = document.getElementById('ia-extracted-card');
+  const fields = document.getElementById('ia-extracted-fields');
+  if(!card || !fields) return;
+
+  const labels = {
+    client:'Client', adresse:'Adresse', surface:'Surface (m²)',
+    type_local:'Type de local', hauteur:'Hauteur (m)', contact:'Contact',
+    contraintes:'Contraintes', travaux:'Travaux', bailleur:'Bailleur'
+  };
+
+  const html = Object.entries(labels)
+    .filter(([k]) => data[k] && data[k] !== 'null')
+    .map(([k,label]) => `
+      <div style="padding:10px 12px;background:white;border-radius:8px;border:1px solid var(--border)">
+        <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">${label}</div>
+        <div style="font-size:13px;font-weight:600;color:var(--ink)">${Array.isArray(data[k])?data[k].join(', '):data[k]}</div>
+      </div>`).join('');
+
+  if(html){ card.style.display='block'; fields.innerHTML=html; }
+}
+
+function appliquerResultatsIA(){
+  if(!_iaResultatsExtraits) return;
+  const d = _iaResultatsExtraits;
+  const set = (id,v) => { const e=document.getElementById(id); if(e&&v&&v!=='null') e.value=v; };
+  if(d.client) set('proj-client', d.client);
+  if(d.adresse) set('proj-adresse', d.adresse);
+  if(d.surface) set('proj-surface', String(d.surface).replace(/[^0-9.]/g,''));
+  if(d.hauteur) set('proj-hauteur-min', String(d.hauteur).replace(/[^0-9.]/g,''));
+  if(d.contact) set('proj-contact', d.contact);
+  updateProjectHeader();
+  showToast('✅ Données appliquées au dossier');
+  showPage('init');
+}
+
+function sauvegarderHistoriqueIA(texte){
+  const histo = JSON.parse(localStorage.getItem('lokoo_ia_histo')||'[]');
+  histo.unshift({date:new Date().toLocaleString('fr-FR'), extrait:texte.slice(0,200)+'...'});
+  if(histo.length>10) histo.pop();
+  localStorage.setItem('lokoo_ia_histo', JSON.stringify(histo));
+}
+
+function renderAnalyseIA(){
+  initDocsGrid();
+  // Restaurer clé API
+  const key = localStorage.getItem('lokoo_api_key')||'';
+  const keyEl = document.getElementById('ia-analyse-key');
+  if(keyEl) keyEl.value = key;
+  // Afficher historique
+  const histo = JSON.parse(localStorage.getItem('lokoo_ia_histo')||'[]');
+  const histoEl = document.getElementById('ia-historique');
+  const listeEl = document.getElementById('ia-historique-liste');
+  if(histoEl && histo.length>0){
+    histoEl.style.display='block';
+    listeEl.innerHTML = histo.map(h=>`
+      <div style="padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px">
+        <div style="color:var(--muted);margin-bottom:2px">${h.date}</div>
+        <div style="color:var(--ink2)">${h.extrait}</div>
+      </div>`).join('');
+  }
+}
+
+
+// ── ACTIVITÉ DYNAMIQUE ────────────────────────────────────────
+const ACTIVITES_PAR_TYPE = {
+  'restaurant': ['Kebab','Sandwicherie','Burger','Tacos','Pizza','Grillades','Cuisine turque','Cuisine libanaise','Cuisine asiatique','Cuisine italienne','Cuisine indienne','Cuisine africaine','Brasserie','Restaurant traditionnel','Fast-food','Fast casual','Food court','Traiteur','Dark kitchen','Autre'],
+  'boulangerie': ['Boulangerie artisanale','Boulangerie-pâtisserie','Terminal de cuisson','Boulangerie-snacking','Autre'],
+  'coffee-shop': ['Coffee Shop','Salon de thé','Bubble Tea','Coffee Shop & Pâtisserie','Coffee Shop & Restauration légère','Autre']
+};
+
+function majActiviteOptions(){
+  const type = document.getElementById('proj-type-local')?.value || 'restaurant';
+  const sel = document.getElementById('proj-activite');
+  if(!sel) return;
+  const opts = ACTIVITES_PAR_TYPE[type] || ACTIVITES_PAR_TYPE['restaurant'];
+  sel.innerHTML = '<option value="">— Sélectionner —</option>' +
+    opts.map(o=>`<option value="${o}">${o}</option>`).join('');
+  majActiviteAutre();
+}
+
+function majActiviteAutre(){
+  const sel = document.getElementById('proj-activite');
+  const wrap = document.getElementById('proj-activite-autre-wrap');
+  if(!sel || !wrap) return;
+  wrap.style.display = sel.value === 'Autre' ? 'block' : 'none';
+}
+
+// ── DOCUMENTS DOSSIER ─────────────────────────────────────────
+const TYPES_DOCS = [
+  // Administratif
+  {id:'bail', label:'Bail commercial'},
+  {id:'reglement-copro', label:'Règlement de copropriété'},
+  {id:'autorisation-bailleur', label:'Autorisation du bailleur'},
+  // Plans
+  {id:'plan-exist', label:'Plan existant'},
+  {id:'plan-projet', label:'Plan projet'},
+  {id:'plan-facade', label:'Plan façade'},
+  // Photos
+  {id:'photos', label:'Photos'},
+  // Autorisations
+  {id:'declaration-prealable', label:'Déclaration préalable'},
+  {id:'autorisation-travaux', label:'Autorisation de travaux'},
+  // Techniques
+  {id:'cctp', label:'CCTP'},
+  {id:'notice-descriptive', label:'Notice descriptive'},
+  {id:'cahier-prestations', label:'Cahier de prestations'},
+  {id:'autres', label:'Autres documents'},
+];
+
+var _documentsProjet = {};
+
+function initDocsGrid(){
+  const grid = document.getElementById('docs-grid');
+  if(!grid) return;
+  grid.innerHTML = TYPES_DOCS.map(d=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;background:white;transition:all .15s"
+      id="doc-card-${d.id}">
+      <div style="display:flex;align-items:center;gap:10px">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="color:var(--muted);flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--ink)">${d.label}</div>
+          <div id="doc-files-${d.id}" style="font-size:10px;color:var(--muted)">Aucun fichier</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-ghost btn-sm" style="font-size:11px;padding:4px 8px"
+          onclick="document.getElementById('doc-upload-input').setAttribute('data-type','${d.id}');document.getElementById('doc-upload-input').click()">
+          + Ajouter
+        </button>
+        <button class="btn btn-secondary btn-sm" style="font-size:11px;padding:4px 8px;display:none" id="btn-analyse-${d.id}"
+          onclick="analyserDocumentParType('${d.id}')">
+          Analyser
+        </button>
+      </div>
+    </div>`).join('');
+}
+
+async function resumerTousDocuments(){
+  const apiKey = localStorage.getItem('lokoo_api_key');
+  if(!apiKey){ showToast('Clé API requise', '#EF4444'); return; }
+  const docs = Object.entries(_documentsProjet).filter(([k,v])=>v&&v.length>0);
+  if(!docs.length){ showToast('Aucun document importé', '#EF4444'); return; }
+
+  showToast('Résumé en cours...');
+  const listeDoc = docs.map(([k,v])=>`- ${TYPES_DOCS.find(d=>d.id===k)?.label||k} : ${v.map(f=>f.name).join(', ')}`).join('\n');
+
+  try{
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({
+        model:'claude-opus-4-5', max_tokens:1500,
+        messages:[{role:'user',content:`Voici la liste des documents disponibles pour ce projet de rénovation de local commercial :\n${listeDoc}\n\nFais un résumé structuré de ce que ces documents permettent de faire et ce qui manque encore pour compléter le dossier. Sois concis et pratique.`}]
+      })
+    });
+    const data = await resp.json();
+    const texte = data.content[0].text;
+    const card = document.getElementById('resumé-global-card');
+    const cont = document.getElementById('resumé-global-content');
+    if(card) card.style.display='block';
+    if(cont) cont.textContent = texte;
+  }catch(e){ showToast('Erreur: '+e.message,'#EF4444'); }
+}
+
+async function analyserDocumentParType(type){
+  const docs = _documentsProjet[type];
+  if(!docs||!docs.length) return;
+  showToast('Analyse en cours...');
+  // Utiliser la dernière image importée
+  const lastDoc = docs[docs.length-1];
+  if(lastDoc.data){
+    _iaDocBase64 = lastDoc.data.split(',')[1];
+    _iaDocType = lastDoc.type||'image/jpeg';
+    await analyserDocumentIAManuel();
+  }
+}
+
+function ajouterDocuments(input){
+  const type = input.getAttribute('data-type') || 'autres';
+  const files = Array.from(input.files);
+  if(!_documentsProjet[type]) _documentsProjet[type] = [];
+  files.forEach(f => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      _documentsProjet[type].push({name:f.name, size:f.size, type:f.type, data:e.target.result, date:new Date().toISOString()});
+      // Mettre à jour l'affichage
+      const filesEl = document.getElementById('doc-files-'+type);
+      const card = document.getElementById('doc-card-'+type);
+      const btnAnalyse = document.getElementById('btn-analyse-'+type);
+      if(filesEl) filesEl.textContent = _documentsProjet[type].length+' fichier(s)';
+      if(card){ card.style.borderColor='var(--primary)'; }
+      if(btnAnalyse) btnAnalyse.style.display='inline-flex';
+    };
+    reader.readAsDataURL(f);
+  });
+  input.value = '';
+  majSuiviAdmin();
+}
+
+// ── SUIVI ADMINISTRATIF ───────────────────────────────────────
+function initSuiviAdmin(){
+  const now = new Date().toLocaleString('fr-FR');
+  const user = (() => {
+    try{
+      const d = JSON.parse(localStorage.getItem('lokoo_compte')||'{}');
+      const p = d.profil||{};
+      return [p.prenom,p.nom].filter(Boolean).join(' ') || (_currentUser?.email||'—');
+    }catch(e){ return '—'; }
+  })();
+  const el = id => document.getElementById(id);
+  if(el('suivi-creation')) el('suivi-creation').textContent = now;
+  if(el('suivi-cree-par')) el('suivi-cree-par').textContent = user;
+  if(el('suivi-modif')) el('suivi-modif').textContent = now;
+  if(el('suivi-modif-par')) el('suivi-modif-par').textContent = user;
+  // Stocker
+  if(!state._suiviCreation){ state._suiviCreation = now; state._suiviCreePar = user; }
+}
+
+function majSuiviAdmin(){
+  const now = new Date().toLocaleString('fr-FR');
+  const user = (() => {
+    try{
+      const d = JSON.parse(localStorage.getItem('lokoo_compte')||'{}');
+      const p = d.profil||{};
+      return [p.prenom,p.nom].filter(Boolean).join(' ') || (_currentUser?.email||'—');
+    }catch(e){ return '—'; }
+  })();
+  const el = id => document.getElementById(id);
+  if(el('suivi-modif')) el('suivi-modif').textContent = now;
+  if(el('suivi-modif-par')) el('suivi-modif-par').textContent = user;
+}
+
+
 // ── DÉMARRAGE ─────────────────────────────────────────────────
 // ── RÉCAPITULATIF ─────────────────────────────────────────────
 function renderRecapBanner(){
@@ -4834,8 +5350,9 @@ function renderRecapBanner(){
       <div style="display:flex;align-items:center;gap:14px">
         <div style="width:44px;height:44px;background:rgba(255,255,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0">${cur.icon}</div>
         <div>
-          <div style="font-size:17px;font-weight:800;color:white">${nom||'Projet sans nom'}</div>
-          <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2px">${client||'—'} ${adresse?'· '+adresse:''}</div>
+          <div style="font-size:17px;font-weight:800;color:white">${nomChantier||client||'Projet sans nom'}</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2px">${client&&adresse?client+' · '+adresse:client||adresse||'—'}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;font-family:monospace">${nom||''}</div>
         </div>
       </div>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
@@ -4954,6 +5471,7 @@ function renderRecap(){
   if(!el) return;
 
   const nom = _val('proj-nom');
+  const nomChantier = _val('proj-nom-chantier');
   const client = _val('proj-client');
   const adresse = _val('proj-adresse');
   const surface = parseFloat(_val('proj-surface')) || 0;
