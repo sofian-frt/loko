@@ -20,28 +20,28 @@ input[spellcheck="true"], textarea[spellcheck="true"] {
 /* ═══ RESET & VARIABLES — Pennylane DA ═══ */
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#F7F8FA;
+  --bg:#F6F5FF;
   --surface:#FFFFFF;
-  --surface2:#F4F5F7;
-  --border:#E8EAED;
-  --border2:#D1D5DB;
-  --ink:#1A1F36;
-  --ink2:#374151;
-  --mid:#6B7280;
-  --muted:#9CA3AF;
-  --primary:#00C896;
-  --primary-dark:#00A87E;
-  --primary-light:#E6FAF5;
-  --primary-border:#A7F3D8;
+  --surface2:#F4F3FF;
+  --border:#E5E3F5;
+  --border2:#CCC9E8;
+  --ink:#1A1533;
+  --ink2:#3D3A5C;
+  --mid:#6E6A8F;
+  --muted:#9E9BBC;
+  --primary:#7C3AED;
+  --primary-dark:#6D28D9;
+  --primary-light:#F5F3FF;
+  --primary-border:#DDD6FE;
   --cyan:#0EA5E9;
   --cyan-light:#F0F9FF;
-  --success:#00C896;
-  --success-light:#E6FAF5;
-  --warn:#F59E0B;
+  --success:#059669;
+  --success-light:#ECFDF5;
+  --warn:#D97706;
   --warn-light:#FFFBEB;
-  --danger:#EF4444;
+  --danger:#DC2626;
   --danger-light:#FEF2F2;
-  --orange:#F97316;
+  --orange:#EA580C;
   --orange-light:#FFF7ED;
   --shadow-sm:0 1px 3px rgba(0,0,0,.04),0 1px 2px rgba(0,0,0,.03);
   --shadow:0 2px 8px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);
@@ -143,8 +143,8 @@ input[type=number]{-moz-appearance:textfield}
 }
 .btn-sm{padding:6px 12px;font-size:12px;border-radius:var(--radius-sm)}
 .btn-lg{padding:12px 24px;font-size:14px;border-radius:var(--radius-lg)}
-.btn-primary{background:var(--primary);color:white;border-color:var(--primary)}
-.btn-primary:hover{background:var(--primary-dark);border-color:var(--primary-dark)}
+.btn-primary{background:var(--primary);color:white;border-color:var(--primary);box-shadow:0 1px 3px rgba(124,58,237,.3)}
+.btn-primary:hover{background:var(--primary-dark);border-color:var(--primary-dark);box-shadow:0 4px 12px rgba(124,58,237,.35)}
 .btn-secondary{background:white;color:var(--ink2);border-color:var(--border2)}
 .btn-secondary:hover{background:var(--bg);border-color:var(--border2)}
 .btn-ghost{background:none;color:var(--mid);border-color:transparent}
@@ -468,10 +468,10 @@ input[type=number]{-moz-appearance:textfield}
   </button>
   <!-- Logo centré cliquable -->
   <button onclick="showPage('init')" style="position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:none;border:none;cursor:pointer;padding:4px 10px;border-radius:10px">
-    <div style="width:34px;height:34px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center">
-      <span style="font-size:16px;font-weight:900;color:white;font-family:var(--font)">L</span>
+    <div style="width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(124,58,237,.35)">
+      <span style="font-size:18px;font-weight:900;color:white;font-family:var(--font)">L</span>
     </div>
-    <span style="font-size:18px;font-weight:900;color:var(--ink);letter-spacing:-0.5px">lokoo<span style="color:var(--primary)">.io</span></span>
+    <span style="font-size:20px;font-weight:900;color:var(--ink);letter-spacing:-0.5px">lokoo<span style="color:var(--primary)">.io</span></span>
   </button>
   <!-- Profil -->
   <button id="mobile-profil-btn" ontouchstart="event.preventDefault();toggleProfilMenu()" onclick="toggleProfilMenu()" style="width:40px;height:40px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:auto;-webkit-tap-highlight-color:transparent;touch-action:manipulation">
@@ -484,7 +484,7 @@ input[type=number]{-moz-appearance:textfield}
 <aside class="sidebar" id="sidebar" style="display:none">
   <div class="sidebar-header">
     <button onclick="showPage('init')" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:0;text-align:left;transition:opacity .15s" onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='1'">
-      <div style="width:32px;height:32px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <div style="width:32px;height:32px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 10px rgba(124,58,237,.3)">
         <span style="font-size:14px;font-weight:900;color:white;font-family:var(--font)">L</span>
       </div>
       <div>
