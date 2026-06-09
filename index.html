@@ -6014,8 +6014,8 @@ function renderRecap(){
 async function genererCodeChantierAvecAttente(tentatives){
   tentatives = tentatives || 0;
   try{
-    // Cloud sync géré par Firestore
- catch(e){
+    await genererCodeChantier();
+  } catch(e){
     if(tentatives < 5){
       setTimeout(()=> genererCodeChantierAvecAttente(tentatives+1), 1000);
     } else {
