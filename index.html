@@ -418,8 +418,14 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 
   <div class="nav-group">
+    <button class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard" style="font-size:13px;font-weight:700" class="nav-item active">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-3 3"/></svg></span> Tableau de bord
+    </button>
+  </div>
+
+  <div class="nav-group">
     <span class="nav-label">Projet</span>
-    <button class="nav-item active" onclick="showPage('init')" id="nav-init">
+    <button class="nav-item" onclick="showPage('init')" id="nav-init" style="">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><path d="M9 12h6M9 16h4"/></svg></span> Initialisation
     </button>
     <button class="nav-item" onclick="showPage('analyse-ia')" id="nav-analyse-ia">
@@ -483,9 +489,6 @@ input[type=number]{-moz-appearance:textfield}
     <button class="nav-item" onclick="showPage('chantiers')" id="nav-chantiers">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M2 20h20M4 20V10M20 20V10M8 20v-5h8v5M12 10V4M8 7l4-3 4 3"/></svg></span> Chantiers
       <span class="nav-badge" id="nb-chantiers">0</span>
-    </button>
-    <button class="nav-item" onclick="showPage('dashboard')" id="nav-dashboard">
-      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-3 3"/></svg></span> Tableau de bord
     </button>
     <button class="nav-item" onclick="showPage('compte')" id="nav-compte">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></span> Paramètres
@@ -2237,94 +2240,143 @@ input[type=number]{-moz-appearance:textfield}
 
 <!-- ══ PAGE DASHBOARD ══ -->
 <div class="page" id="page-dashboard">
-  <!-- Header -->
+
+  <!-- ── HEADER ───────────────────────────────────────────── -->
   <div class="page-header-actions" style="margin-bottom:20px">
     <div class="page-header" style="margin-bottom:0">
       <h2>Tableau de bord</h2>
       <p id="dashboard-subtitle">Vue globale de votre activité</p>
     </div>
-    <button class="btn btn-primary" onclick="openModalChantier()" style="flex-shrink:0">
+    <button class="btn btn-primary" onclick="openModalChantier()" style="flex-shrink:0;gap:6px">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
       Nouveau chantier
     </button>
   </div>
 
-  <!-- KPI CARDS -->
-  <div id="db-kpi-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px"></div>
-
-  <!-- CHARTS ROW -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px">
-    <div class="card" style="min-height:220px">
-      <div class="card-title" style="margin-bottom:16px">📅 Chantiers par mois</div>
-      <canvas id="db-chart-mois" height="160"></canvas>
-    </div>
-    <div class="card" style="min-height:220px">
-      <div class="card-title" style="margin-bottom:16px">🗂 Répartition des statuts</div>
-      <div id="db-statuts-bars" style="display:flex;flex-direction:column;gap:7px"></div>
-    </div>
+  <!-- ── BARRE OUTILS ──────────────────────────────────────── -->
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px">
+    <input id="db-search" class="form-input" style="flex:1;min-width:180px;max-width:260px;height:34px;font-size:12px" placeholder="🔍 Rechercher chantier, client..." oninput="renderDashboardTable()">
+    <select id="db-filter-statut" class="form-select" style="height:34px;font-size:12px;padding:0 28px 0 10px" onchange="renderDashboardTable()">
+      <option value="">Tous les statuts</option>
+      <option value="nouveau">Nouveau</option>
+      <option value="releve_a_faire">Relevé à faire</option>
+      <option value="releve_effectue">Relevé effectué</option>
+      <option value="etude_en_cours">Étude en cours</option>
+      <option value="chiffrage_en_cours">Chiffrage en cours</option>
+      <option value="devis_envoye">Devis envoyé</option>
+      <option value="devis_accepte">Devis accepté</option>
+      <option value="travaux_en_cours">Travaux en cours</option>
+      <option value="chantier_termine">Chantier terminé</option>
+    </select>
+    <select id="db-sort" class="form-select" style="height:34px;font-size:12px;padding:0 28px 0 10px" onchange="renderDashboardTable()">
+      <option value="date_desc">📅 Date (récent)</option>
+      <option value="date_asc">📅 Date (ancien)</option>
+      <option value="montant_desc">💰 Montant (élevé)</option>
+      <option value="montant_asc">💰 Montant (faible)</option>
+      <option value="client_asc">👤 Client (A→Z)</option>
+    </select>
   </div>
 
-  <!-- FINANCIAL + ALERTES -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px">
-    <div class="card">
-      <div class="card-title" style="margin-bottom:16px">💶 Résumé financier</div>
-      <canvas id="db-chart-finance" height="180"></canvas>
-    </div>
-    <div class="card" id="db-alertes-card">
-      <div class="card-title" style="margin-bottom:14px">🔔 Centre d'alertes</div>
-      <div id="db-alertes-list"></div>
-    </div>
-  </div>
-
-  <!-- TABLE -->
-  <div class="card" style="padding:0;overflow:hidden">
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)">
-      <div style="font-weight:700;font-size:14px">Tous les chantiers</div>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-        <input id="db-search" class="form-input" style="width:180px;height:32px;font-size:12px" placeholder="🔍 Rechercher..." oninput="renderDashboardTable()">
-        <select id="db-filter-statut" class="form-select" style="height:32px;font-size:12px;padding:0 28px 0 10px" onchange="renderDashboardTable()">
-          <option value="">Tous les statuts</option>
-          <option value="nouveau">Nouveau</option>
-          <option value="releve_a_faire">Relevé à faire</option>
-          <option value="releve_effectue">Relevé effectué</option>
-          <option value="etude_en_cours">Étude en cours</option>
-          <option value="chiffrage_en_cours">Chiffrage en cours</option>
-          <option value="devis_envoye">Devis envoyé</option>
-          <option value="devis_accepte">Devis accepté</option>
-          <option value="travaux_en_cours">Travaux en cours</option>
-          <option value="chantier_termine">Chantier terminé</option>
-        </select>
-      </div>
-    </div>
+  <!-- ── TABLE CHANTIERS ───────────────────────────────────── -->
+  <div class="card" style="padding:0;overflow:hidden;margin-bottom:20px">
+    <!-- Desktop -->
     <div id="db-table-wrap" style="overflow-x:auto">
       <table style="width:100%;border-collapse:collapse;font-size:12px">
         <thead>
-          <tr style="background:var(--surface2);border-bottom:1px solid var(--border)">
-            <th style="padding:10px 16px;text-align:left;font-weight:600;color:var(--mid);white-space:nowrap">Code</th>
-            <th style="padding:10px 12px;text-align:left;font-weight:600;color:var(--mid)">Chantier</th>
-            <th style="padding:10px 12px;text-align:left;font-weight:600;color:var(--mid)">Client</th>
-            <th style="padding:10px 12px;text-align:left;font-weight:600;color:var(--mid)">Type</th>
-            <th style="padding:10px 12px;text-align:right;font-weight:600;color:var(--mid)">Surface</th>
-            <th style="padding:10px 12px;text-align:right;font-weight:600;color:var(--mid)">Estimé HT</th>
-            <th style="padding:10px 12px;text-align:center;font-weight:600;color:var(--mid)">Devis fait</th>
-            <th style="padding:10px 12px;text-align:center;font-weight:600;color:var(--mid)">Devis envoyé</th>
-            <th style="padding:10px 12px;text-align:left;font-weight:600;color:var(--mid)">Statut</th>
-            <th style="padding:10px 12px;text-align:left;font-weight:600;color:var(--mid)">Modifié</th>
-            <th style="padding:10px 16px;text-align:right;font-weight:600;color:var(--mid)">Actions</th>
+          <tr style="background:var(--surface2);border-bottom:1.5px solid var(--border)">
+            <th style="padding:10px 14px;text-align:left;font-weight:600;color:var(--mid);white-space:nowrap;width:90px">Code</th>
+            <th style="padding:10px 10px;text-align:left;font-weight:600;color:var(--mid)">Chantier</th>
+            <th style="padding:10px 10px;text-align:left;font-weight:600;color:var(--mid)">Client</th>
+            <th style="padding:10px 10px;text-align:left;font-weight:600;color:var(--mid)">Type</th>
+            <th style="padding:10px 10px;text-align:right;font-weight:600;color:var(--mid)">Surface</th>
+            <th style="padding:10px 10px;text-align:left;font-weight:600;color:var(--mid)">Statut</th>
+            <th style="padding:10px 10px;text-align:right;font-weight:600;color:var(--mid)">Estimé HT</th>
+            <th style="padding:10px 10px;text-align:center;font-weight:600;color:var(--mid)">Devis</th>
+            <th style="padding:10px 10px;text-align:center;font-weight:600;color:var(--mid)">Envoyé</th>
+            <th style="padding:10px 10px;text-align:left;font-weight:600;color:var(--mid)">Modifié</th>
+            <th style="padding:10px 14px;text-align:right;font-weight:600;color:var(--mid)">Actions</th>
           </tr>
         </thead>
         <tbody id="db-table-body"></tbody>
       </table>
     </div>
-    <div id="db-mobile-cards" style="display:none;padding:12px;flex-direction:column;gap:10px"></div>
-    <div id="db-table-empty" style="display:none;padding:40px;text-align:center;color:var(--muted)">
-      <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24" style="margin:0 auto 12px;display:block;opacity:.3"><path d="M2 20h20M4 20V10M20 20V10M8 20v-5h8v5M12 10V4M8 7l4-3 4 3"/></svg>
-      <div style="font-size:14px;font-weight:600">Aucun chantier trouvé</div>
-      <div style="font-size:12px;margin-top:4px">Créez votre premier chantier pour commencer</div>
-      <button class="btn btn-primary btn-sm" onclick="openModalChantier()" style="margin-top:14px">+ Nouveau chantier</button>
+    <!-- Mobile -->
+    <div id="db-mobile-cards" style="display:none;padding:10px;flex-direction:column;gap:8px"></div>
+    <!-- Empty -->
+    <div id="db-table-empty" style="display:none;padding:48px;text-align:center;color:var(--muted)">
+      <svg width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24" style="margin:0 auto 12px;display:block;opacity:.25"><path d="M2 20h20M4 20V10M20 20V10M8 20v-5h8v5M12 10V4M8 7l4-3 4 3"/></svg>
+      <div style="font-size:14px;font-weight:600;margin-bottom:6px">Aucun chantier</div>
+      <div style="font-size:12px;margin-bottom:16px">Créez votre premier chantier pour commencer</div>
+      <button class="btn btn-primary btn-sm" onclick="openModalChantier()">+ Nouveau chantier</button>
     </div>
   </div>
+
+  <!-- ── PANNEAU DÉTAIL CHANTIER (s'ouvre sous le tableau) ── -->
+  <div id="db-detail-panel" style="display:none">
+
+    <!-- En-tête du panneau -->
+    <div class="card" style="margin-bottom:16px;border-left:3px solid var(--primary)">
+      <div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:12px">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+            <span id="dp-code" style="font-family:monospace;font-size:11px;color:var(--muted);background:var(--surface2);padding:2px 8px;border-radius:4px">—</span>
+            <span id="dp-statut-badge" style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px">—</span>
+          </div>
+          <div id="dp-nom" style="font-size:20px;font-weight:800;color:var(--ink);line-height:1.2;margin-bottom:4px">—</div>
+          <div id="dp-client" style="font-size:13px;color:var(--mid)">—</div>
+          <div id="dp-adresse" style="font-size:12px;color:var(--muted);margin-top:3px">—</div>
+        </div>
+        <button onclick="fermerDetailPanel()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--mid);white-space:nowrap">✕ Fermer</button>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px" id="dp-grid-top">
+
+      <!-- Infos générales -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:14px">Informations générales</div>
+        <div id="dp-infos" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+
+      <!-- Résumé financier -->
+      <div class="card">
+        <div class="card-title" style="margin-bottom:14px">Résumé financier</div>
+        <div id="dp-financier" style="display:flex;flex-direction:column;gap:0"></div>
+      </div>
+
+    </div>
+
+    <!-- Histogramme des lots -->
+    <div class="card" style="margin-bottom:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div class="card-title" style="margin-bottom:0">Répartition par lot — Déboursé sec</div>
+        <div id="dp-total-badge" style="font-size:12px;font-weight:700;color:var(--primary)"></div>
+      </div>
+      <div id="dp-histo" style="display:flex;flex-direction:column;gap:8px"></div>
+      <!-- Totaux sous histogramme -->
+      <div id="dp-totaux" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);gap:8px;text-align:center"></div>
+    </div>
+
+    <!-- Actions documents -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px">
+      <button class="btn btn-primary" onclick="ouvrirDPGF_dashboard()" id="dp-btn-dpgf" style="gap:8px">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        Voir DPGF
+      </button>
+      <button class="btn btn-secondary" onclick="ouvrirRapport_dashboard()" id="dp-btn-rapport" style="gap:8px">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg>
+        Rapport PDF
+      </button>
+      <button class="btn btn-ghost" onclick="ouvrirChantierDashboard()" id="dp-btn-ouvrir" style="gap:8px">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18 2l4 4-10 10H8v-4L18 2z"/></svg>
+        Modifier le chantier
+      </button>
+    </div>
+
+  </div><!-- /dp-detail-panel -->
+
 </div>
+
 
 </div><!-- /content -->
 </div><!-- /main -->
@@ -2646,6 +2698,7 @@ function showPage(id){
   _get('sidebar-overlay').classList.remove('open');
   window.scrollTo(0,0);
 }
+window.addEventListener('resize', ()=>{ if(document.querySelector('#page-dashboard.active')) renderDashboardTable(); });
 function toggleMobileSidebar(){
   _get('sidebar').classList.toggle('mobile-open');
   _get('sidebar-overlay').classList.toggle('open');
@@ -3498,6 +3551,303 @@ function deleteChantier(id){
   saveDB();renderDashboard();renderChantiers();
 }
 
+
+// ── DASHBOARD V2 ──────────────────────────────────────────────
+let _dbChartLots = null;
+let _dbSelectedId = null;
+
+function renderDashboard(){
+  const sub = _get('dashboard-subtitle');
+  const n = DB.chantiers.length;
+  if(sub) sub.textContent = `${n} chantier${n!==1?'s':''} · ${new Date().toLocaleDateString('fr-FR')}`;
+  renderDashboardTable();
+  // Rafraîchir le panel si ouvert
+  if(_dbSelectedId) ouvrirDetailPanel(_dbSelectedId);
+}
+
+function renderDashboardTable(){
+  const tbody  = _get('db-table-body');
+  const empty  = _get('db-table-empty');
+  const wrap   = _get('db-table-wrap');
+  const mobile = _get('db-mobile-cards');
+  if(!tbody) return;
+
+  const search   = ((_val('db-search',''))||'').toLowerCase();
+  const filterSt = _val('db-filter-statut','')||'';
+  const sortBy   = _val('db-sort','date_desc')||'date_desc';
+
+  let data = [...DB.chantiers];
+  if(search) data = data.filter(c =>
+    (c.nom||'').toLowerCase().includes(search) ||
+    (c.client||'').toLowerCase().includes(search) ||
+    (c.code||'').toLowerCase().includes(search)
+  );
+  if(filterSt) data = data.filter(c => c.statut === filterSt);
+
+  data.sort((a,b)=>{
+    if(sortBy==='date_desc') return (b.id||0)-(a.id||0);
+    if(sortBy==='date_asc')  return (a.id||0)-(b.id||0);
+    if(sortBy==='montant_desc') return (b.budget_prevu||0)-(a.budget_prevu||0);
+    if(sortBy==='montant_asc')  return (a.budget_prevu||0)-(b.budget_prevu||0);
+    if(sortBy==='client_asc')   return (a.client||'').localeCompare(b.client||'');
+    return 0;
+  });
+
+  const isMobile = window.innerWidth < 720;
+
+  if(!data.length){
+    if(wrap)   wrap.style.display   = 'none';
+    if(mobile) mobile.style.display = 'none';
+    if(empty)  empty.style.display  = 'block';
+    return;
+  }
+  if(empty) empty.style.display = 'none';
+
+  if(isMobile){
+    if(wrap)   wrap.style.display   = 'none';
+    if(mobile){ mobile.style.display = 'flex';
+      mobile.innerHTML = data.map(ch => {
+        const t  = TYPES[ch.type]||{icon:'🏪',label:ch.type||'—'};
+        const sc = STATUT_COLORS[ch.statut]||'#6B7280';
+        const sl = STATUT_LABELS[ch.statut]||ch.statut||'—';
+        const sel = _dbSelectedId===ch.id;
+        return `<div class="card" style="padding:14px;cursor:pointer;border:1.5px solid ${sel?'var(--primary)':'var(--border)'};background:${sel?'var(--primary-light)':'white'}" onclick="ouvrirDetailPanel(${ch.id})">
+          <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px">
+            <div>
+              <div style="font-size:10px;font-family:monospace;color:var(--muted)">${ch.code||'—'}</div>
+              <div style="font-size:14px;font-weight:700;margin-top:2px">${ch.nom||'—'}</div>
+              <div style="font-size:11px;color:var(--mid)">${ch.client||'—'}</div>
+            </div>
+            <span style="font-size:10px;font-weight:700;background:${sc}18;color:${sc};padding:3px 8px;border-radius:20px;white-space:nowrap">${sl}</span>
+          </div>
+          <div style="display:flex;gap:16px;font-size:11px;color:var(--muted)">
+            <span>${(t.label||'')}</span>
+            <span>${ch.surface||'?'} m²</span>
+            <span style="font-weight:700;color:var(--ink)">${ch.budget_prevu?fmtN(ch.budget_prevu)+' €':'—'}</span>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  } else {
+    if(mobile) mobile.style.display = 'none';
+    if(wrap)   wrap.style.display   = 'block';
+    tbody.innerHTML = data.map((ch,i) => {
+      const t   = TYPES[ch.type]||{label:ch.type||'—'};
+      const sc  = STATUT_COLORS[ch.statut]||'#6B7280';
+      const sl  = STATUT_LABELS[ch.statut]||ch.statut||'—';
+      const sel = _dbSelectedId === ch.id;
+      const bg  = sel ? 'var(--primary-light)' : (i%2===0 ? 'white' : 'var(--surface2)');
+      return `<tr data-id="${ch.id}" style="background:${bg};border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s"
+        onclick="ouvrirDetailPanel(${ch.id})"
+        onmouseover="if(${ch.id}!==_dbSelectedId)this.style.background='#F5F4FF'"
+        onmouseout="this.style.background='${bg}'">
+        <td style="padding:10px 14px;font-family:monospace;font-size:11px;color:var(--muted);white-space:nowrap">${ch.code||'—'}</td>
+        <td style="padding:10px 10px;font-weight:600;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${ch.nom||''}">${ch.nom||'—'}</td>
+        <td style="padding:10px 10px;color:var(--mid);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${ch.client||'—'}</td>
+        <td style="padding:10px 10px;white-space:nowrap;font-size:11px;color:var(--mid)">${t.label||'—'}</td>
+        <td style="padding:10px 10px;text-align:right;font-weight:600">${ch.surface||'?'} m²</td>
+        <td style="padding:10px 10px;white-space:nowrap"><span style="font-size:10px;font-weight:700;background:${sc}18;color:${sc};padding:3px 8px;border-radius:20px">${sl}</span></td>
+        <td style="padding:10px 10px;text-align:right;font-weight:700">${ch.budget_prevu?fmtN(ch.budget_prevu)+' €':'—'}</td>
+        <td style="padding:10px 10px;text-align:center"><span style="font-size:13px">${ch.devis_fait==='oui'?'✅':'❌'}</span></td>
+        <td style="padding:10px 10px;text-align:center"><span style="font-size:13px">${ch.devis_envoye==='oui'?'✅':'❌'}</span></td>
+        <td style="padding:10px 10px;font-size:11px;color:var(--muted);white-space:nowrap">${ch.date_modif||ch.date||'—'}</td>
+        <td style="padding:10px 14px;text-align:right;white-space:nowrap" onclick="event.stopPropagation()">
+          <button class="btn btn-ghost btn-sm" onclick="openModalChantier(${ch.id})" title="Modifier" style="font-size:11px;padding:4px 8px">✏️</button>
+          <button class="btn btn-ghost btn-sm" onclick="deleteChantier(${ch.id})" title="Supprimer" style="font-size:11px;padding:4px 8px;color:var(--danger)">🗑</button>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+}
+
+// ── PANNEAU DÉTAIL ─────────────────────────────────────────────
+function ouvrirDetailPanel(id){
+  const ch = DB.chantiers.find(c => c.id === id);
+  if(!ch) return;
+  _dbSelectedId = id;
+
+  // Surligner la ligne
+  renderDashboardTable();
+
+  const panel = _get('db-detail-panel');
+  if(panel){
+    panel.style.display = 'block';
+    setTimeout(()=> panel.scrollIntoView({behavior:'smooth', block:'start'}), 50);
+  }
+
+  // En-tête
+  _set('dp-code', ch.code||'—');
+  _set('dp-nom',  ch.nom||'—');
+  _set('dp-client', ch.client ? '👤 '+ch.client : '—');
+  _set('dp-adresse', ch.adresse ? '📍 '+ch.adresse : '');
+
+  const sc = STATUT_COLORS[ch.statut]||'#6B7280';
+  const sl = STATUT_LABELS[ch.statut]||ch.statut||'—';
+  const badge = _get('dp-statut-badge');
+  if(badge){ badge.textContent=sl; badge.style.cssText=`font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;background:${sc}18;color:${sc}`; }
+
+  // Infos générales
+  const infos = _get('dp-infos');
+  if(infos){
+    const TYPES_MAP = {restaurant:'Restaurant',cafe:'Café',boulangerie:'Boulangerie',boutique:'Boutique',bureau:'Bureau',autre:'Autre'};
+    const rows = [
+      ['Type de local', TYPES_MAP[ch.type]||ch.type||'—'],
+      ['Surface', ch.surface ? ch.surface+' m²' : '—'],
+      ['Date de création', ch.date||'—'],
+      ['Dernière modification', ch.date_modif||ch.date||'—'],
+      ['Devis fait', ch.devis_fait==='oui'?'✅ Oui':'❌ Non'],
+      ['Devis envoyé', ch.devis_envoye==='oui'?'✅ Oui':'❌ Non'],
+    ];
+    infos.innerHTML = rows.map(([k,v])=>`
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:11px;color:var(--muted)">${k}</span>
+        <span style="font-size:12px;font-weight:600;color:var(--ink2)">${v}</span>
+      </div>`).join('');
+  }
+
+  // Financier
+  const cur  = TYPES[ch.type]||TYPES.restaurant;
+  const gam  = GAMMES ? (GAMMES.find(g=>g.key===(ch.gamme||'std'))||GAMMES[1]) : {coeff:1,label:'Standard'};
+  const s    = parseFloat(ch.surface)||0;
+  const cR   = (typeof REGIONS!=='undefined' && REGIONS[ch.region||'std'])||1;
+  const bB   = s>0 ? s * cur.taux * gam.coeff * cR : 0;
+  const fg   = ch.fg||8;
+  const mg   = ch.marge||10;
+  const cA   = 0.04;
+  const mFG  = bB*fg/100;
+  const mAl  = (bB+mFG)*cA;
+  const bM   = bB+mFG+mAl;
+  const mMa  = bM*(mg/100)/(1-mg/100);
+  const tT   = bM+mMa;
+  const tVA  = tT*0.10;
+  const tTC  = tT+tVA;
+  const m2   = s>0 ? Math.round(tT/s) : 0;
+
+  const fin = _get('dp-financier');
+  if(fin){
+    const rows2 = [
+      ['Déboursé sec estimé',    fmt(Math.round(bB)),   false],
+      ['Frais de chantier ('+fg+'%)', fmt(Math.round(mFG)), false],
+      ['Marge ('+mg+'%)',        fmt(Math.round(mMa)),  false],
+      ['Prix de vente HT',       fmt(Math.round(tT)),   true],
+      ['TVA (10%)',               fmt(Math.round(tVA)),  false],
+      ['Prix TTC',                fmt(Math.round(tTC)),  false],
+      ['Prix moyen au m²',        m2?fmtN(m2)+' €/m²':'—', false],
+    ];
+    fin.innerHTML = rows2.map(([k,v,bold])=>`
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:11px;color:var(--muted)">${k}</span>
+        <span style="font-size:${bold?'14px':'12px'};font-weight:${bold?'800':'600'};color:${bold?'var(--primary)':'var(--ink2)'}">${v}</span>
+      </div>`).join('');
+  }
+
+  // Histogramme des lots
+  renderHistoLots(ch, cur, tT, bB, mFG, mMa);
+}
+
+function fermerDetailPanel(){
+  _dbSelectedId = null;
+  const panel = _get('db-detail-panel');
+  if(panel) panel.style.display = 'none';
+  renderDashboardTable();
+}
+
+const LOTS_NOMS = [
+  'Démolition','Gros œuvre','Cloisons','Doublages','Faux plafonds',
+  'Sols','Peinture','Menuiserie','Électricité','Plomberie',
+  'CVC','Cuisine professionnelle','Divers'
+];
+
+function renderHistoLots(ch, cur, tT, bB, mFG, mMa){
+  const histo  = _get('dp-histo');
+  const totaux = _get('dp-totaux');
+  const badge  = _get('dp-total-badge');
+  if(!histo) return;
+
+  const lots = cur.lots||[];
+  const maxMontant = Math.max(...lots.map(l=>Math.round(tT*l.pct/100)), 1);
+  if(badge) badge.textContent = 'Total HT : '+fmt(Math.round(tT));
+
+  histo.innerHTML = lots.map(l=>{
+    const m    = tT>0 ? Math.round(tT*l.pct/100) : 0;
+    const pct  = Math.round(m/maxMontant*100);
+    const grey = tT<=0;
+    const col  = grey ? '#D1D5DB' : 'var(--primary)';
+    return `<div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:11px;font-weight:600;color:var(--ink2)">${l.nom}</span>
+        <span style="font-size:11px;color:${grey?'var(--muted)':'var(--ink)'};font-weight:${grey?'400':'700'}" title="${l.nom}">${grey?'Non chiffré':fmt(m)}</span>
+      </div>
+      <div style="height:10px;background:var(--border);border-radius:20px;overflow:hidden">
+        <div style="height:100%;width:${grey?'15':pct}%;background:${col};border-radius:20px;transition:width .5s ease"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const mAl = bB>0 ? (bB+mFG)*0.04 : 0;
+  if(totaux){
+    const cols = [
+      {label:'Total HT',   val:fmt(Math.round(tT)),    bold:true},
+      {label:'Déboursé sec', val:fmt(Math.round(bB)),  bold:false},
+      {label:'Frais chantier', val:fmt(Math.round(mFG)),bold:false},
+      {label:'Marge',      val:fmt(Math.round(mMa)),   bold:false},
+      {label:'PV HT',      val:fmt(Math.round(tT)),    bold:true},
+    ];
+    totaux.innerHTML = cols.map(c=>`
+      <div style="padding:10px 8px;background:var(--surface2);border-radius:8px">
+        <div style="font-size:10px;color:var(--muted);margin-bottom:4px">${c.label}</div>
+        <div style="font-size:${c.bold?'13px':'12px'};font-weight:${c.bold?'800':'600'};color:${c.bold?'var(--primary)':'var(--ink2)'}">${c.val}</div>
+      </div>`).join('');
+  }
+}
+
+// ── ACTIONS DOCUMENTS depuis dashboard ────────────────────────
+function ouvrirDPGF_dashboard(){
+  const ch = _dbSelectedId ? DB.chantiers.find(c=>c.id===_dbSelectedId) : null;
+  if(ch) _chargerChantierDansProjets(ch);
+  const btn = _get('dp-btn-dpgf');
+  if(btn){ btn.textContent='⏳ Génération...'; btn.disabled=true; }
+  setTimeout(()=>{
+    genererRapportDPGF();
+    if(btn){ btn.innerHTML='<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg> Voir DPGF'; btn.disabled=false; }
+  }, 400);
+}
+
+function ouvrirRapport_dashboard(){
+  const ch = _dbSelectedId ? DB.chantiers.find(c=>c.id===_dbSelectedId) : null;
+  if(ch) _chargerChantierDansProjets(ch);
+  const btn = _get('dp-btn-rapport');
+  if(btn){ btn.textContent='⏳ Génération...'; btn.disabled=true; }
+  setTimeout(()=>{
+    if(typeof genererRapportPDF === 'function') genererRapportPDF();
+    else genererRapportDPGF();
+    if(btn){ btn.innerHTML='<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg> Rapport PDF'; btn.disabled=false; }
+  }, 400);
+}
+
+function ouvrirChantierDashboard(){
+  const ch = _dbSelectedId ? DB.chantiers.find(c=>c.id===_dbSelectedId) : null;
+  if(!ch){ showPage('init'); return; }
+  openModalChantier(ch.id);
+}
+
+function _chargerChantierDansProjets(ch){
+  // Injecte les données du chantier dans state pour la génération de rapports
+  const sv = (id,v)=>{ const e=document.getElementById(id); if(e&&v!=null) e.value=v; };
+  sv('proj-nom',       ch.code||ch.nom);
+  sv('proj-nom-chantier', ch.nom);
+  sv('proj-client',    ch.client);
+  sv('proj-adresse',   ch.adresse);
+  sv('proj-surface',   ch.surface);
+  sv('proj-type-local',ch.type||'restaurant');
+  if(ch.surface) state.surface = parseFloat(ch.surface)||0;
+  if(ch.type)    state.activeType = ch.type;
+  if(ch.gamme)   state.activeGamme = ch.gamme;
+  if(ch.fg)      state.fg = ch.fg;
+  if(ch.marge)   state.marge = ch.marge;
+}
+
+// ── STATUT HELPERS ────────────────────────────────────────────
 // ── STATUT HELPERS ────────────────────────────────────────────
 const STATUT_LABELS={
   nouveau:'Nouveau',
@@ -3523,9 +3873,6 @@ const STATUT_COLORS={
 };
 
 // ── DASHBOARD ─────────────────────────────────────────────────
-let _dbChartMois = null;
-let _dbChartFin = null;
-
 function renderDashboard(){
   const ch=DB.chantiers;
   const tot=ch.length;
