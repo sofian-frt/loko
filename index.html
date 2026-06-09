@@ -466,13 +466,13 @@ input[type=number]{-moz-appearance:textfield}
       <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
     </svg>
   </button>
-  <!-- Logo centré -->
-  <div style="position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;pointer-events:none">
+  <!-- Logo centré cliquable -->
+  <button onclick="showPage('init')" style="position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:8px">
     <div style="width:26px;height:26px;background:var(--ink);border-radius:6px;display:flex;align-items:center;justify-content:center">
       <span style="font-size:12px;font-weight:900;color:white;font-family:var(--font)">L</span>
     </div>
     <span style="font-size:14px;font-weight:900;color:var(--ink);letter-spacing:-0.3px">lokoo<span style="color:var(--primary)">.io</span></span>
-  </div>
+  </button>
   <!-- Profil -->
   <button id="mobile-profil-btn" onclick="toggleProfilMenu()" style="width:32px;height:32px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:auto">
     <span id="mobile-profil-initiales" style="font-size:11px;font-weight:700;color:white">?</span>
@@ -599,7 +599,7 @@ input[type=number]{-moz-appearance:textfield}
 
     <div style="display:flex;align-items:center;justify-content:space-between">
       <span class="version-tag">V1.3 · Stable</span>
-      <button class="btn btn-sm btn-ghost" onclick="exportPrint()" style="font-size:11px"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></button>
+      <button class="btn btn-sm btn-ghost" onclick="sauvegarderDrive()" style="font-size:11px;gap:4px"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></button>
     </div>
   </div>
 </aside>
@@ -747,7 +747,7 @@ input[type=number]{-moz-appearance:textfield}
     <button id="btn-profil" onclick="toggleProfilMenu()" style="width:34px;height:34px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s" title="Profil & Paramètres">
       <span id="profil-initiales" style="font-size:12px;font-weight:700;color:white">?</span>
     </button>
-    <div id="profil-menu" style="display:none;position:fixed;top:60px;right:12px;background:white;border:1.5px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);min-width:220px;z-index:500;overflow:hidden">
+    <div id="profil-menu" style="display:none;position:fixed;top:60px;right:12px;background:white;border:1.5px solid var(--border);border-radius:var(--radius-lg);box-shadow:0 8px 40px rgba(0,0,0,.2);min-width:240px;z-index:9999;overflow:hidden">
       <div id="profil-menu-header" style="padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg)">
         <div id="profil-menu-nom" style="font-size:13px;font-weight:700;color:var(--ink)">Mon compte</div>
         <div id="profil-menu-entreprise" style="font-size:11px;color:var(--muted);margin-top:2px">Non configuré</div>
@@ -4229,6 +4229,9 @@ function afficherApp(){
   document.getElementById('app-main').style.display = 'flex';
   document.getElementById('sidebar').style.display = '';
   document.getElementById('main-topbar').style.display = '';
+  // Réafficher mobile topbar
+  const mobileTopbar = document.querySelector('.mobile-topbar');
+  if(mobileTopbar) mobileTopbar.style.display = 'flex';
   majLogoSidebar();
   // Générer le code chantier — attendre que Drive soit prêt
   genererCodeChantierAvecAttente();
