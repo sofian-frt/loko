@@ -693,18 +693,7 @@ input[type=number]{-moz-appearance:textfield}
             <input type="hidden" id="proj-nom" value="">
             <div id="code-hint" style="font-size:11px;margin-top:4px;color:var(--muted)"></div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Nature de la mission <span class="req">*</span></label>
-            <select id="proj-mission" class="form-select" oninput="updateProjectHeader()">
-              <option value="">— Sélectionner —</option>
-              <option value="releve">Relevé simple</option>
-              <option value="chiffrage">Chiffrage</option>
-              <option value="faisabilite">Faisabilité</option>
-              <option value="avant-projet">Avant-projet</option>
-              <option value="dce">DCE</option>
-              <option value="execution">Exécution</option>
-            </select>
-          </div>
+
         </div>
 
         <!-- LIGNE 2 : SIREN + Client -->
@@ -1021,48 +1010,80 @@ input[type=number]{-moz-appearance:textfield}
 </div>
 
 
-<!-- ══ PAGE RELEVÉS ══ -->
-<div class="page" id="page-releves">
+<!-- ══ PAGE RELEVÉ EXISTANT ══ -->
+<div class="page" id="page-releves-existant">
   <div class="page-header-actions">
     <div class="page-header">
-      <h2>Relevés & Métrés</h2>
-      <p>Ajoutez chaque pièce · Les métrés sont calculés automatiquement</p>
+      <h2>Relevé existant</h2>
+      <p>Saisissez les pièces et métrés de l'existant · Surface calculée automatiquement</p>
     </div>
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-primary btn-lg" id="btn-add-piece" onclick="addPiece()">
-        + Ajouter une pièce
-      </button>
-      <button class="btn btn-secondary btn-lg" onclick="ouvrirAnalysePhoto('releves')">
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg> Analyser
-      </button>
-    </div>
+    <button class="btn btn-primary" onclick="addPiece('existant')">
+      + Ajouter une pièce
+    </button>
   </div>
 
-  <!-- Totaux métrés -->
-  <div class="g4" id="metres-totaux" style="margin-bottom:20px">
-    <div class="kpi"><div class="kpi-label">Surface totale</div><div class="kpi-val" id="tot-surface">0 m²</div></div>
-    <div class="kpi"><div class="kpi-label">Surface murs</div><div class="kpi-val" id="tot-murs">0 m²</div></div>
-    <div class="kpi"><div class="kpi-label">Surface faïence</div><div class="kpi-val" id="tot-faience">0 m²</div></div>
-    <div class="kpi"><div class="kpi-label">Surface peinture</div><div class="kpi-val" id="tot-peinture">0 m²</div></div>
+  <!-- Résumé existant -->
+  <div id="resume-existant" style="display:none;margin-bottom:16px;padding:14px 18px;background:var(--primary-light);border:1.5px solid var(--primary-border);border-radius:10px;display:flex;gap:24px;flex-wrap:wrap">
+    <div style="text-align:center"><div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase">Pièces</div><div style="font-size:20px;font-weight:800;color:var(--ink)" id="count-existant">0</div></div>
+    <div style="text-align:center"><div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase">Surface totale</div><div style="font-size:20px;font-weight:800;color:var(--primary)" id="surf-existant">0 m²</div></div>
+    <div style="text-align:center"><div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase">Hauteur moy.</div><div style="font-size:20px;font-weight:800;color:var(--ink)" id="haut-existant">—</div></div>
   </div>
 
-  <div id="pieces-container">
-    <div class="alert info" id="empty-pieces">
+  <div id="pieces-list-existant">
+    <div class="alert info" id="empty-pieces-existant">
       <div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 21L21 3M3 21h7M3 21v-7"/></svg></div>
       <div class="alert-body">
-        <div class="alert-title">Aucune pièce ajoutée</div>
-        <div class="alert-desc">Cliquez sur "Ajouter une pièce" pour commencer les relevés</div>
+        <div class="alert-title">Aucune pièce existante</div>
+        <div class="alert-desc">Ajoutez les pièces de l'état existant du local.</div>
       </div>
     </div>
   </div>
 
-  <div style="display:flex;justify-content:space-between;margin-top:24px;gap:12px">
-    <button class="btn btn-secondary" onclick="showPage('init')">← Retour</button>
-    <button class="btn btn-primary btn-lg" onclick="addPiece()">+ Ajouter une pièce</button>
-    <button class="btn btn-cyan" onclick="showPage('eclairage')">Pré-dimensionnement →</button>
+  <div style="display:flex;justify-content:flex-end;margin-top:20px">
+    <button class="btn btn-primary" onclick="showPage('releves-projet')">Relevé projet →</button>
   </div>
 </div>
 
+<!-- ══ PAGE RELEVÉ PROJET ══ -->
+<div class="page" id="page-releves-projet">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Relevé projet</h2>
+      <p>Saisissez les pièces et métrés du projet · Surface calculée automatiquement</p>
+    </div>
+    <button class="btn btn-primary" onclick="addPiece('projet')">
+      + Ajouter une pièce
+    </button>
+  </div>
+
+  <!-- Résumé projet -->
+  <div id="resume-projet" style="display:none;margin-bottom:16px;padding:14px 18px;background:var(--primary-light);border:1.5px solid var(--primary-border);border-radius:10px;display:flex;gap:24px;flex-wrap:wrap">
+    <div style="text-align:center"><div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase">Pièces</div><div style="font-size:20px;font-weight:800;color:var(--ink)" id="count-projet">0</div></div>
+    <div style="text-align:center"><div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase">Surface totale</div><div style="font-size:20px;font-weight:800;color:var(--primary)" id="surf-projet">0 m²</div></div>
+    <div style="text-align:center"><div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase">Hauteur moy.</div><div style="font-size:20px;font-weight:800;color:var(--ink)" id="haut-projet">—</div></div>
+  </div>
+
+  <!-- Comparatif existant vs projet -->
+  <div id="comparatif-surfaces" style="display:none;margin-bottom:16px;padding:14px 18px;background:white;border:1.5px solid var(--border);border-radius:10px">
+    <div style="font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:10px">Comparatif Existant / Projet</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px" id="comparatif-grid"></div>
+  </div>
+
+  <div id="pieces-list-projet">
+    <div class="alert info" id="empty-pieces-projet">
+      <div class="alert-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+      <div class="alert-body">
+        <div class="alert-title">Aucune pièce projet</div>
+        <div class="alert-desc">Ajoutez les pièces du futur projet.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;margin-top:20px">
+    <button class="btn btn-ghost" onclick="showPage('releves-existant')">← Relevé existant</button>
+    <button class="btn btn-primary" onclick="showPage('eclairage')">Éclairage →</button>
+  </div>
+</div>
 
 <!-- ══ PAGE RÉCAPITULATIF ══ -->
 <div class="page" id="page-recap">
@@ -2597,6 +2618,8 @@ function showPage(id){
   if(id==='clim'){renderClimPieces();calcClim();}
   if(id==='facade'){calcFacade();calcERP();}
   if(id==='recap')renderRecap();
+  if(id==='releves-existant')renderRelevesType('existant');
+  if(id==='releves-projet')renderRelevesType('projet');
   if(id==='init')renderRecapBanner();
   if(id==='prechiffrage')recalculate();
   if(id==='chiffrage')renderChiffrageDetail();
@@ -2666,10 +2689,11 @@ function toggleCheck(el){
   if(!cb)return;cb.checked=!cb.checked;el.classList.toggle('checked',cb.checked);
 }
 // ── PIÈCES ────────────────────────────────────────────────────
-function addPiece(){
+function addPiece(type){
+  if(!type) type = 'existant';
   state.pieceCounter++;
   const id='p'+state.pieceCounter;
-  state.pieces.push({id,nom:'Pièce '+state.pieceCounter,type:'Salle',
+  state.pieces.push({_type:type,id,nom:'Pièce '+state.pieceCounter,type:'Salle',
     surface:0,hauteur:2.7,lineaire:0,portes:1.8,vitrages:0,ouvertures:0,
     fauxPlafond:true,faience:false,hauteurFaience:1.8,nbMursFaience:0,
     prises:4,prisesDouble:2,prisesSpec:0,prisesTri:0,rj45:0,camElec:0,bornesWifi:0,ecrans:0,
@@ -4626,6 +4650,67 @@ function arreterNoteVocale(){
 }
 
 
+// ── RELEVÉS EXISTANT / PROJET ────────────────────────────────
+function renderRelevesType(type){
+  const pieces = state.pieces.filter(p=>(p._type||'existant')===type);
+  const listEl = document.getElementById('pieces-list-'+type);
+  const emptyEl = document.getElementById('empty-pieces-'+type);
+  const resumeEl = document.getElementById('resume-'+type);
+  if(!listEl) return;
+
+  if(pieces.length === 0){
+    if(emptyEl) emptyEl.style.display='flex';
+    if(resumeEl) resumeEl.style.display='none';
+    return;
+  }
+  if(emptyEl) emptyEl.style.display='none';
+  if(resumeEl) resumeEl.style.display='flex';
+
+  // Métriques
+  const totalSurf = pieces.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
+  const avgHaut = pieces.filter(p=>p.hauteur).reduce((a,p,_,arr)=>a+(parseFloat(p.hauteur)||0)/arr.length,0);
+  const countEl = document.getElementById('count-'+type);
+  const surfEl = document.getElementById('surf-'+type);
+  const hautEl = document.getElementById('haut-'+type);
+  if(countEl) countEl.textContent = pieces.length;
+  if(surfEl) surfEl.textContent = totalSurf.toFixed(1)+' m²';
+  if(hautEl) hautEl.textContent = avgHaut>0?avgHaut.toFixed(2)+' m':'—';
+
+  // Badges sidebar
+  const badge = document.getElementById('nb-pieces-'+type);
+  if(badge) badge.textContent = pieces.length;
+
+  // Comparatif sur page projet
+  if(type==='projet'){
+    const piecesEx = state.pieces.filter(p=>(p._type||'existant')==='existant');
+    const surfEx = piecesEx.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
+    const compEl = document.getElementById('comparatif-surfaces');
+    const gridEl = document.getElementById('comparatif-grid');
+    if(compEl && gridEl && (surfEx>0||totalSurf>0)){
+      compEl.style.display='block';
+      const ecart = totalSurf - surfEx;
+      const pct = surfEx>0?((ecart/surfEx)*100).toFixed(1):0;
+      gridEl.innerHTML = `
+        <div style="text-align:center;padding:12px;background:var(--bg);border-radius:8px">
+          <div style="font-size:10px;color:var(--muted);font-weight:600">Existant</div>
+          <div style="font-size:18px;font-weight:800;color:var(--ink)">${surfEx.toFixed(1)} m²</div>
+          <div style="font-size:11px;color:var(--muted)">${piecesEx.length} pièce(s)</div>
+        </div>
+        <div style="text-align:center;padding:12px;background:var(--bg);border-radius:8px">
+          <div style="font-size:10px;color:var(--muted);font-weight:600">Projet</div>
+          <div style="font-size:18px;font-weight:800;color:var(--primary)">${totalSurf.toFixed(1)} m²</div>
+          <div style="font-size:11px;color:var(--muted)">${pieces.length} pièce(s)</div>
+        </div>
+        <div style="text-align:center;padding:12px;background:${Math.abs(ecart/Math.max(surfEx,1))>0.1?'var(--danger-light)':'var(--primary-light)'};border-radius:8px">
+          <div style="font-size:10px;color:var(--muted);font-weight:600">Écart</div>
+          <div style="font-size:18px;font-weight:800;color:${ecart>=0?'var(--primary)':'var(--danger)'}">${ecart>=0?'+':''}${ecart.toFixed(1)} m²</div>
+          <div style="font-size:11px;color:var(--muted)">${pct}%</div>
+        </div>`;
+    }
+  }
+}
+
+
 // ── DÉMARRAGE ─────────────────────────────────────────────────
 // ── RÉCAPITULATIF ─────────────────────────────────────────────
 function renderRecapBanner(){
@@ -5032,17 +5117,36 @@ function renderRecap(){
 }
 
 // ── CODE CHANTIER ────────────────────────────────────────────────
-function genererCodeChantier(){
+async function genererCodeChantier(){
   var now = new Date();
   var yy = String(now.getFullYear()).slice(-2);
   var prefixEl = document.getElementById('code-prefix');
   if(prefixEl) prefixEl.textContent = yy + '-CHT-';
-  // Ne pas auto-remplir — laisser vide
+
+  // Charger codes Drive si connecté
+  if(_driveToken && _driveFolderId && _codesExistantsDrive === null){
+    await chargerCodesDrive();
+  }
+
+  // Calculer le prochain numéro disponible
+  var prefix = yy + '-CHT-';
+  var codesExistants = (_codesExistantsDrive || [])
+    .concat(JSON.parse(localStorage.getItem('lokoo_dossiers')||'[]').map(d=>d.code||''))
+    .filter(c => c.startsWith(prefix));
+
+  var maxNum = 0;
+  codesExistants.forEach(c => {
+    var num = parseInt(c.replace(prefix, '')) || 0;
+    if(num > maxNum) maxNum = num;
+  });
+
+  var nextSuffix = String(maxNum + 1).padStart(4, '0');
   var suffixInp = document.getElementById('proj-nom-suffix');
-  if(suffixInp) suffixInp.value = '';
+  if(suffixInp) suffixInp.value = nextSuffix;
   var hidden = document.getElementById('proj-nom');
-  if(hidden) hidden.value = '';
-  // Afficher le dernier chantier enregistré dans le hint
+  if(hidden) hidden.value = prefix + nextSuffix;
+
+  verifierCodeChantier(nextSuffix);
   afficherDernierChantier();
 }
 
