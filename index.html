@@ -2696,7 +2696,7 @@ function showPage(id){
   if(id==='compte')renderCompte();
   // Masquer les boutons topbar uniquement sur le tableau de bord
   const actionsEl = document.querySelector('.topbar-actions');
-  if(actionsEl) actionsEl.style.display = id === 'dashboard' ? 'none' : '';
+  if(actionsEl) actionsEl.style.display = id === 'dashboard' ? 'none' : 'flex';
   _get('sidebar').classList.remove('mobile-open');
   _get('sidebar-overlay').classList.remove('open');
   window.scrollTo(0,0);
@@ -4719,6 +4719,29 @@ function afficherLogin(){
   document.getElementById('sidebar-overlay').style.display = 'none';
 }
 
+const ACTIVITES_PAR_TYPE = {
+  'restaurant': ['Kebab','Sandwicherie','Burger','Tacos','Pizza','Grillades','Cuisine turque','Cuisine libanaise','Cuisine asiatique','Cuisine italienne','Cuisine indienne','Cuisine africaine','Brasserie','Restaurant traditionnel','Fast-food','Fast casual','Food court','Traiteur','Dark kitchen','Autre'],
+  'boulangerie': ['Boulangerie artisanale','Boulangerie-pâtisserie','Terminal de cuisson','Boulangerie-snacking','Autre'],
+  'coffee-shop': ['Coffee Shop','Salon de thé','Bubble Tea','Coffee Shop & Pâtisserie','Coffee Shop & Restauration légère','Autre']
+};
+
+function majActiviteOptions(){
+  const type = document.getElementById('proj-type-local')?.value || 'restaurant';
+  const sel = document.getElementById('proj-activite');
+  if(!sel) return;
+  const opts = ACTIVITES_PAR_TYPE[type] || ACTIVITES_PAR_TYPE['restaurant'];
+  sel.innerHTML = '<option value="">— Sélectionner —</option>' +
+    opts.map(o=>`<option value="${o}">${o}</option>`).join('');
+  majActiviteAutre();
+}
+
+function majActiviteAutre(){
+  const sel = document.getElementById('proj-activite');
+  const wrap = document.getElementById('proj-activite-autre-wrap');
+  if(!sel || !wrap) return;
+  wrap.style.display = sel.value === 'Autre' ? 'block' : 'none';
+}
+
 function afficherApp(){
   document.getElementById('page-login').style.display = 'none';
   document.getElementById('app-main').style.display = 'flex';
@@ -5829,28 +5852,7 @@ function ouvrirRapport(rapportHtml, descriptions){
 }
 
 // ── ACTIVITÉ DYNAMIQUE ────────────────────────────────────────
-const ACTIVITES_PAR_TYPE = {
-  'restaurant': ['Kebab','Sandwicherie','Burger','Tacos','Pizza','Grillades','Cuisine turque','Cuisine libanaise','Cuisine asiatique','Cuisine italienne','Cuisine indienne','Cuisine africaine','Brasserie','Restaurant traditionnel','Fast-food','Fast casual','Food court','Traiteur','Dark kitchen','Autre'],
-  'boulangerie': ['Boulangerie artisanale','Boulangerie-pâtisserie','Terminal de cuisson','Boulangerie-snacking','Autre'],
-  'coffee-shop': ['Coffee Shop','Salon de thé','Bubble Tea','Coffee Shop & Pâtisserie','Coffee Shop & Restauration légère','Autre']
-};
-
-function majActiviteOptions(){
-  const type = document.getElementById('proj-type-local')?.value || 'restaurant';
-  const sel = document.getElementById('proj-activite');
-  if(!sel) return;
-  const opts = ACTIVITES_PAR_TYPE[type] || ACTIVITES_PAR_TYPE['restaurant'];
-  sel.innerHTML = '<option value="">— Sélectionner —</option>' +
-    opts.map(o=>`<option value="${o}">${o}</option>`).join('');
-  majActiviteAutre();
-}
-
-function majActiviteAutre(){
-  const sel = document.getElementById('proj-activite');
-  const wrap = document.getElementById('proj-activite-autre-wrap');
-  if(!sel || !wrap) return;
-  wrap.style.display = sel.value === 'Autre' ? 'block' : 'none';
-}
+// ACTIVITES_PAR_TYPE moved above
 
 // ── DOCUMENTS DOSSIER ─────────────────────────────────────────
 const TYPES_DOCS = [
