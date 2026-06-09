@@ -20,26 +20,26 @@ input[spellcheck="true"], textarea[spellcheck="true"] {
 /* ═══ RESET & VARIABLES — Pennylane DA ═══ */
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#F6F5FF;
+  --bg:#FAFAFA;
   --surface:#FFFFFF;
-  --surface2:#F4F3FF;
-  --border:#E5E3F5;
-  --border2:#CCC9E8;
-  --ink:#1A1533;
-  --ink2:#3D3A5C;
-  --mid:#6E6A8F;
-  --muted:#9E9BBC;
-  --primary:#7C3AED;
-  --primary-dark:#6D28D9;
-  --primary-light:#F5F3FF;
-  --primary-border:#DDD6FE;
+  --surface2:#F6F8FA;
+  --border:#E6E8EB;
+  --border2:#D1D5DB;
+  --ink:#0A0A0B;
+  --ink2:#1A1D23;
+  --mid:#4B5563;
+  --muted:#9CA3AF;
+  --primary:#635BFF;
+  --primary-dark:#4F46E5;
+  --primary-light:#F5F4FF;
+  --primary-border:#C7C4FF;
   --cyan:#0EA5E9;
   --cyan-light:#F0F9FF;
-  --success:#059669;
-  --success-light:#ECFDF5;
-  --warn:#D97706;
+  --success:#00875A;
+  --success-light:#E3FCEF;
+  --warn:#B45309;
   --warn-light:#FFFBEB;
-  --danger:#DC2626;
+  --danger:#C0392B;
   --danger-light:#FEF2F2;
   --orange:#EA580C;
   --orange-light:#FFF7ED;
@@ -53,7 +53,7 @@ input[spellcheck="true"], textarea[spellcheck="true"] {
   --radius-xl:18px;
   --font:'Inter',-apple-system,sans-serif;
 }
-html{font-size:15px;scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
+html{font-size:14px;scroll-behavior:smooth;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--ink);font-family:var(--font);min-height:100vh;line-height:1.5}
 input,select,textarea,button{font-family:var(--font)}
 input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
@@ -62,8 +62,8 @@ input[type=number]{-moz-appearance:textfield}
 /* ═══ LAYOUT ═══ */
 .app{display:flex;min-height:100vh}
 .sidebar{
-  width:230px;flex-shrink:0;background:var(--surface);
-  border-right:1px solid var(--border);
+  width:230px;flex-shrink:0;background:#FFFFFF;
+  border-right:1px solid #E6E8EB;
   display:flex;flex-direction:column;
   position:fixed;top:0;left:0;height:100vh;
   z-index:200;overflow-y:auto;
@@ -111,9 +111,8 @@ input[type=number]{-moz-appearance:textfield}
 /* TOPBAR */
 .topbar{
   position:sticky;top:0;z-index:200;
-  background:rgba(255,255,255,.97);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);
+  background:#FFFFFF;
+  border-bottom:1px solid #E6E8EB;
   padding:0 28px;height:58px;
   display:flex;align-items:center;justify-content:space-between;
 }
@@ -143,8 +142,8 @@ input[type=number]{-moz-appearance:textfield}
 }
 .btn-sm{padding:6px 12px;font-size:12px;border-radius:var(--radius-sm)}
 .btn-lg{padding:12px 24px;font-size:14px;border-radius:var(--radius-lg)}
-.btn-primary{background:var(--primary);color:white;border-color:var(--primary);box-shadow:0 1px 3px rgba(124,58,237,.3)}
-.btn-primary:hover{background:var(--primary-dark);border-color:var(--primary-dark);box-shadow:0 4px 12px rgba(124,58,237,.35)}
+.btn-primary{background:var(--primary);color:white;border-color:var(--primary);box-shadow:0 2px 5px rgba(99,91,255,.3);letter-spacing:.01em}
+.btn-primary:hover{background:#5850E8;border-color:#5850E8;box-shadow:0 4px 14px rgba(99,91,255,.4)}
 .btn-secondary{background:white;color:var(--ink2);border-color:var(--border2)}
 .btn-secondary:hover{background:var(--bg);border-color:var(--border2)}
 .btn-ghost{background:none;color:var(--mid);border-color:transparent}
@@ -156,15 +155,15 @@ input[type=number]{-moz-appearance:textfield}
 
 /* ═══ PAGE HEADER ═══ */
 .page-header{margin-bottom:28px}
-.page-header h2{font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.4px;margin-bottom:4px}
+.page-header h2{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.6px;margin-bottom:6px;line-height:1.2}
 .page-header p{font-size:13px;color:var(--mid);line-height:1.6}
 .page-header-actions{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
 
 /* ═══ CARDS ═══ */
 .card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--radius-lg);padding:24px;
-  box-shadow:var(--shadow-sm);
+  background:#FFFFFF;border:1px solid #E6E8EB;
+  border-radius:12px;padding:24px;
+  box-shadow:0 1px 3px rgba(0,0,0,.04);
 }
 .card-sm{padding:16px;border-radius:var(--radius)}
 .card-flat{box-shadow:none}
@@ -197,7 +196,7 @@ input[type=number]{-moz-appearance:textfield}
   color:var(--ink);background:white;outline:none;
   transition:border-color .15s,box-shadow .15s;width:100%;
 }
-.form-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,200,150,.12)}
+.form-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,91,255,.15)}
 .form-input.filled{border-color:var(--primary);background:var(--primary-light)}
 .form-select{
   padding:9px 36px 9px 13px;border:1.5px solid var(--border2);
@@ -205,14 +204,14 @@ input[type=number]{-moz-appearance:textfield}
   color:var(--ink);background:white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;
   appearance:none;outline:none;cursor:pointer;width:100%;transition:border-color .15s;
 }
-.form-select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,200,150,.12)}
+.form-select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,91,255,.15)}
 .form-textarea{
   padding:9px 13px;border:1.5px solid var(--border2);
   border-radius:var(--radius-sm);font-size:13px;
   color:var(--ink);background:white;outline:none;
   resize:vertical;min-height:80px;width:100%;transition:border-color .15s;
 }
-.form-textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(0,200,150,.12)}
+.form-textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(99,91,255,.15)}
 .form-hint{font-size:11px;color:var(--muted)}
 .form-section{margin-bottom:24px}
 .form-section-title{
@@ -413,10 +412,8 @@ input[type=number]{-moz-appearance:textfield}
   .mobile-topbar{
     height:56px;
     padding:0 16px;
-    background:rgba(255,255,255,.97);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-    border-bottom:1px solid var(--border);
+    background:#FFFFFF;
+    border-bottom:1px solid #E6E8EB;
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -468,13 +465,13 @@ input[type=number]{-moz-appearance:textfield}
   </button>
   <!-- Logo centré cliquable -->
   <button onclick="showPage('init')" style="position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:none;border:none;cursor:pointer;padding:4px 10px;border-radius:10px">
-    <div style="width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(124,58,237,.35)">
+    <div style="width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(99,91,255,.4)">
       <span style="font-size:18px;font-weight:900;color:white;font-family:var(--font)">L</span>
     </div>
     <span style="font-size:20px;font-weight:900;color:var(--ink);letter-spacing:-0.5px">lokoo<span style="color:var(--primary)">.io</span></span>
   </button>
   <!-- Profil -->
-  <button id="mobile-profil-btn" ontouchstart="event.preventDefault();toggleProfilMenu()" onclick="toggleProfilMenu()" style="width:40px;height:40px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:auto;-webkit-tap-highlight-color:transparent;touch-action:manipulation">
+  <button id="mobile-profil-btn" ontouchstart="event.preventDefault();toggleProfilMenu()" onclick="toggleProfilMenu()" style="width:40px;height:40px;border-radius:50%;background:var(--primary);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:auto;-webkit-tap-highlight-color:transparent;touch-action:manipulation;box-shadow:0 2px 8px rgba(99,91,255,.3)">
     <span id="mobile-profil-initiales" style="font-size:11px;font-weight:700;color:white;pointer-events:none">?</span>
   </button>
 </div>
@@ -484,7 +481,7 @@ input[type=number]{-moz-appearance:textfield}
 <aside class="sidebar" id="sidebar" style="display:none">
   <div class="sidebar-header">
     <button onclick="showPage('init')" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:0;text-align:left;transition:opacity .15s" onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='1'">
-      <div style="width:32px;height:32px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 10px rgba(124,58,237,.3)">
+      <div style="width:32px;height:32px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(99,91,255,.3)">
         <span style="font-size:14px;font-weight:900;color:white;font-family:var(--font)">L</span>
       </div>
       <div>
@@ -744,7 +741,7 @@ input[type=number]{-moz-appearance:textfield}
 
   <!-- PROFIL -->
   <div style="position:relative">
-    <button id="btn-profil" onclick="toggleProfilMenu()" style="width:34px;height:34px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s" title="Profil & Paramètres">
+    <button id="btn-profil" onclick="toggleProfilMenu()" style="width:34px;height:34px;border-radius:50%;background:var(--primary);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s;box-shadow:0 2px 6px rgba(99,91,255,.3)" title="Profil & Paramètres">
       <span id="profil-initiales" style="font-size:12px;font-weight:700;color:white">?</span>
     </button>
 
