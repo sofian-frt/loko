@@ -1802,7 +1802,7 @@ input[type=number]{-moz-appearance:textfield}
       <h2>Chantiers</h2>
       <p>Projets en cours et terminés · Base de comparaison</p>
     </div>
-    <button class="btn btn-primary" onclick="openModalChantier()">+ Nouveau chantier</button>
+    <button class="btn btn-primary" onclick="nouveauProjet()">+ Nouveau projet</button>
   </div>
   <div style="display:flex;gap:8px;margin-bottom:16px">
     <button class="btn btn-secondary btn-sm active" onclick="filterChantiers('tous',this)">Tous</button>
@@ -2247,9 +2247,9 @@ input[type=number]{-moz-appearance:textfield}
       <h2>Tableau de bord</h2>
       <p id="dashboard-subtitle">Vue globale de votre activité</p>
     </div>
-    <button class="btn btn-primary" onclick="openModalChantier()" style="flex-shrink:0;gap:6px">
+    <button class="btn btn-primary" onclick="nouveauProjet()" style="flex-shrink:0;gap:6px">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-      Nouveau chantier
+      Nouveau projet
     </button>
   </div>
 
@@ -2307,7 +2307,7 @@ input[type=number]{-moz-appearance:textfield}
       <svg width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24" style="margin:0 auto 12px;display:block;opacity:.25"><path d="M2 20h20M4 20V10M20 20V10M8 20v-5h8v5M12 10V4M8 7l4-3 4 3"/></svg>
       <div style="font-size:14px;font-weight:600;margin-bottom:6px">Aucun chantier</div>
       <div style="font-size:12px;margin-bottom:16px">Créez votre premier chantier pour commencer</div>
-      <button class="btn btn-primary btn-sm" onclick="openModalChantier()">+ Nouveau chantier</button>
+      <button class="btn btn-primary btn-sm" onclick="nouveauProjet()">+ Nouveau projet</button>
     </div>
   </div>
 
@@ -2418,7 +2418,7 @@ input[type=number]{-moz-appearance:textfield}
   <div style="background:white;border-radius:var(--radius-xl);padding:28px;max-width:720px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-lg)">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
       <div>
-        <div style="font-size:17px;font-weight:700" id="modal-chantier-title">Nouveau chantier</div>
+        <div style="font-size:17px;font-weight:700" id="modal-chantier-title">Modifier le chantier</div>
         <div style="font-size:12px;color:var(--muted);margin-top:2px">Renseignez les informations du projet</div>
       </div>
       <button onclick="closeModal('modal-chantier')" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted);line-height:1">✕</button>
@@ -3357,6 +3357,7 @@ function renderChiffrageDetail(){
 // ── SYNTHÈSE ──────────────────────────────────────────────────
 function renderSynthese(){
   const sc=_get('synthese-content');if(!sc)return;
+  enregistrerProjetDansDB(); // sync auto quand on arrive sur Synthèse
   computeAlertes();
   const cur=TYPES[state.activeType];if(!cur){sc.innerHTML='<div class="alert info"><div class="alert-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></div><div class="alert-body"><div class="alert-title">Renseignez les onglets pour générer la synthèse</div></div></div>';return;}
   const gam=GAMMES.find(g=>g.key===state.activeGamme)||GAMMES[1];
@@ -3482,34 +3483,31 @@ function renderChantiers(){
   }).join('');
 }
 
+function nouveauProjet(){
+  // Réinitialise le projet en cours et navigue vers l'initialisation
+  if(confirm('Créer un nouveau projet ?\n\nLes données du projet en cours seront effacées.'))
+    reinitialiserProjet();
+}
+
 function openModalChantier(editId){
+  // Uniquement pour ÉDITER un chantier existant
+  if(!editId){ showToast('Ouvrez un projet depuis l\'initialisation pour le modifier.', '#6B7280'); return; }
   const modal=_get('modal-chantier');if(!modal)return;
   const titleEl=_get('modal-chantier-title');
   const idInput=_get('ch-edit-id');
-  if(idInput) idInput.value='';
-  ['ch-nom','ch-client','ch-surface','ch-ville','ch-budget-prevu','ch-montant-devis','ch-budget-reel','ch-notes'].forEach(id=>{const e=_get(id);if(e)e.value='';});
-  const sf=_get('ch-statut');if(sf)sf.value='chiffrage_en_cours';
-  const df=_get('ch-devis-fait');if(df)df.value='non';
-  const de=_get('ch-devis-envoye');if(de)de.value='non';
-  const gf=_get('ch-gamme');if(gf)gf.value='std';
-  if(editId){
-    const ch=DB.chantiers.find(c=>c.id==editId);
-    if(ch){
-      if(titleEl)titleEl.textContent='Modifier le chantier';
-      if(idInput)idInput.value=ch.id;
-      ['nom','client','surface','ville'].forEach(k=>{const e=_get('ch-'+k);if(e)e.value=ch[k]||'';});
-      if(_get('ch-budget-prevu'))_get('ch-budget-prevu').value=ch.budget_prevu||'';
-      if(_get('ch-montant-devis'))_get('ch-montant-devis').value=ch.montant_devis||'';
-      if(_get('ch-budget-reel'))_get('ch-budget-reel').value=ch.budget_reel||'';
-      if(_get('ch-notes'))_get('ch-notes').value=ch.notes||'';
-      if(sf)sf.value=ch.statut||'chiffrage_en_cours';
-      if(df)df.value=ch.devis_fait||'non';
-      if(de)de.value=ch.devis_envoye||'non';
-      if(gf)gf.value=ch.gamme||'std';
-    }
-  } else {
-    if(titleEl)titleEl.textContent='Nouveau chantier';
-  }
+  const ch=DB.chantiers.find(c=>c.id==editId);
+  if(!ch){ showToast('Chantier introuvable.','#EF4444'); return; }
+  if(idInput) idInput.value=ch.id;
+  if(titleEl) titleEl.textContent='Modifier — '+ch.nom;
+  ['nom','client','surface','ville'].forEach(k=>{const e=_get('ch-'+k);if(e)e.value=ch[k]||'';});
+  const sf=_get('ch-statut');if(sf)sf.value=ch.statut||'chiffrage_en_cours';
+  const df=_get('ch-devis-fait');if(df)df.value=ch.devis_fait||'non';
+  const de=_get('ch-devis-envoye');if(de)de.value=ch.devis_envoye||'non';
+  const gf=_get('ch-gamme');if(gf)gf.value=ch.gamme||'std';
+  if(_get('ch-budget-prevu'))  _get('ch-budget-prevu').value  = ch.budget_prevu||'';
+  if(_get('ch-montant-devis')) _get('ch-montant-devis').value = ch.montant_devis||'';
+  if(_get('ch-budget-reel'))   _get('ch-budget-reel').value   = ch.budget_reel||'';
+  if(_get('ch-notes'))         _get('ch-notes').value         = ch.notes||'';
   modal.style.display='flex';
 }
 
@@ -3827,24 +3825,30 @@ function ouvrirRapport_dashboard(){
 
 function ouvrirChantierDashboard(){
   const ch = _dbSelectedId ? DB.chantiers.find(c=>c.id===_dbSelectedId) : null;
-  if(!ch){ showPage('init'); return; }
-  openModalChantier(ch.id);
+  if(!ch){ reinitialiserProjet(); return; }
+  // Charger les données du chantier dans le formulaire projet
+  _chargerChantierDansProjets(ch);
+  showPage('init');
+  showToast('📂 Projet chargé : '+ch.nom);
 }
 
 function _chargerChantierDansProjets(ch){
-  // Injecte les données du chantier dans state pour la génération de rapports
   const sv = (id,v)=>{ const e=document.getElementById(id); if(e&&v!=null) e.value=v; };
-  sv('proj-nom',       ch.code||ch.nom);
-  sv('proj-nom-chantier', ch.nom);
-  sv('proj-client',    ch.client);
-  sv('proj-adresse',   ch.adresse);
-  sv('proj-surface',   ch.surface);
-  sv('proj-type-local',ch.type||'restaurant');
-  if(ch.surface) state.surface = parseFloat(ch.surface)||0;
+  sv('proj-nom',          ch.code||ch.nom||'');
+  sv('proj-nom-chantier', ch.nom||'');
+  sv('proj-client',       ch.client||'');
+  sv('proj-adresse',      ch.adresse||'');
+  sv('proj-surface',      ch.surface||'');
+  sv('proj-type-local',   ch.type||'restaurant');
+  if(ch.surface) state.surface    = parseFloat(ch.surface)||0;
   if(ch.type)    state.activeType = ch.type;
-  if(ch.gamme)   state.activeGamme = ch.gamme;
-  if(ch.fg)      state.fg = ch.fg;
-  if(ch.marge)   state.marge = ch.marge;
+  if(ch.gamme)   state.activeGamme= ch.gamme;
+  if(ch.fg)      state.fg         = ch.fg;
+  if(ch.marge)   state.marge      = ch.marge;
+  // Mettre à jour l'interface
+  const typeEl = document.getElementById('proj-type-local');
+  if(typeEl){ typeEl.dispatchEvent(new Event('change')); }
+  updateProjectHeader();
 }
 
 // ── STATUT HELPERS ────────────────────────────────────────────
@@ -6957,7 +6961,48 @@ async function chargerDBFirestore(uid){
 }
 
 // ── Sauvegarder projet en cours ────────────────────────────────
+function enregistrerProjetDansDB(){
+  // Enregistre automatiquement le projet en cours dans DB.chantiers
+  const code  = _val('proj-nom','').trim();
+  const nom   = _val('proj-nom-chantier','').trim() || _val('proj-nom','').trim();
+  const surf  = parseFloat(_val('proj-surface',''))||0;
+  if(!code && !nom) return; // rien à enregistrer
+  const dateNow = new Date().toLocaleDateString('fr-FR');
+  const existing = DB.chantiers.find(c => c.code === code || (nom && c.nom === nom && !code));
+  const data = {
+    code,
+    nom,
+    client:    _val('proj-client',''),
+    adresse:   _val('proj-adresse',''),
+    type:      _val('proj-type-local','restaurant'),
+    surface:   surf,
+    statut:    _val('proj-statut','chiffrage_en_cours') || 'chiffrage_en_cours',
+    gamme:     state.activeGamme||'std',
+    fg:        state.fg||8,
+    marge:     state.marge||10,
+    budget_prevu: surf>0 ? Math.round(surf*(TYPES[state.activeType]||TYPES.restaurant).taux*(GAMMES?GAMMES.find(g=>g.key===state.activeGamme)||GAMMES[1]:{coeff:1}).coeff) : 0,
+    date_modif: dateNow,
+    devis_fait:   'non',
+    devis_envoye: 'non',
+  };
+  if(existing){
+    // Mise à jour sans écraser les infos devis
+    Object.assign(existing, data, {
+      devis_fait:   existing.devis_fait||'non',
+      devis_envoye: existing.devis_envoye||'non',
+      date:         existing.date||dateNow,
+      id:           existing.id,
+    });
+  } else {
+    data.id   = Date.now();
+    data.date = dateNow;
+    DB.chantiers.push(data);
+  }
+  saveDB();
+}
+
 async function sauvegarderCloud(){
+  enregistrerProjetDansDB();
   if(!_currentUser){ showToast('Connectez-vous pour sauvegarder', '#EF4444'); return; }
   const btn = document.getElementById('btn-cloud-save');
   if(btn){ btn.textContent = '⏳ Sauvegarde...'; btn.disabled = true; }
