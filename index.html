@@ -3669,9 +3669,12 @@ function estimerDureeEtCompagnons(){
   const ids      = id => !!document.getElementById(id)?.checked;
   const radio    = name => document.querySelector(`input[name="${name}"]:checked`)?.value || '';
 
-  const etatSel  = document.querySelector('#etat-type-local .radio-card.selected');
+  // Lire l'état du local — chercher la radio-card sélectionnée
+  const etatSel = document.querySelector('#etat-type-local .radio-card.selected');
   const etatOnclick = etatSel?.getAttribute('onclick') || '';
-  const etatType = etatOnclick.match(/selectEtatLocal\('(\w+)'/)?.[1] || 'brut';
+  let etatType = etatOnclick.match(/selectEtatLocal\('(\w+)'/)?.[1] || 'brut';
+  // Fallback : lire depuis state si disponible
+  if(typeof state !== 'undefined' && state.etat && state.etat.typeLocal) etatType = state.etat.typeLocal;
 
   const hint = document.getElementById('prov-estimation-hint');
 
@@ -3820,15 +3823,18 @@ function estimerDureeEtCompagnons(){
   const contraintes = [];
 
   if(ids('ch-amiante')){ joursTotal *= 1.30; contraintes.push('amiante +30%'); }
-  if(ids('ch-site-occupe')||ids('ch-pietonne')||ids('ch-centre-comm')){ joursTotal *= 1.25; contraintes.push('site occupé/piétonnier +25%'); }
+  if(ids('ch-plomb')){ joursTotal *= 1.20; contraintes.push('plomb +20%'); }
+  if(ids('ch-rue-comm')){ joursTotal *= 1.08; contraintes.push('rue commerçante +8%'); }
+  if(ids('ch-site-occupe')||ids('ch-occupe')||ids('ch-pietonne')||ids('ch-centre-comm')){ joursTotal *= 1.25; contraintes.push('site occupé/piétonnier +25%'); }
   if(ids('ch-nuit')){ joursTotal *= 1.35; contraintes.push('travaux de nuit +35%'); }
   else if(ids('ch-horaires-decales')){ joursTotal *= 1.20; contraintes.push('horaires décalés +20%'); }
   if(ids('ch-weekend')){ joursTotal *= 1.10; contraintes.push('week-end +10%'); }
-  if(ids('ch-etaiement')||ids('st-etaiement')){ joursTotal *= 1.10; contraintes.push('étaiement +10%'); }
-  if(ids('ch-grutage')||ids('st-grutage')){ joursTotal *= 1.08; contraintes.push('grutage +8%'); }
-  if(ids('ch-acces-diff')||ids('ch-pietonne')){ joursTotal *= 1.10; contraintes.push('accès difficile +10%'); }
-  if(ids('ch-bat-ancien')||ids('st-batiment-ancien')){ joursTotal *= 1.15; contraintes.push('bâtiment ancien +15%'); }
-  if(ids('ch-sous-oeuvre')||ids('st-sous-oeuvre')){ joursTotal *= 1.20; contraintes.push('reprise sous-œuvre +20%'); }
+  if(ids('ch-etaiement')){ joursTotal *= 1.10; contraintes.push('étaiement +10%'); }
+  if(ids('ch-manutention')){ joursTotal *= 1.05; contraintes.push('manutention lourde +5%'); }
+  if(ids('ch-grutage')){ joursTotal *= 1.08; contraintes.push('grutage +8%'); }
+  if(ids('ch-poids-lourd')||ids('ch-nacelle')){ joursTotal *= 1.10; contraintes.push('accès difficile +10%'); }
+  if(ids('ch-bat-ancien')){ joursTotal *= 1.15; contraintes.push('bâtiment ancien +15%'); }
+  if(ids('ch-sous-oeuvre')){ joursTotal *= 1.20; contraintes.push('reprise sous-œuvre +20%'); }
 
   const JOURS_PAR_MOIS = 22;
   const dureeMois = Math.max(0.5, Math.round(joursTotal / JOURS_PAR_MOIS * 10) / 10);
@@ -3850,7 +3856,7 @@ function estimerDureeEtCompagnons(){
   if(surface > 400) nbCompagnons = Math.round(nbCompagnons * 1.25);
 
   // Contraintes réduisent les effectifs simultanés
-  if(ids('ch-site-occupe')||ids('ch-pietonne')) nbCompagnons = Math.max(2, Math.floor(nbCompagnons * 0.65));
+  if(ids('ch-site-occupe')||ids('ch-occupe')||ids('ch-pietonne')) nbCompagnons = Math.max(2, Math.floor(nbCompagnons * 0.65));
   if(ids('ch-nuit')||ids('ch-horaires-decales')) nbCompagnons = Math.max(2, Math.floor(nbCompagnons * 0.70));
 
   nbCompagnons = Math.min(Math.max(nbCompagnons, 2), 20);
