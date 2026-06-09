@@ -6804,7 +6804,7 @@ async function ouvrirListeDrive(){
   }
 }
 
-async function chargerFichierDrive(fileId){
+async async function chargerFichierDrive(fileId){
   if(!_driveToken) return;
   try{
     const r = await fetch('https://www.googleapis.com/drive/v3/files/'+fileId+'?alt=media',
