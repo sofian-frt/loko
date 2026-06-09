@@ -2694,10 +2694,9 @@ function showPage(id){
   if(id==='chantiers')renderChantiers();
   if(id==='dashboard')renderDashboard();
   if(id==='compte')renderCompte();
-  // Masquer les boutons topbar sur les pages non-projet
-  const noActions = ['dashboard','chantiers','bibliotheque','compte'];
+  // Masquer les boutons topbar uniquement sur le tableau de bord
   const actionsEl = document.querySelector('.topbar-actions');
-  if(actionsEl) actionsEl.style.display = noActions.includes(id) ? 'none' : '';
+  if(actionsEl) actionsEl.style.display = id === 'dashboard' ? 'none' : '';
   _get('sidebar').classList.remove('mobile-open');
   _get('sidebar-overlay').classList.remove('open');
   window.scrollTo(0,0);
