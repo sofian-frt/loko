@@ -4222,6 +4222,8 @@ function afficherLogin(){
   document.getElementById('sidebar').style.display = 'none';
   document.getElementById('main-topbar').style.display = 'none';
   document.getElementById('sidebar-overlay').style.display = 'none';
+  const mt = document.querySelector('.mobile-topbar');
+  if(mt) mt.style.display = 'none';
 }
 
 function afficherApp(){
