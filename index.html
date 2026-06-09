@@ -6021,14 +6021,14 @@ function renderRecapBanner(){
   if(!banner) return;
 
   const nom = _val('proj-nom');
+  const nomChantier = _val('proj-nom-chantier') || '';
   const surface = parseFloat(_val('proj-surface')) || 0;
-  const hasData = nom || surface > 0 || state.pieces.length > 0;
+  const client = _val('proj-client') || '';
+  const adresse = _val('proj-adresse') || '';
+  const hasData = nom || nomChantier || client || surface > 0 || state.pieces.length > 0;
 
   if(!hasData){ banner.style.display='none'; return; }
   banner.style.display='block';
-
-  const client = _val('proj-client');
-  const adresse = _val('proj-adresse');
   const typeLocal = _val('proj-type-local','restaurant');
   const cur = TYPES[typeLocal] || TYPES.restaurant;
   const gam = GAMMES.find(g=>g.key===state.activeGamme) || GAMMES[1];
