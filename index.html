@@ -2890,9 +2890,16 @@ function showPage(id){
   if(id==='chantiers')renderChantiers();
   if(id==='dashboard')renderDashboard();
   if(id==='compte')renderCompte();
-  // Boutons topbar toujours visibles sauf dashboard
+  // Boutons topbar : cachés sur dashboard mobile seulement
   const actionsEl = document.querySelector('.topbar-actions');
-  if(actionsEl) actionsEl.style.display = id === 'dashboard' ? 'none' : 'flex';
+  if(actionsEl){
+    if(window.innerWidth <= 768){
+      actionsEl.style.display = id === 'dashboard' ? 'none' : 'flex';
+    } else {
+      // Desktop : toujours visible
+      actionsEl.style.display = 'flex';
+    }
+  }
   _get('sidebar').classList.remove('mobile-open');
   _get('sidebar-overlay').classList.remove('open');
   window.scrollTo(0,0);
@@ -5038,9 +5045,9 @@ function afficherApp(){
   document.getElementById('app-main').style.display = 'flex';
   document.getElementById('sidebar').style.display = '';
   document.getElementById('main-topbar').style.display = '';
-  // Remettre topbar mobile + fab quand on entre dans l'app
+  // Remettre topbar mobile + fab uniquement sur mobile
   const mt = document.querySelector('.mobile-topbar');
-  if(mt) mt.style.display = 'flex';
+  if(mt) mt.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
   const fab = document.querySelector('.fab');
   if(fab) fab.style.removeProperty('display');
   majLogoSidebar();
