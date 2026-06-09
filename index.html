@@ -700,6 +700,47 @@ input[type=number]{-moz-appearance:textfield}
 
         </div>
 
+        <!-- LIGNE 1b : Nom chantier + Statut -->
+        <div class="form-row" style="margin-bottom:14px">
+          <div class="form-group">
+            <label class="form-label">Nom du chantier</label>
+            <input id="proj-nom-chantier" class="form-input" placeholder="" oninput="updateProjectHeader()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Statut du dossier</label>
+            <select id="proj-statut" class="form-select" onchange="updateProjectHeader()">
+              <option value="nouveau">Nouveau</option>
+              <option value="releve-a-realiser">Relevé à réaliser</option>
+              <option value="releve-effectue">Relevé effectué</option>
+              <option value="etude-en-cours">Étude en cours</option>
+              <option value="chiffrage-en-cours">Chiffrage en cours</option>
+              <option value="devis-envoye">Devis envoyé</option>
+              <option value="devis-accepte">Devis accepté</option>
+              <option value="travaux-en-cours">Travaux en cours</option>
+              <option value="chantier-termine">Chantier terminé</option>
+              <option value="archive">Dossier archivé</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- LIGNE 1c : Contact principal -->
+        <div class="form-row" style="margin-bottom:14px">
+          <div class="form-group">
+            <label class="form-label">Contact principal</label>
+            <input id="proj-contact" class="form-input" placeholder="">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Téléphone</label>
+            <input id="proj-tel" class="form-input" placeholder="" type="tel">
+          </div>
+        </div>
+        <div class="form-row" style="margin-bottom:14px">
+          <div class="form-group" style="grid-column:1/-1">
+            <label class="form-label">Email</label>
+            <input id="proj-email" class="form-input" placeholder="" type="email">
+          </div>
+        </div>
+
         <!-- LIGNE 2 : SIREN + Client -->
         <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
@@ -770,28 +811,20 @@ input[type=number]{-moz-appearance:textfield}
         <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
             <label class="form-label">Type de local</label>
-            <select id="proj-type-local" class="form-select" onchange="updateProjectHeader()">
+            <select id="proj-type-local" class="form-select" onchange="updateProjectHeader();majActiviteOptions()">
               <option value="restaurant">Restaurant</option>
-              <option value="commerce">Commerce</option>
-              <option value="bureau">Bureaux</option>
-              <option value="pharmacie">Pharmacie</option>
               <option value="boulangerie">Boulangerie</option>
-              <option value="sport">Salle de sport</option>
-              <option value="entrepot">Entrepôt</option>
-              <option value="hotel">Hôtel</option>
-              <option value="cabinet">Cabinet médical</option>
-              <option value="erp">ERP</option>
-              <option value="cafe">Café / Coffee shop</option>
-              <option value="salon">Salon de coiffure</option>
-              <option value="boutique">Boutique</option>
-              <option value="institut">Institut de beauté</option>
-              <option value="autre">Autre</option>
+              <option value="coffee-shop">Coffee Shop</option>
             </select>
           </div>
           <div class="form-group">
             <label class="form-label">Activité prévue</label>
-            <input id="proj-activite" class="form-input" placeholder=""
-              oninput="updateProjectHeader()">
+            <select id="proj-activite" class="form-select" onchange="updateProjectHeader();majActiviteAutre()">
+              <option value="">— Sélectionner —</option>
+            </select>
+            <div id="proj-activite-autre-wrap" style="display:none;margin-top:6px">
+              <input id="proj-activite-autre" class="form-input" placeholder="Précisez l'activité" oninput="updateProjectHeader()">
+            </div>
           </div>
         </div>
 
@@ -853,6 +886,38 @@ input[type=number]{-moz-appearance:textfield}
               <button type="button" onclick="arreterNoteVocale()" class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger);font-size:11px">Arrêter</button>
             </div>
             <div id="vocale-audios" style="margin-top:8px"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOCUMENTS -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Documents du dossier</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px" id="docs-grid">
+          <!-- Généré dynamiquement -->
+        </div>
+        <input type="file" id="doc-upload-input" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" style="display:none" onchange="ajouterDocuments(this)">
+      </div>
+
+      <!-- SUIVI ADMINISTRATIF -->
+      <div class="card" style="margin-bottom:16px;background:var(--bg)">
+        <div class="card-title">Suivi administratif</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+          <div style="padding:8px 12px;background:white;border-radius:8px;border:1px solid var(--border)">
+            <div style="color:var(--muted);margin-bottom:2px">Date de création</div>
+            <div id="suivi-creation" style="font-weight:600;color:var(--ink)">—</div>
+          </div>
+          <div style="padding:8px 12px;background:white;border-radius:8px;border:1px solid var(--border)">
+            <div style="color:var(--muted);margin-bottom:2px">Créé par</div>
+            <div id="suivi-cree-par" style="font-weight:600;color:var(--ink)">—</div>
+          </div>
+          <div style="padding:8px 12px;background:white;border-radius:8px;border:1px solid var(--border)">
+            <div style="color:var(--muted);margin-bottom:2px">Dernière modification</div>
+            <div id="suivi-modif" style="font-weight:600;color:var(--ink)">—</div>
+          </div>
+          <div style="padding:8px 12px;background:white;border-radius:8px;border:1px solid var(--border)">
+            <div style="color:var(--muted);margin-bottom:2px">Modifié par</div>
+            <div id="suivi-modif-par" style="font-weight:600;color:var(--ink)">—</div>
           </div>
         </div>
       </div>
@@ -2613,6 +2678,7 @@ function toggleMobileSidebar(){
 }
 // ── INIT PROJET ───────────────────────────────────────────────
 function updateProjectHeader(){
+  majSuiviAdmin();
   const surf=_val('proj-surface');
   if(surf){const i=_get('inp-surface');if(i)i.value=surf;state.surface=parseFloat(surf)||0;recalculate();}
   updateRecap();
@@ -4084,6 +4150,11 @@ function afficherApp(){
   if(dateEl && !dateEl.value) dateEl.value = new Date().toISOString().slice(0,10);
   // Releveur : champ vide par défaut
   chargerCompte();
+  setTimeout(()=>{
+    initDocsGrid();
+    majActiviteOptions();
+    initSuiviAdmin();
+  }, 300);
   console.log('Lokoo V3.7 ✓ — Connecté:', _currentUser.email);
 }
 
@@ -4770,6 +4841,109 @@ function renderRelevesType(type){
         </div>`;
     }
   }
+}
+
+
+
+// ── ACTIVITÉ DYNAMIQUE ────────────────────────────────────────
+const ACTIVITES_PAR_TYPE = {
+  'restaurant': ['Kebab','Sandwicherie','Burger','Tacos','Pizza','Grillades','Cuisine turque','Cuisine libanaise','Cuisine asiatique','Cuisine italienne','Cuisine indienne','Cuisine africaine','Brasserie','Restaurant traditionnel','Fast-food','Fast casual','Food court','Traiteur','Dark kitchen','Autre'],
+  'boulangerie': ['Boulangerie artisanale','Boulangerie-pâtisserie','Terminal de cuisson','Boulangerie-snacking','Autre'],
+  'coffee-shop': ['Coffee Shop','Salon de thé','Bubble Tea','Coffee Shop & Pâtisserie','Coffee Shop & Restauration légère','Autre']
+};
+
+function majActiviteOptions(){
+  const type = document.getElementById('proj-type-local')?.value || 'restaurant';
+  const sel = document.getElementById('proj-activite');
+  if(!sel) return;
+  const opts = ACTIVITES_PAR_TYPE[type] || ACTIVITES_PAR_TYPE['restaurant'];
+  sel.innerHTML = '<option value="">— Sélectionner —</option>' +
+    opts.map(o=>`<option value="${o}">${o}</option>`).join('');
+  majActiviteAutre();
+}
+
+function majActiviteAutre(){
+  const sel = document.getElementById('proj-activite');
+  const wrap = document.getElementById('proj-activite-autre-wrap');
+  if(!sel || !wrap) return;
+  wrap.style.display = sel.value === 'Autre' ? 'block' : 'none';
+}
+
+// ── DOCUMENTS DOSSIER ─────────────────────────────────────────
+const TYPES_DOCS = [
+  {id:'bail', label:'Bail commercial', icon:'📄'},
+  {id:'plan-exist', label:'Plan existant', icon:'📐'},
+  {id:'plan-projet', label:'Plan projet', icon:'📐'},
+  {id:'photos', label:'Photos', icon:'📷'},
+  {id:'autorisation-bailleur', label:'Autorisation du bailleur', icon:'✅'},
+  {id:'declaration-prealable', label:'Déclaration préalable', icon:'🏛️'},
+  {id:'autorisation-travaux', label:'Autorisation de travaux', icon:'🔨'},
+  {id:'devis', label:'Devis', icon:'💶'},
+  {id:'autres', label:'Autres documents', icon:'📁'},
+];
+
+var _documentsProjet = {};
+
+function initDocsGrid(){
+  const grid = document.getElementById('docs-grid');
+  if(!grid) return;
+  grid.innerHTML = TYPES_DOCS.map(d=>`
+    <div style="border:1.5px dashed var(--border2);border-radius:8px;padding:10px;text-align:center;cursor:pointer;transition:all .15s;background:white"
+      id="doc-card-${d.id}"
+      onclick="document.getElementById('doc-upload-input').setAttribute('data-type','${d.id}');document.getElementById('doc-upload-input').click()"
+      onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
+      onmouseout="this.style.borderColor='var(--border2)';this.style.background='white'">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 4px;display:block;color:var(--muted)"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+      <div style="font-size:10px;font-weight:600;color:var(--ink2);line-height:1.3">${d.label}</div>
+      <div id="doc-count-${d.id}" style="display:none;margin-top:4px;font-size:10px;font-weight:700;color:var(--primary)">0 fichier(s)</div>
+    </div>`).join('');
+}
+
+function ajouterDocuments(input){
+  const type = input.getAttribute('data-type') || 'autres';
+  const files = Array.from(input.files);
+  if(!_documentsProjet[type]) _documentsProjet[type] = [];
+  files.forEach(f => _documentsProjet[type].push({name:f.name, size:f.size, date:new Date().toISOString()}));
+  // Mettre à jour le badge
+  const countEl = document.getElementById('doc-count-'+type);
+  const card = document.getElementById('doc-card-'+type);
+  if(countEl){ countEl.style.display='block'; countEl.textContent=_documentsProjet[type].length+' fichier(s)'; }
+  if(card){ card.style.borderColor='var(--primary)'; card.style.borderStyle='solid'; }
+  input.value = '';
+  majSuiviAdmin();
+}
+
+// ── SUIVI ADMINISTRATIF ───────────────────────────────────────
+function initSuiviAdmin(){
+  const now = new Date().toLocaleString('fr-FR');
+  const user = (() => {
+    try{
+      const d = JSON.parse(localStorage.getItem('lokoo_compte')||'{}');
+      const p = d.profil||{};
+      return [p.prenom,p.nom].filter(Boolean).join(' ') || (_currentUser?.email||'—');
+    }catch(e){ return '—'; }
+  })();
+  const el = id => document.getElementById(id);
+  if(el('suivi-creation')) el('suivi-creation').textContent = now;
+  if(el('suivi-cree-par')) el('suivi-cree-par').textContent = user;
+  if(el('suivi-modif')) el('suivi-modif').textContent = now;
+  if(el('suivi-modif-par')) el('suivi-modif-par').textContent = user;
+  // Stocker
+  if(!state._suiviCreation){ state._suiviCreation = now; state._suiviCreePar = user; }
+}
+
+function majSuiviAdmin(){
+  const now = new Date().toLocaleString('fr-FR');
+  const user = (() => {
+    try{
+      const d = JSON.parse(localStorage.getItem('lokoo_compte')||'{}');
+      const p = d.profil||{};
+      return [p.prenom,p.nom].filter(Boolean).join(' ') || (_currentUser?.email||'—');
+    }catch(e){ return '—'; }
+  })();
+  const el = id => document.getElementById(id);
+  if(el('suivi-modif')) el('suivi-modif').textContent = now;
+  if(el('suivi-modif-par')) el('suivi-modif-par').textContent = user;
 }
 
 
