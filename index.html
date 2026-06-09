@@ -5933,6 +5933,35 @@ function genererRapportDPGF(){
   .page#page-dashboard > div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important}
   #db-table-wrap{display:none!important}
   #db-mobile-cards{display:flex!important}
+  /* Dashboard mobile : header + toolbar */
+  #page-dashboard .page-header-actions{
+    flex-direction:column;
+    align-items:stretch;
+    gap:12px;
+  }
+  #page-dashboard .page-header-actions > .btn-primary{
+    width:100%;
+    justify-content:center;
+    font-size:15px;
+    padding:13px 20px;
+    border-radius:10px;
+  }
+  #page-dashboard > div[style*="display:flex;gap:8px"]{
+    flex-direction:column;
+    gap:10px !important;
+  }
+  #db-search{
+    max-width:100% !important;
+    width:100% !important;
+    height:42px !important;
+    font-size:16px !important;
+  }
+  #db-filter-statut,
+  #db-sort{
+    width:100% !important;
+    height:42px !important;
+    font-size:16px !important;
+  }
 }
 
 </style>
