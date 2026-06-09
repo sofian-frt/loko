@@ -614,7 +614,7 @@ input[type=number]{-moz-appearance:textfield}
     <!-- Titre page -->
     <div>
       <div class="topbar-title" id="topbar-title">Initialisation du projet</div>
-      <div class="topbar-step" id="topbar-step">Étape 1/8</div>
+      <div class="topbar-step" id="topbar-step" style="display:none"></div>
     </div>
   </div>
   <div class="topbar-actions" style="position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:8px">
@@ -2646,27 +2646,27 @@ function _chk(id){const e=_get(id);return e?e.checked:false;}
 // ── NAVIGATION ────────────────────────────────────────────────
 const PAGE_META={
   // ── PROJET ──
-  init:{title:'Initialisation du projet',step:'Étape 1/12'},
-  'analyse-ia':{title:'Analyse IA & Documents',step:'Étape 2/12'},
-  'releves-existant':{title:'Relevés & Métrés',step:'Étape 3/12'},
+  init:{title:'Initialisation du projet',step:''},
+  'analyse-ia':{title:'Analyse IA & Documents',step:''},
+  'releves-existant':{title:'Relevés & Métrés',step:''},
   // ── DIMENSIONNEMENT ──
-  eclairage:{title:'Éclairage',step:'Étape 4/12'},
-  electricite:{title:'Électricité',step:'Étape 5/12'},
-  plomberie:{title:'Plomberie',step:'Étape 6/12'},
-  ventilation:{title:'Ventilation & Extraction',step:'Étape 7/12'},
-  clim:{title:'Climatisation',step:'Étape 8/12'},
-  'securite-incendie':{title:'Sécurité incendie',step:'Étape 9/12'},
-  'accessibilite-pmr':{title:'Accessibilité PMR',step:'Étape 10/12'},
-  'facade-enseigne':{title:'Façade & Enseigne',step:'Étape 11/12'},
+  eclairage:{title:'Éclairage',step:''},
+  electricite:{title:'Électricité',step:''},
+  plomberie:{title:'Plomberie',step:''},
+  ventilation:{title:'Ventilation & Extraction',step:''},
+  clim:{title:'Climatisation',step:''},
+  'securite-incendie':{title:'Sécurité incendie',step:''},
+  'accessibilite-pmr':{title:'Accessibilité PMR',step:''},
+  'facade-enseigne':{title:'Façade & Enseigne',step:''},
   // ── CHIFFRAGE ──
-  prechiffrage:{title:'Pré-chiffrage rapide',step:'Étape 12/12'},
-  chiffrage:{title:'DPGF',step:'Chiffrage'},
-  synthese:{title:'Synthèse du projet',step:'Synthèse'},
+  prechiffrage:{title:'Pré-chiffrage rapide',step:''},
+  chiffrage:{title:'DPGF',step:''},
+  synthese:{title:'Synthèse du projet',step:''},
   // ── BASE ──
-  bibliotheque:{title:'Bibliothèque de prix',step:'Base'},
-  chantiers:{title:'Chantiers',step:'Base'},
-  dashboard:{title:'Tableau de bord',step:'Base'},
-  compte:{title:'Compte & Paramètres',step:'Paramètres'},
+  bibliotheque:{title:'Bibliothèque de prix',step:''},
+  chantiers:{title:'Chantiers',step:''},
+  dashboard:{title:'Tableau de bord',step:''},
+  compte:{title:'Compte & Paramètres',step:''},
 };
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -2674,7 +2674,7 @@ function showPage(id){
   const page=_get('page-'+id);if(page)page.classList.add('active');
   const nav=_get('nav-'+id);if(nav)nav.classList.add('active');
   const meta=PAGE_META[id]||{title:id,step:''};
-  _set('topbar-title',meta.title);_set('topbar-step',meta.step);_set('mobile-page-title',meta.title);
+  _set('topbar-title',meta.title);_set('mobile-page-title',meta.title);
   if(id==='releves')renderPieces();
   if(id==='eclairage')renderEclairage();
   if(id==='electricite'){renderElecPieces();calcElec();}
