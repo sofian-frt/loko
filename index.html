@@ -1503,6 +1503,32 @@ input[type=number]{-moz-appearance:textfield}
         </div>
       </div>
 
+
+      <!-- EXTRACTIONS EXISTANTES -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Extractions existantes</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:14px">Décrivez les extractions en place pour préparer le relevé et anticiper les travaux</div>
+
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Présence d'une extraction</label>
+          <div style="display:flex;gap:14px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="radio" name="ext-presence" value="oui" onchange="toggleExtSection(this)"> Oui</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="radio" name="ext-presence" value="non" checked onchange="toggleExtSection(this)"> Non</label>
+          </div>
+        </div>
+
+        <div id="ext-section" style="display:none">
+          <div class="form-group" style="margin-bottom:14px">
+            <label class="form-label">Nombre d'extractions</label>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
+              <input type="number" id="ext-nombre" class="form-input" value="1" min="1" max="10" style="max-width:80px;font-size:16px" oninput="genererFichesExtraction(this.value)">
+              <span style="font-size:12px;color:var(--muted)">extraction(s)</span>
+            </div>
+          </div>
+          <div id="ext-fiches" style="display:flex;flex-direction:column;gap:12px"></div>
+        </div>
+      </div>
+
       <!-- CONTRAINTES DE CHANTIER -->
       <div class="card" style="margin-bottom:16px">
         <div class="card-title">Contraintes de chantier</div>
@@ -3924,6 +3950,227 @@ function calculerFraisProvisoires(){
   total.textContent = somme.toLocaleString('fr-FR') + ' € HT';
 }
 
+
+
+// ── EXTRACTIONS EXISTANTES ────────────────────────────────────
+
+function toggleExtSection(radio){
+  const section = document.getElementById('ext-section');
+  if(!section) return;
+  if(radio.value === 'oui'){
+    section.style.display = 'block';
+    genererFichesExtraction(document.getElementById('ext-nombre')?.value || 1);
+  } else {
+    section.style.display = 'none';
+  }
+}
+
+function genererFichesExtraction(nb){
+  nb = Math.min(Math.max(parseInt(nb)||1, 1), 10);
+  const container = document.getElementById('ext-fiches');
+  if(!container) return;
+
+  // Conserver les données saisies
+  const existing = {};
+  container.querySelectorAll('[data-ext-id]').forEach(el => {
+    existing[el.dataset.extId] = el;
+  });
+
+  container.innerHTML = '';
+  for(let i = 1; i <= nb; i++){
+    container.appendChild(creerFicheExtraction(i));
+  }
+}
+
+function creerFicheExtraction(n){
+  const div = document.createElement('div');
+  div.dataset.extId = n;
+  div.style.cssText = 'border:1.5px solid var(--border);border-radius:10px;overflow:hidden';
+
+  div.innerHTML = `
+    <div onclick="toggleFicheExt(${n})" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);cursor:pointer;user-select:none">
+      <span style="font-size:13px;font-weight:600;color:var(--ink)">Extraction n°${n}</span>
+      <svg id="ext-arrow-${n}" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s;transform:rotate(180deg)"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <div id="ext-body-${n}" style="padding:14px;display:block">
+
+      <!-- Type de conduit -->
+      <div class="form-group" style="margin-bottom:12px">
+        <label class="form-label">Type de conduit</label>
+        <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-type-${n}" value="galva" onchange="updateFicheExt(${n})"> Conduit galvanisé</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-type-${n}" value="staff" onchange="updateFicheExt(${n})"> Gaine staff</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-type-${n}" value="beton" onchange="updateFicheExt(${n})"> Gaine béton</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-type-${n}" value="maconne" onchange="updateFicheExt(${n})"> Conduit maçonné</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-type-${n}" value="inconnu" onchange="updateFicheExt(${n})" checked> Inconnu</label>
+        </div>
+      </div>
+
+      <!-- Dimensions dynamiques -->
+      <div id="ext-dims-${n}"></div>
+
+      <!-- Débouché -->
+      <div class="form-group" style="margin-bottom:12px">
+        <label class="form-label">Débouché</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-debouche-${n}" value="toiture" onchange="alerteExtraction(${n})"> Toiture</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-debouche-${n}" value="facade" onchange="alerteExtraction(${n})"> Façade</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-debouche-${n}" value="cour" onchange="alerteExtraction(${n})"> Cour intérieure</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-debouche-${n}" value="local-tech" onchange="alerteExtraction(${n})"> Local technique</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-debouche-${n}" value="inconnu" checked onchange="alerteExtraction(${n})"> Inconnu</label>
+        </div>
+      </div>
+
+      <!-- État -->
+      <div class="form-group" style="margin-bottom:12px">
+        <label class="form-label">État</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-etat-${n}" value="conforme"> Conforme</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-etat-${n}" value="verifier"> À vérifier</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-etat-${n}" value="reprendre"> À reprendre</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-etat-${n}" value="remplacer" checked> À remplacer</label>
+        </div>
+      </div>
+
+      <!-- Utilisation prévue -->
+      <div class="form-group" style="margin-bottom:8px">
+        <label class="form-label">Utilisation prévue</label>
+        <div class="check-grid" style="margin-top:6px">
+          <label class="check-item" onclick="toggleCheck(this);alerteExtraction(${n})"><input type="checkbox" id="ext-usage-hotte-${n}"> Hotte cuisine</label>
+          <label class="check-item" onclick="toggleCheck(this);alerteExtraction(${n})"><input type="checkbox" id="ext-usage-fours-${n}"> Fours</label>
+          <label class="check-item" onclick="toggleCheck(this);alerteExtraction(${n})"><input type="checkbox" id="ext-usage-pizza-${n}"> Four à pizza</label>
+          <label class="check-item" onclick="toggleCheck(this);alerteExtraction(${n})"><input type="checkbox" id="ext-usage-grill-${n}"> Grill</label>
+          <label class="check-item" onclick="toggleCheck(this);alerteExtraction(${n})"><input type="checkbox" id="ext-usage-charbon-${n}"> Charbon</label>
+          <label class="check-item" onclick="toggleCheck(this);alerteExtraction(${n})"><input type="checkbox" id="ext-usage-bois-${n}"> Bois</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ext-usage-vmc-${n}"> Ventilation</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ext-usage-cta-${n}"> CTA</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ext-usage-desenfumage-${n}"> Désenfumage</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ext-usage-autre-${n}"> Autre</label>
+        </div>
+      </div>
+
+      <!-- Zone alertes -->
+      <div id="ext-alertes-${n}"></div>
+
+    </div>`;
+  return div;
+}
+
+function toggleFicheExt(n){
+  const body  = document.getElementById('ext-body-'+n);
+  const arrow = document.getElementById('ext-arrow-'+n);
+  if(!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display  = open ? 'none' : 'block';
+  if(arrow) arrow.style.transform = open ? '' : 'rotate(180deg)';
+}
+
+function updateFicheExt(n){
+  const type = document.querySelector(`input[name="ext-type-${n}"]:checked`)?.value || 'inconnu';
+  const dimsEl = document.getElementById('ext-dims-'+n);
+  if(!dimsEl) return;
+
+  if(type === 'galva'){
+    dimsEl.innerHTML = `
+      <div class="form-group" style="margin-bottom:12px">
+        <label class="form-label">Forme du conduit</label>
+        <div style="display:flex;gap:14px;margin-top:6px">
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-forme-${n}" value="circulaire" checked onchange="updateFormExt(${n})"> Circulaire</label>
+          <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ext-forme-${n}" value="rectangulaire" onchange="updateFormExt(${n})"> Rectangulaire</label>
+        </div>
+      </div>
+      <div id="ext-forme-dims-${n}">
+        <div class="form-group" style="margin-bottom:12px">
+          <label class="form-label">Diamètre</label>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+            <input type="number" id="ext-diam-${n}" class="form-input" placeholder="0" min="0" style="max-width:90px;font-size:16px">
+            <span style="font-size:12px;color:var(--muted)">mm</span>
+          </div>
+        </div>
+      </div>`;
+  } else if(type === 'staff' || type === 'beton' || type === 'maconne'){
+    const label = type === 'staff' ? 'Gaine staff' : type === 'beton' ? 'Gaine béton' : 'Conduit maçonné';
+    dimsEl.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        <div class="form-group">
+          <label class="form-label">Largeur intérieure</label>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+            <input type="number" id="ext-larg-${n}" class="form-input" placeholder="0" min="0" style="font-size:16px">
+            <span style="font-size:12px;color:var(--muted)">mm</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Hauteur intérieure</label>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+            <input type="number" id="ext-haut-${n}" class="form-input" placeholder="0" min="0" style="font-size:16px">
+            <span style="font-size:12px;color:var(--muted)">mm</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:12px">
+        <label class="form-label">Nombre de coudes</label>
+        <input type="number" id="ext-coudes-${n}" class="form-input" placeholder="0" min="0" style="max-width:80px;font-size:16px;margin-top:6px">
+      </div>`;
+  } else {
+    dimsEl.innerHTML = '';
+  }
+  alerteExtraction(n);
+}
+
+function updateFormExt(n){
+  const forme = document.querySelector(`input[name="ext-forme-${n}"]:checked`)?.value || 'circulaire';
+  const el = document.getElementById('ext-forme-dims-'+n);
+  if(!el) return;
+  if(forme === 'circulaire'){
+    el.innerHTML = `<div class="form-group" style="margin-bottom:12px">
+      <label class="form-label">Diamètre</label>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+        <input type="number" id="ext-diam-${n}" class="form-input" placeholder="0" min="0" style="max-width:90px;font-size:16px">
+        <span style="font-size:12px;color:var(--muted)">mm</span>
+      </div></div>`;
+  } else {
+    el.innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+      <div class="form-group"><label class="form-label">Largeur</label>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+          <input type="number" id="ext-rect-larg-${n}" class="form-input" placeholder="0" min="0" style="font-size:16px">
+          <span style="font-size:12px;color:var(--muted)">mm</span>
+        </div></div>
+      <div class="form-group"><label class="form-label">Hauteur</label>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+          <input type="number" id="ext-rect-haut-${n}" class="form-input" placeholder="0" min="0" style="font-size:16px">
+          <span style="font-size:12px;color:var(--muted)">mm</span>
+        </div></div>
+    </div>`;
+  }
+}
+
+function alerteExtraction(n){
+  const el     = document.getElementById('ext-alertes-'+n);
+  if(!el) return;
+  const debouche = document.querySelector(`input[name="ext-debouche-${n}"]:checked`)?.value || '';
+  const charbon  = document.getElementById(`ext-usage-charbon-${n}`)?.checked;
+  const bois     = document.getElementById(`ext-usage-bois-${n}`)?.checked;
+  const alertes  = [];
+
+  if(charbon || bois)
+    alertes.push({lvl:'danger', txt:'Utilisation charbon / bois → étude CVC et vérification incendie (ERP) probablement nécessaires'});
+  if(debouche === 'facade')
+    alertes.push({lvl:'warning', txt:'Débouché en façade → autorisation ou validation bailleur / copropriété peut être requise'});
+  if(debouche === 'toiture')
+    alertes.push({lvl:'info', txt:'Débouché en toiture → accès toiture à vérifier lors du relevé'});
+
+  el.innerHTML = alertes.map(a => {
+    const bg    = a.lvl==='danger'?'#FEF2F2':a.lvl==='warning'?'#FFFBEB':'#EFF6FF';
+    const bord  = a.lvl==='danger'?'#FCA5A5':a.lvl==='warning'?'#FCD34D':'#BFDBFE';
+    const col   = a.lvl==='danger'?'#991B1B':a.lvl==='warning'?'#92400E':'#1E40AF';
+    const icon  = a.lvl==='danger'
+      ? '<svg width="13" height="13" fill="none" stroke="var(--danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
+      : a.lvl==='warning'
+      ? '<svg width="13" height="13" fill="none" stroke="#B45309" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>'
+      : '<svg width="13" height="13" fill="none" stroke="#1D4ED8" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+    return `<div style="display:flex;gap:8px;padding:8px 10px;background:${bg};border:1px solid ${bord};border-radius:7px;margin-top:6px;font-size:11px;color:${col};line-height:1.5">${icon}<span>${a.txt}</span></div>`;
+  }).join('');
+}
 
 // ── PRESTATAIRES ACCORDÉONS ───────────────────────────────────
 function togglePrest(key){
