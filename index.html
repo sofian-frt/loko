@@ -2590,7 +2590,7 @@ function showPage(id){
   if(id==='facade'){calcFacade();calcERP();}
   if(id==='recap')renderRecap();
   if(id==='releves-existant')renderRelevesPage();
-  if(id==='init') setTimeout(()=>{ if(_driveToken) genererCodeChantier(); }, 200);
+  
   if(id==='init')renderRecapBanner();
   if(id==='prechiffrage')recalculate();
   if(id==='chiffrage')renderChiffrageDetail();
@@ -5434,7 +5434,6 @@ function init(){
   const dateEl=_get('proj-date');if(dateEl)dateEl.value=new Date().toISOString().slice(0,10);
   initPrechiffrage();
   saveDB();
-  genererCodeChantier();
   renderRecapBanner();
   chargerCompte();
   console.log('Lokooo.io V2 ✓');
