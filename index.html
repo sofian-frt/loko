@@ -451,8 +451,14 @@ input[type=number]{-moz-appearance:textfield}
     <button class="nav-item" onclick="showPage('clim')" id="nav-clim">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1"/></svg></span> Climatisation
     </button>
-    <button class="nav-item" onclick="showPage('facade')" id="nav-facade">
-      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg></span> Façade & Études
+    <button class="nav-item" onclick="showPage('securite-incendie')" id="nav-securite-incendie">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2c0 0-7 6-7 12a7 7 0 0014 0c0-6-7-12-7-12z"/><path d="M12 8v4M12 16h.01"/></svg></span> Sécurité incendie
+    </button>
+    <button class="nav-item" onclick="showPage('accessibilite-pmr')" id="nav-accessibilite-pmr">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2"/><path d="M12 7v7M9 14l-2 4h10l-2-4"/><path d="M9 10h6"/></svg></span> Accessibilité PMR
+    </button>
+    <button class="nav-item" onclick="showPage('facade-enseigne')" id="nav-facade-enseigne">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="13" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></span> Façade & Enseigne
     </button>
   </div>
 
@@ -462,7 +468,7 @@ input[type=number]{-moz-appearance:textfield}
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Pré-chiffrage
     </button>
     <button class="nav-item" onclick="showPage('chiffrage')" id="nav-chiffrage">
-      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></span> Chiffrage détaillé
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></span> DPGF
     </button>
     <button class="nav-item" onclick="showPage('synthese')" id="nav-synthese">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span> Synthèse
@@ -1591,303 +1597,207 @@ input[type=number]{-moz-appearance:textfield}
 </div>
 
 
-<!-- ══ PAGE FAÇADE ══ -->
-<div class="page" id="page-facade">
+<!-- ══ PAGE SÉCURITÉ INCENDIE ══ -->
+<div class="page" id="page-securite-incendie">
   <div class="page-header">
-    <h2>Façade & Conformité ERP</h2>
-    <p>Façade · Capacité d'accueil · Conformité PMR · Dégagements</p>
+    <h2>Sécurité incendie</h2>
+    <p>Dimensionnement · Réglementation ERP · Désenfumage · Détection</p>
   </div>
-
-  <div class="g2" style="gap:20px;align-items:start">
-    <div>
-      <!-- FAÇADE -->
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">Façade & Vitrine</div>
+  <div id="securite-incendie-content">
+    <div class="g2" style="gap:20px;align-items:start">
+      <div class="card">
+        <div class="card-title">Classification ERP</div>
         <div class="form-row">
           <div class="form-group">
-            <label class="form-label">Largeur vitrine (m)</label>
-            <input type="number" step="0.1" id="facade-l" class="form-input" placeholder="5.0" oninput="calcFacade()">
+            <label class="form-label">Type ERP</label>
+            <select id="erp-type" class="form-select">
+              <option value="">— Sélectionner —</option>
+              <option value="N">Type N — Restaurants et débits de boissons</option>
+              <option value="M">Type M — Magasins de vente</option>
+              <option value="W">Type W — Administrations, banques, bureaux</option>
+              <option value="U">Type U — Établissements de soins</option>
+              <option value="L">Type L — Salles de spectacles</option>
+              <option value="autre">Autre type</option>
+            </select>
           </div>
           <div class="form-group">
-            <label class="form-label">Hauteur vitrine (m)</label>
-            <input type="number" step="0.1" id="facade-h" class="form-input" placeholder="3.2" oninput="calcFacade()">
-          </div>
-        </div>
-        <div class="check-grid" style="margin-bottom:12px">
-          <label class="check-item" onclick="toggleCheck(this);calcFacade()"><input type="checkbox" id="facade-rideau"> Rideau métallique</label>
-          <label class="check-item" onclick="toggleCheck(this);calcFacade()"><input type="checkbox" id="facade-enseigne"> Enseigne en façade</label>
-          <label class="check-item" onclick="toggleCheck(this);calcFacade()"><input type="checkbox" id="facade-grille-vent"> Grilles ventilation façade</label>
-          <label class="check-item" onclick="toggleCheck(this);calcFacade()"><input type="checkbox" id="facade-modification"> Modification façade prévue</label>
-          <label class="check-item" onclick="toggleCheck(this);calcFacade()"><input type="checkbox" id="facade-copro"> Copropriété</label>
-        </div>
-        <div id="facade-alertes"></div>
-      </div>
-
-      <!-- ERP & CAPACITÉ -->
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">Capacité d'accueil & ERP</div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Surface salle / accueil (m²)</label>
-            <input type="number" id="erp-surface-salle" class="form-input" placeholder="120" oninput="calcERP()">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Surface circulation (m²)</label>
-            <input type="number" id="erp-surface-circu" class="form-input" placeholder="20" oninput="calcERP()">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Largeur portes (cm)</label>
-            <input type="number" id="erp-largeur-porte" class="form-input" placeholder="90" oninput="calcERP()">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Nombre d'issues de secours</label>
-            <input type="number" id="erp-issues" class="form-input" placeholder="2" oninput="calcERP()">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Largeur dégagements mini (cm)</label>
-            <input type="number" id="erp-degagement" class="form-input" placeholder="140" oninput="calcERP()">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Type ERP prévu</label>
-            <select id="erp-type" class="form-select" onchange="calcERP()">
-              <option value="N">N — Restaurants</option>
-              <option value="M">M — Magasins</option>
-              <option value="W">W — Bureaux</option>
-              <option value="U">U — Établissements de soins</option>
-              <option value="J">J — Petites structures</option>
+            <label class="form-label">Catégorie ERP</label>
+            <select id="erp-categorie" class="form-select">
+              <option value="">— Sélectionner —</option>
+              <option value="1">1ère catégorie — plus de 1500 pers.</option>
+              <option value="2">2ème catégorie — 701 à 1500 pers.</option>
+              <option value="3">3ème catégorie — 301 à 700 pers.</option>
+              <option value="4">4ème catégorie — jusqu'à 300 pers.</option>
+              <option value="5">5ème catégorie — petits établissements</option>
             </select>
           </div>
         </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Effectif prévu (personnes)</label>
+            <input id="erp-effectif" type="number" class="form-input" placeholder="">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre de niveaux</label>
+            <input id="erp-niveaux" type="number" class="form-input" placeholder="">
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Moyens de secours</div>
         <div class="check-grid">
-          <label class="check-item" onclick="toggleCheck(this);calcERP()"><input type="checkbox" id="erp-pmr-wc"> WC PMR prévu</label>
-          <label class="check-item" onclick="toggleCheck(this);calcERP()"><input type="checkbox" id="erp-giration"> Giration fauteuil OK (1.50m)</label>
-          <label class="check-item" onclick="toggleCheck(this);calcERP()"><input type="checkbox" id="erp-rampe"> Rampe d'accès si besoin</label>
-          <label class="check-item" onclick="toggleCheck(this);calcERP()"><input type="checkbox" id="erp-baes-prevu"> BAES prévu</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-extincteurs"> Extincteurs</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-ria"> RIA (Robinets d'incendie armés)</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-sprinkler"> Sprinklers</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-ssi"> SSI (Système de sécurité incendie)</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-desenfumage"> Désenfumage</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-detection"> Détection automatique</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-eclairage-secu"> Éclairage de sécurité</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="si-alarme"> Alarme incendie</label>
         </div>
       </div>
     </div>
-
-    <div>
-      <!-- RÉSULTATS ERP -->
-      <div class="card" style="margin-bottom:16px;border:2px solid var(--primary-border)">
-        <div class="card-title">Capacité & Catégorie ERP</div>
-        <div id="erp-result">
-          <div style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Renseignez la surface salle</div>
-        </div>
-      </div>
-      <div id="erp-alertes"></div>
+    <div class="card" style="margin-top:16px">
+      <div class="card-title">Observations sécurité incendie</div>
+      <textarea id="si-notes" class="form-textarea" placeholder="" spellcheck="true"></textarea>
     </div>
   </div>
-  <div style="display:flex;justify-content:space-between;margin-top:24px">
-    <button class="btn btn-secondary" onclick="showPage('clim')">← Climatisation</button>
+  <div style="display:flex;justify-content:space-between;margin-top:20px">
+    <button class="btn btn-ghost" onclick="showPage('ventilation')">← Ventilation</button>
+    <button class="btn btn-primary" onclick="showPage('accessibilite-pmr')">Accessibilité PMR →</button>
+  </div>
+</div>
+
+<!-- ══ PAGE ACCESSIBILITÉ PMR ══ -->
+<div class="page" id="page-accessibilite-pmr">
+  <div class="page-header">
+    <h2>Accessibilité PMR</h2>
+    <p>Personnes à mobilité réduite · Normes Ad'AP · Dimensionnement</p>
+  </div>
+  <div class="g2" style="gap:20px;align-items:start">
+    <div class="card">
+      <div class="card-title">Obligations PMR</div>
+      <div class="check-grid">
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-entree"> Entrée accessible (largeur ≥ 90 cm)</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-wc"> WC PMR (dimensions réglementaires)</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-circulation"> Circulation intérieure ≥ 140 cm</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-rampe"> Rampe d'accès (pente ≤ 5%)</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-parking"> Place de parking PMR</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-ascenseur"> Ascenseur (si R+1 ou plus)</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-signalisation"> Signalisation adaptée</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="pmr-comptoir"> Comptoir/accueil accessible</label>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Dérogations & Statut</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Statut Ad'AP</label>
+          <select id="pmr-statut" class="form-select">
+            <option value="">— Sélectionner —</option>
+            <option value="conforme">Conforme</option>
+            <option value="derogation">Dérogation accordée</option>
+            <option value="travaux">Travaux de mise en conformité prévus</option>
+            <option value="non-concerne">Non concerné</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nombre de places PMR parking</label>
+          <input id="pmr-nb-places" type="number" class="form-input" placeholder="">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Observations PMR</label>
+        <textarea id="pmr-notes" class="form-textarea" placeholder="" spellcheck="true" style="min-height:80px"></textarea>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-top:20px">
+    <button class="btn btn-ghost" onclick="showPage('securite-incendie')">← Sécurité incendie</button>
+    <button class="btn btn-primary" onclick="showPage('facade-enseigne')">Façade & Enseigne →</button>
+  </div>
+</div>
+
+<!-- ══ PAGE FAÇADE & ENSEIGNE ══ -->
+<div class="page" id="page-facade-enseigne">
+  <div class="page-header">
+    <h2>Façade & Enseigne</h2>
+    <p>Devanture commerciale · Enseigne · Menuiseries extérieures · Autorisations</p>
+  </div>
+  <div class="g2" style="gap:20px;align-items:start">
+    <div class="card">
+      <div class="card-title">Façade commerciale</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Largeur façade (ml)</label>
+          <input id="facade-largeur" type="number" step="0.1" class="form-input" placeholder="">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Hauteur façade (m)</label>
+          <input id="facade-hauteur" type="number" step="0.1" class="form-input" placeholder="">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Type de façade</label>
+          <select id="facade-type" class="form-select">
+            <option value="">— Sélectionner —</option>
+            <option value="vitrine">Vitrine commerciale</option>
+            <option value="rideau">Façade rideau</option>
+            <option value="maçonnerie">Maçonnerie</option>
+            <option value="bardage">Bardage</option>
+            <option value="mixte">Mixte</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Matériau</label>
+          <input id="facade-materiau" class="form-input" placeholder="" spellcheck="true">
+        </div>
+      </div>
+      <div class="check-grid" style="margin-top:10px">
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="facade-store"> Store banne</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="facade-rideau-metal"> Rideau métallique</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="facade-interphone"> Interphone / Digicode</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="facade-seuil"> Seuil de porte à reprendre</label>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Enseigne</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Type d'enseigne</label>
+          <select id="enseigne-type" class="form-select">
+            <option value="">— Sélectionner —</option>
+            <option value="bandeau">Bandeau lumineux</option>
+            <option value="caisson">Caisson lumineux</option>
+            <option value="lettres">Lettres découpées</option>
+            <option value="neon">Néon / LED</option>
+            <option value="totem">Totem</option>
+            <option value="drapeau">Enseigne drapeau</option>
+            <option value="non">Pas d'enseigne</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Surface enseigne (m²)</label>
+          <input id="enseigne-surface" type="number" step="0.1" class="form-input" placeholder="">
+        </div>
+      </div>
+      <div class="check-grid" style="margin-top:8px">
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="enseigne-dp"> Déclaration préalable requise</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="enseigne-accord-bailleur"> Accord bailleur requis</label>
+        <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="enseigne-mairie"> Autorisation mairie</label>
+      </div>
+      <div class="form-group" style="margin-top:12px">
+        <label class="form-label">Observations façade & enseigne</label>
+        <textarea id="facade-notes" class="form-textarea" placeholder="" spellcheck="true" style="min-height:80px"></textarea>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-top:20px">
+    <button class="btn btn-ghost" onclick="showPage('accessibilite-pmr')">← Accessibilité PMR</button>
     <button class="btn btn-primary" onclick="showPage('prechiffrage')">Pré-chiffrage →</button>
   </div>
 </div>
-
-
-<!-- ══ PAGE PRÉ-CHIFFRAGE ══ -->
-<div class="page" id="page-prechiffrage">
-  <div class="page-header-actions">
-    <div class="page-header">
-      <h2>Pré-chiffrage</h2>
-      <p>Budget rapide · Répartition par lot · Comparaison projets similaires</p>
-    </div>
-    <button class="btn btn-success" onclick="showPage('synthese')">Voir la synthèse →</button>
-  </div>
-
-  <div class="g2" style="gap:20px;align-items:start">
-    <!-- PARAMÈTRES -->
-    <div>
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">Type de local & Gamme</div>
-        <div id="type-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px"></div>
-        <div class="card-title" style="margin-top:8px">Niveau de gamme</div>
-        <div id="gamme-row" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"></div>
-      </div>
-
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">Paramètres du projet</div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Surface (m²)</label>
-            <input type="number" id="inp-surface" class="form-input" placeholder="" oninput="recalculate()">
-            <div class="form-hint" id="hint-taux">—</div>
-          </div>
-          <div class="form-group">
-            <label class="form-label" id="lbl-places">Places assises</label>
-            <input type="number" id="inp-places" class="form-input" placeholder="60" oninput="recalculate()">
-            <div class="form-hint" id="hint-places">Pour calcul mobilier</div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Ville / Région</label>
-            <select id="inp-region" class="form-select" onchange="recalculate()">
-              <option value="idf">Île-de-France (+15 %)</option>
-              <option value="paca">PACA (+8 %)</option>
-              <option value="std" selected>Autres régions (base)</option>
-              <option value="rural">Zone rurale (−5 %)</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Niveau de rénovation</label>
-            <select id="inp-renov" class="form-select" onchange="recalculate()">
-              <option value="0.7">Rafraîchissement (×0,7)</option>
-              <option value="1" selected>Rénovation standard (×1,0)</option>
-              <option value="1.3">Restructuration (×1,3)</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Frais généraux</label>
-            <div class="slider-wrap">
-              <input type="range" min="0" max="25" value="8" id="sl-fg" oninput="syncSlider('fg');recalculate()">
-              <div class="slider-display" id="sv-fg">8 %</div>
-            </div>
-            <div class="form-hint" id="hint-fg">= — €</div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Marge nette</label>
-            <div class="slider-wrap">
-              <input type="range" min="0" max="35" value="10" id="sl-marge" oninput="syncSlider('marge');recalculate()">
-              <div class="slider-display" id="sv-marge">10 %</div>
-            </div>
-            <div class="form-hint" id="hint-marge">= — €</div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Complexité chantier</label>
-          <div class="slider-wrap">
-            <input type="range" min="1" max="5" value="3" id="sl-complexite" oninput="syncSlider('complexite');recalculate()">
-            <div class="slider-display" id="sv-complexite">3/5</div>
-          </div>
-          <div class="form-hint" id="hint-complexite">Aléas : 5 %</div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">Contraintes spécifiques</div>
-        <div class="check-grid">
-          <label class="check-item" onclick="toggleCheck(this);recalculate()"><input type="checkbox" id="chk-erp"> Contraintes ERP</label>
-          <label class="check-item" onclick="toggleCheck(this);recalculate()"><input type="checkbox" id="chk-cuisine"> Cuisine professionnelle</label>
-          <label class="check-item" onclick="toggleCheck(this);recalculate()"><input type="checkbox" id="chk-pmr"> Accessibilité PMR</label>
-          <label class="check-item" onclick="toggleCheck(this);recalculate()"><input type="checkbox" id="chk-amiante"> Suspicion amiante</label>
-        </div>
-      </div>
-
-      <!-- KPI -->
-      <div class="g4" id="kpi-grid">
-        <div class="kpi"><div class="kpi-label">€/m² Travaux</div><div class="kpi-val kpi-val-sm" id="kpi-m2-trav">—</div></div>
-        <div class="kpi"><div class="kpi-label">€/m² Total</div><div class="kpi-val kpi-val-sm" id="kpi-m2-total">—</div></div>
-        <div class="kpi"><div class="kpi-label">Semaines</div><div class="kpi-val kpi-val-sm" id="kpi-duree">—</div></div>
-        <div class="kpi" id="kpi-risque-card"><div class="kpi-label">Risque</div><div class="kpi-val kpi-val-sm" id="kpi-risque">—</div></div>
-      </div>
-    </div>
-
-    <!-- RÉSULTATS -->
-    <div>
-      <div class="g3" style="margin-bottom:16px">
-        <div class="card card-flat" style="border-top:3px solid var(--border2);text-align:center;padding:16px">
-          <div class="card-title" style="margin-bottom:8px">Budget bas</div>
-          <div style="font-size:18px;font-weight:700;color:var(--mid)" id="bud-bas">—</div>
-          <div style="font-size:10px;color:var(--muted);margin-top:4px" id="bud-bas-m2">—</div>
-        </div>
-        <div class="card card-flat" style="border-top:3px solid var(--primary);text-align:center;padding:16px">
-          <div class="card-title" style="margin-bottom:8px">Budget moyen</div>
-          <div style="font-size:18px;font-weight:700;color:var(--primary)" id="bud-moy">—</div>
-          <div style="font-size:10px;color:var(--muted);margin-top:4px" id="bud-moy-m2">—</div>
-        </div>
-        <div class="card card-flat" style="border-top:3px solid var(--danger);text-align:center;padding:16px">
-          <div class="card-title" style="margin-bottom:8px">Budget haut</div>
-          <div style="font-size:18px;font-weight:700;color:var(--danger)" id="bud-haut">—</div>
-          <div style="font-size:10px;color:var(--muted);margin-top:4px" id="bud-haut-m2">—</div>
-        </div>
-      </div>
-
-      <div class="lots-table" id="lots-container">
-        <div class="lots-header">
-          <span>Lot de travaux</span><span>%</span><span>Montant HT</span>
-        </div>
-        <div id="lots-body"></div>
-        <div class="lots-sep" id="comps-header" style="display:none">
-          <span>Budgets complémentaires</span><span></span><span></span>
-        </div>
-        <div id="comps-body"></div>
-        <div id="totaux-block" style="padding:16px 18px;background:var(--bg);border-top:1px solid var(--border)"></div>
-      </div>
-
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">Répartition par lot</div>
-        <div id="bars-container"></div>
-      </div>
-
-      <div id="similar-box" style="display:none" class="card" style="margin-bottom:16px">
-        <div class="card-title" id="similar-title">Projets similaires</div>
-        <div id="similar-content"></div>
-      </div>
-
-      <div style="background:var(--warn-light);border:1px solid #FDE68A;border-left:3px solid var(--warn);border-radius:var(--radius);padding:14px 16px">
-        <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--warn);margin-bottom:8px">❌ Toujours exclus</div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px 18px">
-          <span style="font-size:11px;color:var(--mid)">— Désamiantage</span>
-          <span style="font-size:11px;color:var(--mid)">— Gros œuvre structurel</span>
-          <span style="font-size:11px;color:var(--mid)">— Architecte / BET</span>
-          <span style="font-size:11px;color:var(--mid)">— Bureau de contrôle / SPS</span>
-          <span style="font-size:11px;color:var(--mid)">— Chambres froides &gt; 4 m²</span>
-          <span style="font-size:11px;color:var(--mid)">— Sprinklage</span>
-          <span style="font-size:11px;color:var(--mid)">— Désenfumage motorisé</span>
-          <span style="font-size:11px;color:var(--mid)">— Taxes et raccordements</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- ══ PAGE CHIFFRAGE DÉTAILLÉ ══ -->
-<div class="page" id="page-chiffrage">
-  <div class="page-header">
-    <h2>Chiffrage détaillé</h2>
-    <p>Déboursé sec · Main-d'œuvre · Matériaux · Sous-traitance · FG · Aléas · Marge</p>
-  </div>
-  <div class="alert info" style="margin-bottom:20px">
-    <div class="alert-icon">ℹ️</div>
-    <div class="alert-body">
-      <div class="alert-title">Basé sur le pré-chiffrage en cours</div>
-      <div class="alert-desc">Renseignez les paramètres dans le pré-chiffrage pour calculer le détail</div>
-    </div>
-  </div>
-  <div id="detail-content"></div>
-</div>
-
-
-<!-- ══ PAGE SYNTHÈSE ══ -->
-<div class="page" id="page-synthese">
-  <div class="page-header-actions">
-    <div class="page-header">
-      <h2>Synthèse du projet</h2>
-      <p>Récapitulatif complet · Alertes · Chiffrage global</p>
-    </div>
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-secondary" onclick="exportPrint()"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimer</button>
-    </div>
-  </div>
-  <div id="synthese-content">
-    <div class="alert info">
-      <div class="alert-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg></div>
-      <div class="alert-body">
-        <div class="alert-title">Renseignez les onglets pour générer la synthèse</div>
-        <div class="alert-desc">Commencez par l'initialisation, puis les relevés et les modules techniques</div>
-      </div>
-    </div>
-  </div>
-</div>
-
 
 <!-- ══ PAGE BIBLIOTHÈQUE ══ -->
 <div class="page" id="page-bibliotheque">
@@ -2712,7 +2622,7 @@ const PAGE_META={
   facade:{title:'Façade & Conformité ERP',step:'Étape 8/8'},
   recap:{title:'Récapitulatif projet',step:'Vue d\'ensemble'},
   prechiffrage:{title:'Pré-chiffrage rapide',step:'Chiffrage'},
-  chiffrage:{title:'Chiffrage détaillé',step:'Chiffrage'},
+  chiffrage:{title:'DPGF',step:'Chiffrage'},
   synthese:{title:'Synthèse du projet',step:'Synthèse'},
   bibliotheque:{title:'Bibliothèque de prix',step:'Base'},
   chantiers:{title:'Chantiers',step:'Base'},
@@ -2734,6 +2644,9 @@ function showPage(id){
   if(id==='clim'){renderClimPieces();calcClim();}
   if(id==='facade'){calcFacade();calcERP();}
   if(id==='recap')renderRecap();
+  if(id==='securite-incendie')renderSecuriteIncendie();
+  if(id==='accessibilite-pmr')renderPMR();
+  if(id==='facade-enseigne')renderFacadeEnseigne();
   if(id==='analyse-ia')renderAnalyseIA();
   if(id==='releves-existant')renderRelevesPage();
   
@@ -5132,6 +5045,254 @@ function renderAnalyseIA(){
 }
 
 
+
+// ── RAPPORT DPGF ─────────────────────────────────────────────
+function genererRapportDPGF(){
+  const nom = _val('proj-nom') || 'CHT-XXXX';
+  const nomChantier = _val('proj-nom-chantier') || '';
+  const client = _val('proj-client') || '—';
+  const adresse = _val('proj-adresse') || '—';
+  const surface = _val('proj-surface') || '—';
+  const typeLocal = _val('proj-type-local') || 'restaurant';
+  const activite = _val('proj-activite') || '—';
+  const date = _val('proj-date') || new Date().toISOString().slice(0,10);
+  const releveur = _val('proj-releveur') || '—';
+  const cur = TYPES[typeLocal] || TYPES.restaurant;
+  const gam = GAMMES.find(g=>g.key===state.activeGamme) || GAMMES[1];
+
+  // Calculs financiers
+  const s = state.surface || parseFloat(surface) || 0;
+  const cR = REGIONS[state.region||'std'] || 1;
+  const bB = s > 0 ? s * cur.taux * gam.coeff * cR * (state.renov||1) : 0;
+  const fg = state.fg || 8;
+  const marge = state.marge || 10;
+  const cA = 0.02 + ((state.complexite||3)-1)*0.02;
+  const mFG = bB * fg / 100;
+  const mAl = (bB + mFG) * cA;
+  const bM = bB + mFG + mAl;
+  const mMa = bM * (marge/100) / (1-marge/100);
+  const tT = bM + mMa;
+
+  // Données entreprise
+  const compteRaw = localStorage.getItem('lokoo_compte');
+  let entreprise = {raison:'', adresse:'', siret:'', tva:'', web:''};
+  try{ const d = JSON.parse(compteRaw||'{}'); entreprise = {...entreprise, ...(d.entreprise||{})}; }catch(e){}
+
+  // Logo entreprise
+  const logoData = localStorage.getItem('lokoo_logo') || '';
+
+  // Lots pour le DPGF
+  const lots = cur.lots || [];
+  const lotsHtml = lots.map((l,i) => {
+    const montant = Math.round(tT * l.pct / 100);
+    return `
+      <tr style="border-bottom:1px solid #e5e7eb">
+        <td style="padding:10px 14px;font-size:13px;font-weight:600;color:#374151">${String(i+1).padStart(2,'0')} - ${l.nom}</td>
+        <td style="padding:10px 14px;font-size:12px;color:#6b7280;text-align:center">${l.pct}%</td>
+        <td style="padding:10px 14px;font-size:13px;font-weight:700;color:#111827;text-align:right">${fmt(montant)} HT</td>
+      </tr>`;
+  }).join('');
+
+  // Pièces relevées
+  const piecesExist = state.pieces.filter(p=>(p._type||'existant')==='existant');
+  const piecesProjet = state.pieces.filter(p=>p._type==='projet');
+  const surfExist = piecesExist.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
+  const surfProjet = piecesProjet.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
+
+  const dateFormatee = new Date(date).toLocaleDateString('fr-FR',{year:'numeric',month:'long',day:'numeric'});
+  const dateAujourdhui = new Date().toLocaleDateString('fr-FR',{year:'numeric',month:'long',day:'numeric'});
+
+  const rapport = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Rapport DPGF — ${nom}</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',Arial,sans-serif; color:#111827; background:white; }
+  .page { width:210mm; min-height:297mm; margin:0 auto; padding:20mm 18mm; }
+  .header { display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:20px; border-bottom:3px solid #111827; margin-bottom:28px; }
+  .logo-zone { max-height:60px; max-width:160px; }
+  .logo-zone img { max-height:60px; max-width:160px; object-fit:contain; }
+  .company-info { text-align:right; font-size:11px; color:#6b7280; line-height:1.7; }
+  .doc-title { font-size:28px; font-weight:800; color:#111827; margin-bottom:6px; letter-spacing:-0.5px; }
+  .doc-subtitle { font-size:13px; color:#6b7280; margin-bottom:24px; }
+  .badge { display:inline-block; padding:3px 12px; background:#f0fdf4; border:1px solid #86efac; border-radius:20px; font-size:11px; font-weight:600; color:#16a34a; }
+  .section-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:#9ca3af; margin:28px 0 12px; }
+  .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+  .info-item { padding:12px 14px; background:#f9fafb; border-radius:8px; border:1px solid #e5e7eb; }
+  .info-label { font-size:10px; font-weight:600; color:#9ca3af; text-transform:uppercase; margin-bottom:3px; }
+  .info-value { font-size:13px; font-weight:600; color:#111827; }
+  table { width:100%; border-collapse:collapse; margin-bottom:20px; }
+  thead tr { background:#111827; }
+  thead th { padding:10px 14px; font-size:11px; font-weight:600; color:white; text-align:left; letter-spacing:.05em; }
+  thead th:last-child { text-align:right; }
+  tfoot tr { background:#f0fdf4; border-top:2px solid #111827; }
+  tfoot td { padding:12px 14px; font-size:13px; font-weight:700; }
+  .total-row td { font-size:15px; font-weight:800; color:#059669; }
+  .total-row td:last-child { text-align:right; }
+  .alert-box { padding:14px 18px; background:#fef3c7; border:1.5px solid #fcd34d; border-radius:8px; font-size:12px; color:#92400e; margin-bottom:16px; }
+  .footer { margin-top:40px; padding-top:16px; border-top:1px solid #e5e7eb; display:flex; justify-content:space-between; font-size:10px; color:#9ca3af; }
+  .signature-zone { margin-top:40px; display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+  .signature-box { padding:20px; border:1px solid #e5e7eb; border-radius:8px; min-height:100px; }
+  .signature-label { font-size:11px; font-weight:600; color:#6b7280; margin-bottom:6px; }
+  @media print { .page { padding:15mm 12mm; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- EN-TÊTE -->
+  <div class="header">
+    <div>
+      ${logoData ? `<div class="logo-zone"><img src="${logoData}" alt="Logo"></div>` : `<div style="font-size:22px;font-weight:900;color:#111827">${entreprise.raison||'lokoo.io'}</div>`}
+      ${entreprise.raison ? `<div style="font-size:11px;color:#6b7280;margin-top:6px">${entreprise.raison}</div>` : ''}
+    </div>
+    <div class="company-info">
+      ${entreprise.adresse ? `<div>${entreprise.adresse}</div>` : ''}
+      ${entreprise.siret ? `<div>SIRET : ${entreprise.siret}</div>` : ''}
+      ${entreprise.tva ? `<div>TVA : ${entreprise.tva}</div>` : ''}
+      ${entreprise.web ? `<div>${entreprise.web}</div>` : ''}
+    </div>
+  </div>
+
+  <!-- TITRE -->
+  <div class="doc-title">Rapport DPGF</div>
+  <div class="doc-subtitle">Décomposition du Prix Global et Forfaitaire · Accompagnement du chiffrage</div>
+  <span class="badge">${nom}</span>
+  ${nomChantier ? `<span class="badge" style="margin-left:8px;background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8">${nomChantier}</span>` : ''}
+
+  <!-- INFORMATIONS PROJET -->
+  <div class="section-title">Informations du projet</div>
+  <div class="info-grid">
+    <div class="info-item"><div class="info-label">Client / Maître d'ouvrage</div><div class="info-value">${client}</div></div>
+    <div class="info-item"><div class="info-label">Adresse du chantier</div><div class="info-value">${adresse}</div></div>
+    <div class="info-item"><div class="info-label">Type de local</div><div class="info-value">${cur.label}</div></div>
+    <div class="info-item"><div class="info-label">Activité prévue</div><div class="info-value">${activite}</div></div>
+    <div class="info-item"><div class="info-label">Surface totale</div><div class="info-value">${s > 0 ? s+' m²' : surface+' m²'}</div></div>
+    <div class="info-item"><div class="info-label">Gamme de prestation</div><div class="info-value">${gam.label}</div></div>
+    <div class="info-item"><div class="info-label">Date de visite</div><div class="info-value">${dateFormatee}</div></div>
+    <div class="info-item"><div class="info-label">Chargé d'affaires</div><div class="info-value">${releveur}</div></div>
+  </div>
+
+  <!-- MÉTRÉS RELEVÉS -->
+  ${(piecesExist.length > 0 || piecesProjet.length > 0) ? `
+  <div class="section-title">Données relevées</div>
+  <div class="info-grid">
+    <div class="info-item"><div class="info-label">Pièces existantes</div><div class="info-value">${piecesExist.length} pièces · ${surfExist.toFixed(1)} m²</div></div>
+    <div class="info-item"><div class="info-label">Pièces projet</div><div class="info-value">${piecesProjet.length} pièces · ${surfProjet.toFixed(1)} m²</div></div>
+  </div>` : ''}
+
+  <!-- DPGF — DÉCOMPOSITION PAR LOTS -->
+  <div class="section-title">Décomposition du prix global et forfaitaire</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Désignation du lot</th>
+        <th style="text-align:center">Répartition</th>
+        <th style="text-align:right">Montant HT</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${lotsHtml}
+    </tbody>
+    <tfoot>
+      <tr><td colspan="2" style="font-size:13px;font-weight:700">Déboursé sec</td><td style="text-align:right;font-size:13px;font-weight:700">${fmt(bB)} HT</td></tr>
+      <tr><td colspan="2" style="font-size:12px;color:#6b7280">Frais généraux (${fg}%)</td><td style="text-align:right;font-size:12px;color:#6b7280">+ ${fmt(mFG)} HT</td></tr>
+      <tr><td colspan="2" style="font-size:12px;color:#6b7280">Aléas (${Math.round(cA*100)}%)</td><td style="text-align:right;font-size:12px;color:#6b7280">+ ${fmt(mAl)} HT</td></tr>
+      <tr><td colspan="2" style="font-size:12px;color:#6b7280">Marge nette (${marge}%)</td><td style="text-align:right;font-size:12px;color:#6b7280">+ ${fmt(mMa)} HT</td></tr>
+      <tr class="total-row"><td colspan="2">TOTAL GÉNÉRAL HT</td><td>${fmt(tT)} HT</td></tr>
+    </tfoot>
+  </table>
+  ${s > 0 ? `<div style="text-align:right;font-size:12px;color:#6b7280;margin-top:-12px;margin-bottom:20px">Soit ${Math.round(tT/s)} €/m² HT</div>` : ''}
+
+  <!-- ZONES DE SIGNATURE -->
+  <div class="section-title">Validation</div>
+  <div class="signature-zone">
+    <div class="signature-box">
+      <div class="signature-label">Le Maître d'ouvrage</div>
+      <div style="font-size:11px;color:#9ca3af;margin-top:4px">Bon pour accord · Date et signature</div>
+    </div>
+    <div class="signature-box">
+      <div class="signature-label">L'Entreprise</div>
+      <div style="font-size:11px;color:#9ca3af;margin-top:4px">${entreprise.raison||''} · Date et signature</div>
+    </div>
+  </div>
+
+  <!-- PIED DE PAGE -->
+  <div class="footer">
+    <div>Document généré par lokoo.io · ${dateAujourdhui}</div>
+    <div>${nom} · ${nomChantier||client}</div>
+  </div>
+
+</div>
+</body>
+</html>`;
+
+  // Générer les descriptions IA des lots puis ouvrir le rapport
+  const apiKey = localStorage.getItem('lokoo_api_key');
+  if(apiKey){
+    showToast('Génération des descriptions IA en cours...');
+    genererDescriptionsIAEtOuvrir(rapport, lots, cur, activite, s, apiKey);
+  } else {
+    ouvrirRapport(rapport, '');
+  }
+}
+
+async function genererDescriptionsIAEtOuvrir(rapport, lots, cur, activite, surface, apiKey){
+  try{
+    const lotsDesc = lots.map(l=>l.nom).join(', ');
+    const prompt = `Tu es un expert en rénovation de locaux commerciaux. 
+Pour un projet de ${cur.label} (${activite}), surface ${surface} m², génère une description professionnelle et concise pour CHAQUE lot de travaux suivant.
+Lots : ${lotsDesc}
+
+Pour chaque lot, donne exactement 2-3 phrases décrivant les prestations prévues, les matériaux standards et les normes applicables.
+Réponds UNIQUEMENT en JSON avec ce format :
+{"descriptions": {"NOM_LOT": "Description du lot..."}}
+Sans aucun texte avant ou après le JSON.`;
+
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-opus-4-5', max_tokens:2000, messages:[{role:'user',content:prompt}]})
+    });
+    const data = await resp.json();
+    const texte = data.content[0].text;
+    
+    let descriptions = {};
+    try{
+      const jsonMatch = texte.match(/\{[\s\S]*\}/);
+      if(jsonMatch) descriptions = JSON.parse(jsonMatch[0]).descriptions || {};
+    }catch(e){ console.warn('Parse JSON IA failed'); }
+    
+    ouvrirRapport(rapport, descriptions);
+  }catch(e){
+    console.error('IA error:', e);
+    ouvrirRapport(rapport, {});
+  }
+}
+
+function ouvrirRapport(rapportHtml, descriptions){
+  // Injecter les descriptions IA dans le rapport
+  let rapportFinal = rapportHtml;
+  if(descriptions && Object.keys(descriptions).length > 0){
+    // Remplacer chaque ligne de lot par version avec description
+    Object.entries(descriptions).forEach(([nom, desc]) => {
+      const escaped = nom.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      rapportFinal = rapportFinal.replace(
+        new RegExp(`(<td[^>]*>\\d+ - ${escaped}</td>)(</tr>)`, 'g'),
+        `$1<tr><td colspan="3" style="padding:4px 14px 10px;font-size:11px;color:#6b7280;font-style:italic;border-bottom:1px solid #e5e7eb">${desc}</td></tr>`
+      );
+    });
+  }
+  
+  const win = window.open('', '_blank');
+  win.document.write(rapportFinal);
+  win.document.close();
+  setTimeout(()=>{ win.focus(); win.print(); }, 800);
+}
+
+
 // ── ACTIVITÉ DYNAMIQUE ────────────────────────────────────────
 const ACTIVITES_PAR_TYPE = {
   'restaurant': ['Kebab','Sandwicherie','Burger','Tacos','Pizza','Grillades','Cuisine turque','Cuisine libanaise','Cuisine asiatique','Cuisine italienne','Cuisine indienne','Cuisine africaine','Brasserie','Restaurant traditionnel','Fast-food','Fast casual','Food court','Traiteur','Dark kitchen','Autre'],
@@ -5301,6 +5462,11 @@ function majSuiviAdmin(){
   if(el('suivi-modif-par')) el('suivi-modif-par').textContent = user;
 }
 
+
+
+function renderSecuriteIncendie(){}
+function renderPMR(){}
+function renderFacadeEnseigne(){}
 
 // ── DÉMARRAGE ─────────────────────────────────────────────────
 // ── RÉCAPITULATIF ─────────────────────────────────────────────
