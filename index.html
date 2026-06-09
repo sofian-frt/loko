@@ -3688,21 +3688,23 @@ function estimerDureeEtCompagnons(){
 
   const JOURS_PAR_LOT = {
     // [jours/m², nb compagnons type]
-    demolition      : [0.12, 2],   // démolition cloisons, doublages
-    curage          : [0.18, 3],   // curage complet : plus long, déchets importants
-    gros_oeuvre     : [0.25, 2],   // mur porteur, trémie, structure
-    cloisons        : [0.15, 2],   // cloisons plâtre, doublages
-    sols            : [0.12, 2],   // ragréage + revêtement
-    faux_plafonds   : [0.10, 2],   // BA13 ou dalles
-    peinture        : [0.10, 2],   // prépa + 2 couches
-    electricite     : [0.18, 2],   // tableau + circuits + prises + éclairage
-    plomberie       : [0.15, 2],   // alimentation + évacuation
-    ventilation     : [0.12, 1],   // gaines + bouches + groupe
-    climatisation   : [0.08, 1],   // unités + liaisons frigo
-    facade          : [0.20, 2],   // vitrine + porte + enseigne
-    cuisine_pro     : [0.30, 3],   // installation + raccordements
-    menuiseries     : [0.08, 1],   // portes + encadrements
-    signalétique    : [0.04, 1],   // pose enseigne + signalétique
+    // Ratios réels aménagement commercial (restaurant/commerce) en France
+    // Base : équipe de 2-4 compagnons par lot, cadences terrain
+    demolition      : [0.04, 2],   // démolition légère : 1 équipe 2j pour 50m²
+    curage          : [0.07, 3],   // curage complet avec évacuation déchets
+    gros_oeuvre     : [0.10, 2],   // mur porteur / trémie : hors norme, très variable
+    cloisons        : [0.06, 2],   // cloisons plâtre : ~50m² cloison / jour / équipe
+    sols            : [0.05, 2],   // ragréage + carrelage ou résine
+    faux_plafonds   : [0.04, 2],   // dalles plâtre ou BA13 : 60m²/jour/équipe
+    peinture        : [0.04, 2],   // prépa + 2 couches : 80m²/jour/équipe
+    electricite     : [0.07, 2],   // tableau + circuits complets
+    plomberie       : [0.06, 2],   // alimentation + évacuation standard
+    ventilation     : [0.05, 1],   // gaines + CTA : 1 équipe, moins de surface
+    climatisation   : [0.03, 1],   // unités + liaisons frigo
+    facade          : [0.08, 2],   // vitrine + menuiserie façade
+    cuisine_pro     : [0.12, 3],   // installation complète cuisine : lot dense
+    menuiseries     : [0.03, 1],   // portes intérieures
+    signalétique    : [0.02, 1],   // enseigne + signalétique
   };
 
   // ── Déterminer les lots actifs ──────────────────────────────
