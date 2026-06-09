@@ -683,14 +683,14 @@ input[type=number]{-moz-appearance:textfield}
         <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
             <label class="form-label">Code chantier</label>
-            <div style="display:flex;gap:8px;align-items:center">
-              <div style="font-family:monospace;font-weight:700;font-size:13px;color:var(--muted);padding:9px 0 9px 13px;white-space:nowrap" id="code-prefix">26-CHT-</div>
-              <input id="proj-nom-suffix" class="form-input" placeholder="— — — —" maxlength="4"
-                style="font-family:monospace;font-weight:700;font-size:15px;width:100px;text-align:center;letter-spacing:2px"
-                oninput="verifierCodeChantier(this.value)">
-              <div id="code-status" style="font-size:18px;flex-shrink:0;width:22px"></div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <div id="code-chantier-display" style="font-family:monospace;font-weight:700;font-size:16px;color:var(--ink);padding:9px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);letter-spacing:2px;min-width:160px">
+                —
+              </div>
+              <div id="code-status" style="font-size:18px;flex-shrink:0"></div>
             </div>
             <input type="hidden" id="proj-nom" value="">
+            <input type="hidden" id="proj-nom-suffix" value="">
             <div id="code-hint" style="font-size:11px;margin-top:4px;color:var(--muted)"></div>
           </div>
 
@@ -794,7 +794,7 @@ input[type=number]{-moz-appearance:textfield}
         <!-- LIGNE 6 : Surface calculée + Hauteurs -->
         <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
-            <label class="form-label">Surface totale (m²) <span style="font-size:10px;color:var(--muted);font-weight:400">— référence</span></label>
+            <label class="form-label">Surface totale (m²)</label>
             <input id="proj-surface" type="number" class="form-input" placeholder="" oninput="updateProjectHeader();verifierEcartSurface()">
             <div id="surface-releve-info" style="display:none;margin-top:6px;font-size:11px;line-height:1.8"></div>
           </div>
@@ -5194,7 +5194,10 @@ async function genererCodeChantier(){
   if(!_driveToken){
     if(suffixInp) suffixInp.value = '';
     if(hidden) hidden.value = '';
-    if(hintEl) hintEl.innerHTML = '<span style="color:var(--warn)">Connectez Google Drive pour générer automatiquement le code chantier</span>';
+    var display2 = document.getElementById('code-chantier-display');
+    if(display2){ display2.textContent = '—'; display2.style.color='var(--muted)'; }
+    var hintEl2 = document.getElementById('code-hint');
+    if(hintEl2) hintEl2.innerHTML = '<span style="color:var(--warn)"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:4px"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Connectez Google Drive pour générer le code chantier</span>';
     return;
   }
 
@@ -5216,11 +5219,22 @@ async function genererCodeChantier(){
   });
 
   var nextSuffix = String(maxNum + 1).padStart(4, '0');
+  var codeComplet = prefix + nextSuffix;
   if(suffixInp) suffixInp.value = nextSuffix;
-  if(hidden) hidden.value = prefix + nextSuffix;
+  if(hidden) hidden.value = codeComplet;
 
-  verifierCodeChantier(nextSuffix);
-  afficherDernierChantier();
+  // Afficher dans le div lecture seule
+  var display = document.getElementById('code-chantier-display');
+  if(display) display.textContent = codeComplet;
+
+  var statusEl = document.getElementById('code-status');
+  if(statusEl) statusEl.textContent = '✅';
+
+  var hintEl = document.getElementById('code-hint');
+  if(hintEl && _dernierCodeDrive){
+    hintEl.innerHTML = '<span style="color:var(--muted)">Dernier code utilisé : <strong style="font-family:monospace;color:var(--ink)">"'+_dernierCodeDrive+'"</strong></span>';
+  }
+  updateProjectHeader();
 }
 
 function afficherDernierChantier(){
