@@ -368,9 +368,9 @@ input[type=number]{-moz-appearance:textfield}
 .fab{display:none;position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--primary);color:white;font-size:24px;border:none;cursor:pointer;box-shadow:var(--shadow-lg);z-index:150;align-items:center;justify-content:center}
 
 @media(max-width:768px){
-  .sidebar{transform:translateX(-100%)}
+  .sidebar{transform:translateX(-100%);height:100%;height:100dvh;overflow-y:auto;padding-bottom:30px}
   .sidebar-close-btn{display:block!important}
-  #profil-menu{position:fixed!important;top:60px!important;right:12px!important;left:12px!important;width:auto!important}
+  #profil-menu{position:fixed!important;top:60px!important;right:12px!important;left:12px!important;width:auto!important;z-index:9999!important}
   .sidebar.mobile-open{transform:translateX(0)}
   .sidebar-overlay.open{display:block}
   .main{margin-left:0;padding-top:54px}
@@ -413,9 +413,33 @@ input[type=number]{-moz-appearance:textfield}
     <div style="font-size:15px;font-weight:900;color:var(--ink);letter-spacing:-0.3px;line-height:1">lokoo<span style="color:var(--primary)">.io</span></div>
   </div>
   <!-- Bouton compte droite -->
-  <button id="mobile-btn-compte" onclick="toggleProfilMenu()" style="width:34px;height:34px;border-radius:50%;background:#635BFF;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 6px rgba(99,91,255,.3);margin-left:auto">
-    <span id="mobile-profil-initiales" style="font-size:12px;font-weight:700;color:white">?</span>
-  </button>
+  <div style="position:relative;margin-left:auto">
+    <button id="mobile-btn-compte" onclick="toggleMobileMenu()" style="width:34px;height:34px;border-radius:50%;background:#635BFF;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 6px rgba(99,91,255,.3)">
+      <span id="mobile-profil-initiales" style="font-size:12px;font-weight:700;color:white">?</span>
+    </button>
+    <!-- Menu mobile dédié -->
+    <div id="mobile-profil-menu" style="display:none;position:fixed;top:60px;right:12px;left:12px;background:white;border:1.5px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.15);z-index:9999;overflow:hidden">
+      <div id="mobile-menu-header" style="padding:14px 16px;border-bottom:1px solid var(--border);background:var(--surface2)">
+        <div id="mobile-menu-nom" style="font-size:13px;font-weight:700;color:var(--ink)">Mon compte</div>
+        <div id="mobile-menu-entreprise" style="font-size:11px;color:var(--muted);margin-top:2px">—</div>
+      </div>
+      <div style="padding:6px">
+        <button onclick="showPage('compte');toggleMobileMenu()" style="width:100%;text-align:left;padding:12px 14px;border:none;background:none;cursor:pointer;border-radius:8px;font-size:14px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Mon compte
+        </button>
+        <button onclick="showPage('compte');document.getElementById('tab-entreprise').click();toggleMobileMenu()" style="width:100%;text-align:left;padding:12px 14px;border:none;background:none;cursor:pointer;border-radius:8px;font-size:14px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+          Mon entreprise
+        </button>
+        <div style="height:1px;background:var(--border);margin:4px 0"></div>
+        <button id="mobile-btn-deconnexion" onclick="deconnexionFirebase();toggleMobileMenu()" style="width:100%;text-align:left;padding:12px 14px;border:none;background:none;cursor:pointer;border-radius:8px;font-size:14px;color:var(--danger);display:flex;align-items:center;gap:10px;font-family:var(--font)">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+          Se déconnecter
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleMobileSidebar()"></div>
 
@@ -4663,6 +4687,21 @@ function afficherSignature(src){
   if(placeholder) placeholder.style.display='none';
 }
 
+function toggleMobileMenu(){
+  const menu = document.getElementById('mobile-profil-menu');
+  if(!menu) return;
+  menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
+
+// Fermer le menu mobile en cliquant ailleurs
+document.addEventListener('click', function(e){
+  const btn  = document.getElementById('mobile-btn-compte');
+  const menu = document.getElementById('mobile-profil-menu');
+  if(menu && !menu.contains(e.target) && btn && !btn.contains(e.target)){
+    menu.style.display = 'none';
+  }
+});
+
 function toggleProfilMenu(){
   const menu = document.getElementById('profil-menu');
   if(!menu) return;
@@ -4670,12 +4709,12 @@ function toggleProfilMenu(){
 }
 
 document.addEventListener('click', function(e){
-  const btn = document.getElementById('btn-profil');
-  const btnM = document.getElementById('mobile-btn-compte');
-  const menu = document.getElementById('profil-menu');
-  if(menu && !menu.contains(e.target)){
-    const clickedTrigger = (btn && btn.contains(e.target)) || (btnM && btnM.contains(e.target));
-    if(!clickedTrigger) menu.style.display='none';
+  const _btn  = document.getElementById('btn-profil');
+  const _btnM = document.getElementById('mobile-btn-compte');
+  const _menu = document.getElementById('profil-menu');
+  if(_menu && !_menu.contains(e.target)){
+    const clickedTrigger = (_btn && _btn.contains(e.target)) || (_btnM && _btnM.contains(e.target));
+    if(!clickedTrigger) _menu.style.display='none';
   }
 });
 
