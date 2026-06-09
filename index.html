@@ -1261,12 +1261,7 @@ input[type=number]{-moz-appearance:textfield}
             </div></div>
 
           </div><!-- /travaux-categories -->
-          <div style="margin-top:16px;text-align:right">
-            <button class="btn btn-primary" onclick="analyserTravauxAuto();switchTravauxTab('autorisations',document.querySelector('#travaux-tabs .tab:nth-child(2)'))" style="gap:6px">
-              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              Générer autorisations & intervenants
-            </button>
-          </div>
+
         </div>
 
         <!-- TAB AUTORISATIONS -->
@@ -3171,12 +3166,19 @@ function switchTravauxTab(tab, el){
 }
 
 function toggleCat(cat){
-  const body  = document.getElementById('cat-'+cat+'-body');
-  const arrow = document.getElementById('cat-'+cat+'-arrow');
-  if(!body) return;
-  const open = body.style.display === 'grid';
-  body.style.display  = open ? 'none' : 'grid';
-  if(arrow) arrow.style.transform = open ? '' : 'rotate(180deg)';
+  const cats = ['facade','extraction','clim','structure','amenagement','reseaux','cuisine'];
+  cats.forEach(c => {
+    const b = document.getElementById('cat-'+c+'-body');
+    const a = document.getElementById('cat-'+c+'-arrow');
+    if(c === cat){
+      const open = b && b.style.display === 'grid';
+      if(b) b.style.display = open ? 'none' : 'grid';
+      if(a) a.style.transform = open ? '' : 'rotate(180deg)';
+    } else {
+      if(b) b.style.display = 'none';
+      if(a) a.style.transform = '';
+    }
+  });
 }
 
 function updateTravauxCount(cat){
@@ -3186,6 +3188,9 @@ function updateTravauxCount(cat){
   const n = body.querySelectorAll('input[type=checkbox]:checked').length;
   badge.textContent = n;
   badge.style.display = n > 0 ? 'inline-block' : 'none';
+  // Génération automatique
+  clearTimeout(window._travauxTimer);
+  window._travauxTimer = setTimeout(()=>{ analyserTravauxAuto(); }, 300);
 }
 
 function getTravauxCoches(){
