@@ -1137,6 +1137,7 @@ input[type=number]{-moz-appearance:textfield}
         <!-- TABS -->
         <div class="tabs" id="travaux-tabs" style="margin-bottom:16px">
           <button class="tab active" onclick="switchTravauxTab('travaux',this)">Travaux prévus</button>
+          <button class="tab" onclick="switchTravauxTab('structure',this)">Structure</button>
           <button class="tab" onclick="switchTravauxTab('autorisations',this)">Autorisations</button>
           <button class="tab" onclick="switchTravauxTab('intervenants',this)">Intervenants</button>
           <button class="tab" onclick="switchTravauxTab('documents',this)">Documents</button>
@@ -1265,6 +1266,184 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <!-- TAB AUTORISATIONS -->
+        <!-- TAB STRUCTURE -->
+        <div id="tv-tab-structure" style="display:none">
+
+          <!-- Configuration bâtiment -->
+          <div style="margin-bottom:20px">
+            <div class="form-section-title" style="margin-bottom:12px">Configuration du bâtiment</div>
+            <div class="form-row" style="margin-bottom:14px">
+              <div class="form-group">
+                <label class="form-label">Nombre de niveaux exploités</label>
+                <select id="st-niveaux" class="form-select" onchange="updateStructureAuto()">
+                  <option value="rdc">RDC uniquement</option>
+                  <option value="rdc1">RDC + 1</option>
+                  <option value="rdc2">RDC + 2</option>
+                  <option value="rdcn">RDC + plusieurs étages</option>
+                </select>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+              <div class="form-group">
+                <label class="form-label">Présence d'un étage</label>
+                <div style="display:flex;gap:12px;margin-top:6px">
+                  <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="st-etage" value="oui" onchange="updateStructureAuto()"> Oui</label>
+                  <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="st-etage" value="non" checked onchange="updateStructureAuto()"> Non</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Présence d'une mezzanine</label>
+                <div style="display:flex;gap:12px;margin-top:6px">
+                  <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="st-mezzanine" value="oui" onchange="updateStructureAuto()"> Oui</label>
+                  <label style="display:flex;align-items:center;gap=6px;font-size:13px;cursor:pointer"><input type="radio" name="st-mezzanine" value="non" checked onchange="updateStructureAuto()"> Non</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Type de structure principale</label>
+              <div class="check-grid" style="margin-top:6px">
+                <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-struct-beton"> Béton</label>
+                <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-struct-metal"> Métallique</label>
+                <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-struct-bois"> Bois</label>
+                <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-struct-mixte"> Mixte</label>
+                <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-struct-inconnue"> Inconnue</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Escalier -->
+          <div style="border-top:1px solid var(--border);padding-top:16px;margin-bottom:20px">
+            <div class="form-section-title" style="margin-bottom:12px">Escalier</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+              <div class="form-group">
+                <label class="form-label">Présence d'un escalier</label>
+                <div style="display:flex;gap:12px;margin-top:6px">
+                  <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="st-escalier" value="oui" onchange="updateStructureAuto()"> Oui</label>
+                  <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="st-escalier" value="non" checked onchange="updateStructureAuto()"> Non</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-row" style="margin-bottom:14px">
+              <div class="form-group">
+                <label class="form-label">Type d'escalier</label>
+                <div class="check-grid" style="margin-top:6px">
+                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-esc-beton"> Béton</label>
+                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-esc-metal"> Métallique</label>
+                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-esc-bois"> Bois</label>
+                  <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-esc-mixte"> Mixte</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Intervention prévue</label>
+                <select id="st-esc-intervention" class="form-select" onchange="updateStructureAuto()">
+                  <option value="">— Sélectionner —</option>
+                  <option value="conservation">Conservation</option>
+                  <option value="refection">Réfection</option>
+                  <option value="normes">Mise aux normes</option>
+                  <option value="remplacement">Remplacement complet</option>
+                  <option value="creation">Création d'un nouvel escalier</option>
+                  <option value="suppression">Suppression</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Modifications</label>
+              <div class="check-grid" style="margin-top:6px">
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-esc-revetement"> Changement de revêtement</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-esc-gardecorps"> Modification garde-corps</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-esc-dimensions"> Modification dimensions</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-esc-emplacement"> Modification emplacement</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-esc-tremie"> Création d'une trémie</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Travaux structurels -->
+          <div style="border-top:1px solid var(--border);padding-top:16px;margin-bottom:20px">
+            <div class="form-section-title" style="margin-bottom:12px">Travaux structurels</div>
+
+            <div class="form-group" style="margin-bottom:14px">
+              <label class="form-label">Ouvrages porteurs</label>
+              <div class="check-grid" style="margin-top:6px">
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-renforcement-struct"> Renforcement structurel</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-creation-ouvrage"> Création ouvrage porteur</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-deplacement-ouvrage"> Déplacement ouvrage porteur</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-suppression-ouvrage"> Suppression ouvrage porteur</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-renf-plancher"> Renforcement plancher</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-renf-dalle"> Renforcement dalle</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-renf-poutre"> Renforcement poutre</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-renf-poteau"> Renforcement poteau</label>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:14px">
+              <label class="form-label">Murs porteurs</label>
+              <div class="check-grid" style="margin-top:6px">
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-ouverture-mur"> Ouverture mur porteur</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-agrand-ouverture"> Agrandissement ouverture</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-creation-passage"> Création d'un passage</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-supp-partielle"> Suppression partielle mur</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-supp-complete"> Suppression complète mur</label>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:14px">
+              <label class="form-label">Planchers</label>
+              <div class="check-grid" style="margin-top:6px">
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-creation-plancher"> Création plancher</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-renf-plancher2"> Renforcement plancher</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-charges"> Modification charges d'exploitation</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-creation-mezzanine"> Création mezzanine</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-extension-mezzanine"> Extension mezzanine</label>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:14px">
+              <label class="form-label">Trémies</label>
+              <div class="check-grid" style="margin-top:6px">
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-creation-tremie"> Création trémie</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-agrand-tremie"> Agrandissement trémie</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-deplacement-tremie"> Déplacement trémie</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-supp-tremie"> Suppression trémie</label>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:14px">
+              <label class="form-label">Extensions</label>
+              <div class="check-grid" style="margin-top:6px">
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-extension"> Extension bâtiment</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-surelevation"> Surélévation</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-local-tech"> Local technique</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-terrasse"> Terrasse</label>
+                <label class="check-item" onclick="toggleCheck(this);updateStructureAuto()"><input type="checkbox" id="st-rooftop"> Rooftop</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contraintes chantier -->
+          <div style="border-top:1px solid var(--border);padding-top:16px;margin-bottom:20px">
+            <div class="form-section-title" style="margin-bottom:12px">Contraintes chantier</div>
+            <div class="check-grid">
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-etaiement"> Étaiement provisoire</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-sous-oeuvre"> Reprise en sous-œuvre</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-site-occupe"> Travaux en site occupé</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-manutention"> Manutention lourde</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-grutage"> Grutage nécessaire</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-acces-diff"> Accès chantier difficile</label>
+              <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="st-batiment-ancien"> Bâtiment ancien</label>
+            </div>
+          </div>
+
+          <!-- Études & contrôles -->
+          <div style="border-top:1px solid var(--border);padding-top:16px">
+            <div class="form-section-title" style="margin-bottom:12px">Études & contrôles à prévoir</div>
+            <div id="st-etudes-list" style="display:flex;flex-direction:column;gap:0">
+              <!-- Généré par updateStructureAuto() -->
+            </div>
+          </div>
+
+        </div><!-- /tv-tab-structure -->
+
         <div id="tv-tab-autorisations" style="display:none">
           <div id="tv-autorisations-content">
             <div style="text-align:center;padding:30px;color:var(--muted)">
@@ -3154,10 +3333,96 @@ function updateRecap(){
 }
 
 
+
+// ── STRUCTURE & OUVRAGES PORTEURS ────────────────────────────
+
+const ST_ETUDES = [
+  'BET Structure',
+  'Diagnostic structure existante',
+  'Calcul de charges',
+  'Bureau de contrôle',
+  'Géomètre',
+  'Coordinateur SPS'
+];
+
+function updateStructureAuto(){
+  const ids = id => document.getElementById(id)?.checked;
+  const radio = name => document.querySelector(`input[name="${name}"]:checked`)?.value;
+  const sel = id => document.getElementById(id)?.value;
+
+  // Calcul des besoins
+  const betOblig = ids('st-renforcement-struct')||ids('st-creation-ouvrage')||
+    ids('st-deplacement-ouvrage')||ids('st-suppression-ouvrage')||
+    ids('st-ouverture-mur')||ids('st-supp-complete')||ids('st-supp-partielle');
+  const betRecom = ids('st-creation-tremie')||ids('st-agrand-tremie')||
+    ids('st-creation-plancher')||ids('st-creation-mezzanine')||
+    ids('st-renf-plancher')||ids('st-renf-dalle');
+  const bcRecom  = betOblig||betRecom||ids('st-extension')||ids('st-surelevation');
+  const pcRequis = ids('st-extension')||ids('st-surelevation');
+  const erpCheck = radio('st-mezzanine')==='oui'||
+    sel('st-esc-intervention')==='creation'||sel('st-esc-intervention')==='remplacement';
+  const spsRecom = betOblig||ids('st-etaiement')||ids('st-sous-oeuvre')||ids('st-grutage');
+  const geoRecom = ids('st-extension')||ids('st-surelevation')||ids('st-creation-plancher');
+
+  const niveaux = {
+    'BET Structure'                 : betOblig ? 'Obligatoire' : betRecom ? 'Recommandé' : null,
+    'Diagnostic structure existante': betOblig||betRecom ? 'Recommandé' : null,
+    'Calcul de charges'             : betOblig||ids('st-charges') ? 'Recommandé' : null,
+    'Bureau de contrôle'            : bcRecom ? 'Recommandé' : null,
+    'Géomètre'                      : geoRecom ? 'À prévoir' : null,
+    'Coordinateur SPS'              : spsRecom ? 'Recommandé' : null,
+  };
+
+  // Alertes structure
+  const alertes = [];
+  if(pcRequis) alertes.push({lvl:'danger', txt:'Extension ou surélévation → Permis de Construire requis'});
+  if(betOblig) alertes.push({lvl:'danger', txt:'Travaux sur éléments porteurs → BET Structure obligatoire'});
+  if(erpCheck) alertes.push({lvl:'warning', txt:'Mezzanine ou escalier modifié → Vérification ERP et accessibilité requise'});
+  if(ids('st-sous-oeuvre')) alertes.push({lvl:'warning', txt:'Reprise en sous-œuvre → Étude géotechnique recommandée'});
+  if(ids('st-etaiement')) alertes.push({lvl:'warning', txt:'Étaiement provisoire → Impact planning chantier à anticiper'});
+
+  // Rendu études
+  const el = document.getElementById('st-etudes-list');
+  if(!el) return;
+
+  const niveauBadge = {'Obligatoire':'var(--danger)','Recommandé':'#0EA5E9','À prévoir':'#B45309'};
+  const hasAny = Object.values(niveaux).some(v=>v);
+
+  if(!hasAny && !alertes.length){
+    el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Cochez des travaux structurels pour voir les besoins en études</div>';
+    return;
+  }
+
+  const alertesHTML = alertes.map(a=>`
+    <div style="display:flex;gap:8px;padding:8px 12px;background:${a.lvl==='danger'?'#FEF2F2':'#FFFBEB'};border-radius:8px;border-left:3px solid ${a.lvl==='danger'?'var(--danger)':'#B45309'};margin-bottom:8px">
+      <span>${a.lvl==='danger'?'🔴':'⚠️'}</span>
+      <span style="font-size:12px;color:var(--ink2)">${a.txt}</span>
+    </div>`).join('');
+
+  const etudesHTML = ST_ETUDES.filter(n=>niveaux[n]).map(nom=>{
+    const niv = niveaux[nom];
+    const key = nom.replace(/[^a-zA-Z]/g,'_');
+    return `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);gap:10px">
+      <div>
+        <span style="font-size:10px;background:${niveauBadge[niv]};color:white;padding:2px 7px;border-radius:10px;margin-right:6px">${niv}</span>
+        <span style="font-size:12px;font-weight:600;color:var(--ink)">${nom}</span>
+      </div>
+      <select id="st-etude-${key}" style="font-size:11px;border:1.5px solid var(--border);border-radius:6px;padding:4px 8px;font-family:var(--font);flex-shrink:0">
+        <option value="a_prevoir">À prévoir</option>
+        <option value="missionne">Déjà missionné ✅</option>
+        <option value="non_necessaire">Non nécessaire</option>
+      </select>
+    </div>`;
+  }).join('');
+
+  el.innerHTML = (alertesHTML ? `<div style="margin-bottom:12px">${alertesHTML}</div>` : '') + etudesHTML;
+}
+
 // ── TRAVAUX PRÉVUS & ANALYSE IA ───────────────────────────────
 
 function switchTravauxTab(tab, el){
-  ['travaux','autorisations','intervenants','documents'].forEach(t=>{
+  ['travaux','structure','autorisations','intervenants','documents'].forEach(t=>{
     const d = document.getElementById('tv-tab-'+t);
     if(d) d.style.display = t===tab ? 'block' : 'none';
   });
