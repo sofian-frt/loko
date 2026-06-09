@@ -3589,7 +3589,7 @@ function updateStructureAuto(){
 
   const alertesHTML = alertes.map(a=>`
     <div style="display:flex;gap:8px;padding:8px 12px;background:${a.lvl==='danger'?'#FEF2F2':'#FFFBEB'};border-radius:8px;border-left:3px solid ${a.lvl==='danger'?'var(--danger)':'#B45309'};margin-bottom:8px">
-      <span style="font-size:14px">${a.lvl==='danger'?'●':'▲'}</span>
+      ${a.lvl==='danger'?`<svg width="14" height="14" fill="none" stroke="var(--danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`:`<svg width="14" height="14" fill="none" stroke="#B45309" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`}
       <span style="font-size:12px;color:var(--ink2)">${a.txt}</span>
     </div>`).join('');
 
@@ -4275,8 +4275,7 @@ function afficherIntervenants(liste){
   const TOUS = [
     'Architecte','Cuisiniste',"Bureau d'études Structure","Bureau d'études CVC",
     "Bureau d'études Électricité","Bureau d'études Plomberie",'Bureau de contrôle',
-    'Coordinateur SPS','Géomètre','Food Consulting','Agence de communication',
-    'Fournisseur système de caisse','Fournisseur bornes de commande'
+    'Coordinateur SPS'
   ];
   const niveauBadge = {'Obligatoire':'var(--danger)','Recommandé':'#0EA5E9','À prévoir':'#B45309','Optionnel':'var(--muted)'};
 
@@ -4691,7 +4690,7 @@ function renderEclairage(){
         <div style="text-align:center;background:${nbB>0?'var(--primary-light)':'var(--bg)'};border-radius:6px;padding:8px"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">BAES</div><div style="font-size:18px;font-weight:800;color:${nbB>0?'var(--primary)':'var(--muted)'}">${nbB}</div></div>
         <div style="text-align:center;background:var(--bg);border-radius:6px;padding:8px"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Puiss.</div><div style="font-size:14px;font-weight:700">${pW}W</div></div>
       </div>
-      ${warn?'<div class="alert critique" style="margin-top:10px;padding:8px 10px"><div class="alert-icon" style="font-size:12px">🔴</div><div class="alert-body"><div class="alert-title" style="font-size:11px">ERP — BAES requis</div></div></div>':''}
+      ${warn?'<div class="alert critique" style="margin-top:10px;padding:8px 10px"><div class="alert-icon"><svg width="14" height="14" fill="none" stroke="var(--danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title" style="font-size:11px">ERP — BAES requis</div></div></div>':''}
     </div>`;
   }).join('');
   c.innerHTML=cards+`<div class="card" style="border:2px solid var(--primary-border)">
@@ -4737,7 +4736,7 @@ function calcElec(){
     <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Puissance estimée</span><span style="font-size:14px;font-weight:700">${pE.toFixed(1)} kVA</span></div>
     <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-size:12px;color:var(--mid)">Puissance disponible</span><span style="font-size:14px;font-weight:700">${pD||'?'} kVA</span></div>
   </div>
-  ${renf?'<div class="alert critique" style="margin-top:12px"><div class="alert-icon">🔴</div><div class="alert-body"><div class="alert-title">Renforcement compteur nécessaire</div><div class="alert-desc">Puissance estimée '+pE.toFixed(0)+' kVA > disponible '+pD+' kVA</div></div></div>':''}`;
+  ${renf?'<div class="alert critique" style="margin-top:12px"><div class="alert-icon"><svg width="14" height="14" fill="none" stroke="var(--danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">Renforcement compteur nécessaire</div><div class="alert-desc">Puissance estimée '+pE.toFixed(0)+' kVA > disponible '+pD+' kVA</div></div></div>':''}`;
   computeAlertes();
 }
 // ── PLOMBERIE ─────────────────────────────────────────────────
@@ -4782,7 +4781,7 @@ function calcPlomberie(){
   if(tPMR===0&&_chk('chk-pmr'))
     al.push({l:'important',m:'Aucun WC PMR renseigné',d:'Cochez WC PMR dans les relevés de pièce concernée.'});
   const el=_get('plomb-alertes');
-  if(el)el.innerHTML=al.map(a=>`<div class="alert ${a.l}"><div class="alert-icon">${a.l==='critique'?'🔴':'⚠️'}</div><div class="alert-body"><div class="alert-title">${a.m}</div><div class="alert-desc">${a.d}</div></div></div>`).join('');
+  if(el)el.innerHTML=al.map(a=>`<div class="alert ${a.l}"><div class="alert-icon">${a.l==='critique'?`<svg width="14" height="14" fill="none" stroke="var(--danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`:`<svg width="14" height="14" fill="none" stroke="#B45309" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`}</div><div class="alert-body"><div class="alert-title">${a.m}</div><div class="alert-desc">${a.d}</div></div></div>`).join('');
   computeAlertes();
 }
 // ── VENTILATION ───────────────────────────────────────────────
@@ -4819,7 +4818,7 @@ function calcVentilation(){
   const al=[];
   if(braise)al.push({l:'critique',m:'Braise / Charbon — étude obligatoire',d:'Gaine dédiée 400°C/1h. Traitement fumées. Réglementation spécifique.'});
   const el=_get('vent-alertes');
-  if(el)el.innerHTML=al.map(a=>`<div class="alert ${a.l}"><div class="alert-icon">🔴</div><div class="alert-body"><div class="alert-title">${a.m}</div><div class="alert-desc">${a.d}</div></div></div>`).join('');
+  if(el)el.innerHTML=al.map(a=>`<div class="alert ${a.l}"><div class="alert-icon"><svg width="14" height="14" fill="none" stroke="var(--danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title">${a.m}</div><div class="alert-desc">${a.d}</div></div></div>`).join('');
   calcPassage();computeAlertes();
 }
 function calcPassage(){
@@ -4909,7 +4908,7 @@ function calcERP(){
   if(!gir)al.push({l:'vigilance',m:'Giration fauteuil non vérifiée',d:'Espace 1.50m requis.'});
   if(iss<2&&eff>50)al.push({l:'critique',m:'Issues insuffisantes',d:`${eff} personnes nécessitent au moins 2 issues.`});
   const el=_get('erp-alertes');
-  if(el)el.innerHTML=al.map(a=>`<div class="alert ${a.l}"><div class="alert-icon">${a.l==='critique'?'🔴':a.l==='important'?'🟠':'⚠️'}</div><div class="alert-body"><div class="alert-title">${a.m}</div><div class="alert-desc">${a.d}</div></div></div>`).join('');
+  if(el)el.innerHTML=al.map(a=>`<div class="alert ${a.l}"><div class="alert-icon">${a.l==='critique'?`<svg width="14" height="14" fill="none" stroke="var(--danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`:a.l==='important'?`<svg width="14" height="14" fill="none" stroke="#EA580C" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`:`<svg width="14" height="14" fill="none" stroke="#B45309" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`}</div><div class="alert-body"><div class="alert-title">${a.m}</div><div class="alert-desc">${a.d}</div></div></div>`).join('');
   computeAlertes();
 }
 // ── ALERTES GLOBALES ──────────────────────────────────────────
@@ -5033,7 +5032,7 @@ function renderLotsTable(cur,tT,cDs,bB,mFG,mAl,mMa,tC,tP,m2T,m2P){
   const tb=_get('lots-body');if(!tb)return;
   tb.innerHTML=cur.lots.map(l=>{
     const m=Math.round(tT*l.pct/100);
-    return `<div class="lot-row"><div><div class="lot-name">${l.nom}</div>${l.alert?`<span class="lot-alert ${l.alertType||'warn'}">${l.alertType==='erp'?'🔴 ':'⚠️ '}${l.alert}</span>`:''}<div class="lot-detail">${l.detail}</div></div><div class="lot-pct">${l.pct}%</div><div class="lot-amt">${fmt(m)}</div></div>`;
+    return `<div class="lot-row"><div><div class="lot-name">${l.nom}</div>${l.alert?`<span class="lot-alert ${l.alertType||'warn'}">${l.alertType==='erp'?`<svg width="14" height="14" fill="none" stroke="var(--danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> `:`<svg width="14" height="14" fill="none" stroke="#B45309" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> `}${l.alert}</span>`:''}<div class="lot-detail">${l.detail}</div></div><div class="lot-pct">${l.pct}%</div><div class="lot-amt">${fmt(m)}</div></div>`;
   }).join('');
   const ch=_get('comps-header');if(ch)ch.style.display='grid';
   const cb=_get('comps-body');
@@ -5173,7 +5172,7 @@ function renderSynthese(){
 
   ${state.alertes.length?`<div style="margin-bottom:20px">
     <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--danger);padding:8px 14px;background:var(--danger-light);border-radius:6px;border-left:3px solid var(--danger);margin-bottom:12px">⚠️ Alertes (${state.alertes.length})</div>
-    ${state.alertes.map(a=>`<div class="alert ${a.level}"><div class="alert-icon">${a.level==='critique'?'🔴':a.level==='important'?'🟠':'⚠️'}</div><div class="alert-body"><div class="alert-title">${a.title}</div><div class="alert-desc">${a.desc}</div></div></div>`).join('')}
+    ${state.alertes.map(a=>`<div class="alert ${a.level}"><div class="alert-icon">${a.level==='critique'?`<svg width="14" height="14" fill="none" stroke="var(--danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`:a.level==='important'?`<svg width="14" height="14" fill="none" stroke="#EA580C" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`:`<svg width="14" height="14" fill="none" stroke="#B45309" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`}</div><div class="alert-body"><div class="alert-title">${a.title}</div><div class="alert-desc">${a.desc}</div></div></div>`).join('')}
   </div>`:'<div class="alert success"><div class="alert-icon">✅</div><div class="alert-body"><div class="alert-title">Aucune alerte détectée</div></div></div>'}`;
 }
 // ── BIBLIOTHÈQUE ──────────────────────────────────────────────
