@@ -1056,7 +1056,7 @@ input[type=number]{-moz-appearance:textfield}
         <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
             <label class="form-label">Surface totale (m²)</label>
-            <input id="proj-surface" type="number" class="form-input" placeholder="" oninput="updateProjectHeader();verifierEcartSurface()">
+            <input id="proj-surface" type="number" class="form-input" placeholder="" oninput="updateProjectHeader();verifierEcartSurface();estimerDureeEtCompagnons()">
             <div id="surface-releve-info" style="display:none;margin-top:6px;font-size:11px;line-height:1.8"></div>
           </div>
           <div class="form-group">
@@ -1510,20 +1510,20 @@ input[type=number]{-moz-appearance:textfield}
 
         <div class="form-section-title" style="margin-bottom:8px">Accès</div>
         <div class="check-grid" style="margin-bottom:14px">
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-poids-lourd"> Accès poids lourd</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-poids-lourd"> Accès poids lourd</label>
           <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-semi"> Accès semi-remorque</label>
           <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-camion-20"> Accès camion 20 m³</label>
           <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-camion-84"> Accès camion 8x4</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-pietonne"> Zone piétonne</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-rue-comm"> Rue commerçante</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-centre-comm"> Centre commercial</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-site-occupe"> Travaux en site occupé</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-pietonne"> Zone piétonne</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-rue-comm"> Rue commerçante</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-centre-comm"> Centre commercial</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-site-occupe"> Travaux en site occupé</label>
           <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-local-tech"> Accès local technique</label>
           <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-sous-sol"> Accès sous-sol</label>
           <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-toiture"> Accès toiture</label>
           <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-cour"> Accès cour intérieure</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-nacelle"> Accès façade par nacelle</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-grutage"> Grutage nécessaire</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-nacelle"> Accès façade par nacelle</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-grutage"> Grutage nécessaire</label>
         </div>
 
         <div class="form-section-title" style="margin-bottom:8px">Stationnement & Logistique</div>
@@ -1540,16 +1540,16 @@ input[type=number]{-moz-appearance:textfield}
 
         <div class="form-section-title" style="margin-bottom:8px">Contraintes techniques</div>
         <div class="check-grid">
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-etaiement"> Étaiement provisoire</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-sous-oeuvre"> Reprise en sous-œuvre</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-manutention"> Manutention lourde</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-bat-ancien"> Bâtiment ancien</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-occupe"> Bâtiment occupé</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-horaires-decales"> Horaires décalés</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-nuit"> Travaux de nuit</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-weekend"> Travaux le week-end</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-amiante"> Présence d'amiante</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-plomb"> Présence de plomb</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-etaiement"> Étaiement provisoire</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-sous-oeuvre"> Reprise en sous-œuvre</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-manutention"> Manutention lourde</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-bat-ancien"> Bâtiment ancien</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-occupe"> Bâtiment occupé</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-horaires-decales"> Horaires décalés</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-nuit"> Travaux de nuit</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-weekend"> Travaux le week-end</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-amiante"> Présence d'amiante</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-plomb"> Présence de plomb</label>
           <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-diag"> Diagnostic complémentaire</label>
         </div>
       </div>
@@ -1821,10 +1821,7 @@ input[type=number]{-moz-appearance:textfield}
         <!-- Infos complémentaires -->
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px">
           <div class="form-section-title" style="margin:0">Informations complémentaires</div>
-          <button class="btn btn-ghost btn-sm" onclick="estimerDureeEtCompagnons()" style="gap:6px;font-size:11px">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Estimer automatiquement
-          </button>
+
         </div>
         <div id="prov-estimation-hint" style="display:none;margin-bottom:10px;padding:8px 12px;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;font-size:11px;color:var(--primary-dark);line-height:1.7"></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px">
@@ -3711,9 +3708,10 @@ function estimerDureeEtCompagnons(){
   // ══════════════════════════════════════════════════════════
   const lots = {};
 
-  // Phase préparatoire : toujours présente
-  if(etatType === 'curer') lots.curage = R.curage;
-  else lots.demolition = R.demolition;
+  // Phase préparatoire selon état du local
+  if(etatType === 'curer')   lots.curage    = R.curage;     // curage complet
+  else if(etatType === 'semi') lots.demolition = R.demolition; // démolition partielle
+  // brut béton → aucune démolition/curage
 
   // Lots de base : toujours dans un aménagement commercial
   lots.cloisons    = R.cloisons;
@@ -3886,7 +3884,7 @@ function estimerDureeEtCompagnons(){
       <div style="margin-bottom:6px;line-height:1.8">${phasesHTML}</div>
       ${contraintes.length ? `<div style="margin-bottom:4px"><strong>Contraintes :</strong> ${contraintes.join(', ')}</div>` : ''}
       <div><strong>Résultat :</strong> ~${dureeMois} mois · pic ~${nbCompagnons} compagnons simultanés</div>
-      <div style="color:var(--muted);margin-top:4px">Valeurs modifiables selon votre expérience du projet.</div>
+      <div style="color:var(--muted);margin-top:4px">Cadences : ${Math.round(surface / (joursTotal/22))} m²/mois · Valeurs modifiables selon votre expérience.</div>
     `;
   }
 
@@ -3933,12 +3931,7 @@ function calculerFraisProvisoires(){
   // Stockage / déchets
   if(ids('prov-stockage-dechets')){ const v=300*duree; lignes.push({l:'Évacuation déchets',m:v,u:`${duree} mois`}); somme+=v; }
 
-  // Conso provisoires (eau + élec selon nb intervenants)
-  if(nb > 0 && duree > 0){
-    const conso = Math.round(nb * duree * 80);
-    lignes.push({l:'Consommations provisoires (eau + élec)',m:conso,u:`${nb} pers. × ${duree} mois`});
-    somme += conso;
-  }
+  // Consommations eau + élec : à charge du client
 
   if(lignes.length === 0){
     result.style.display = 'none';
@@ -4144,7 +4137,7 @@ function updateTravauxCount(cat){
   badge.style.display = n > 0 ? 'inline-block' : 'none';
   // Génération automatique
   clearTimeout(window._travauxTimer);
-  window._travauxTimer = setTimeout(()=>{ analyserTravauxAuto(); }, 300);
+  window._travauxTimer = setTimeout(()=>{ analyserTravauxAuto(); estimerDureeEtCompagnons(); }, 400);
 }
 
 function getTravauxCoches(){
@@ -4388,6 +4381,7 @@ function selectEtatLocal(type, el){
   }
 
   recalculate();
+  estimerDureeEtCompagnons();
 }
 
 function ajouterPieceExistante(){
