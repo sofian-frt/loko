@@ -4067,25 +4067,8 @@ function afficherApp(){
   document.getElementById('sidebar').style.display = '';
   document.getElementById('main-topbar').style.display = '';
   majLogoSidebar();
-  // Générer le code chantier après init Drive
-  setTimeout(async()=>{
-    try{
-      if(typeof _driveToken !== 'undefined' && _driveToken){
-        // S'assurer que le dossier est trouvé/créé
-        if(!_driveFolderId) await trouverOuCreerDossier();
-        // Charger les codes existants
-        if(_driveFolderId && _codesExistantsDrive === null) await chargerCodesDrive();
-      }
-      await genererCodeChantier();
-    }catch(e){
-      console.error('genererCodeChantier error:', e);
-      // Afficher le message drive même en cas d'erreur
-      const d = document.getElementById('code-chantier-display');
-      if(d) d.textContent = '—';
-      const h = document.getElementById('code-hint');
-      if(h) h.innerHTML = '<span style="color:var(--warn)">Connectez Google Drive pour générer le code chantier</span>';
-    }
-  }, 1200);
+  // Générer le code chantier — attendre que Drive soit prêt
+  genererCodeChantierAvecAttente();
   // Charger les données depuis Firestore
   if(_userData){
     appliquerDonneesUtilisateur(_userData);
@@ -4380,7 +4363,7 @@ function reinitialiserProjet(){
   document.querySelectorAll('.page input[type="checkbox"]').forEach(cb => cb.checked = false);
 
   // Réinitialiser code chantier
-  genererCodeChantier();
+  genererCodeChantierAvecAttente();
 
   // Vider SIREN status
   const siretStatus = document.getElementById('siret-status');
@@ -5205,6 +5188,24 @@ function renderRecap(){
 }
 
 // ── CODE CHANTIER ────────────────────────────────────────────────
+async function genererCodeChantierAvecAttente(tentatives){
+  tentatives = tentatives || 0;
+  try{
+    if(typeof _driveToken !== 'undefined' && _driveToken){
+      if(!_driveFolderId) await trouverOuCreerDossier();
+      if(_driveFolderId && _codesExistantsDrive === null) await chargerCodesDrive();
+    }
+    await genererCodeChantier();
+  } catch(e){
+    if(tentatives < 5){
+      // Réessayer dans 1 seconde
+      setTimeout(()=> genererCodeChantierAvecAttente(tentatives+1), 1000);
+    } else {
+      console.error('genererCodeChantier échec:', e);
+    }
+  }
+}
+
 async function genererCodeChantier(){
   var now = new Date();
   var yy = String(now.getFullYear()).slice(-2);
