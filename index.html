@@ -1561,6 +1561,33 @@ input[type=number]{-moz-appearance:textfield}
         <div class="card-title">Prestataires & accompagnement à l'ouverture</div>
         <div style="font-size:12px;color:var(--muted);margin-bottom:16px">Identifiez les prestataires nécessaires pour anticiper les coûts hors travaux</div>
 
+        <!-- ARCHITECTE D'INTÉRIEUR -->
+        <div style="border:1.5px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M2 20h20M4 20V10l8-6 8 6v10M10 20v-5h4v5"/></svg>
+              <span style="font-size:13px;font-weight:700;color:var(--ink)">Architecte d'intérieur</span>
+            </div>
+            <select id="prest-archi-statut" class="form-select" style="width:auto;height:30px;font-size:12px">
+              <option value="a_prevoir">À prévoir</option>
+              <option value="missionne">Déjà missionné ✓</option>
+              <option value="non">Non nécessaire</option>
+            </select>
+          </div>
+          <div class="form-label" style="margin-bottom:8px">Prestations souhaitées</div>
+          <div class="check-grid">
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="archi-concept"> Concept & ambiance</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="archi-plans"> Plans d'aménagement</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="archi-mobilier"> Sélection du mobilier</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="archi-materiaux"> Choix des matériaux</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="archi-eclairage"> Scénographie lumineuse</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="archi-rendu"> Rendu 3D</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="archi-dce"> Dossier DCE</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="archi-suivi"> Suivi de chantier</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="archi-reception"> Réception des travaux</label>
+          </div>
+        </div>
+
         <!-- FOOD CONSULTING -->
         <div style="border:1.5px solid var(--border);border-radius:10px;padding:14px;margin-bottom:12px">
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
@@ -1610,8 +1637,10 @@ input[type=number]{-moz-appearance:textfield}
           <div class="form-label" style="margin-bottom:8px">Équipements prévus</div>
           <div class="check-grid">
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-principale"> Caisse principale</label>
-            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-ecran-cuisine"> Écran cuisine</label>
-            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-imprimante"> Imprimantes tickets</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-ecran-cuisine"> Écran cuisine (KDS)</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-kds-nb" style="display:none"> KDS</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-imprimante"> Imprimantes tickets caisse</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-imprimante-cuisine"> Imprimantes cuisine</label>
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-cb"> Paiement CB intégré</label>
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-stocks"> Gestion des stocks</label>
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-fidelite"> Fidélité client</label>
@@ -1619,6 +1648,16 @@ input[type=number]{-moz-appearance:textfield}
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-livraison"> Livraison</label>
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-click-collect"> Click & Collect</label>
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="caisse-compta"> Interface comptable</label>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+            <div class="form-group">
+              <label class="form-label">Nombre d'écrans KDS</label>
+              <input type="number" id="caisse-nb-kds" class="form-input" placeholder="0" min="0" style="font-size:16px">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nombre d'imprimantes cuisine</label>
+              <input type="number" id="caisse-nb-imprimantes" class="form-input" placeholder="0" min="0" style="font-size:16px">
+            </div>
           </div>
         </div>
 
