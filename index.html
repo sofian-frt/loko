@@ -808,11 +808,9 @@ input[type=number]{-moz-appearance:textfield}
         <!-- LIGNE 6 : Surface calculée + Hauteurs -->
         <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
-            <label class="form-label">Surface totale (m²)</label>
-            <div id="surface-calculee" style="padding:9px 13px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13px;color:var(--muted);min-height:38px">
-              Calculée automatiquement depuis les pièces
-            </div>
-            <input type="hidden" id="proj-surface" value="">
+            <label class="form-label">Surface totale (m²) <span style="font-size:10px;color:var(--muted);font-weight:400">— référence</span></label>
+            <input id="proj-surface" type="number" class="form-input" placeholder="" oninput="updateProjectHeader();verifierEcartSurface()">
+            <div id="surface-releve-info" style="display:none;margin-top:6px;font-size:11px;line-height:1.8"></div>
           </div>
           <div class="form-group">
             <label class="form-label">Hauteur sous plafond (m)</label>
@@ -834,10 +832,38 @@ input[type=number]{-moz-appearance:textfield}
           </div>
         </div>
 
-        <!-- LIGNE 7 : Observations -->
+        <!-- LIGNE 7 : Observations enrichies -->
         <div class="form-group" style="margin-bottom:0">
           <label class="form-label">Observations générales</label>
           <textarea id="proj-notes" class="form-textarea" placeholder="" style="min-height:80px"></textarea>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <button type="button" onclick="document.getElementById('obs-photos-input').click()" class="btn btn-ghost btn-sm" style="gap:5px;font-size:11px">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              Photos
+            </button>
+            <button type="button" onclick="document.getElementById('obs-docs-input').click()" class="btn btn-ghost btn-sm" style="gap:5px;font-size:11px">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+              Documents
+            </button>
+            <button type="button" onclick="toggleNoteVocale()" class="btn btn-ghost btn-sm" id="btn-note-vocale" style="gap:5px;font-size:11px">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg>
+              Note vocale
+            </button>
+          </div>
+          <input type="file" id="obs-photos-input" accept="image/*" multiple style="display:none" onchange="ajouterObsPhotos(this)">
+          <input type="file" id="obs-docs-input" accept=".pdf,.doc,.docx,.xls,.xlsx" multiple style="display:none" onchange="ajouterObsDocs(this)">
+          <!-- Aperçu photos -->
+          <div id="obs-photos-preview" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px"></div>
+          <!-- Aperçu docs -->
+          <div id="obs-docs-liste" style="margin-top:6px"></div>
+          <!-- Note vocale -->
+          <div id="note-vocale-zone" style="display:none;margin-top:8px;padding:10px;background:var(--danger-light);border:1px solid #FCA5A5;border-radius:8px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div id="vocale-status" style="font-size:12px;color:var(--danger);font-weight:600">● Enregistrement en cours...</div>
+              <button type="button" onclick="arreterNoteVocale()" class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger);font-size:11px">Arrêter</button>
+            </div>
+            <div id="vocale-audios" style="margin-top:8px"></div>
+          </div>
         </div>
       </div>
 
@@ -2606,6 +2632,7 @@ function updateTypeLocal(){
 }
 function updateRecap(){
   mettreAJourSurfaceCalculee();
+  verifierEcartSurface();
   const nom=_val('proj-nom'),client=_val('proj-client'),adresse=_val('proj-adresse');
   const surface=_val('proj-surface'),hauteur=_val('proj-hauteur'),dateV=_val('proj-date');
   const t=TYPES[_val('proj-type-local','restaurant')]||{icon:'🏪'};
@@ -4049,18 +4076,7 @@ function afficherApp(){
   // Préremplir date du jour
   const dateEl = document.getElementById('proj-date');
   if(dateEl && !dateEl.value) dateEl.value = new Date().toISOString().slice(0,10);
-  // Préremplir releveur depuis compte
-  const raw = localStorage.getItem('lokoo_compte');
-  if(raw){
-    try{
-      const d = JSON.parse(raw);
-      const p = d.profil||{};
-      const relEl = document.getElementById('proj-releveur');
-      if(relEl && !relEl.value && (p.prenom||p.nom)){
-        relEl.value = [p.prenom, p.nom].filter(Boolean).join(' ');
-      }
-    }catch(e){}
-  }
+  // Releveur : champ libre, pas de préremplissage auto
   chargerCompte();
   console.log('Lokoo V3.7 ✓ — Connecté:', _currentUser.email);
 }
@@ -4380,26 +4396,10 @@ function calculerHauteurMoyenne(){
 }
 
 function mettreAJourSurfaceCalculee(){
-  const total = state.pieces.reduce((a,p)=>a+(parseFloat(p.surface)||0), 0);
-  const el = document.getElementById('surface-calculee');
-  const hidden = document.getElementById('proj-surface');
-  if(total > 0){
-    if(el){
-      el.textContent = total.toFixed(1) + ' m²';
-      el.style.color = 'var(--ink)';
-      el.style.fontWeight = '600';
-    }
-    if(hidden) hidden.value = total.toFixed(1);
-    state.surface = total;
-  } else {
-    if(el){
-      el.textContent = 'Calculée automatiquement depuis les pièces';
-      el.style.color = 'var(--muted)';
-      el.style.fontWeight = '400';
-    }
-    if(hidden) hidden.value = '';
-    state.surface = 0;
-  }
+  // Surface saisie manuellement — on met juste à jour state.surface
+  const val = parseFloat(document.getElementById('proj-surface')?.value) || 0;
+  state.surface = val;
+  verifierEcartSurface();
 }
 
 function geolocaliserChantier(){
@@ -4509,6 +4509,120 @@ function sauvegarderClientHistorique(siren, nom, adresse){
     if(clients.length > 50) clients.pop();
     localStorage.setItem('lokoo_clients', JSON.stringify(clients));
   }
+}
+
+
+
+// ── SURFACE & ÉCART ──────────────────────────────────────────
+function verifierEcartSurface(){
+  const surfRef = parseFloat(document.getElementById('proj-surface')?.value) || 0;
+  const infoEl = document.getElementById('surface-releve-info');
+  if(!infoEl) return;
+
+  // Calculer surfaces depuis les pièces
+  const surfExist = state.pieces.filter(p=>p._type==='existant'||!p._type).reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
+  const surfProjet = state.pieces.filter(p=>p._type==='projet').reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
+  const surfTotale = surfExist + surfProjet;
+
+  if(!surfRef && !surfTotale){ infoEl.style.display='none'; return; }
+  infoEl.style.display = 'block';
+
+  let html = '';
+  if(surfExist > 0) html += `<div>📐 Surface existante relevée : <strong>${surfExist.toFixed(1)} m²</strong></div>`;
+  if(surfProjet > 0) html += `<div>📐 Surface projet relevée : <strong>${surfProjet.toFixed(1)} m²</strong></div>`;
+
+  if(surfRef > 0 && surfTotale > 0){
+    const ecart = Math.abs(surfRef - surfTotale);
+    const pct = ((ecart / surfRef) * 100).toFixed(1);
+    const color = ecart/surfRef > 0.05 ? 'var(--danger)' : 'var(--success)';
+    html += `<div style="color:${color}">Écart : <strong>${ecart.toFixed(1)} m² (${pct}%)</strong></div>`;
+    if(ecart/surfRef > 0.05){
+      html += `<div style="margin-top:6px;padding:8px 10px;background:var(--danger-light);border:1px solid #FCA5A5;border-radius:6px;color:var(--danger);font-size:11px">
+        ⚠️ Écart important détecté entre la surface renseignée et les surfaces relevées. Veuillez vérifier vos données.
+      </div>`;
+    }
+  }
+  infoEl.innerHTML = html;
+}
+
+// ── OBSERVATIONS ENRICHIES ────────────────────────────────────
+var _obsPhotos = [];
+var _obsDocs = [];
+var _mediaRecorder = null;
+var _audioChunks = [];
+
+function ajouterObsPhotos(input){
+  const files = Array.from(input.files);
+  const preview = document.getElementById('obs-photos-preview');
+  if(!preview) return;
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      _obsPhotos.push({name: file.name, data: e.target.result});
+      const div = document.createElement('div');
+      div.style.cssText = 'position:relative;flex-shrink:0';
+      div.innerHTML = `<img src="${e.target.result}" style="width:80px;height:80px;object-fit:cover;border-radius:6px;border:1px solid var(--border)">
+        <button onclick="supprimerObsPhoto(${_obsPhotos.length-1},this.parentElement)" style="position:absolute;top:-4px;right:-4px;background:var(--danger);color:white;border:none;border-radius:50%;width:18px;height:18px;cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center">✕</button>`;
+      preview.appendChild(div);
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value = '';
+}
+
+function supprimerObsPhoto(idx, el){
+  _obsPhotos[idx] = null;
+  el.remove();
+}
+
+function ajouterObsDocs(input){
+  const files = Array.from(input.files);
+  const liste = document.getElementById('obs-docs-liste');
+  if(!liste) return;
+  files.forEach(file => {
+    _obsDocs.push({name: file.name, size: file.size});
+    const div = document.createElement('div');
+    div.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--bg);border-radius:6px;margin-bottom:4px;font-size:12px';
+    div.innerHTML = `<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+      <span>${file.name}</span>
+      <span style="color:var(--muted);margin-left:auto">${Math.round(file.size/1024)} Ko</span>`;
+    liste.appendChild(div);
+  });
+  input.value = '';
+}
+
+function toggleNoteVocale(){
+  if(_mediaRecorder && _mediaRecorder.state === 'recording'){
+    arreterNoteVocale(); return;
+  }
+  if(!navigator.mediaDevices){ showToast('Microphone non disponible'); return; }
+  navigator.mediaDevices.getUserMedia({audio:true}).then(stream => {
+    _audioChunks = [];
+    _mediaRecorder = new MediaRecorder(stream);
+    _mediaRecorder.ondataavailable = e => _audioChunks.push(e.data);
+    _mediaRecorder.onstop = () => {
+      const blob = new Blob(_audioChunks, {type:'audio/webm'});
+      const url = URL.createObjectURL(blob);
+      const audios = document.getElementById('vocale-audios');
+      if(audios){
+        const div = document.createElement('div');
+        div.style.cssText = 'margin-top:6px';
+        div.innerHTML = `<audio controls src="${url}" style="width:100%;height:32px"></audio>`;
+        audios.appendChild(div);
+      }
+      stream.getTracks().forEach(t=>t.stop());
+    };
+    _mediaRecorder.start();
+    document.getElementById('note-vocale-zone').style.display = 'block';
+    const btn = document.getElementById('btn-note-vocale');
+    if(btn){ btn.style.background='var(--danger-light)'; btn.style.color='var(--danger)'; }
+  }).catch(() => showToast('Accès microphone refusé'));
+}
+
+function arreterNoteVocale(){
+  if(_mediaRecorder) _mediaRecorder.stop();
+  const btn = document.getElementById('btn-note-vocale');
+  if(btn){ btn.style.background=''; btn.style.color=''; }
 }
 
 
