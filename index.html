@@ -4444,7 +4444,7 @@ function analyserActiviteIA(){
     hints.push('♿ Accessibilité PMR obligatoire');
   }
   if(activite.includes('clim') || activite.includes('froid') || type==='cabinet'){
-    hints.push('❄️ Climatisation / traitement d'air à prévoir');
+    hints.push('❄️ Climatisation / traitement d\'air à prévoir');
   }
   if(activite.includes('public') || type==='erp' || activite.includes('erp')){
     hints.push('🏛️ ERP → réglementation incendie, désenfumage, évacuation');
@@ -4461,7 +4461,7 @@ function analyserActiviteIA(){
 
   if(hints.length > 0){
     el.style.display = 'block';
-    el.innerHTML = '<strong style="font-size:11px;color:var(--primary);text-transform:uppercase;letter-spacing:.06em">Points d'attention détectés</strong><br>' + hints.join('<br>');
+    el.innerHTML = '<strong style="font-size:11px;color:var(--primary);text-transform:uppercase;letter-spacing:.06em">Points d\'attention détectés</strong><br>' + hints.join('<br>');
   } else {
     el.style.display = 'none';
   }
