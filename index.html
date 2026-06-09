@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lokoo V1.1 — Relevé & Chiffrage Locaux Commerciaux</title>
 <!-- Firebase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
@@ -395,19 +395,19 @@ input[type=number]{-moz-appearance:textfield}
     max-width:100%;
     box-sizing:border-box;
   }
-  #page-compte *{
-    max-width:100%;
-    box-sizing:border-box;
+  /* Toutes les grilles multi-colonnes → 1 colonne */
+  #page-compte [style*="grid-template-columns:1fr 1fr 1fr"],
+  #page-compte [style*="grid-template-columns:repeat(3"],
+  #page-compte .g3,
+  #page-compte .form-row-3{
+    grid-template-columns:1fr !important;
   }
-  #page-compte h2{
-    font-size:22px !important;
-    line-height:1.2;
+  /* Largeur fixe → auto */
+  #page-compte [style*="max-width:600px"],
+  #page-compte [style*="max-width:700px"]{
+    max-width:100% !important;
+    width:100% !important;
   }
-  #page-compte .page-header p{
-    font-size:12px !important;
-    white-space:normal;
-  }
-
   /* 1. Onglets carrousel horizontal */
   #compte-tabs{
     display:flex;
