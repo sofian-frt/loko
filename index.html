@@ -2590,6 +2590,7 @@ function showPage(id){
   if(id==='facade'){calcFacade();calcERP();}
   if(id==='recap')renderRecap();
   if(id==='releves-existant')renderRelevesPage();
+  if(id==='init') setTimeout(()=>{ if(_driveToken) genererCodeChantier(); }, 200);
   if(id==='init')renderRecapBanner();
   if(id==='prechiffrage')recalculate();
   if(id==='chiffrage')renderChiffrageDetail();
@@ -4059,8 +4060,16 @@ function afficherApp(){
   document.getElementById('app-main').style.display = 'flex';
   document.getElementById('sidebar').style.display = '';
   document.getElementById('main-topbar').style.display = '';
-  // Charger logo société dans sidebar
   majLogoSidebar();
+  // Si Drive déjà connecté, générer le code chantier
+  setTimeout(async()=>{
+    if(_driveToken && _driveFolderId){
+      if(_codesExistantsDrive === null) await chargerCodesDrive();
+      await genererCodeChantier();
+    } else {
+      genererCodeChantier(); // affiche le message "Connectez Drive"
+    }
+  }, 500);
   // Charger les données depuis Firestore
   if(_userData){
     appliquerDonneesUtilisateur(_userData);
