@@ -2686,7 +2686,7 @@ function showPage(id){
   if(id==='analyse-ia')renderAnalyseIA();
   if(id==='releves-existant')renderRelevesPage();
 
-  if(id==='init')renderRecapBanner();
+  if(id==='init'){renderRecapBanner();majActiviteOptions();}
   if(id==='prechiffrage')recalculate();
   if(id==='chiffrage')renderChiffrageDetail();
   if(id==='synthese')renderSynthese();
@@ -4736,7 +4736,7 @@ function afficherApp(){
   setTimeout(()=>{
     majActiviteOptions();
     showPage('dashboard');
-  }, 300);
+  }, 100);
   chargerDBFirestore(_currentUser.uid).then(()=>{
     renderDashboard();
     renderChantiers();
