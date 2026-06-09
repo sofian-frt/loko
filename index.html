@@ -1152,12 +1152,7 @@ input[type=number]{-moz-appearance:textfield}
           <div id="pieces-existantes-empty" style="text-align:center;padding:20px;color:var(--muted);font-size:13px">
             Ajoutez les pièces du local existant
           </div>
-          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
-            <button class="btn btn-primary btn-sm" onclick="syncPiecesVersReleves()" style="gap:6px;width:100%;justify-content:center">
-              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              Envoyer les pièces vers les Relevés
-            </button>
-          </div>
+
         </div>
 
         <!-- CURER : ancienne activité -->
@@ -3012,6 +3007,8 @@ function ajouterPieceExistante(){
   renderPieceExistante(id);
   const empty = document.getElementById('pieces-existantes-empty');
   if(empty) empty.style.display = 'none';
+  // Créer automatiquement la pièce dans les Relevés
+  _creerPieceReleve(piece);
 }
 
 function renderPieceExistante(id){
@@ -3047,7 +3044,37 @@ function renderPieceExistante(id){
 
 function updatePieceExistante(id, key, val){
   const piece = _piecesExistantes.find(p=>p.id===id);
-  if(piece) piece[key] = val;
+  if(!piece) return;
+  piece[key] = val;
+  // Mettre à jour le nom dans les relevés
+  const pieceReleve = state.pieces.find(p=>p._sourceId===id);
+  if(pieceReleve){
+    if(key==='type') pieceReleve.nom = val;
+    if(key==='niveau') pieceReleve.notes = 'Issu de l\'initialisation — '+val;
+    // Si supprimé, retirer des relevés
+    if(key==='niveau' && val==='Supprimer'){
+      state.pieces = state.pieces.filter(p=>p._sourceId!==id);
+      document.getElementById('piece-card-'+pieceReleve.id)?.remove();
+      updateNbPieces(); majResumeReleves();
+    }
+  }
+}
+
+function _creerPieceReleve(pe){
+  state.pieceCounter++;
+  const newId = 'p'+state.pieceCounter;
+  state.pieces.push({
+    _type:'existant', _sourceId:pe.id,
+    id:newId, nom:pe.type, type:pe.type,
+    surface:0, hauteur:2.7, lineaire:0, portes:1.8, vitrages:0, ouvertures:0,
+    fauxPlafond:true, faience:false, hauteurFaience:1.8, nbMursFaience:0,
+    prises:4,prisesDouble:2,prisesSpec:0,prisesTri:0,rj45:0,camElec:0,bornesWifi:0,ecrans:0,
+    eauFroide:0,eauChaude:0,evacuation:0,wc:0,wcPMR:0,laveMains:0,plonge:0,sipholSol:0,
+    nbPersonnes:0, notes:'Issu de l\'initialisation — '+pe.niveau,
+    _elementsConserves:[], _mursB:0,_mursN:0,_faience:0
+  });
+  updateNbPieces();
+  majResumeReleves();
 }
 
 function updateElementsColor(id, niveau){
@@ -3069,12 +3096,17 @@ function supprimerPieceExistante(id){
   if(!confirm('Supprimer cette pièce ?')) return;
   _piecesExistantes = _piecesExistantes.filter(p=>p.id!==id);
   document.getElementById('pe-card-'+id)?.remove();
+  // Supprimer aussi dans les relevés
+  const pieceReleve = state.pieces.find(p=>p._sourceId===id);
+  if(pieceReleve){
+    state.pieces = state.pieces.filter(p=>p._sourceId!==id);
+    document.getElementById('piece-card-'+pieceReleve.id)?.remove();
+    updateNbPieces(); majResumeReleves();
+  }
   if(!_piecesExistantes.length){
     const empty = document.getElementById('pieces-existantes-empty');
     if(empty) empty.style.display = 'block';
   }
-  // Syncer avec les relevés
-  syncPiecesVersReleves();
 }
 
 function syncPiecesVersReleves(){
