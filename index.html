@@ -4842,8 +4842,22 @@ document.addEventListener('click', function(e){
 function toggleProfilMenu(e){
   if(e) e.stopPropagation();
   const menu = document.getElementById('profil-menu');
+  const btn  = document.getElementById('btn-profil');
   if(!menu) return;
-  menu.style.display = menu.style.display==='none' ? 'block' : 'none';
+  if(menu.style.display === 'none' || menu.style.display === ''){
+    // Positionner le menu sous le bouton
+    if(btn){
+      const r = btn.getBoundingClientRect();
+      menu.style.position = 'fixed';
+      menu.style.top  = (r.bottom + 8) + 'px';
+      menu.style.right = (window.innerWidth - r.right) + 'px';
+      menu.style.left  = 'auto';
+      menu.style.zIndex = '99999';
+    }
+    menu.style.display = 'block';
+  } else {
+    menu.style.display = 'none';
+  }
 }
 
 document.addEventListener('click', function(e){
