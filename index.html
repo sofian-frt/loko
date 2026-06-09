@@ -4219,10 +4219,10 @@ function afficherApp(){
   document.getElementById('page-login').style.display = 'none';
   document.getElementById('app-main').style.display = 'flex';
   document.getElementById('sidebar').style.display = '';
-  document.getElementById('main-topbar').style.display = '';
-  // Réafficher mobile topbar seulement sur mobile
+  // Laisser le CSS gérer topbar vs mobile-topbar via media query
+  document.getElementById('main-topbar').style.removeProperty('display');
   const mobileTopbar = document.getElementById('mobile-topbar-bar');
-  if(mobileTopbar) mobileTopbar.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+  if(mobileTopbar) mobileTopbar.style.removeProperty('display');
   majLogoSidebar();
   // Générer le code chantier — attendre que Drive soit prêt
   genererCodeChantierAvecAttente();
