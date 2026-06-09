@@ -2409,6 +2409,11 @@ input[type=number]{-moz-appearance:textfield}
 <!-- JAVASCRIPT -->
 <script>
 'use strict';
+// Variables Drive — déclarées en premier
+let _driveToken = null;
+let _driveFolderId = null;
+let _codesExistantsDrive = null;
+let _dernierCodeDrive = '';
 // ── REFS ─────────────────────────────────────────────────────
 const REGIONS={idf:1.15,paca:1.08,std:1.0,rural:0.95};
 const GAMMES=[
@@ -6119,7 +6124,7 @@ function afficherDernierChantier(){
 }
 
 // Cache des codes Drive chargés
-var _codesExistantsDrive = null;
+// var _codesExistantsDrive = nul// l;
 var _dernierCodeDrive = '';
 
 async function chargerCodesDrive(){
@@ -6639,8 +6644,7 @@ document.getElementById('modal-ia-photo').addEventListener('click', function(e){
 const GOOGLE_CLIENT_ID = '927977439875-90eu5j3r7vfm74j4v9afbdg8d7ae0el6.apps.googleusercontent.com';
 const DRIVE_FOLDER_NAME = 'Lokoo - Dossiers Chantiers';
 
-let _driveToken = null;
-let _driveFolderId = null;
+// _driveToken déclaré plus haut
 
 function connecterDrive(){
   // Diagnostic complet
