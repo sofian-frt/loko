@@ -678,7 +678,9 @@ input[type=number]{-moz-appearance:textfield}
       <!-- INFORMATIONS GÉNÉRALES -->
       <div class="card" style="margin-bottom:16px">
         <div class="card-title">Informations générales</div>
-        <div class="form-row">
+
+        <!-- LIGNE 1 : Code chantier + Nature mission -->
+        <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
             <label class="form-label">Code chantier</label>
             <div style="display:flex;gap:8px;align-items:center">
@@ -686,87 +688,172 @@ input[type=number]{-moz-appearance:textfield}
               <input id="proj-nom-suffix" class="form-input" placeholder="— — — —" maxlength="4"
                 style="font-family:monospace;font-weight:700;font-size:15px;width:100px;text-align:center;letter-spacing:2px"
                 oninput="verifierCodeChantier(this.value)">
-              <div id="code-status" style="font-size:18px;flex-shrink:0"></div>
+              <div id="code-status" style="font-size:18px;flex-shrink:0;width:22px"></div>
             </div>
             <input type="hidden" id="proj-nom" value="">
             <div id="code-hint" style="font-size:11px;margin-top:4px;color:var(--muted)"></div>
           </div>
           <div class="form-group">
-            <label class="form-label">Client <span class="req">*</span></label>
-            <div style="display:flex;gap:8px;margin-bottom:6px">
-              <input id="proj-siren" class="form-input" placeholder="N° SIREN (9 chiffres)"
-                style="font-family:monospace;letter-spacing:.05em"
-                maxlength="9" oninput="rechercherSiren(this.value)">
-              <div id="siret-status" style="flex-shrink:0;width:32px;display:flex;align-items:center;justify-content:center;font-size:16px"></div>
-            </div>
-            <input id="proj-client" class="form-input" placeholder="">
-            <div id="siret-info" style="display:none;margin-top:6px;padding:10px 12px;background:var(--success-light);border:1px solid #A7F3D0;border-radius:6px;font-size:12px;color:var(--success)"></div>
+            <label class="form-label">Nature de la mission <span class="req">*</span></label>
+            <select id="proj-mission" class="form-select" oninput="updateProjectHeader()">
+              <option value="">— Sélectionner —</option>
+              <option value="releve">Relevé simple</option>
+              <option value="chiffrage">Chiffrage</option>
+              <option value="faisabilite">Faisabilité</option>
+              <option value="avant-projet">Avant-projet</option>
+              <option value="dce">DCE</option>
+              <option value="execution">Exécution</option>
+            </select>
           </div>
         </div>
-        <div class="form-row-1">
+
+        <!-- LIGNE 2 : SIREN + Client -->
+        <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
-            <label class="form-label">Adresse du chantier</label>
-            <div style="position:relative">
-              <input id="proj-adresse" class="form-input" placeholder=""
-                autocomplete="off"
-                oninput="searchAdresse(this.value)"
-                onblur="setTimeout(hideAdresseSugg, 200)"
-                onkeydown="handleAdresseKey(event)">
-              <div id="adresse-suggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:white;border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius) var(--radius);box-shadow:var(--shadow-md);z-index:999;max-height:220px;overflow-y:auto"></div>
+            <label class="form-label">SIREN client</label>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input id="proj-siren" class="form-input" placeholder="" maxlength="9"
+                style="font-family:monospace;letter-spacing:.05em"
+                oninput="this.value=this.value.replace(/[^0-9]/g,'');if(this.value.length===9)rechercherSiren(this.value)">
+              <div id="siret-status" style="font-size:16px;flex-shrink:0;width:22px"></div>
             </div>
-            <div id="satellite-btn-wrap" style="display:none;margin-top:8px">
-              <button type="button" onclick="openSatelliteModal()" class="btn btn-secondary btn-sm" style="font-size:11px;gap:5px">
-                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Vue satellite
+          </div>
+          <div class="form-group">
+            <label class="form-label">Client <span class="req">*</span></label>
+            <div style="display:flex;gap:6px">
+              <input id="proj-client" class="form-input" placeholder="" oninput="updateProjectHeader()" style="flex:1">
+              <button type="button" onclick="ouvrirHistoriqueClients()" class="btn btn-ghost btn-sm" title="Historique clients" style="flex-shrink:0;padding:8px 10px">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </button>
             </div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Date de visite</label>
-            <input id="proj-date" type="date" class="form-input">
+        <div id="siret-info" style="display:none;margin-bottom:12px"></div>
+
+        <!-- LIGNE 3 : Adresse chantier -->
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Adresse du chantier</label>
+          <div style="position:relative">
+            <div style="display:flex;gap:6px">
+              <input id="proj-adresse" class="form-input" placeholder=""
+                oninput="searchAdresse(this.value)" onkeydown="handleAdresseKey(event)"
+                autocomplete="off" style="flex:1">
+              <button type="button" onclick="geolocaliserChantier()" class="btn btn-ghost btn-sm" title="Me géolocaliser" style="flex-shrink:0;padding:8px 10px">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8" stroke-dasharray="2 2"/></svg>
+              </button>
+            </div>
+            <div id="adresse-suggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:white;border:1.5px solid var(--primary);border-radius:8px;box-shadow:var(--shadow-lg);z-index:300;max-height:220px;overflow-y:auto;margin-top:4px"></div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Releveur / Chargé d'affaire</label>
-            <input id="proj-releveur" class="form-input" placeholder="">
+          <div id="gps-coords" style="display:none;font-size:10px;color:var(--muted);margin-top:3px"></div>
+        </div>
+
+        <!-- Mini carte -->
+        <div id="satellite-container" style="display:none;border-radius:8px;overflow:hidden;margin-bottom:14px;height:160px">
+          <iframe id="satellite-frame" style="width:100%;height:100%;border:none" loading="lazy"></iframe>
+          <div style="display:flex;gap:6px;margin-top:6px">
+            <button class="btn btn-ghost btn-sm" onclick="switchSatelliteView('roadmap')" id="btn-view-map" style="font-size:11px">Plan</button>
+            <button class="btn btn-primary btn-sm" onclick="switchSatelliteView('satellite')" id="btn-view-sat" style="font-size:11px">Satellite</button>
+            <button class="btn btn-ghost btn-sm" onclick="switchSatelliteView('hybrid')" style="font-size:11px">Hybride</button>
+            <a id="maps-link" href="" target="_blank" class="btn btn-ghost btn-sm" style="font-size:11px;margin-left:auto">
+              <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+              Ouvrir dans Maps
+            </a>
           </div>
         </div>
-        <div class="form-row">
+
+        <!-- LIGNE 4 : Date + Releveur -->
+        <div class="form-row" style="margin-bottom:14px">
+          <div class="form-group">
+            <label class="form-label">Date de visite</label>
+            <input id="proj-date" type="date" class="form-input" oninput="updateProjectHeader()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Releveur / Chargé d'affaires</label>
+            <input id="proj-releveur" class="form-input" placeholder="" oninput="updateProjectHeader()">
+          </div>
+        </div>
+
+        <!-- LIGNE 5 : Type de local + Activité -->
+        <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
             <label class="form-label">Type de local</label>
-            <select id="proj-type-local" class="form-select" onchange="updateTypeLocal()">
+            <select id="proj-type-local" class="form-select" onchange="updateProjectHeader();analyserActiviteIA()">
               <option value="restaurant">Restaurant</option>
-              <option value="cafe">Café / Coffee shop</option>
-              <option value="boulangerie">Boulangerie</option>
+              <option value="commerce">Commerce</option>
               <option value="bureau">Bureaux</option>
-              <option value="boutique">Boutique</option>
+              <option value="pharmacie">Pharmacie</option>
+              <option value="boulangerie">Boulangerie</option>
+              <option value="sport">Salle de sport</option>
+              <option value="entrepot">Entrepôt</option>
+              <option value="hotel">Hôtel</option>
               <option value="cabinet">Cabinet médical</option>
+              <option value="erp">ERP</option>
+              <option value="cafe">Café / Coffee shop</option>
               <option value="salon">Salon de coiffure</option>
+              <option value="boutique">Boutique</option>
               <option value="institut">Institut de beauté</option>
+              <option value="autre">Autre</option>
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label">Activité prévue</label>
-            <input id="proj-activite" class="form-input" placeholder="">
+            <label class="form-label">Activité prévue
+              <span style="font-size:10px;color:var(--primary);font-weight:500;margin-left:4px">→ anticipe extraction, PMR, sécurité...</span>
+            </label>
+            <input id="proj-activite" class="form-input" placeholder=""
+              oninput="updateProjectHeader();clearTimeout(_activiteTimer);_activiteTimer=setTimeout(analyserActiviteIA,1500)">
           </div>
         </div>
-        <div class="form-row">
+        <div id="activite-ia-hint" style="display:none;margin-bottom:12px;padding:10px 14px;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;font-size:12px;color:var(--primary-dark)"></div>
+
+        <!-- LIGNE 6 : Surface calculée + Hauteurs -->
+        <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
             <label class="form-label">Surface totale (m²)</label>
-            <input id="proj-surface" type="number" class="form-input" placeholder="" oninput="updateProjectHeader()">
+            <div id="surface-calculee" style="padding:9px 13px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13px;color:var(--muted);min-height:38px">
+              Calculée automatiquement depuis les pièces
+            </div>
+            <input type="hidden" id="proj-surface" value="">
           </div>
           <div class="form-group">
             <label class="form-label">Hauteur sous plafond (m)</label>
-            <input id="proj-hauteur" type="number" step="0.1" class="form-input" placeholder="">
+            <div style="display:flex;gap:6px;align-items:center">
+              <div style="flex:1">
+                <div style="font-size:10px;color:var(--muted);margin-bottom:3px">Min</div>
+                <input id="proj-hauteur-min" type="number" step="0.05" class="form-input" placeholder="" oninput="calculerHauteurMoyenne()">
+              </div>
+              <div style="flex:1">
+                <div style="font-size:10px;color:var(--muted);margin-bottom:3px">Max</div>
+                <input id="proj-hauteur-max" type="number" step="0.05" class="form-input" placeholder="" oninput="calculerHauteurMoyenne()">
+              </div>
+              <div style="flex:1">
+                <div style="font-size:10px;color:var(--muted);margin-bottom:3px">Moyenne</div>
+                <div id="hauteur-moyenne" style="padding:9px 13px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:13px;color:var(--ink);text-align:center">—</div>
+                <input type="hidden" id="proj-hauteur" value="">
+              </div>
+            </div>
           </div>
         </div>
-        <div class="form-row-1">
-          <div class="form-group">
-            <label class="form-label">Notes libres / Observations générales</label>
-            <textarea id="proj-notes" class="form-textarea" placeholder=""></textarea>
+
+        <!-- LIGNE 7 : Observations -->
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">Observations générales</label>
+          <textarea id="proj-notes" class="form-textarea" placeholder="" style="min-height:80px"></textarea>
+        </div>
+      </div>
+
+      <!-- MODAL HISTORIQUE CLIENTS -->
+      <div id="modal-clients" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:600;align-items:center;justify-content:center">
+        <div style="background:white;border-radius:14px;padding:24px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 50px rgba(0,0,0,.25)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+            <div style="font-size:15px;font-weight:700">Historique clients</div>
+            <button onclick="document.getElementById('modal-clients').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:18px;color:var(--muted)">✕</button>
+          </div>
+          <div id="clients-liste">
+            <div style="text-align:center;color:var(--muted);font-size:13px;padding:20px">Aucun client enregistré</div>
           </div>
         </div>
       </div>
+
 
       <!-- ÉTAT DU LOCAL -->
       <div class="card" style="margin-bottom:16px">
@@ -2518,6 +2605,7 @@ function updateTypeLocal(){
   recalculate();updateRecap();
 }
 function updateRecap(){
+  mettreAJourSurfaceCalculee();
   const nom=_val('proj-nom'),client=_val('proj-client'),adresse=_val('proj-adresse');
   const surface=_val('proj-surface'),hauteur=_val('proj-hauteur'),dateV=_val('proj-date');
   const t=TYPES[_val('proj-type-local','restaurant')]||{icon:'🏪'};
@@ -3490,6 +3578,8 @@ function rechercherSiren(v){
 
       // Remplir uniquement le champ client — PAS l'adresse du chantier
       if(clientInp && nom) clientInp.value = nom;
+      // Sauvegarder dans historique clients
+      sauvegarderClientHistorique(siren, nom, adresseFormatee);
       if(statusEl) statusEl.textContent = '✅';
 
       if(infoEl){
@@ -3956,6 +4046,21 @@ function afficherApp(){
   // Init app
   genererCodeChantier();
   renderRecapBanner();
+  // Préremplir date du jour
+  const dateEl = document.getElementById('proj-date');
+  if(dateEl && !dateEl.value) dateEl.value = new Date().toISOString().slice(0,10);
+  // Préremplir releveur depuis compte
+  const raw = localStorage.getItem('lokoo_compte');
+  if(raw){
+    try{
+      const d = JSON.parse(raw);
+      const p = d.profil||{};
+      const relEl = document.getElementById('proj-releveur');
+      if(relEl && !relEl.value && (p.prenom||p.nom)){
+        relEl.value = [p.prenom, p.nom].filter(Boolean).join(' ');
+      }
+    }catch(e){}
+  }
   chargerCompte();
   console.log('Lokoo V3.7 ✓ — Connecté:', _currentUser.email);
 }
@@ -4249,6 +4354,163 @@ function reinitialiserProjet(){
 
   showToast('Projet réinitialisé', '#6B7280');
 }
+
+
+// ── INITIALISATION AMÉLIORÉE ─────────────────────────────────
+var _activiteTimer = null;
+
+function calculerHauteurMoyenne(){
+  const min = parseFloat(document.getElementById('proj-hauteur-min')?.value) || 0;
+  const max = parseFloat(document.getElementById('proj-hauteur-max')?.value) || 0;
+  const el = document.getElementById('hauteur-moyenne');
+  const hidden = document.getElementById('proj-hauteur');
+  if(min && max){
+    const moy = ((min + max) / 2).toFixed(2);
+    if(el) el.textContent = moy + ' m';
+    if(hidden) hidden.value = moy;
+  } else if(min || max){
+    const val = (min || max).toFixed(2);
+    if(el) el.textContent = val + ' m';
+    if(hidden) hidden.value = val;
+  } else {
+    if(el) el.textContent = '—';
+    if(hidden) hidden.value = '';
+  }
+  updateProjectHeader();
+}
+
+function mettreAJourSurfaceCalculee(){
+  const total = state.pieces.reduce((a,p)=>a+(parseFloat(p.surface)||0), 0);
+  const el = document.getElementById('surface-calculee');
+  const hidden = document.getElementById('proj-surface');
+  if(total > 0){
+    if(el){
+      el.textContent = total.toFixed(1) + ' m²';
+      el.style.color = 'var(--ink)';
+      el.style.fontWeight = '600';
+    }
+    if(hidden) hidden.value = total.toFixed(1);
+    state.surface = total;
+  } else {
+    if(el){
+      el.textContent = 'Calculée automatiquement depuis les pièces';
+      el.style.color = 'var(--muted)';
+      el.style.fontWeight = '400';
+    }
+    if(hidden) hidden.value = '';
+    state.surface = 0;
+  }
+}
+
+function geolocaliserChantier(){
+  if(!navigator.geolocation){ showToast('Géolocalisation non disponible'); return; }
+  showToast('Localisation en cours...');
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      const lat = pos.coords.latitude.toFixed(6);
+      const lng = pos.coords.longitude.toFixed(6);
+      const gpsEl = document.getElementById('gps-coords');
+      if(gpsEl){ gpsEl.style.display='block'; gpsEl.textContent = 'GPS : '+lat+', '+lng; }
+      // Reverse geocoding
+      fetch('https://api-adresse.data.gouv.fr/reverse/?lon='+lng+'&lat='+lat)
+        .then(r=>r.json()).then(d=>{
+          if(d.features && d.features[0]){
+            const addr = d.features[0].properties.label;
+            document.getElementById('proj-adresse').value = addr;
+            loadSatelliteIframe('satellite');
+            updateProjectHeader();
+          }
+        });
+    },
+    err => showToast('Impossible de vous localiser')
+  );
+}
+
+function analyserActiviteIA(){
+  const activite = (document.getElementById('proj-activite')?.value||'').toLowerCase();
+  const type = document.getElementById('proj-type-local')?.value||'';
+  const el = document.getElementById('activite-ia-hint');
+  if(!el) return;
+  if(!activite && !type){ el.style.display='none'; return; }
+
+  const hints = [];
+  if(activite.includes('cuisin') || activite.includes('restaur') || type==='restaurant' || type==='boulangerie'){
+    hints.push('🔥 Cuisine pro → hotte, extraction, réseau gaz');
+  }
+  if(activite.includes('extraction') || activite.includes('fumée') || activite.includes('charbon') || activite.includes('braise')){
+    hints.push('⚠️ Extraction renforcée nécessaire · Vérifier réglementation ERP');
+  }
+  if(activite.includes('pmr') || activite.includes('handicap') || activite.includes('accessib')){
+    hints.push('♿ Accessibilité PMR obligatoire');
+  }
+  if(activite.includes('clim') || activite.includes('froid') || type==='cabinet'){
+    hints.push('❄️ Climatisation / traitement d'air à prévoir');
+  }
+  if(activite.includes('public') || type==='erp' || activite.includes('erp')){
+    hints.push('🏛️ ERP → réglementation incendie, désenfumage, évacuation');
+  }
+  if(activite.includes('sport') || type==='sport'){
+    hints.push('💨 Ventilation renforcée · Vestiaires · Douches');
+  }
+  if(activite.includes('hotel') || type==='hotel'){
+    hints.push('🏨 ERP type O · Détection incendie · Chambre PMR');
+  }
+  if(activite.includes('pharma') || type==='pharmacie'){
+    hints.push('💊 Ventilation contrôlée · Climatisation · Sécurité');
+  }
+
+  if(hints.length > 0){
+    el.style.display = 'block';
+    el.innerHTML = '<strong style="font-size:11px;color:var(--primary);text-transform:uppercase;letter-spacing:.06em">Points d'attention détectés</strong><br>' + hints.join('<br>');
+  } else {
+    el.style.display = 'none';
+  }
+}
+
+function ouvrirHistoriqueClients(){
+  const modal = document.getElementById('modal-clients');
+  if(!modal) return;
+  modal.style.display = 'flex';
+  // Charger depuis Firestore ou localStorage
+  const clients = JSON.parse(localStorage.getItem('lokoo_clients')||'[]');
+  const el = document.getElementById('clients-liste');
+  if(!el) return;
+  if(!clients.length){
+    el.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:13px;padding:20px">Aucun client enregistré</div>';
+    return;
+  }
+  el.innerHTML = clients.map(c=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1px solid var(--border);border-radius:8px;margin-bottom:6px;cursor:pointer"
+      onclick="selectionnerClient('${c.siren||''}','${c.nom||''}');document.getElementById('modal-clients').style.display='none'"
+      onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='white'">
+      <div>
+        <div style="font-size:13px;font-weight:600">${c.nom||'—'}</div>
+        <div style="font-size:11px;color:var(--muted)">${c.siren?'SIREN : '+c.siren:''} ${c.adresse||''}</div>
+      </div>
+      <svg width="14" height="14" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>`).join('');
+}
+
+function selectionnerClient(siren, nom){
+  const clientEl = document.getElementById('proj-client');
+  const sirenEl = document.getElementById('proj-siren');
+  if(clientEl) clientEl.value = nom;
+  if(sirenEl && siren){ sirenEl.value = siren; rechercherSiren(siren); }
+  updateProjectHeader();
+}
+
+function sauvegarderClientHistorique(siren, nom, adresse){
+  if(!nom) return;
+  const clients = JSON.parse(localStorage.getItem('lokoo_clients')||'[]');
+  // Éviter les doublons
+  const exists = clients.find(c=>c.siren===siren||c.nom===nom);
+  if(!exists){
+    clients.unshift({siren, nom, adresse, date: new Date().toISOString()});
+    if(clients.length > 50) clients.pop();
+    localStorage.setItem('lokoo_clients', JSON.stringify(clients));
+  }
+}
+
 
 // ── DÉMARRAGE ─────────────────────────────────────────────────
 // ── RÉCAPITULATIF ─────────────────────────────────────────────
