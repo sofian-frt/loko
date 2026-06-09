@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Lokoo V1.1 — Relevé & Chiffrage Locaux Commerciaux</title>
 <!-- Firebase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
@@ -54,7 +54,7 @@ input[spellcheck="true"], textarea[spellcheck="true"] {
   --font:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text','Inter',system-ui,sans-serif;
 }
 html{font-size:15px;scroll-behavior:smooth;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
-body{background:#FFFFFF;color:var(--ink);font-family:var(--font);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{background:#FFFFFF;color:var(--ink);font-family:var(--font);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 input,select,textarea,button{font-family:var(--font)}
 input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 input[type=number]{-moz-appearance:textfield}
@@ -388,6 +388,25 @@ input[type=number]{-moz-appearance:textfield}
   body.login-active .mobile-topbar{display:none!important}
   #page-login{padding-top:0;min-height:100dvh}
   /* ═══ COMPTE & PARAMÈTRES — MOBILE UNIQUEMENT ═══ */
+
+  /* 0. Empêcher le débordement horizontal */
+  #page-compte{
+    overflow-x:hidden;
+    max-width:100%;
+    box-sizing:border-box;
+  }
+  #page-compte *{
+    max-width:100%;
+    box-sizing:border-box;
+  }
+  #page-compte h2{
+    font-size:22px !important;
+    line-height:1.2;
+  }
+  #page-compte .page-header p{
+    font-size:12px !important;
+    white-space:normal;
+  }
 
   /* 1. Onglets carrousel horizontal */
   #compte-tabs{
