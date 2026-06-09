@@ -1874,6 +1874,238 @@ input[type=number]{-moz-appearance:textfield}
 
 </div>
 
+
+
+
+      <!-- CONTEXTE PROJET & CLIENT -->
+
+      <!-- BUDGET & PLANNING -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Budget & Planning</div>
+
+        <div class="form-row" style="margin-bottom:14px">
+          <div class="form-group">
+            <label class="form-label">Budget travaux estimé</label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+              <input type="number" id="ctx-budget-travaux" class="form-input" placeholder="0" style="font-size:16px">
+              <span style="font-size:12px;color:var(--muted)">€ HT</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Budget global projet</label>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:4px">travaux + honoraires + cuisine + matériel + mobilier + enseigne + communication</div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <input type="number" id="ctx-budget-global" class="form-input" placeholder="0" style="font-size:16px">
+              <span style="font-size:12px;color:var(--muted)">€ HT</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Budget validé</label>
+          <div style="display:flex;gap:14px;margin-top:6px;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="oui"> Oui</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="non"> Non</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="en-cours" checked> En cours de définition</label>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Financement obtenu</label>
+          <div style="display:flex;gap:14px;margin-top:6px;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="oui" onchange="document.getElementById('ctx-financement-montant').style.display='block'"> Oui</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="non" checked onchange="document.getElementById('ctx-financement-montant').style.display='none'"> Non</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="en-cours" onchange="document.getElementById('ctx-financement-montant').style.display='none'"> En cours</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="recherche" onchange="document.getElementById('ctx-financement-montant').style.display='none'"> À rechercher</label>
+          </div>
+        </div>
+        <div id="ctx-financement-montant" style="display:none;margin-bottom:14px">
+          <div class="form-group">
+            <label class="form-label">Montant du financement obtenu</label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+              <input type="number" id="ctx-montant-financement" class="form-input" placeholder="0" style="font-size:16px">
+              <span style="font-size:12px;color:var(--muted)">€</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+          <div class="form-group">
+            <label class="form-label">Date souhaitée de démarrage</label>
+            <input type="date" id="ctx-date-demarrage" class="form-input" style="margin-top:6px;font-size:16px">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date souhaitée d'ouverture</label>
+            <input type="date" id="ctx-date-ouverture" class="form-input" style="margin-top:6px;font-size:16px">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Délai maximum accepté</label>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="1m"> 1 mois</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="2m"> 2 mois</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="3m"> 3 mois</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="6m"> 6 mois</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="6m+"> Plus de 6 mois</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Niveau d'urgence</label>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="faible"> Faible</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="moyen" checked> Moyen</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="eleve"> Élevé</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="urgent"> Très urgent</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AVANCEMENT DU PROJET -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Avancement du projet</div>
+
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Situation du local</label>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="recherche"> Recherche de local</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="identifie"> Local identifié</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="visites"> Visites en cours</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="negociation"> Négociation en cours</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="promesse"> Promesse de bail signée</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="bail" checked> Bail signé</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="acte"> Acte signé</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="exploite"> Local déjà exploité</label>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Le client dispose-t-il des clés ?</label>
+          <div style="display:flex;gap:14px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-cles" value="oui"> Oui</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-cles" value="non" checked> Non</label>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="form-group">
+            <label class="form-label">Date prévisionnelle de signature du bail</label>
+            <input type="date" id="ctx-date-bail" class="form-input" style="margin-top:6px;font-size:16px">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date de remise des clés prévue</label>
+            <input type="date" id="ctx-date-cles" class="form-input" style="margin-top:6px;font-size:16px">
+          </div>
+        </div>
+      </div>
+
+      <!-- CONSULTATION ENTREPRISES -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Consultation entreprises</div>
+
+        <div class="form-group" style="margin-bottom:12px">
+          <label class="form-label">D'autres entreprises ont-elles déjà été consultées ?</label>
+          <div style="display:flex;gap:14px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-consult" value="oui" onchange="document.getElementById('ctx-consult-section').style.display='block';genererEntreprises(1)"> Oui</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-consult" value="non" checked onchange="document.getElementById('ctx-consult-section').style.display='none'"> Non</label>
+          </div>
+        </div>
+
+        <div id="ctx-consult-section" style="display:none">
+          <div class="form-group" style="margin-bottom:12px">
+            <label class="form-label">Nombre d'entreprises consultées</label>
+            <input type="number" id="ctx-nb-entreprises" class="form-input" value="1" min="1" max="10" style="max-width:80px;font-size:16px;margin-top:6px" oninput="genererEntreprises(this.value)">
+          </div>
+          <div id="ctx-entreprises-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px"></div>
+
+          <div class="form-group" style="margin-bottom:12px">
+            <label class="form-label">Le client dispose-t-il des devis ?</label>
+            <div style="display:flex;gap:14px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-devis-dispo" value="oui"> Oui</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-devis-dispo" value="non" checked> Non</label>
+            </div>
+          </div>
+
+          <div id="ctx-analyse-concurrence" style="display:none;padding:12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px">Analyse concurrence</div>
+            <div id="ctx-analyse-detail" style="font-size:12px;color:var(--ink2);line-height:2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DÉCIDEURS -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Décideurs</div>
+
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Interlocuteur principal</label>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="proprio" checked> Propriétaire exploitant</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="associe"> Associé</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="investisseur"> Investisseur</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="franchise"> Franchise</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="bailleur"> Bailleur</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="mandataire"> Mandataire</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="dev"> Responsable développement</label>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Nombre de décideurs</label>
+          <input type="number" id="ctx-nb-decideurs" class="form-input" value="1" min="1" style="max-width:80px;font-size:16px;margin-top:6px">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Validation finale par</label>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-validation" value="une" checked> Une personne</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-validation" value="associes"> Plusieurs associés</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-validation" value="franchise"> Franchise</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-validation" value="investisseur"> Investisseur</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-validation" value="ca"> Conseil d'administration</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFORMATIONS COMPLÉMENTAIRES -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Informations complémentaires</div>
+
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Origine du contact</label>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="recommandation"> Recommandation</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="apporteur"> Apporteur d'affaires</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="architecte"> Architecte</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="reseau-pro"> Réseau professionnel</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="internet"> Internet</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="reseaux-sociaux"> Réseaux sociaux</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="ancien-client"> Ancien client</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="autre"> Autre</label>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Type d'accompagnement recherché</label>
+          <div class="check-grid" style="margin-top:6px">
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ctx-acc-chiffrage"> Chiffrage uniquement</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ctx-acc-conception"> Conception + travaux</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ctx-acc-cle-main"> Clé en main</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ctx-acc-admin"> Assistance administrative</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ctx-acc-erp"> Dossier ERP</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ctx-acc-pilotage"> Pilotage complet du projet</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Commentaires libres</label>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:6px">Contraintes bailleur · Exigences franchiseur · Objectifs client · Particularités · Informations financières · Historique</div>
+          <textarea id="ctx-commentaires" class="form-input" rows="6" placeholder="Notes libres du chargé d'études / commercial..." style="resize:vertical;font-size:13px;line-height:1.6"></textarea>
+        </div>
+      </div>
+
 <!-- ══ PAGE ANALYSE IA ══ -->
 <div class="page" id="page-analyse-ia">
   <div class="page-header-actions">
@@ -4170,6 +4402,82 @@ function alerteExtraction(n){
       : '<svg width="13" height="13" fill="none" stroke="#1D4ED8" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
     return `<div style="display:flex;gap:8px;padding:8px 10px;background:${bg};border:1px solid ${bord};border-radius:7px;margin-top:6px;font-size:11px;color:${col};line-height:1.5">${icon}<span>${a.txt}</span></div>`;
   }).join('');
+}
+
+
+// ── CONTEXTE PROJET & CLIENT ──────────────────────────────────
+
+function genererEntreprises(nb){
+  nb = Math.min(Math.max(parseInt(nb)||1, 1), 10);
+  const list = document.getElementById('ctx-entreprises-list');
+  if(!list) return;
+  list.innerHTML = '';
+  for(let i = 1; i <= nb; i++){
+    list.innerHTML += `
+      <div style="border:1.5px solid var(--border);border-radius:8px;padding:12px">
+        <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:10px">Entreprise n°${i}</div>
+        <div class="form-row" style="margin-bottom:10px">
+          <div class="form-group">
+            <label class="form-label">Nom</label>
+            <input type="text" id="ctx-ent-nom-${i}" class="form-input" placeholder="Nom de l'entreprise" style="margin-top:4px">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Montant du devis</label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+              <input type="number" id="ctx-ent-montant-${i}" class="form-input" placeholder="0" oninput="analyserConcurrence()" style="font-size:16px">
+              <span style="font-size:12px;color:var(--muted)">€ HT</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Commentaires</label>
+          <input type="text" id="ctx-ent-comment-${i}" class="form-input" placeholder="" style="margin-top:4px">
+        </div>
+      </div>`;
+  }
+  analyserConcurrence();
+}
+
+function analyserConcurrence(){
+  const nb  = parseInt(document.getElementById('ctx-nb-entreprises')?.value) || 0;
+  const el  = document.getElementById('ctx-analyse-concurrence');
+  const det = document.getElementById('ctx-analyse-detail');
+  if(!el || !det || nb === 0) return;
+
+  const montants = [];
+  for(let i = 1; i <= nb; i++){
+    const v = parseFloat(document.getElementById('ctx-ent-montant-'+i)?.value);
+    if(!isNaN(v) && v > 0) montants.push(v);
+  }
+
+  if(montants.length < 2){ el.style.display='none'; return; }
+
+  const min  = Math.min(...montants);
+  const max  = Math.max(...montants);
+  const moy  = Math.round(montants.reduce((a,b)=>a+b,0) / montants.length);
+  const ecar = Math.round(((max - min) / moy) * 100);
+  const fmt  = v => v.toLocaleString('fr-FR') + ' €';
+
+  el.style.display = 'block';
+  det.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+      <div style="text-align:center;padding:8px;background:white;border-radius:6px">
+        <div style="font-size:14px;font-weight:800;color:var(--primary)">${fmt(min)}</div>
+        <div style="font-size:10px;color:var(--muted)">Minimum</div>
+      </div>
+      <div style="text-align:center;padding:8px;background:white;border-radius:6px">
+        <div style="font-size:14px;font-weight:800;color:var(--primary)">${fmt(max)}</div>
+        <div style="font-size:10px;color:var(--muted)">Maximum</div>
+      </div>
+      <div style="text-align:center;padding:8px;background:white;border-radius:6px">
+        <div style="font-size:14px;font-weight:800;color:var(--primary)">${fmt(moy)}</div>
+        <div style="font-size:10px;color:var(--muted)">Moyenne</div>
+      </div>
+      <div style="text-align:center;padding:8px;background:white;border-radius:6px">
+        <div style="font-size:14px;font-weight:800;color:${ecar>30?'var(--danger)':'var(--ink)'}">±${ecar}%</div>
+        <div style="font-size:10px;color:var(--muted)">Écart</div>
+      </div>
+    </div>`;
 }
 
 // ── PRESTATAIRES ACCORDÉONS ───────────────────────────────────
