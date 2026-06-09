@@ -639,6 +639,14 @@ input[type=number]{-moz-appearance:textfield}
     </button>
   </div>
   <input type="file" id="import-file-input" accept=".json" style="display:none" onchange="chargerDossier(this)">
+  <!-- SUIVI ADMIN -->
+  <div id="topbar-suivi-admin" style="display:none;flex-direction:column;justify-content:center;padding:0 12px;border-left:1px solid var(--border);border-right:1px solid var(--border);margin:0 4px;line-height:1.4">
+    <div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em">Créé le</div>
+    <div id="topbar-suivi-creation" style="font-size:10px;font-weight:600;color:var(--ink2)">—</div>
+    <div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-top:2px">Modifié le</div>
+    <div id="topbar-suivi-modif" style="font-size:10px;font-weight:600;color:var(--ink2)">—</div>
+  </div>
+
   <!-- PROFIL -->
   <div style="position:relative">
     <button id="btn-profil" onclick="toggleProfilMenu()" style="width:34px;height:34px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s" title="Profil & Paramètres">
@@ -5437,7 +5445,7 @@ function ajouterDocuments(input){
 
 // ── SUIVI ADMINISTRATIF ───────────────────────────────────────
 function initSuiviAdmin(){
-  const now = new Date().toLocaleString('fr-FR');
+  const now = new Date().toLocaleString('fr-FR', {day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'});
   const user = (() => {
     try{
       const d = JSON.parse(localStorage.getItem('lokoo_compte')||'{}');
@@ -5452,10 +5460,17 @@ function initSuiviAdmin(){
   if(el('suivi-modif-par')) el('suivi-modif-par').textContent = user;
   // Stocker
   if(!state._suiviCreation){ state._suiviCreation = now; state._suiviCreePar = user; }
+  // Topbar
+  const tb = document.getElementById('topbar-suivi-admin');
+  if(tb) tb.style.display = 'flex';
+  const tbCreation = document.getElementById('topbar-suivi-creation');
+  const tbModif = document.getElementById('topbar-suivi-modif');
+  if(tbCreation) tbCreation.textContent = now;
+  if(tbModif) tbModif.textContent = now;
 }
 
 function majSuiviAdmin(){
-  const now = new Date().toLocaleString('fr-FR');
+  const now = new Date().toLocaleString('fr-FR', {day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'});
   const user = (() => {
     try{
       const d = JSON.parse(localStorage.getItem('lokoo_compte')||'{}');
@@ -5466,6 +5481,11 @@ function majSuiviAdmin(){
   const el = id => document.getElementById(id);
   if(el('suivi-modif')) el('suivi-modif').textContent = now;
   if(el('suivi-modif-par')) el('suivi-modif-par').textContent = user;
+  // Mettre à jour la topbar
+  const tb = document.getElementById('topbar-suivi-admin');
+  if(tb) tb.style.display = 'flex';
+  const tbModif = document.getElementById('topbar-suivi-modif');
+  if(tbModif) tbModif.textContent = now;
 }
 
 
