@@ -2662,7 +2662,7 @@ function toggleCheck(el){
 }
 // ── PIÈCES ────────────────────────────────────────────────────
 function addPiece(type){
-  if(!type) type = 'existant';
+  if(!type) type = _releveTabActif || 'existant';
   state.pieceCounter++;
   const id='p'+state.pieceCounter;
   state.pieces.push({_type:type,id,nom:'Pièce '+state.pieceCounter,type:'Salle',
@@ -2671,10 +2671,13 @@ function addPiece(type){
     prises:4,prisesDouble:2,prisesSpec:0,prisesTri:0,rj45:0,camElec:0,bornesWifi:0,ecrans:0,
     eauFroide:0,eauChaude:0,evacuation:0,wc:0,wcPMR:0,laveMains:0,plonge:0,sipholSol:0,
     nbPersonnes:0,notes:'',_mursB:0,_mursN:0,_faience:0});
-  _get('empty-pieces')?.remove();
-  renderPieceCard(id);
+  // Cacher l'empty state du bon onglet
+  const emptyEl = _get('empty-pieces-'+type) || _get('empty-pieces');
+  if(emptyEl) emptyEl.style.display='none';
+  renderPieceCard(id, type);
   computeMetresTotaux();
   updateNbPieces();
+  majResumeReleves();
   setTimeout(()=>{const b=_get('piece-body-'+id);if(b)b.classList.add('open');},50);
 }
 function removePiece(id){
@@ -2696,9 +2699,12 @@ function renderPieces(){
   state.pieces.forEach(p=>renderPieceCard(p.id));
   computeMetresTotaux();updateNbPieces();
 }
-function renderPieceCard(id){
+function renderPieceCard(id, type){
   const p=getPiece(id);if(!p)return;
-  const c=_get('pieces-container');if(!c)return;
+  if(!type) type = p._type || 'existant';
+  // Chercher le bon container
+  const c = _get('pieces-list-'+type) || _get('pieces-container');
+  if(!c)return;
   _get('piece-card-'+id)?.remove();
   const icon=PIECE_ICONS[p.type]||'📌';
   const typeOpts=PIECE_TYPES.map(t=>`<option${t===p.type?' selected':''}>${t}</option>`).join('');
