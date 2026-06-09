@@ -462,7 +462,7 @@ input[type=number]{-moz-appearance:textfield}
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Pré-chiffrage
     </button>
     <button class="nav-item" onclick="showPage('chiffrage')" id="nav-chiffrage">
-      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></span> Chiffrage détaillé
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></span> DPGF
     </button>
     <button class="nav-item" onclick="showPage('synthese')" id="nav-synthese">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span> Synthèse
@@ -1852,7 +1852,7 @@ input[type=number]{-moz-appearance:textfield}
 <!-- ══ PAGE CHIFFRAGE DÉTAILLÉ ══ -->
 <div class="page" id="page-chiffrage">
   <div class="page-header">
-    <h2>Chiffrage détaillé</h2>
+    <h2>DPGF</h2>
     <p>Déboursé sec · Main-d'œuvre · Matériaux · Sous-traitance · FG · Aléas · Marge</p>
   </div>
   <div class="alert info" style="margin-bottom:20px">
@@ -1874,6 +1874,10 @@ input[type=number]{-moz-appearance:textfield}
       <p>Récapitulatif complet · Alertes · Chiffrage global</p>
     </div>
     <div style="display:flex;gap:8px">
+      <button onclick="genererRapportDPGF()" class="btn btn-primary btn-sm" style="gap:6px">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+        Générer rapport DPGF
+      </button>
       <button class="btn btn-secondary" onclick="exportPrint()"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimer</button>
     </div>
   </div>
@@ -2712,7 +2716,7 @@ const PAGE_META={
   facade:{title:'Façade & Conformité ERP',step:'Étape 8/8'},
   recap:{title:'Récapitulatif projet',step:'Vue d\'ensemble'},
   prechiffrage:{title:'Pré-chiffrage rapide',step:'Chiffrage'},
-  chiffrage:{title:'Chiffrage détaillé',step:'Chiffrage'},
+  chiffrage:{title:'DPGF',step:'Chiffrage'},
   synthese:{title:'Synthèse du projet',step:'Synthèse'},
   bibliotheque:{title:'Bibliothèque de prix',step:'Base'},
   chantiers:{title:'Chantiers',step:'Base'},
@@ -5129,6 +5133,198 @@ function renderAnalyseIA(){
         <div style="color:var(--ink2)">${h.extrait}</div>
       </div>`).join('');
   }
+}
+
+
+
+// ── RAPPORT DPGF ─────────────────────────────────────────────
+function genererRapportDPGF(){
+  const nom = _val('proj-nom') || 'CHT-XXXX';
+  const nomChantier = _val('proj-nom-chantier') || '';
+  const client = _val('proj-client') || '—';
+  const adresse = _val('proj-adresse') || '—';
+  const surface = _val('proj-surface') || '—';
+  const typeLocal = _val('proj-type-local') || 'restaurant';
+  const activite = _val('proj-activite') || '—';
+  const date = _val('proj-date') || new Date().toISOString().slice(0,10);
+  const releveur = _val('proj-releveur') || '—';
+  const cur = TYPES[typeLocal] || TYPES.restaurant;
+  const gam = GAMMES.find(g=>g.key===state.activeGamme) || GAMMES[1];
+
+  // Calculs financiers
+  const s = state.surface || parseFloat(surface) || 0;
+  const cR = REGIONS[state.region||'std'] || 1;
+  const bB = s > 0 ? s * cur.taux * gam.coeff * cR * (state.renov||1) : 0;
+  const fg = state.fg || 8;
+  const marge = state.marge || 10;
+  const cA = 0.02 + ((state.complexite||3)-1)*0.02;
+  const mFG = bB * fg / 100;
+  const mAl = (bB + mFG) * cA;
+  const bM = bB + mFG + mAl;
+  const mMa = bM * (marge/100) / (1-marge/100);
+  const tT = bM + mMa;
+
+  // Données entreprise
+  const compteRaw = localStorage.getItem('lokoo_compte');
+  let entreprise = {raison:'', adresse:'', siret:'', tva:'', web:''};
+  try{ const d = JSON.parse(compteRaw||'{}'); entreprise = {...entreprise, ...(d.entreprise||{})}; }catch(e){}
+
+  // Logo entreprise
+  const logoData = localStorage.getItem('lokoo_logo') || '';
+
+  // Lots pour le DPGF
+  const lots = cur.lots || [];
+  const lotsHtml = lots.map((l,i) => {
+    const montant = Math.round(tT * l.pct / 100);
+    return `
+      <tr style="border-bottom:1px solid #e5e7eb">
+        <td style="padding:10px 14px;font-size:13px;font-weight:600;color:#374151">${String(i+1).padStart(2,'0')} - ${l.nom}</td>
+        <td style="padding:10px 14px;font-size:12px;color:#6b7280;text-align:center">${l.pct}%</td>
+        <td style="padding:10px 14px;font-size:13px;font-weight:700;color:#111827;text-align:right">${fmt(montant)} HT</td>
+      </tr>`;
+  }).join('');
+
+  // Pièces relevées
+  const piecesExist = state.pieces.filter(p=>(p._type||'existant')==='existant');
+  const piecesProjet = state.pieces.filter(p=>p._type==='projet');
+  const surfExist = piecesExist.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
+  const surfProjet = piecesProjet.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
+
+  const dateFormatee = new Date(date).toLocaleDateString('fr-FR',{year:'numeric',month:'long',day:'numeric'});
+  const dateAujourdhui = new Date().toLocaleDateString('fr-FR',{year:'numeric',month:'long',day:'numeric'});
+
+  const rapport = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Rapport DPGF — ${nom}</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',Arial,sans-serif; color:#111827; background:white; }
+  .page { width:210mm; min-height:297mm; margin:0 auto; padding:20mm 18mm; }
+  .header { display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:20px; border-bottom:3px solid #111827; margin-bottom:28px; }
+  .logo-zone { max-height:60px; max-width:160px; }
+  .logo-zone img { max-height:60px; max-width:160px; object-fit:contain; }
+  .company-info { text-align:right; font-size:11px; color:#6b7280; line-height:1.7; }
+  .doc-title { font-size:28px; font-weight:800; color:#111827; margin-bottom:6px; letter-spacing:-0.5px; }
+  .doc-subtitle { font-size:13px; color:#6b7280; margin-bottom:24px; }
+  .badge { display:inline-block; padding:3px 12px; background:#f0fdf4; border:1px solid #86efac; border-radius:20px; font-size:11px; font-weight:600; color:#16a34a; }
+  .section-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:#9ca3af; margin:28px 0 12px; }
+  .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+  .info-item { padding:12px 14px; background:#f9fafb; border-radius:8px; border:1px solid #e5e7eb; }
+  .info-label { font-size:10px; font-weight:600; color:#9ca3af; text-transform:uppercase; margin-bottom:3px; }
+  .info-value { font-size:13px; font-weight:600; color:#111827; }
+  table { width:100%; border-collapse:collapse; margin-bottom:20px; }
+  thead tr { background:#111827; }
+  thead th { padding:10px 14px; font-size:11px; font-weight:600; color:white; text-align:left; letter-spacing:.05em; }
+  thead th:last-child { text-align:right; }
+  tfoot tr { background:#f0fdf4; border-top:2px solid #111827; }
+  tfoot td { padding:12px 14px; font-size:13px; font-weight:700; }
+  .total-row td { font-size:15px; font-weight:800; color:#059669; }
+  .total-row td:last-child { text-align:right; }
+  .alert-box { padding:14px 18px; background:#fef3c7; border:1.5px solid #fcd34d; border-radius:8px; font-size:12px; color:#92400e; margin-bottom:16px; }
+  .footer { margin-top:40px; padding-top:16px; border-top:1px solid #e5e7eb; display:flex; justify-content:space-between; font-size:10px; color:#9ca3af; }
+  .signature-zone { margin-top:40px; display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+  .signature-box { padding:20px; border:1px solid #e5e7eb; border-radius:8px; min-height:100px; }
+  .signature-label { font-size:11px; font-weight:600; color:#6b7280; margin-bottom:6px; }
+  @media print { .page { padding:15mm 12mm; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- EN-TÊTE -->
+  <div class="header">
+    <div>
+      ${logoData ? `<div class="logo-zone"><img src="${logoData}" alt="Logo"></div>` : `<div style="font-size:22px;font-weight:900;color:#111827">${entreprise.raison||'lokoo.io'}</div>`}
+      ${entreprise.raison ? `<div style="font-size:11px;color:#6b7280;margin-top:6px">${entreprise.raison}</div>` : ''}
+    </div>
+    <div class="company-info">
+      ${entreprise.adresse ? `<div>${entreprise.adresse}</div>` : ''}
+      ${entreprise.siret ? `<div>SIRET : ${entreprise.siret}</div>` : ''}
+      ${entreprise.tva ? `<div>TVA : ${entreprise.tva}</div>` : ''}
+      ${entreprise.web ? `<div>${entreprise.web}</div>` : ''}
+    </div>
+  </div>
+
+  <!-- TITRE -->
+  <div class="doc-title">Rapport DPGF</div>
+  <div class="doc-subtitle">Décomposition du Prix Global et Forfaitaire · Accompagnement du chiffrage</div>
+  <span class="badge">${nom}</span>
+  ${nomChantier ? `<span class="badge" style="margin-left:8px;background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8">${nomChantier}</span>` : ''}
+
+  <!-- INFORMATIONS PROJET -->
+  <div class="section-title">Informations du projet</div>
+  <div class="info-grid">
+    <div class="info-item"><div class="info-label">Client / Maître d'ouvrage</div><div class="info-value">${client}</div></div>
+    <div class="info-item"><div class="info-label">Adresse du chantier</div><div class="info-value">${adresse}</div></div>
+    <div class="info-item"><div class="info-label">Type de local</div><div class="info-value">${cur.label}</div></div>
+    <div class="info-item"><div class="info-label">Activité prévue</div><div class="info-value">${activite}</div></div>
+    <div class="info-item"><div class="info-label">Surface totale</div><div class="info-value">${s > 0 ? s+' m²' : surface+' m²'}</div></div>
+    <div class="info-item"><div class="info-label">Gamme de prestation</div><div class="info-value">${gam.label}</div></div>
+    <div class="info-item"><div class="info-label">Date de visite</div><div class="info-value">${dateFormatee}</div></div>
+    <div class="info-item"><div class="info-label">Chargé d'affaires</div><div class="info-value">${releveur}</div></div>
+  </div>
+
+  <!-- MÉTRÉS RELEVÉS -->
+  ${(piecesExist.length > 0 || piecesProjet.length > 0) ? `
+  <div class="section-title">Données relevées</div>
+  <div class="info-grid">
+    <div class="info-item"><div class="info-label">Pièces existantes</div><div class="info-value">${piecesExist.length} pièces · ${surfExist.toFixed(1)} m²</div></div>
+    <div class="info-item"><div class="info-label">Pièces projet</div><div class="info-value">${piecesProjet.length} pièces · ${surfProjet.toFixed(1)} m²</div></div>
+  </div>` : ''}
+
+  <!-- DPGF — DÉCOMPOSITION PAR LOTS -->
+  <div class="section-title">Décomposition du prix global et forfaitaire</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Désignation du lot</th>
+        <th style="text-align:center">Répartition</th>
+        <th style="text-align:right">Montant HT</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${lotsHtml}
+    </tbody>
+    <tfoot>
+      <tr><td colspan="2" style="font-size:13px;font-weight:700">Déboursé sec</td><td style="text-align:right;font-size:13px;font-weight:700">${fmt(bB)} HT</td></tr>
+      <tr><td colspan="2" style="font-size:12px;color:#6b7280">Frais généraux (${fg}%)</td><td style="text-align:right;font-size:12px;color:#6b7280">+ ${fmt(mFG)} HT</td></tr>
+      <tr><td colspan="2" style="font-size:12px;color:#6b7280">Aléas (${Math.round(cA*100)}%)</td><td style="text-align:right;font-size:12px;color:#6b7280">+ ${fmt(mAl)} HT</td></tr>
+      <tr><td colspan="2" style="font-size:12px;color:#6b7280">Marge nette (${marge}%)</td><td style="text-align:right;font-size:12px;color:#6b7280">+ ${fmt(mMa)} HT</td></tr>
+      <tr class="total-row"><td colspan="2">TOTAL GÉNÉRAL HT</td><td>${fmt(tT)} HT</td></tr>
+    </tfoot>
+  </table>
+  ${s > 0 ? `<div style="text-align:right;font-size:12px;color:#6b7280;margin-top:-12px;margin-bottom:20px">Soit ${Math.round(tT/s)} €/m² HT</div>` : ''}
+
+  <!-- ZONES DE SIGNATURE -->
+  <div class="section-title">Validation</div>
+  <div class="signature-zone">
+    <div class="signature-box">
+      <div class="signature-label">Le Maître d'ouvrage</div>
+      <div style="font-size:11px;color:#9ca3af;margin-top:4px">Bon pour accord · Date et signature</div>
+    </div>
+    <div class="signature-box">
+      <div class="signature-label">L'Entreprise</div>
+      <div style="font-size:11px;color:#9ca3af;margin-top:4px">${entreprise.raison||''} · Date et signature</div>
+    </div>
+  </div>
+
+  <!-- PIED DE PAGE -->
+  <div class="footer">
+    <div>Document généré par lokoo.io · ${dateAujourdhui}</div>
+    <div>${nom} · ${nomChantier||client}</div>
+  </div>
+
+</div>
+</body>
+</html>`;
+
+  // Ouvrir dans un nouvel onglet pour impression
+  const win = window.open('', '_blank');
+  win.document.write(rapport);
+  win.document.close();
+  setTimeout(()=>{ win.focus(); win.print(); }, 500);
 }
 
 
