@@ -898,14 +898,7 @@ input[type=number]{-moz-appearance:textfield}
         </div>
       </div>
 
-      <!-- DOCUMENTS -->
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">Documents du dossier</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px" id="docs-grid">
-          <!-- Généré dynamiquement -->
-        </div>
-        <input type="file" id="doc-upload-input" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" style="display:none" onchange="ajouterDocuments(this)">
-      </div>
+
 
       <!-- SUIVI ADMINISTRATIF -->
       <div class="card" style="margin-bottom:16px;background:var(--bg)">
@@ -1086,64 +1079,78 @@ input[type=number]{-moz-appearance:textfield}
 
 <!-- ══ PAGE ANALYSE IA ══ -->
 <div class="page" id="page-analyse-ia">
-  <div class="page-header">
-    <h2>Analyse intelligente IA</h2>
-    <p>Importez vos documents — l'IA extrait automatiquement les informations clés du dossier</p>
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Analyse IA & Documents</h2>
+      <p>Gérez les documents du dossier · L'IA extrait et résume automatiquement les informations clés</p>
+    </div>
+    <input id="ia-analyse-key" type="password" class="form-input" placeholder="Clé API sk-ant-..."
+      style="font-family:monospace;font-size:11px;width:220px"
+      oninput="localStorage.setItem('lokoo_api_key',this.value)">
   </div>
 
-  <!-- Zone d'import -->
-  <div class="card" style="margin-bottom:16px">
-    <div class="card-title">Importer un document à analyser</div>
-    <div id="ia-doc-drop-zone" style="border:2px dashed var(--border2);border-radius:12px;padding:40px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)"
-      onclick="document.getElementById('ia-doc-input').click()"
-      ondragover="event.preventDefault();this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
-      ondragleave="this.style.borderColor='var(--border2)';this.style.background='var(--bg)'"
-      ondrop="handleIADocDrop(event)">
-      <svg width="36" height="36" fill="none" stroke="var(--muted)" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 12px;display:block"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M12 12v6M9 15l3-3 3 3"/></svg>
-      <div style="font-size:14px;font-weight:600;color:var(--ink2)">Glissez un document ou cliquez pour importer</div>
-      <div style="font-size:12px;color:var(--muted);margin-top:6px">PDF, Word, Image · Bail, Plan, CCTP, Notice descriptive...</div>
-    </div>
-    <input type="file" id="ia-doc-input" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" style="display:none" onchange="analyserDocumentIA(this)">
-
-    <!-- Clé API -->
-    <div style="margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-      <div style="flex:1;min-width:200px">
-        <label class="form-label" style="margin-bottom:4px">Clé API Anthropic</label>
-        <input id="ia-analyse-key" type="password" class="form-input" placeholder="sk-ant-..."
-          style="font-family:monospace;font-size:12px"
-          oninput="localStorage.setItem('lokoo_api_key',this.value)">
+  <div class="g2" style="gap:20px;align-items:start">
+    <!-- COLONNE GAUCHE : Documents -->
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div class="card-title" style="margin-bottom:0">Documents du dossier</div>
+          <button onclick="resumerTousDocuments()" class="btn btn-secondary btn-sm" style="gap:6px">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            Résumer tous
+          </button>
+        </div>
+        <div id="docs-grid" style="display:flex;flex-direction:column;gap:6px"></div>
+        <input type="file" id="doc-upload-input" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" style="display:none" onchange="ajouterDocuments(this)">
       </div>
-      <button onclick="analyserDocumentIAManuel()" class="btn btn-primary btn-sm" style="margin-top:20px;gap:6px">
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        Analyser
-      </button>
-    </div>
-  </div>
 
-  <!-- Résultats -->
-  <div id="ia-analyse-results" style="display:none">
-    <div class="card" style="margin-bottom:16px;border:1.5px solid var(--primary-border);background:var(--primary-light)">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <div class="card-title" style="color:var(--primary-dark);margin-bottom:0">Résultats de l'analyse</div>
-        <button onclick="appliquerResultatsIA()" class="btn btn-primary btn-sm">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-          Appliquer au dossier
+      <!-- Résumé global -->
+      <div id="resumé-global-card" class="card" style="display:none;border:1.5px solid var(--primary-border);background:var(--primary-light)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="card-title" style="color:var(--primary-dark);margin-bottom:0">Résumé global</div>
+          <button onclick="appliquerResultatsIA()" class="btn btn-primary btn-sm">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Appliquer au dossier
+          </button>
+        </div>
+        <div id="resumé-global-content" style="font-size:13px;line-height:1.8;color:var(--ink)"></div>
+      </div>
+    </div>
+
+    <!-- COLONNE DROITE : Analyse document -->
+    <div>
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Analyser un document</div>
+        <div id="ia-doc-drop-zone"
+          style="border:2px dashed var(--border2);border-radius:10px;padding:30px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);margin-bottom:12px"
+          onclick="document.getElementById('ia-doc-input').click()"
+          ondragover="event.preventDefault();this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
+          ondragleave="this.style.borderColor='var(--border2)';this.style.background='var(--bg)'"
+          ondrop="handleIADocDrop(event)">
+          <svg width="28" height="28" fill="none" stroke="var(--muted)" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 8px;display:block"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M12 12v6M9 15l3-3 3 3"/></svg>
+          <div style="font-size:13px;font-weight:600;color:var(--ink2)">Glissez ou cliquez</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">PDF, Image, Word</div>
+        </div>
+        <input type="file" id="ia-doc-input" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="analyserDocumentIA(this)">
+        <button onclick="analyserDocumentIAManuel()" class="btn btn-primary btn-full" style="gap:6px">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          Analyser avec l'IA
         </button>
       </div>
-      <div id="ia-analyse-content" style="font-size:13px;line-height:1.8;white-space:pre-wrap;color:var(--ink)"></div>
-    </div>
 
-    <!-- Données extraites -->
-    <div class="card" id="ia-extracted-card" style="display:none">
-      <div class="card-title">Données extraites — à appliquer au dossier</div>
-      <div id="ia-extracted-fields" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
+      <!-- Résultats analyse -->
+      <div id="ia-analyse-results" style="display:none" class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="card-title" style="margin-bottom:0">Résultats</div>
+          <button onclick="appliquerResultatsIA()" class="btn btn-primary btn-sm">Appliquer</button>
+        </div>
+        <div id="ia-analyse-content" style="font-size:12px;line-height:1.8;white-space:pre-wrap;color:var(--ink);max-height:400px;overflow-y:auto"></div>
+        <div id="ia-extracted-card" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:8px">Données extraites</div>
+          <div id="ia-extracted-fields" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"></div>
+        </div>
+      </div>
     </div>
-  </div>
-
-  <!-- Historique -->
-  <div id="ia-historique" style="display:none" class="card">
-    <div class="card-title">Historique des analyses</div>
-    <div id="ia-historique-liste"></div>
   </div>
 </div>
 
@@ -4223,7 +4230,6 @@ function afficherApp(){
   // Releveur : champ vide par défaut
   chargerCompte();
   setTimeout(()=>{
-    initDocsGrid();
     majActiviteOptions();
     initSuiviAdmin();
   }, 300);
@@ -5108,6 +5114,7 @@ function sauvegarderHistoriqueIA(texte){
 }
 
 function renderAnalyseIA(){
+  initDocsGrid();
   // Restaurer clé API
   const key = localStorage.getItem('lokoo_api_key')||'';
   const keyEl = document.getElementById('ia-analyse-key');
@@ -5170,6 +5177,7 @@ const TYPES_DOCS = [
   {id:'cctp', label:'CCTP'},
   {id:'notice-descriptive', label:'Notice descriptive'},
   {id:'cahier-prestations', label:'Cahier de prestations'},
+  {id:'autres', label:'Autres documents'},
 ];
 
 var _documentsProjet = {};
@@ -5178,27 +5186,86 @@ function initDocsGrid(){
   const grid = document.getElementById('docs-grid');
   if(!grid) return;
   grid.innerHTML = TYPES_DOCS.map(d=>`
-    <div style="border:1.5px dashed var(--border2);border-radius:8px;padding:10px;text-align:center;cursor:pointer;transition:all .15s;background:white"
-      id="doc-card-${d.id}"
-      onclick="document.getElementById('doc-upload-input').setAttribute('data-type','${d.id}');document.getElementById('doc-upload-input').click()"
-      onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
-      onmouseout="this.style.borderColor='var(--border2)';this.style.background='white'">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 4px;display:block;color:var(--muted)"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
-      <div style="font-size:10px;font-weight:600;color:var(--ink2);line-height:1.3">${d.label}</div>
-      <div id="doc-count-${d.id}" style="display:none;margin-top:4px;font-size:10px;font-weight:700;color:var(--primary)">0 fichier(s)</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;background:white;transition:all .15s"
+      id="doc-card-${d.id}">
+      <div style="display:flex;align-items:center;gap:10px">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="color:var(--muted);flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--ink)">${d.label}</div>
+          <div id="doc-files-${d.id}" style="font-size:10px;color:var(--muted)">Aucun fichier</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-ghost btn-sm" style="font-size:11px;padding:4px 8px"
+          onclick="document.getElementById('doc-upload-input').setAttribute('data-type','${d.id}');document.getElementById('doc-upload-input').click()">
+          + Ajouter
+        </button>
+        <button class="btn btn-secondary btn-sm" style="font-size:11px;padding:4px 8px;display:none" id="btn-analyse-${d.id}"
+          onclick="analyserDocumentParType('${d.id}')">
+          Analyser
+        </button>
+      </div>
     </div>`).join('');
+}
+
+async function resumerTousDocuments(){
+  const apiKey = localStorage.getItem('lokoo_api_key');
+  if(!apiKey){ showToast('Clé API requise', '#EF4444'); return; }
+  const docs = Object.entries(_documentsProjet).filter(([k,v])=>v&&v.length>0);
+  if(!docs.length){ showToast('Aucun document importé', '#EF4444'); return; }
+
+  showToast('Résumé en cours...');
+  const listeDoc = docs.map(([k,v])=>`- ${TYPES_DOCS.find(d=>d.id===k)?.label||k} : ${v.map(f=>f.name).join(', ')}`).join('\n');
+
+  try{
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({
+        model:'claude-opus-4-5', max_tokens:1500,
+        messages:[{role:'user',content:`Voici la liste des documents disponibles pour ce projet de rénovation de local commercial :\n${listeDoc}\n\nFais un résumé structuré de ce que ces documents permettent de faire et ce qui manque encore pour compléter le dossier. Sois concis et pratique.`}]
+      })
+    });
+    const data = await resp.json();
+    const texte = data.content[0].text;
+    const card = document.getElementById('resumé-global-card');
+    const cont = document.getElementById('resumé-global-content');
+    if(card) card.style.display='block';
+    if(cont) cont.textContent = texte;
+  }catch(e){ showToast('Erreur: '+e.message,'#EF4444'); }
+}
+
+async function analyserDocumentParType(type){
+  const docs = _documentsProjet[type];
+  if(!docs||!docs.length) return;
+  showToast('Analyse en cours...');
+  // Utiliser la dernière image importée
+  const lastDoc = docs[docs.length-1];
+  if(lastDoc.data){
+    _iaDocBase64 = lastDoc.data.split(',')[1];
+    _iaDocType = lastDoc.type||'image/jpeg';
+    await analyserDocumentIAManuel();
+  }
 }
 
 function ajouterDocuments(input){
   const type = input.getAttribute('data-type') || 'autres';
   const files = Array.from(input.files);
   if(!_documentsProjet[type]) _documentsProjet[type] = [];
-  files.forEach(f => _documentsProjet[type].push({name:f.name, size:f.size, date:new Date().toISOString()}));
-  // Mettre à jour le badge
-  const countEl = document.getElementById('doc-count-'+type);
-  const card = document.getElementById('doc-card-'+type);
-  if(countEl){ countEl.style.display='block'; countEl.textContent=_documentsProjet[type].length+' fichier(s)'; }
-  if(card){ card.style.borderColor='var(--primary)'; card.style.borderStyle='solid'; }
+  files.forEach(f => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      _documentsProjet[type].push({name:f.name, size:f.size, type:f.type, data:e.target.result, date:new Date().toISOString()});
+      // Mettre à jour l'affichage
+      const filesEl = document.getElementById('doc-files-'+type);
+      const card = document.getElementById('doc-card-'+type);
+      const btnAnalyse = document.getElementById('btn-analyse-'+type);
+      if(filesEl) filesEl.textContent = _documentsProjet[type].length+' fichier(s)';
+      if(card){ card.style.borderColor='var(--primary)'; }
+      if(btnAnalyse) btnAnalyse.style.display='inline-flex';
+    };
+    reader.readAsDataURL(f);
+  });
   input.value = '';
   majSuiviAdmin();
 }
