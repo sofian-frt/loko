@@ -1729,32 +1729,86 @@ input[type=number]{-moz-appearance:textfield}
 <!-- COL DROITE -->
     <div>
 
-      <!-- CHANTIER PROVISOIRE -->
-      <div class="card">
-        <div class="card-title">Alimentation provisoire chantier</div>
-        <div class="radio-cards" id="elec-prov-type">
-          <div class="radio-card selected" onclick="selectEtat('elec-prov','aucune',this)">
-            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 13V7a7 7 0 0114 0v6"/><path d="M9 13h6v3a3 3 0 01-6 0v-3z"/></svg></div>
-            <div class="radio-card-label">Aucune</div>
-            <div class="radio-card-sub">Local déjà alimenté</div>
+      <!-- ALIMENTATION PROVISOIRE DE CHANTIER -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Alimentation provisoire de chantier</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:16px">Anticiper les installations temporaires pour le préchiffrage des frais de chantier</div>
+
+        <!-- Eau / Élec / Sanitaires -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+          <div class="form-group">
+            <label class="form-label">Eau</label>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="site"> Disponible sur site</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="creer"> À créer</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="raccord"> Raccordement provisoire</label>
+            </div>
           </div>
-          <div class="radio-card" onclick="selectEtat('elec-prov','enedis',this)">
-            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2 20h20M4 20V10l6-6v6l6-6v6l4-3v13"/></svg></div>
-            <div class="radio-card-label">Branchement Enedis</div>
-            <div class="radio-card-sub">~1 500 – 4 000 € · 3 sem.</div>
+          <div class="form-group">
+            <label class="form-label">Électricité</label>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="site"> Disponible sur site</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="creer"> À créer</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="raccord"> Raccordement provisoire</label>
+            </div>
           </div>
-          <div class="radio-card" onclick="selectEtat('elec-prov','sous-compteur',this)">
-            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
-            <div class="radio-card-label">Sous-compteur</div>
-            <div class="radio-card-sub">~500 – 1 200 €</div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Sanitaires de chantier</label>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="existants"> Toilettes existantes utilisables</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="provisoires"> Toilettes provisoires à prévoir</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="base-vie"> Base vie complète à prévoir</label>
           </div>
-          <div class="radio-card" onclick="selectEtat('elec-prov','groupe',this)">
-            <div class="radio-card-icon"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="7" width="16" height="10" rx="2"/><path d="M22 11v2M7 11v2M11 11v2"/></svg></div>
-            <div class="radio-card-label">Groupe électrogène</div>
-            <div class="radio-card-sub">~300 – 800 €/sem.</div>
+        </div>
+
+        <!-- Équipements provisoires -->
+        <div class="form-section-title" style="margin-bottom:8px">Équipements provisoires</div>
+        <div class="check-grid" style="margin-bottom:16px">
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-coffret"> Coffret électrique chantier</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-compteur"> Compteur provisoire</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-eau-pt"> Point d'eau provisoire</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-groupe"> Groupe électrogène</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-wc-chim"> Toilettes chimiques</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-bungalow-sanit"> Bungalow sanitaire</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-base-vie"> Base vie chantier</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-repas"> Espace repas personnel</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-vestiaire"> Vestiaire chantier</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-stockage-mat"> Stockage matériel</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-stockage-dechets"> Stockage déchets</label>
+        </div>
+
+        <!-- Infos complémentaires -->
+        <div class="form-section-title" style="margin-bottom:10px">Informations complémentaires</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px">
+          <div class="form-group">
+            <label class="form-label">Durée estimée du chantier</label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+              <input type="number" id="prov-duree-mois" class="form-input" placeholder="0" min="0" style="max-width:80px;font-size:16px" oninput="calculerFraisProvisoires()">
+              <span style="font-size:12px;color:var(--muted)">mois</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre moyen d'intervenants</label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+              <input type="number" id="prov-nb-intervenants" class="form-input" placeholder="0" min="0" style="max-width:80px;font-size:16px" oninput="calculerFraisProvisoires()">
+              <span style="font-size:12px;color:var(--muted)">personnes</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Résultat calcul automatique -->
+        <div id="prov-frais-result" style="display:none;padding:12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Estimation frais de chantier provisoires</div>
+          <div id="prov-frais-detail" style="font-size:12px;color:var(--ink2);line-height:2"></div>
+          <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px;display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:12px;font-weight:700;color:var(--ink)">Total estimé</span>
+            <span id="prov-frais-total" style="font-size:14px;font-weight:800;color:var(--primary)">0 €</span>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -3559,6 +3613,69 @@ function updateStructureAuto(){
   el.innerHTML = (alertesHTML ? `<div style="margin-bottom:12px">${alertesHTML}</div>` : '') + etudesHTML;
 }
 
+
+
+// ── ALIMENTATION PROVISOIRE — CALCUL FRAIS ───────────────────
+
+function calculerFraisProvisoires(){
+  const duree = parseFloat(document.getElementById('prov-duree-mois')?.value) || 0;
+  const nb    = parseFloat(document.getElementById('prov-nb-intervenants')?.value) || 0;
+  const result = document.getElementById('prov-frais-result');
+  const detail = document.getElementById('prov-frais-detail');
+  const total  = document.getElementById('prov-frais-total');
+  if(!result || duree === 0) { if(result) result.style.display='none'; return; }
+
+  result.style.display = 'block';
+
+  const ids = id => document.getElementById(id)?.checked;
+  const radio = name => document.querySelector(`input[name="${name}"]:checked`)?.value;
+
+  const lignes = [];
+  let somme = 0;
+
+  // Eau
+  if(radio('prov-eau')==='raccord'){ lignes.push({l:'Raccordement eau provisoire',m:800,u:'forfait'}); somme+=800; }
+  if(ids('prov-eau-pt')){ const v=150*duree; lignes.push({l:'Point eau provisoire',m:v,u:`${duree} mois`}); somme+=v; }
+
+  // Élec
+  if(radio('prov-elec')==='raccord'){ lignes.push({l:'Raccordement élec provisoire',m:1500,u:'forfait'}); somme+=1500; }
+  if(ids('prov-coffret')){ lignes.push({l:'Coffret électrique chantier',m:800,u:'forfait'}); somme+=800; }
+  if(ids('prov-compteur')){ lignes.push({l:'Compteur provisoire',m:1200,u:'forfait'}); somme+=1200; }
+  if(ids('prov-groupe')){ const v=400*duree; lignes.push({l:'Groupe électrogène',m:v,u:`${duree} mois`}); somme+=v; }
+
+  // Sanitaires
+  if(ids('prov-wc-chim')){ const v=120*duree; lignes.push({l:'Toilettes chimiques',m:v,u:`${duree} mois`}); somme+=v; }
+  if(ids('prov-bungalow-sanit')){ const v=350*duree; lignes.push({l:'Bungalow sanitaire',m:v,u:`${duree} mois`}); somme+=v; }
+
+  // Base vie
+  if(ids('prov-base-vie')){ const v=500*duree; lignes.push({l:'Base vie chantier',m:v,u:`${duree} mois`}); somme+=v; }
+  if(ids('prov-repas')){ const v=200*duree; lignes.push({l:'Espace repas',m:v,u:`${duree} mois`}); somme+=v; }
+  if(ids('prov-vestiaire')){ const v=180*duree; lignes.push({l:'Vestiaire chantier',m:v,u:`${duree} mois`}); somme+=v; }
+
+  // Stockage / déchets
+  if(ids('prov-stockage-dechets')){ const v=300*duree; lignes.push({l:'Évacuation déchets',m:v,u:`${duree} mois`}); somme+=v; }
+
+  // Conso provisoires (eau + élec selon nb intervenants)
+  if(nb > 0 && duree > 0){
+    const conso = Math.round(nb * duree * 80);
+    lignes.push({l:'Consommations provisoires (eau + élec)',m:conso,u:`${nb} pers. × ${duree} mois`});
+    somme += conso;
+  }
+
+  if(lignes.length === 0){
+    result.style.display = 'none';
+    return;
+  }
+
+  detail.innerHTML = lignes.map(l=>
+    `<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding:4px 0">
+      <span>${l.l} <span style="color:var(--muted);font-size:10px">(${l.u})</span></span>
+      <span style="font-weight:600">${l.m.toLocaleString('fr-FR')} €</span>
+    </div>`
+  ).join('');
+
+  total.textContent = somme.toLocaleString('fr-FR') + ' € HT';
+}
 
 // ── MEZZANINE — VÉRIFICATION INTELLIGENTE ─────────────────────
 
