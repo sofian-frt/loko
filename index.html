@@ -687,6 +687,10 @@ input[type=number]{-moz-appearance:textfield}
               <div id="code-chantier-display" style="font-family:monospace;font-weight:700;font-size:16px;color:var(--ink);padding:9px 16px;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);letter-spacing:2px;min-width:160px">
                 —
               </div>
+              <button type="button" onclick="genererCodeChantierAvecAttente()" class="btn btn-secondary btn-sm" style="gap:6px;flex-shrink:0">
+                <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+                Générer
+              </button>
               <div id="code-status" style="font-size:18px;flex-shrink:0"></div>
             </div>
             <input type="hidden" id="proj-nom" value="">
