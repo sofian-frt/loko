@@ -700,6 +700,15 @@ input[type=number]{-moz-appearance:textfield}
     <button class="nav-item" onclick="showPage('facade-enseigne')" id="nav-facade-enseigne">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="13" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></span> Façade & Enseigne
     </button>
+    <button class="nav-item" onclick="showPage('cuisine-materiel')" id="nav-cuisine-materiel">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6h3.5a1.5 1.5 0 011.5 1.5V22"/></svg></span> Matériel cuisine
+    </button>
+    <button class="nav-item" onclick="showPage('mobilier')" id="nav-mobilier">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 9V5a2 2 0 00-2-2H6a2 2 0 00-2 2v4"/><path d="M2 11v5a2 2 0 002 2h1v2h2v-2h10v2h2v-2h1a2 2 0 002-2v-5a2 2 0 00-4 0H6a2 2 0 00-4 0z"/></svg></span> Mobilier
+    </button>
+    <button class="nav-item" onclick="showPage('materiel-info')" id="nav-materiel-info">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span> Matériel info & sécurité
+    </button>
   </div>
 
   <div class="nav-group">
@@ -3019,6 +3028,226 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
+
+<!-- ══ PAGE MATÉRIEL CUISINE ══ -->
+<div class="page" id="page-cuisine-materiel">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Matériel de cuisine</h2>
+      <p>Dimensionnement automatique selon l'activité · nombre de couverts · surface cuisine</p>
+    </div>
+    <button class="btn btn-primary" onclick="calculerMaterielCuisine()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Calculer
+    </button>
+  </div>
+
+  <div class="g2" style="align-items:start;gap:16px">
+    <!-- Paramètres -->
+    <div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-title">Paramètres du projet</div>
+        <div class="form-row" style="margin-bottom:10px">
+          <div class="form-group">
+            <label class="form-label">Nombre de couverts</label>
+            <input type="number" id="cui-couverts" class="form-input" placeholder="0" oninput="calculerMaterielCuisine()" style="font-size:16px">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Surface cuisine (m²)</label>
+            <input type="number" id="cui-surface" class="form-input" placeholder="0" oninput="calculerMaterielCuisine()" style="font-size:16px">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:10px">
+          <label class="form-label">Type d'activité</label>
+          <select id="cui-activite" class="form-select" onchange="calculerMaterielCuisine()">
+            <option value="restaurant">Restaurant traditionnel</option>
+            <option value="brasserie">Brasserie</option>
+            <option value="pizza">Pizzeria</option>
+            <option value="burger">Burger / Fast-casual</option>
+            <option value="sushi">Sushi / Japonais</option>
+            <option value="patisserie">Pâtisserie / Boulangerie</option>
+            <option value="snack">Snack / Sandwicherie</option>
+            <option value="cafe">Coffee shop</option>
+            <option value="traiteur">Traiteur</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mode de cuisson principal</label>
+          <div class="check-grid" style="margin-top:6px">
+            <label class="check-item" onclick="toggleCheck(this);calculerMaterielCuisine()"><input type="checkbox" id="cui-gaz" checked> Gaz</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMaterielCuisine()"><input type="checkbox" id="cui-elec"> Électrique</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMaterielCuisine()"><input type="checkbox" id="cui-induction"> Induction</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMaterielCuisine()"><input type="checkbox" id="cui-bois"> Bois / Charbon</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMaterielCuisine()"><input type="checkbox" id="cui-pizza"> Four à pizza</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMaterielCuisine()"><input type="checkbox" id="cui-vapeur"> Vapeur</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Liste équipements -->
+    <div>
+      <div class="card">
+        <div class="card-title">Liste des équipements</div>
+        <div style="display:grid;grid-template-columns:2fr 1fr 80px 80px 40px;gap:8px;padding:0 10px 8px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">
+          <span>Équipement</span><span>Unité</span><span style="text-align:center">Qté</span><span style="text-align:center">Prix unit.</span><span style="text-align:center">Incl.</span>
+        </div>
+        <div id="cui-liste">
+          <div style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Renseignez les paramètres pour générer la liste</div>
+        </div>
+        <div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:12px;font-weight:700;color:var(--ink)">Total estimé</span>
+          <span id="cui-total" style="font-size:16px;font-weight:800;color:var(--primary)">—</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE MOBILIER ══ -->
+<div class="page" id="page-mobilier">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Mobilier</h2>
+      <p>Dimensionnement automatique selon la surface et le concept · Calcul des places assises</p>
+    </div>
+    <button class="btn btn-primary" onclick="calculerMobilier()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Calculer
+    </button>
+  </div>
+
+  <div class="g2" style="align-items:start;gap:16px">
+    <div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-title">Paramètres</div>
+        <div class="form-row" style="margin-bottom:10px">
+          <div class="form-group">
+            <label class="form-label">Surface salle (m²)</label>
+            <input type="number" id="mob-surface-salle" class="form-input" placeholder="0" oninput="calculerMobilier()" style="font-size:16px">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Surface terrasse (m²)</label>
+            <input type="number" id="mob-surface-terrasse" class="form-input" placeholder="0" oninput="calculerMobilier()" style="font-size:16px">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:10px">
+          <label class="form-label">Concept</label>
+          <select id="mob-concept" class="form-select" onchange="calculerMobilier()">
+            <option value="restaurant">Restaurant traditionnel</option>
+            <option value="brasserie">Brasserie</option>
+            <option value="fastcasual">Fast-casual</option>
+            <option value="gastronomique">Gastronomique</option>
+            <option value="cafe">Coffee shop</option>
+            <option value="bar">Bar / Lounge</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Type de mobilier</label>
+          <div class="check-grid" style="margin-top:6px">
+            <label class="check-item" onclick="toggleCheck(this);calculerMobilier()"><input type="checkbox" id="mob-tables" checked> Tables</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMobilier()"><input type="checkbox" id="mob-chaises" checked> Chaises</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMobilier()"><input type="checkbox" id="mob-banquettes"> Banquettes</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMobilier()"><input type="checkbox" id="mob-tabourets"> Tabourets</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMobilier()"><input type="checkbox" id="mob-comptoir"> Comptoir</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMobilier()"><input type="checkbox" id="mob-terrasse"> Mobilier terrasse</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calcul places assises -->
+      <div class="card">
+        <div class="card-title">Calcul places assises</div>
+        <div id="mob-places-calc" style="font-size:12px;color:var(--muted)">Renseignez la surface salle pour calculer</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-title">Liste du mobilier</div>
+        <div style="display:grid;grid-template-columns:2fr 1fr 80px 80px 40px;gap:8px;padding:0 10px 8px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">
+          <span>Élément</span><span>Unité</span><span style="text-align:center">Qté</span><span style="text-align:center">Prix unit.</span><span style="text-align:center">Incl.</span>
+        </div>
+        <div id="mob-liste">
+          <div style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Renseignez les paramètres pour générer la liste</div>
+        </div>
+        <div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:12px;font-weight:700;color:var(--ink)">Total estimé</span>
+          <span id="mob-total" style="font-size:16px;font-weight:800;color:var(--primary)">—</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE MATÉRIEL INFO & SÉCURITÉ ══ -->
+<div class="page" id="page-materiel-info">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Matériel informatique &amp; sécurité</h2>
+      <p>Équipements réseaux · caisse · vidéosurveillance · alarme · affichage</p>
+    </div>
+    <button class="btn btn-primary" onclick="calculerMaterielInfo()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Calculer
+    </button>
+  </div>
+
+  <div class="g2" style="align-items:start;gap:16px">
+    <div>
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-title">Configuration</div>
+        <div class="form-row" style="margin-bottom:10px">
+          <div class="form-group">
+            <label class="form-label">Nombre de caisses</label>
+            <input type="number" id="info-nb-caisses" class="form-input" value="1" min="0" oninput="calculerMaterielInfo()" style="font-size:16px">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre de bornes de commande</label>
+            <input type="number" id="info-nb-bornes" class="form-input" value="0" min="0" oninput="calculerMaterielInfo()" style="font-size:16px">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre d'écrans KDS</label>
+            <input type="number" id="info-nb-kds" class="form-input" value="1" min="0" oninput="calculerMaterielInfo()" style="font-size:16px">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Surface (m²) pour caméras</label>
+            <input type="number" id="info-surface" class="form-input" placeholder="0" oninput="calculerMaterielInfo()" style="font-size:16px">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Modules à inclure</label>
+          <div class="check-grid" style="margin-top:6px">
+            <label class="check-item" onclick="toggleCheck(this);calculerMaterielInfo()"><input type="checkbox" id="info-videosurv" checked> Vidéosurveillance</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMaterielInfo()"><input type="checkbox" id="info-reseau" checked> Réseau IT</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMaterielInfo()"><input type="checkbox" id="info-caisse" checked> Système caisse</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMaterielInfo()"><input type="checkbox" id="info-alarme"> Alarme intrusion</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMaterielInfo()"><input type="checkbox" id="info-incendie"> Alarme incendie</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMaterielInfo()"><input type="checkbox" id="info-affichage"> Affichage dynamique</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerMaterielInfo()"><input type="checkbox" id="info-acces"> Contrôle d'accès</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-title">Liste des équipements</div>
+        <div style="display:grid;grid-template-columns:2fr 1fr 80px 80px 40px;gap:8px;padding:0 10px 8px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">
+          <span>Équipement</span><span>Unité</span><span style="text-align:center">Qté</span><span style="text-align:center">Prix unit.</span><span style="text-align:center">Incl.</span>
+        </div>
+        <div id="info-liste">
+          <div style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Renseignez les paramètres pour générer la liste</div>
+        </div>
+        <div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:12px;font-weight:700;color:var(--ink)">Total estimé</span>
+          <span id="info-total" style="font-size:16px;font-weight:800;color:var(--primary)">—</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ══ PAGE BIBLIOTHÈQUE ══ -->
 <div class="page" id="page-bibliotheque">
   <div class="page-header-actions">
@@ -3902,6 +4131,9 @@ const PAGE_META={
   init:{title:'Initialisation du projet',step:''},
   'photos':{title:'Photos & Vidéos',step:''},
   'analyse-ia':{title:'Documents',step:''},
+  'cuisine-materiel':{title:'Matériel cuisine',step:''},
+  'mobilier':{title:'Mobilier',step:''},
+  'materiel-info':{title:'Matériel info & sécurité',step:''},
   'releves-existant':{title:'Relevés',step:''},
   // ── DIMENSIONNEMENT ──
   eclairage:{title:'Éclairage',step:''},
@@ -3930,6 +4162,9 @@ function showPage(id){
   const meta=PAGE_META[id]||{title:id,step:''};
   _set('mobile-page-title',meta.title);
   if(id==='photos')genererChecklistPhotos();
+  if(id==='cuisine-materiel')calculerMaterielCuisine();
+  if(id==='mobilier')calculerMobilier();
+  if(id==='materiel-info')calculerMaterielInfo();
   if(id==='releves')renderPieces();
   if(id==='eclairage')renderEclairage();
   if(id==='electricite'){renderElecPieces();calcElec();}
@@ -4986,6 +5221,272 @@ function majProgressionPhotos(){
       manqEl.style.display = 'none';
     }
   }
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// MATÉRIEL CUISINE
+// ══════════════════════════════════════════════════════════════
+function calculerMaterielCuisine(){
+  const couverts  = parseInt(document.getElementById('cui-couverts')?.value) || 0;
+  const surface   = parseFloat(document.getElementById('cui-surface')?.value) || 0;
+  const activite  = document.getElementById('cui-activite')?.value || 'restaurant';
+  const ids       = id => !!document.getElementById(id)?.checked;
+  const liste     = document.getElementById('cui-liste');
+  const totalEl   = document.getElementById('cui-total');
+  if(!liste) return;
+
+  const fmt = v => v ? v.toLocaleString('fr-FR')+' €' : '—';
+
+  // Catalogue équipements avec quantités auto
+  const equips = [
+    // [nom, unité, qté calculée, prix unitaire estimé, conditions]
+    {n:'Hotte professionnelle',          u:'ml',    q: surface>0?Math.ceil(surface*0.15):1,     p:2500, show:true},
+    {n:'Piano de cuisine / Fourneau',    u:'u',     q: Math.ceil((couverts||50)/60),            p:4500, show:activite!='cafe'},
+    {n:'Four mixte (vapeur + convection)',u:'u',    q: Math.ceil((couverts||50)/80),            p:6000, show:activite!='cafe'},
+    {n:'Four à pizza',                   u:'u',     q:1,                                        p:5500, show:activite==='pizza'||ids('cui-pizza')},
+    {n:'Plancha professionnelle',        u:'u',     q:1,                                        p:1800, show:['restaurant','brasserie'].includes(activite)},
+    {n:'Grill / Salamandre',             u:'u',     q:1,                                        p:1200, show:activite!='cafe'&&activite!='patisserie'},
+    {n:'Friteuse professionnelle',       u:'u',     q: couverts>80?2:1,                        p:900,  show:['burger','brasserie','fastcasual','snack'].includes(activite)},
+    {n:'Chambre froide positive',        u:'m²',    q: surface>0?Math.max(4,Math.ceil(surface*0.08)):6, p:1200, show:activite!='cafe'},
+    {n:'Chambre froide négative',        u:'m²',    q: surface>0?Math.max(2,Math.ceil(surface*0.04)):3, p:1500, show:activite!='cafe'&&activite!='patisserie'},
+    {n:'Armoire réfrigérée positive',    u:'u',     q: Math.ceil((couverts||50)/100)+1,        p:1400, show:true},
+    {n:'Armoire réfrigérée négative',    u:'u',     q:1,                                        p:1600, show:activite!='cafe'},
+    {n:'Vitrine réfrigérée',             u:'u',     q:1,                                        p:2200, show:['cafe','patisserie','traiteur'].includes(activite)},
+    {n:'Tables inox de travail',         u:'ml',    q: surface>0?Math.ceil(surface*0.4):4,     p:350,  show:true},
+    {n:'Lave-vaisselle professionnel',   u:'u',     q: couverts>120?2:1,                       p:4500, show:activite!='cafe'},
+    {n:'Plonge inox double bac',         u:'u',     q: surface>0?Math.ceil(surface*0.06):1,   p:800,  show:true},
+    {n:'Meubles inox de rangement',      u:'u',     q: Math.ceil((surface||20)*0.15),          p:600,  show:true},
+    {n:'Étagères inox',                  u:'ml',    q: Math.ceil((surface||20)*0.3),           p:180,  show:true},
+    {n:'Passe-plat / BAC',              u:'u',     q:1,                                        p:1200, show:couverts>40},
+    {n:'Batterie de cuisine',            u:'forfait',q:1,                                       p:2500, show:activite!='cafe'},
+  ].filter(e => e.show);
+
+  let html = '';
+  let total = 0;
+  equips.forEach((e,i) => {
+    const eid = 'cui_'+i;
+    const montant = e.q * e.p;
+    total += montant;
+    html += `<div style="display:grid;grid-template-columns:2fr 1fr 80px 80px 40px;gap:8px;align-items:center;padding:7px 10px;background:var(--surface2);border-radius:6px;margin-bottom:4px">
+      <span style="font-size:12px;color:var(--ink)">${e.n}</span>
+      <span style="font-size:11px;color:var(--muted)">${e.u}</span>
+      <input type="number" class="form-input" value="${e.q}" style="font-size:12px;text-align:center;padding:4px" oninput="recalcCuiTotal()">
+      <input type="number" class="form-input" value="${e.p}" style="font-size:12px;text-align:center;padding:4px" oninput="recalcCuiTotal()">
+      <label style="display:flex;justify-content:center"><input type="checkbox" checked onchange="recalcCuiTotal()"></label>
+    </div>`;
+  });
+
+  liste.innerHTML = html;
+  if(totalEl) totalEl.textContent = total.toLocaleString('fr-FR') + ' € HT';
+}
+
+function recalcCuiTotal(){
+  const rows = document.querySelectorAll('#cui-liste > div');
+  let total = 0;
+  rows.forEach(row => {
+    const inputs = row.querySelectorAll('input[type="number"]');
+    const cb = row.querySelector('input[type="checkbox"]');
+    if(cb?.checked && inputs.length >= 2){
+      total += (parseFloat(inputs[0].value)||0) * (parseFloat(inputs[1].value)||0);
+    }
+  });
+  const el = document.getElementById('cui-total');
+  if(el) el.textContent = total.toLocaleString('fr-FR') + ' € HT';
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// MOBILIER
+// ══════════════════════════════════════════════════════════════
+function calculerMobilier(){
+  const surfSalle    = parseFloat(document.getElementById('mob-surface-salle')?.value) || 0;
+  const surfTerrasse = parseFloat(document.getElementById('mob-surface-terrasse')?.value) || 0;
+  const concept      = document.getElementById('mob-concept')?.value || 'restaurant';
+  const ids          = id => !!document.getElementById(id)?.checked;
+  const liste        = document.getElementById('mob-liste');
+  const placesEl     = document.getElementById('mob-places-calc');
+  const totalEl      = document.getElementById('mob-total');
+  if(!liste) return;
+
+  // Ratios m²/couvert selon concept
+  const ratios = {restaurant:1.5,brasserie:1.3,fastcasual:1.0,gastronomique:2.0,cafe:1.2,bar:1.0};
+  const ratio  = ratios[concept] || 1.5;
+  const placesSalle    = surfSalle    > 0 ? Math.floor(surfSalle    / ratio) : 0;
+  const placesTerrasse = surfTerrasse > 0 ? Math.floor(surfTerrasse / ratio * 1.2) : 0;
+  const totalPlaces    = placesSalle + placesTerrasse;
+
+  // Afficher calcul places
+  if(placesEl && surfSalle > 0){
+    placesEl.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
+        <div style="text-align:center;padding:10px;background:var(--primary-light);border-radius:6px">
+          <div style="font-size:20px;font-weight:800;color:var(--primary)">${placesSalle}</div>
+          <div style="font-size:10px;color:var(--muted)">Places salle</div>
+        </div>
+        <div style="text-align:center;padding:10px;background:var(--surface2);border-radius:6px">
+          <div style="font-size:20px;font-weight:800;color:var(--ink)">${placesTerrasse}</div>
+          <div style="font-size:10px;color:var(--muted)">Places terrasse</div>
+        </div>
+        <div style="text-align:center;padding:10px;background:var(--surface2);border-radius:6px">
+          <div style="font-size:20px;font-weight:800;color:var(--ink)">${totalPlaces}</div>
+          <div style="font-size:10px;color:var(--muted)">Total places</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--muted)">Ratio : ${ratio} m²/couvert (${concept}) · Circulation PMR incluse</div>`;
+  }
+
+  // Calcul mobilier
+  const nbTables4  = Math.ceil(placesSalle * 0.5 / 4);
+  const nbTables2  = Math.ceil(placesSalle * 0.5 / 2);
+  const nbChaises  = placesSalle;
+  const nbTablT    = Math.ceil(placesTerrasse / 4);
+  const nbChaisesT = placesTerrasse;
+
+  const equips = [
+    {n:'Tables 4 couverts (intérieur)',     u:'u', q:nbTables4,  p:280,  show:ids('mob-tables')},
+    {n:'Tables 2 couverts (intérieur)',     u:'u', q:nbTables2,  p:180,  show:ids('mob-tables')},
+    {n:'Chaises (intérieur)',               u:'u', q:nbChaises,  p:120,  show:ids('mob-chaises')},
+    {n:'Banquettes (ml)',                   u:'ml',q:Math.ceil(surfSalle*0.15), p:450, show:ids('mob-banquettes')},
+    {n:'Tabourets de bar',                  u:'u', q:Math.ceil(surfSalle*0.05), p:90, show:ids('mob-tabourets')},
+    {n:'Comptoir / Bar',                    u:'ml',q:Math.ceil(surfSalle*0.1),  p:800, show:ids('mob-comptoir')},
+    {n:'Tables terrasse',                   u:'u', q:nbTablT,    p:200,  show:ids('mob-terrasse')&&placesTerrasse>0},
+    {n:'Chaises terrasse',                  u:'u', q:nbChaisesT, p:80,   show:ids('mob-terrasse')&&placesTerrasse>0},
+    {n:'Parasols',                          u:'u', q:nbTablT,    p:350,  show:ids('mob-terrasse')&&placesTerrasse>0},
+    {n:'Présentoir entrée',                 u:'u', q:1,          p:400,  show:['restaurant','gastronomique'].includes(concept)},
+    {n:'Poubelles de tri sélectif',        u:'u', q:3,           p:80,   show:true},
+    {n:'Meubles de rangement / stockage',  u:'u', q:Math.ceil(surfSalle*0.05), p:350, show:true},
+  ].filter(e => e.show && e.q > 0);
+
+  let html = '', total = 0;
+  equips.forEach((e,i) => {
+    const montant = e.q * e.p;
+    total += montant;
+    html += `<div style="display:grid;grid-template-columns:2fr 1fr 80px 80px 40px;gap:8px;align-items:center;padding:7px 10px;background:var(--surface2);border-radius:6px;margin-bottom:4px">
+      <span style="font-size:12px;color:var(--ink)">${e.n}</span>
+      <span style="font-size:11px;color:var(--muted)">${e.u}</span>
+      <input type="number" class="form-input" value="${e.q}" style="font-size:12px;text-align:center;padding:4px" oninput="recalcMobTotal()">
+      <input type="number" class="form-input" value="${e.p}" style="font-size:12px;text-align:center;padding:4px" oninput="recalcMobTotal()">
+      <label style="display:flex;justify-content:center"><input type="checkbox" checked onchange="recalcMobTotal()"></label>
+    </div>`;
+  });
+
+  liste.innerHTML = html || '<div style="text-align:center;padding:20px;color:var(--muted);font-size:12px">Cochez des types de mobilier pour générer la liste</div>';
+  if(totalEl) totalEl.textContent = total.toLocaleString('fr-FR') + ' € HT';
+}
+
+function recalcMobTotal(){
+  let total = 0;
+  document.querySelectorAll('#mob-liste > div').forEach(row => {
+    const inputs = row.querySelectorAll('input[type="number"]');
+    const cb = row.querySelector('input[type="checkbox"]');
+    if(cb?.checked && inputs.length >= 2)
+      total += (parseFloat(inputs[0].value)||0) * (parseFloat(inputs[1].value)||0);
+  });
+  const el = document.getElementById('mob-total');
+  if(el) el.textContent = total.toLocaleString('fr-FR') + ' € HT';
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// MATÉRIEL INFO & SÉCURITÉ
+// ══════════════════════════════════════════════════════════════
+function calculerMaterielInfo(){
+  const nbCaisses  = parseInt(document.getElementById('info-nb-caisses')?.value)  || 1;
+  const nbBornes   = parseInt(document.getElementById('info-nb-bornes')?.value)   || 0;
+  const nbKDS      = parseInt(document.getElementById('info-nb-kds')?.value)      || 1;
+  const surface    = parseFloat(document.getElementById('info-surface')?.value)   || 0;
+  const ids        = id => !!document.getElementById(id)?.checked;
+  const liste      = document.getElementById('info-liste');
+  const totalEl    = document.getElementById('info-total');
+  if(!liste) return;
+
+  const nbCameras = surface > 0 ? Math.max(2, Math.ceil(surface / 25)) : 2;
+  const nbAP = surface > 0 ? Math.ceil(surface / 80) : 1; // Access Points Wi-Fi
+
+  const equips = [
+    // Vidéosurveillance
+    {n:'Caméras IP intérieur',           u:'u', q:nbCameras,    p:180,  show:ids('info-videosurv')},
+    {n:'Caméra IP extérieur / façade',   u:'u', q:2,            p:250,  show:ids('info-videosurv')},
+    {n:'Enregistreur NVR',               u:'u', q:1,            p:450,  show:ids('info-videosurv')},
+    {n:'Écran monitoring',               u:'u', q:1,            p:280,  show:ids('info-videosurv')},
+    // Réseau IT
+    {n:'Routeur professionnel',          u:'u', q:1,            p:350,  show:ids('info-reseau')},
+    {n:'Switch réseau 24 ports',         u:'u', q:1,            p:280,  show:ids('info-reseau')},
+    {n:'Points d\'accès Wi-Fi',          u:'u', q:nbAP,         p:220,  show:ids('info-reseau')},
+    {n:'Baie informatique (rack)',       u:'u', q:1,            p:400,  show:ids('info-reseau')},
+    {n:'Câblage RJ45 (forfait)',         u:'forfait', q:1,      p:800,  show:ids('info-reseau')},
+    // Système caisse
+    {n:'Terminal caisse (écran + UC)',   u:'u', q:nbCaisses,    p:1200, show:ids('info-caisse')},
+    {n:'Imprimante tickets caisse',      u:'u', q:nbCaisses,    p:280,  show:ids('info-caisse')},
+    {n:'Terminal de paiement CB',        u:'u', q:nbCaisses,    p:350,  show:ids('info-caisse')},
+    {n:'Écran KDS cuisine',              u:'u', q:nbKDS,        p:450,  show:ids('info-caisse')&&nbKDS>0},
+    {n:'Imprimante cuisine',             u:'u', q:nbKDS,        p:280,  show:ids('info-caisse')&&nbKDS>0},
+    {n:'Borne de commande',              u:'u', q:nbBornes,     p:2800, show:ids('info-caisse')&&nbBornes>0},
+    {n:'Logiciel caisse (licence)',      u:'forfait', q:1,      p:1200, show:ids('info-caisse')},
+    // Alarme intrusion
+    {n:'Centrale alarme intrusion',      u:'u', q:1,            p:450,  show:ids('info-alarme')},
+    {n:'Détecteurs de mouvement',        u:'u', q:Math.ceil(surface/20)||3, p:80, show:ids('info-alarme')},
+    {n:'Clavier de code / badge',        u:'u', q:1,            p:180,  show:ids('info-alarme')},
+    {n:'Sirène intérieure + extérieure', u:'forfait', q:1,      p:220,  show:ids('info-alarme')},
+    // Alarme incendie
+    {n:'Centrale SSI / alarme incendie', u:'u', q:1,            p:600,  show:ids('info-incendie')},
+    {n:'Détecteurs fumée / chaleur',     u:'u', q:Math.ceil(surface/25)||3, p:90, show:ids('info-incendie')},
+    {n:'Déclencheurs manuels',           u:'u', q:2,            p:80,   show:ids('info-incendie')},
+    {n:'Flash / avertisseur sonore',     u:'u', q:2,            p:120,  show:ids('info-incendie')},
+    // Affichage dynamique
+    {n:'Écran affichage dynamique',      u:'u', q:2,            p:600,  show:ids('info-affichage')},
+    {n:'Lecteur média / player',         u:'u', q:2,            p:180,  show:ids('info-affichage')},
+    {n:'Support mural / plafond',        u:'u', q:2,            p:120,  show:ids('info-affichage')},
+    // Contrôle d'accès
+    {n:'Lecteur badge / clavier accès',  u:'u', q:2,            p:280,  show:ids('info-acces')},
+    {n:'Centrale contrôle d\'accès',     u:'u', q:1,            p:450,  show:ids('info-acces')},
+    {n:'Gâche électrique / motorisation',u:'u', q:2,            p:180,  show:ids('info-acces')},
+  ].filter(e => e.show && e.q > 0);
+
+  let html = '', total = 0;
+  let lastCat = '';
+  const cats = {
+    'Caméras IP':'Vidéosurveillance','Enregistreur':'Vidéosurveillance','Écran monitoring':'Vidéosurveillance',
+    'Routeur':'Réseau IT','Switch':'Réseau IT','Points d\'accès':'Réseau IT','Baie':'Réseau IT','Câblage':'Réseau IT',
+    'Terminal caisse':'Système caisse','Imprimante tickets':'Système caisse','Terminal de paiement':'Système caisse','Écran KDS':'Système caisse','Imprimante cuisine':'Système caisse','Borne de commande':'Système caisse','Logiciel':'Système caisse',
+    'Centrale alarme':'Alarme intrusion','Détecteurs de mouvement':'Alarme intrusion','Clavier de code':'Alarme intrusion','Sirène':'Alarme intrusion',
+    'Centrale SSI':'Alarme incendie','Détecteurs fumée':'Alarme incendie','Déclencheurs':'Alarme incendie','Flash':'Alarme incendie',
+    'Écran affichage':'Affichage','Lecteur média':'Affichage','Support mural':'Affichage',
+    'Lecteur badge':'Contrôle d\'accès','Centrale contrôle':'Contrôle d\'accès','Gâche':'Contrôle d\'accès',
+  };
+
+  equips.forEach((e,i) => {
+    const cat = Object.entries(cats).find(([k])=>e.n.startsWith(k))?.[1] || '';
+    if(cat && cat !== lastCat){
+      html += `<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.06em;padding:8px 10px 4px">${cat}</div>`;
+      lastCat = cat;
+    }
+    const montant = e.q * e.p;
+    total += montant;
+    html += `<div style="display:grid;grid-template-columns:2fr 1fr 80px 80px 40px;gap:8px;align-items:center;padding:7px 10px;background:var(--surface2);border-radius:6px;margin-bottom:4px">
+      <span style="font-size:12px;color:var(--ink)">${e.n}</span>
+      <span style="font-size:11px;color:var(--muted)">${e.u}</span>
+      <input type="number" class="form-input" value="${e.q}" style="font-size:12px;text-align:center;padding:4px" oninput="recalcInfoTotal()">
+      <input type="number" class="form-input" value="${e.p}" style="font-size:12px;text-align:center;padding:4px" oninput="recalcInfoTotal()">
+      <label style="display:flex;justify-content:center"><input type="checkbox" checked onchange="recalcInfoTotal()"></label>
+    </div>`;
+  });
+
+  liste.innerHTML = html;
+  if(totalEl) totalEl.textContent = total.toLocaleString('fr-FR') + ' € HT';
+}
+
+function recalcInfoTotal(){
+  let total = 0;
+  document.querySelectorAll('#info-liste > div:not(:first-child)').forEach(row => {
+    const inputs = row.querySelectorAll('input[type="number"]');
+    const cb = row.querySelector('input[type="checkbox"]');
+    if(cb?.checked && inputs.length >= 2)
+      total += (parseFloat(inputs[0].value)||0) * (parseFloat(inputs[1].value)||0);
+  });
+  const el = document.getElementById('info-total');
+  if(el) el.textContent = total.toLocaleString('fr-FR') + ' € HT';
 }
 
 // ── INIT SECTIONS ACCORDÉONS ─────────────────────────────────
