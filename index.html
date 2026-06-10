@@ -1259,10 +1259,7 @@ input[type=number]{-moz-appearance:textfield}
           </div>
           <div class="form-group">
             <label class="form-label">Présence d'une extraction</label>
-            <div style="display:flex;gap:14px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="oui" onchange="toggleCfgExtSection(this)"> Oui</label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="non" checked onchange="toggleCfgExtSection(this)"> Non</label>
-            </div>
+            <div class="radio-group-inline"><label class="radio-card-inline " onclick="selectRadioCard(this,'cfg-ext-presence','oui');toggleCfgExtSection(this)"><input type="radio" name="cfg-ext-presence" value="oui" >Oui</label><label class="radio-card-inline selected" onclick="selectRadioCard(this,'cfg-ext-presence','non');toggleCfgExtSection(this)"><input type="radio" name="cfg-ext-presence" value="non" checked>Non</label></div>
           </div>
           <div id="cfg-ext-section" style="display:none;margin-top:8px">
             <div class="form-group" style="margin-bottom:8px">
@@ -1284,16 +1281,12 @@ input[type=number]{-moz-appearance:textfield}
           </div>
           <div class="form-group" style="margin-bottom:6px">
             <label class="form-label">Présence d'une arrivée gaz</label>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz" value="oui" onchange="document.getElementById('cfg-gaz-type').style.display='flex'"> Oui</label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz" value="non" checked onchange="document.getElementById('cfg-gaz-type').style.display='none'"> Non</label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz" value="inconnu" onchange="document.getElementById('cfg-gaz-type').style.display='none'"> Inconnu</label>
-            </div>
+            <div class="radio-group-inline"><label class="radio-card-inline " onclick="selectRadioCard(this,'cfg-gaz','oui');document.getElementById(\'cfg-gaz-type\').style.display=\'flex\'"><input type="radio" name="cfg-gaz" value="oui" >Oui</label><label class="radio-card-inline selected" onclick="selectRadioCard(this,'cfg-gaz','non');document.getElementById(\'cfg-gaz-type\').style.display=\'none\'"><input type="radio" name="cfg-gaz" value="non" checked>Non</label><label class="radio-card-inline " onclick="selectRadioCard(this,'cfg-gaz','inconnu');document.getElementById(\'cfg-gaz-type\').style.display=\'none\'"><input type="radio" name="cfg-gaz" value="inconnu" >Inconnu</label></div>
           </div>
           <div id="cfg-gaz-type" style="display:none;gap:10px;flex-wrap:wrap;margin-top:4px">
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="naturel"> Gaz naturel</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="propane"> Propane</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="inconnu" checked> Inconnu</label>
+            <label class="radio-card-inline" onclick="selectRadioCard(this,'cfg-gaz-type-val','naturel')"><input type="radio" name="cfg-gaz-type-val" value="naturel">Gaz naturel</label>
+            <label class="radio-card-inline" onclick="selectRadioCard(this,'cfg-gaz-type-val','propane')"><input type="radio" name="cfg-gaz-type-val" value="propane">Propane</label>
+            <label class="radio-card-inline selected" onclick="selectRadioCard(this,'cfg-gaz-type-val','inconnu')"><input type="radio" name="cfg-gaz-type-val" value="inconnu" checked>Inconnu</label>
           </div>
         </div>
 
@@ -1313,12 +1306,7 @@ input[type=number]{-moz-appearance:textfield}
             </div>
             <div class="form-group">
               <label class="form-label">Type d'abonnement</label>
-              <div style="display:flex;flex-direction:column;gap:3px;margin-top:4px">
-                <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="bleu"> Tarif Bleu</label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="jaune"> Tarif Jaune</label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="vert"> Tarif Vert</label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="inconnu" checked> Inconnu</label>
-              </div>
+              <div class="radio-group-inline"><label class="radio-card-inline " onclick="selectRadioCard(this,'cfg-elec-tarif','bleu')"><input type="radio" name="cfg-elec-tarif" value="bleu" >Tarif Bleu</label><label class="radio-card-inline " onclick="selectRadioCard(this,'cfg-elec-tarif','jaune')"><input type="radio" name="cfg-elec-tarif" value="jaune" >Tarif Jaune</label><label class="radio-card-inline " onclick="selectRadioCard(this,'cfg-elec-tarif','vert')"><input type="radio" name="cfg-elec-tarif" value="vert" >Tarif Vert</label><label class="radio-card-inline selected" onclick="selectRadioCard(this,'cfg-elec-tarif','inconnu')"><input type="radio" name="cfg-elec-tarif" value="inconnu" checked>Inconnu</label></div>
             </div>
           </div>
         </div>
@@ -1329,11 +1317,7 @@ input[type=number]{-moz-appearance:textfield}
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
             Télécommunications — Fibre
           </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:2px">
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-fibre" value="oui"> Oui</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-fibre" value="non"> Non</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-fibre" value="inconnu" checked> Inconnu</label>
-          </div>
+          <div class="radio-group-inline"><label class="radio-card-inline " onclick="selectRadioCard(this,'cfg-fibre','oui')"><input type="radio" name="cfg-fibre" value="oui" >Oui</label><label class="radio-card-inline " onclick="selectRadioCard(this,'cfg-fibre','non')"><input type="radio" name="cfg-fibre" value="non" >Non</label><label class="radio-card-inline selected" onclick="selectRadioCard(this,'cfg-fibre','inconnu')"><input type="radio" name="cfg-fibre" value="inconnu" checked>Inconnu</label></div>
         </div>
 
         <!-- CONFIGURATION DU BÂTIMENT -->
@@ -1367,57 +1351,34 @@ input[type=number]{-moz-appearance:textfield}
           </div>
           <div class="form-group">
             <label class="form-label">Localisation du local</label>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="rdc" checked> RDC</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="sous-sol"> Sous-sol</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="etage"> Étage</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="mezzanine"> Mezzanine</label>
-            </div>
+            <div class="radio-group-inline"><label class="radio-card-inline selected" onclick="selectRadioCard(this,'bat-localisation','rdc')"><input type="radio" name="bat-localisation" value="rdc" checked>RDC</label><label class="radio-card-inline " onclick="selectRadioCard(this,'bat-localisation','sous-sol')"><input type="radio" name="bat-localisation" value="sous-sol" >Sous-sol</label><label class="radio-card-inline " onclick="selectRadioCard(this,'bat-localisation','etage')"><input type="radio" name="bat-localisation" value="etage" >Étage</label><label class="radio-card-inline " onclick="selectRadioCard(this,'bat-localisation','mezzanine')"><input type="radio" name="bat-localisation" value="mezzanine" >Mezzanine</label></div>
           </div>
         </div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px">
           <div class="form-group">
             <label class="form-label">Voisins au-dessus</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="non" checked> Non</label>
-            </div>
+            <div class="radio-group-inline"><label class="radio-card-inline " onclick="selectRadioCard(this,'bat-voisins-dessus','oui')"><input type="radio" name="bat-voisins-dessus" value="oui" >Oui</label><label class="radio-card-inline selected" onclick="selectRadioCard(this,'bat-voisins-dessus','non')"><input type="radio" name="bat-voisins-dessus" value="non" checked>Non</label></div>
           </div>
           <div class="form-group">
             <label class="form-label">Voisins en dessous</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="non" checked> Non</label>
-            </div>
+            <div class="radio-group-inline"><label class="radio-card-inline " onclick="selectRadioCard(this,'bat-voisins-dessous','oui')"><input type="radio" name="bat-voisins-dessous" value="oui" >Oui</label><label class="radio-card-inline selected" onclick="selectRadioCard(this,'bat-voisins-dessous','non')"><input type="radio" name="bat-voisins-dessous" value="non" checked>Non</label></div>
           </div>
           <div class="form-group">
             <label class="form-label">Voisins mitoyens</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="non" checked> Non</label>
-            </div>
+            <div class="radio-group-inline"><label class="radio-card-inline " onclick="selectRadioCard(this,'bat-mitoyens','oui')"><input type="radio" name="bat-mitoyens" value="oui" >Oui</label><label class="radio-card-inline selected" onclick="selectRadioCard(this,'bat-mitoyens','non')"><input type="radio" name="bat-mitoyens" value="non" checked>Non</label></div>
           </div>
           <div class="form-group">
             <label class="form-label">Copropriété</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-copropriete" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-copropriete" value="non" checked> Non</label>
-            </div>
+            <div class="radio-group-inline"><label class="radio-card-inline " onclick="selectRadioCard(this,'bat-copropriete','oui')"><input type="radio" name="bat-copropriete" value="oui" >Oui</label><label class="radio-card-inline selected" onclick="selectRadioCard(this,'bat-copropriete','non')"><input type="radio" name="bat-copropriete" value="non" checked>Non</label></div>
           </div>
           <div class="form-group">
             <label class="form-label">Accès toiture</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-toiture" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-toiture" value="non" checked> Non</label>
-            </div>
+            <div class="radio-group-inline"><label class="radio-card-inline " onclick="selectRadioCard(this,'bat-toiture','oui')"><input type="radio" name="bat-toiture" value="oui" >Oui</label><label class="radio-card-inline selected" onclick="selectRadioCard(this,'bat-toiture','non')"><input type="radio" name="bat-toiture" value="non" checked>Non</label></div>
           </div>
           <div class="form-group">
             <label class="form-label">Local technique</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-local-tech" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-local-tech" value="non" checked> Non</label>
-            </div>
+            <div class="radio-group-inline"><label class="radio-card-inline " onclick="selectRadioCard(this,'bat-local-tech','oui')"><input type="radio" name="bat-local-tech" value="oui" >Oui</label><label class="radio-card-inline selected" onclick="selectRadioCard(this,'bat-local-tech','non')"><input type="radio" name="bat-local-tech" value="non" checked>Non</label></div>
           </div>
         </div>
 
@@ -1426,10 +1387,7 @@ input[type=number]{-moz-appearance:textfield}
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
           <div class="form-group">
             <label class="form-label">Escalier existant</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-escalier" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-escalier" value="non" checked> Non</label>
-            </div>
+            <div class="radio-group-inline"><label class="radio-card-inline " onclick="selectRadioCard(this,'bat-escalier','oui')"><input type="radio" name="bat-escalier" value="oui" >Oui</label><label class="radio-card-inline selected" onclick="selectRadioCard(this,'bat-escalier','non')"><input type="radio" name="bat-escalier" value="non" checked>Non</label></div>
           </div>
           <div class="form-group">
             <label class="form-label">État</label>
@@ -5823,6 +5781,18 @@ function recalcInfoTotal(){
   if(el) el.textContent = total.toLocaleString('fr-FR') + ' € HT';
 }
 
+
+// ── RADIO CARD INLINE ─────────────────────────────────────────
+function selectRadioCard(el, name, value){
+  // Désélectionner tous du même groupe
+  document.querySelectorAll('.radio-card-inline input[name="'+name+'"]').forEach(r => {
+    r.closest('.radio-card-inline').classList.remove('selected');
+  });
+  el.classList.add('selected');
+  const radio = el.querySelector('input[type="radio"]');
+  if(radio) radio.checked = true;
+}
+
 // ── INIT SECTIONS ACCORDÉONS ─────────────────────────────────
 function toggleInitSection(id){
   const ALL_IDS = ['init-acc-infos','init-acc-etat','init-acc-travaux',
@@ -9467,6 +9437,53 @@ function genererRapportDPGF(){
   #travaux-tabs::-webkit-scrollbar{display:none}
   #travaux-tabs .tab{flex-shrink:0;white-space:nowrap;padding:9px 18px;font-size:14px;min-width:max-content}
 }
+
+/* ══ CONFIG LOCAL — compact mobile ════════════════════════════ */
+/* Réduire les form-label dans les blocs config local/bat */
+#page-init .form-group .form-label {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: var(--muted) !important;
+  margin-bottom: 5px !important;
+  text-transform: uppercase !important;
+  letter-spacing: .04em !important;
+}
+
+/* Radios inline → style radio-card compact */
+#page-init .radio-card-inline {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink2);
+  cursor: pointer;
+  transition: all .12s;
+  background: white;
+  gap: 0;
+}
+#page-init .radio-card-inline:hover {
+  border-color: var(--primary-border);
+  background: var(--primary-light);
+}
+#page-init .radio-card-inline.selected {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+  font-weight: 600;
+}
+#page-init .radio-card-inline input {
+  display: none;
+}
+#page-init .radio-group-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 5px;
+}
+
 </style>
 </head>
 <body>
