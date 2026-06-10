@@ -872,12 +872,9 @@ input[type=number]{-moz-appearance:textfield}
   <!-- RÉCAPITULATIF DYNAMIQUE -->
   <div id="recap-banner" style="display:none;margin-bottom:20px"></div>
 
-<!-- GRILLE 2 COLONNES -->
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start">
-
-<!-- ════════════════════ COL GAUCHE ════════════════════ -->
-<div>
-
+  <div class="g2" style="align-items:start;gap:20px">
+    <!-- COL GAUCHE -->
+    <div>
       <!-- INFORMATIONS GÉNÉRALES -->
       <div class="card" style="margin-bottom:16px">
         <div class="card-title">Informations générales</div>
@@ -1131,7 +1128,6 @@ input[type=number]{-moz-appearance:textfield}
       </div>
 
 
-
       <!-- TRAVAUX PRÉVUS -->
       <!-- AUTORISATIONS, ÉTUDES & TRAVAUX PRÉVUS -->
       <div class="card" style="margin-bottom:16px" id="card-travaux">
@@ -1367,7 +1363,6 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
       </div><!-- /card-travaux -->
-
 
 
       <!-- ÉTAT DU LOCAL -->
@@ -1646,12 +1641,6 @@ input[type=number]{-moz-appearance:textfield}
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="bat-esc-mixte"> Mixte</label>
           </div>
         </div>
-
-</div><!-- /col gauche -->
-
-<!-- ════════════════════ COL DROITE ════════════════════ -->
-<div>
-
       <!-- CONTRAINTES DE CHANTIER -->
       <div class="card" style="margin-bottom:16px">
         <div class="card-title">Contraintes de chantier</div>
@@ -1687,67 +1676,6 @@ input[type=number]{-moz-appearance:textfield}
     </div>
 
     
-
-      <!-- ALIMENTATION PROVISOIRE DE CHANTIER -->
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">Alimentation provisoire de chantier</div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:16px">Anticiper les installations temporaires pour le préchiffrage des frais de chantier</div>
-
-        <!-- Eau / Élec / Sanitaires -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
-          <div class="form-group">
-            <label class="form-label">Eau</label>
-            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="site" onchange="toggleVeoliaInfo()"> Disponible sur site</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="souscomptage" onchange="toggleVeoliaInfo()"> Sous-comptage</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="raccord" onchange="toggleVeoliaInfo()"> Raccordement provisoire Veolia</label>
-              <div id="prov-eau-veolia-info" style="display:none;margin-top:6px;padding:8px 10px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:7px;font-size:11px;color:#1E40AF;line-height:1.6">
-                <strong>À la charge du client :</strong> La demande de branchement provisoire eau doit être effectuée directement par le client auprès de Veolia (ou du distributeur d'eau local selon la commune). Le client doit contacter son agence Veolia pour une demande de branchement chantier.<br><br>
-                <span style="color:#1D4ED8">Délai moyen : 2 à 4 semaines · Coût : 500 à 1 500 € selon distance au réseau · À anticiper avant démarrage du chantier</span>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Électricité</label>
-            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="site" onchange="toggleEnedisInfo()"> Disponible sur site</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="souscomptage" onchange="toggleEnedisInfo()"> Sous-comptage</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="raccord" onchange="toggleEnedisInfo()"> Raccordement provisoire Enedis</label>
-              <div id="prov-elec-enedis-info" style="display:none;margin-top:6px;padding:8px 10px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:7px;font-size:11px;color:#92400E;line-height:1.6">
-                <strong>Puissance recommandée pour un chantier : 9 kVA</strong> (alimentation outillage, éclairage, compresseur, chargeurs...)<br><br>
-                <strong>À la charge du client :</strong> La demande de raccordement provisoire doit être effectuée par le client auprès de son fournisseur d'énergie (EDF ou autre fournisseur). C'est le fournisseur qui mandate Enedis pour réaliser le raccordement — le client ne contacte pas Enedis directement.<br><br>
-                <span style="color:#B45309">Délai moyen : 3 à 6 semaines · Coût : 1 500 à 4 000 € selon puissance · À anticiper avant démarrage du chantier</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group" style="margin-bottom:16px">
-          <label class="form-label">Sanitaires de chantier</label>
-          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="existants"> Toilettes existantes utilisables</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="provisoires"> Toilettes provisoires à prévoir</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="base-vie"> Base vie complète à prévoir</label>
-          </div>
-        </div>
-
-
-
-        <input type="hidden" id="prov-duree-mois" value="0">
-        <input type="hidden" id="prov-nb-intervenants" value="0">
-        <div id="prov-estimation-hint" style="display:none"></div>
-        <!-- Résultat calcul automatique -->
-        <div id="prov-frais-result" style="display:none;padding:12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
-          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Estimation frais de chantier provisoires</div>
-          <div id="prov-frais-detail" style="font-size:12px;color:var(--ink2);line-height:2"></div>
-          <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px;display:flex;justify-content:space-between;align-items:center">
-            <span style="font-size:12px;font-weight:700;color:var(--ink)">Total estimé</span>
-            <span id="prov-frais-total" style="font-size:14px;font-weight:800;color:var(--primary)">0 €</span>
-          </div>
-        </div>
-      </div>
-
-
       <!-- PRESTATAIRES & ACCOMPAGNEMENT -->
       <div class="card" style="margin-bottom:16px">
         <div class="card-title">Prestataires & accompagnement à l'ouverture</div>
@@ -1988,7 +1916,6 @@ input[type=number]{-moz-appearance:textfield}
 
         </div><!-- /prest-categories -->
       </div><!-- /prestataires -->
-
       <!-- BUDGET & PLANNING -->
       <div class="card" style="margin-bottom:16px">
         <div class="card-title">Budget & Planning</div>
@@ -2070,6 +1997,67 @@ input[type=number]{-moz-appearance:textfield}
 
 
 
+<!-- COL DROITE -->
+    <div>
+
+      <!-- ALIMENTATION PROVISOIRE DE CHANTIER -->
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">Alimentation provisoire de chantier</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:16px">Anticiper les installations temporaires pour le préchiffrage des frais de chantier</div>
+
+        <!-- Eau / Élec / Sanitaires -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+          <div class="form-group">
+            <label class="form-label">Eau</label>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="site" onchange="toggleVeoliaInfo()"> Disponible sur site</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="souscomptage" onchange="toggleVeoliaInfo()"> Sous-comptage</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="raccord" onchange="toggleVeoliaInfo()"> Raccordement provisoire Veolia</label>
+              <div id="prov-eau-veolia-info" style="display:none;margin-top:6px;padding:8px 10px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:7px;font-size:11px;color:#1E40AF;line-height:1.6">
+                <strong>À la charge du client :</strong> La demande de branchement provisoire eau doit être effectuée directement par le client auprès de Veolia (ou du distributeur d'eau local selon la commune). Le client doit contacter son agence Veolia pour une demande de branchement chantier.<br><br>
+                <span style="color:#1D4ED8">Délai moyen : 2 à 4 semaines · Coût : 500 à 1 500 € selon distance au réseau · À anticiper avant démarrage du chantier</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Électricité</label>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="site" onchange="toggleEnedisInfo()"> Disponible sur site</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="souscomptage" onchange="toggleEnedisInfo()"> Sous-comptage</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="raccord" onchange="toggleEnedisInfo()"> Raccordement provisoire Enedis</label>
+              <div id="prov-elec-enedis-info" style="display:none;margin-top:6px;padding:8px 10px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:7px;font-size:11px;color:#92400E;line-height:1.6">
+                <strong>Puissance recommandée pour un chantier : 9 kVA</strong> (alimentation outillage, éclairage, compresseur, chargeurs...)<br><br>
+                <strong>À la charge du client :</strong> La demande de raccordement provisoire doit être effectuée par le client auprès de son fournisseur d'énergie (EDF ou autre fournisseur). C'est le fournisseur qui mandate Enedis pour réaliser le raccordement — le client ne contacte pas Enedis directement.<br><br>
+                <span style="color:#B45309">Délai moyen : 3 à 6 semaines · Coût : 1 500 à 4 000 € selon puissance · À anticiper avant démarrage du chantier</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:16px">
+          <label class="form-label">Sanitaires de chantier</label>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="existants"> Toilettes existantes utilisables</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="provisoires"> Toilettes provisoires à prévoir</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="base-vie"> Base vie complète à prévoir</label>
+          </div>
+        </div>
+
+
+
+        <input type="hidden" id="prov-duree-mois" value="0">
+        <input type="hidden" id="prov-nb-intervenants" value="0">
+        <div id="prov-estimation-hint" style="display:none"></div>
+        <!-- Résultat calcul automatique -->
+        <div id="prov-frais-result" style="display:none;padding:12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Estimation frais de chantier provisoires</div>
+          <div id="prov-frais-detail" style="font-size:12px;color:var(--ink2);line-height:2"></div>
+          <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px;display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:12px;font-weight:700;color:var(--ink)">Total estimé</span>
+            <span id="prov-frais-total" style="font-size:14px;font-weight:800;color:var(--primary)">0 €</span>
+          </div>
+        </div>
+      </div>
 
       <!-- CONTEXTE PROJET & CLIENT -->
 
@@ -2203,8 +2191,13 @@ input[type=number]{-moz-appearance:textfield}
         </div>
       </div>
 
-</div><!-- /col droite -->
-</div><!-- /grille 2 colonnes -->
+
+    </div>
+  </div>
+
+
+</div>
+
 
 
 <!-- ══ PAGE ANALYSE IA ══ -->
