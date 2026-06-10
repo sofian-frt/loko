@@ -668,7 +668,7 @@ input[type=number]{-moz-appearance:textfield}
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg></span> Documents
     </button>
     <button class="nav-item" onclick="showPage('releves-existant')" id="nav-releves-existant">
-      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 21L21 3M3 21h7M3 21v-7"/></svg></span> Relevés & Métrés
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 21L21 3M3 21h7M3 21v-7"/></svg></span> Relevés
       <span class="badge badge-muted" id="nb-pieces-existant" style="margin-left:auto">0</span>
     </button>
   </div>
@@ -2387,7 +2387,7 @@ input[type=number]{-moz-appearance:textfield}
 <div class="page" id="page-releves-existant">
   <div class="page-header-actions">
     <div class="page-header">
-      <h2>Relevés & Métrés</h2>
+      <h2>Relevés</h2>
       <p>Saisissez les pièces · Existant et Plan projet séparés</p>
     </div>
     <button class="btn btn-primary" id="btn-add-piece-releve" onclick="addPieceReleve()">
@@ -3902,7 +3902,7 @@ const PAGE_META={
   init:{title:'Initialisation du projet',step:''},
   'photos':{title:'Photos & Vidéos',step:''},
   'analyse-ia':{title:'Documents',step:''},
-  'releves-existant':{title:'Relevés & Métrés',step:''},
+  'releves-existant':{title:'Relevés',step:''},
   // ── DIMENSIONNEMENT ──
   eclairage:{title:'Éclairage',step:''},
   electricite:{title:'Électricité',step:''},
@@ -9202,7 +9202,7 @@ function renderRecap(){
 
     <!-- MÉTRÉS & RELEVÉS -->
     <div class="card">
-      <div class="card-title">Relevés & Métrés</div>
+      <div class="card-title">Relevés</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
         ${[
           ['Pièces', state.pieces.length],
