@@ -10818,53 +10818,6 @@ label{
   margin-bottom: 8px !important;
 }
 
-
-/* ══ TABS MOBILE — scroll horizontal ════════════════════════ */
-@media(max-width:768px){
-  .tabs {
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    white-space: nowrap !important;
-    flex-wrap: nowrap !important;
-    padding-bottom: 1px;
-  }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab {
-    flex-shrink: 0 !important;
-    white-space: nowrap !important;
-    padding: 8px 12px !important;
-    font-size: 13px !important;
-  }
-}
-
-
-/* ══ TRAVAUX TABS — scroll mobile uniquement ════════════════ */
-@media(max-width:900px){
-  #travaux-tabs {
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    flex-wrap: nowrap !important;
-    gap: 4px;
-    padding-bottom: 2px;
-  }
-  #travaux-tabs::-webkit-scrollbar {
-    display: none;
-  }
-  #travaux-tabs .tab {
-    flex-shrink: 0;
-    white-space: nowrap;
-    padding: 9px 18px;
-    font-size: 14px;
-    min-width: max-content;
-  }
-}
-
 </style>
 </head>
 <body>
