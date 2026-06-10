@@ -584,12 +584,6 @@ input[type=number]{-moz-appearance:textfield}
   .page{display:block!important}
   .card{box-shadow:none;border:1px solid #ddd}
 }
-
-@media(max-width:900px){
-  #travaux-tabs{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;scrollbar-width:none;-ms-overflow-style:none;flex-wrap:nowrap!important;gap:4px;padding-bottom:2px}
-  #travaux-tabs::-webkit-scrollbar{display:none}
-  #travaux-tabs .tab{flex-shrink:0;white-space:nowrap;padding:9px 18px;font-size:14px;min-width:max-content}
-}
 </style>
 </head>
 <body>
@@ -4316,8 +4310,6 @@ function updateRecap(){
   ${dateV?`<div style="font-size:11px;color:var(--muted)">📅 Visite : ${dateV}</div>`:''}`;
 }
 
-
-
 // ── STRUCTURE & OUVRAGES PORTEURS ────────────────────────────
 
 const ST_ETUDES = [
@@ -4328,83 +4320,6 @@ const ST_ETUDES = [
   'Géomètre',
   'Coordinateur SPS'
 ];
-
-function updateStructureAuto(){
-  const ids = id => document.getElementById(id)?.checked;
-  const radio = name => document.querySelector(`input[name="${name}"]:checked`)?.value;
-  const sel = id => document.getElementById(id)?.value;
-
-  // Calcul des besoins
-  const betOblig = ids('st-renforcement-struct')||ids('st-creation-ouvrage')||
-    ids('st-deplacement-ouvrage')||ids('st-suppression-ouvrage')||
-    ids('st-ouverture-mur')||ids('st-supp-complete')||ids('st-supp-partielle');
-  const betRecom = ids('st-creation-tremie')||ids('st-agrand-tremie')||
-    ids('st-creation-plancher')||ids('st-creation-mezzanine')||
-    ids('st-renf-plancher')||ids('st-renf-dalle');
-  const bcRecom  = betOblig||betRecom||ids('st-extension')||ids('st-surelevation');
-  const pcRequis = ids('st-extension')||ids('st-surelevation');
-  const erpCheck = radio('st-mezzanine')==='oui'||
-    sel('st-esc-intervention')==='creation'||sel('st-esc-intervention')==='remplacement';
-  const spsRecom = betOblig||ids('st-etaiement')||ids('st-sous-oeuvre')||ids('st-grutage');
-  const geoRecom = ids('st-extension')||ids('st-surelevation')||ids('st-creation-plancher');
-
-  const niveaux = {
-    'BET Structure'                 : betOblig ? 'Obligatoire' : betRecom ? 'Recommandé' : null,
-    'Diagnostic structure existante': betOblig||betRecom ? 'Recommandé' : null,
-    'Calcul de charges'             : betOblig||ids('st-charges') ? 'Recommandé' : null,
-    'Bureau de contrôle'            : bcRecom ? 'Recommandé' : null,
-    'Géomètre'                      : geoRecom ? 'À prévoir' : null,
-    'Coordinateur SPS'              : spsRecom ? 'Recommandé' : null,
-  };
-
-  // Alertes structure
-  const alertes = [];
-  if(pcRequis) alertes.push({lvl:'danger', txt:'Extension ou surélévation → Permis de Construire requis'});
-  if(betOblig) alertes.push({lvl:'danger', txt:'Travaux sur éléments porteurs → BET Structure obligatoire'});
-  if(erpCheck) alertes.push({lvl:'warning', txt:'Mezzanine ou escalier modifié → Vérification ERP et accessibilité requise'});
-  if(ids('st-sous-oeuvre')) alertes.push({lvl:'warning', txt:'Reprise en sous-œuvre → Étude géotechnique recommandée'});
-  if(ids('st-etaiement')) alertes.push({lvl:'warning', txt:'Étaiement provisoire → Impact planning chantier à anticiper'});
-
-  // Rendu études
-  const el = document.getElementById('st-etudes-list');
-  if(!el) return;
-
-  const niveauBadge = {'Obligatoire':'var(--danger)','Recommandé':'#0EA5E9','À prévoir':'#B45309'};
-  const hasAny = Object.values(niveaux).some(v=>v);
-
-  if(!hasAny && !alertes.length){
-    el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Cochez des travaux structurels pour voir les besoins en études</div>';
-    return;
-  }
-
-  const alertesHTML = alertes.map(a=>`
-    <div style="display:flex;gap:8px;padding:8px 12px;background:${a.lvl==='danger'?'#FEF2F2':'#FFFBEB'};border-radius:8px;border-left:3px solid ${a.lvl==='danger'?'var(--danger)':'#B45309'};margin-bottom:8px">
-      ${a.lvl==='danger'?`<svg width="14" height="14" fill="none" stroke="var(--danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`:`<svg width="14" height="14" fill="none" stroke="#B45309" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`}
-      <span style="font-size:12px;color:var(--ink2)">${a.txt}</span>
-    </div>`).join('');
-
-  const etudesHTML = ST_ETUDES.filter(n=>niveaux[n]).map(nom=>{
-    const niv = niveaux[nom];
-    const key = nom.replace(/[^a-zA-Z]/g,'_');
-    return `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);gap:10px">
-      <div>
-        <span style="font-size:10px;background:${niveauBadge[niv]};color:white;padding:2px 7px;border-radius:10px;margin-right:6px">${niv}</span>
-        <span style="font-size:12px;font-weight:600;color:var(--ink)">${nom}</span>
-      </div>
-      <select id="st-etude-${key}" style="font-size:11px;border:1.5px solid var(--border);border-radius:6px;padding:4px 8px;font-family:var(--font);flex-shrink:0">
-        <option value="a_prevoir">À prévoir</option>
-        <option value="missionne">Déjà missionné ✅</option>
-        <option value="non_necessaire">Non nécessaire</option>
-      </select>
-    </div>`;
-  }).join('');
-
-  el.innerHTML = (alertesHTML ? `<div style="margin-bottom:12px">${alertesHTML}</div>` : '') + etudesHTML;
-}
-
-
-
 
 // ── ESTIMATION AUTOMATIQUE DURÉE & COMPAGNONS ─────────────────
 
@@ -4612,8 +4527,6 @@ function estimerDureeEtCompagnons(){
   document.getElementById('prov-duree-mois').value = dureeMois.toFixed(1);
   document.getElementById('prov-nb-intervenants').value = nbCompagnons;
 
-
-
   calculerFraisProvisoires();
 }
 
@@ -4654,9 +4567,6 @@ function calculerFraisProvisoires(){
   // Élec
   if(radio('prov-elec')==='raccord'){ lignes.push({l:'Raccordement élec provisoire',m:1500,u:'forfait'}); somme+=1500; }
 
-
-
-
   // Sanitaires
 
   // Base vie
@@ -4680,8 +4590,6 @@ function calculerFraisProvisoires(){
 
   total.textContent = somme.toLocaleString('fr-FR') + ' € HT';
 }
-
-
 
 // ── EXTRACTIONS EXISTANTES ────────────────────────────────────
 
@@ -4972,9 +4880,6 @@ function analyserConcurrence(){
       </div>
     </div>`;
 }
-
-
-
 
 // ── PHOTOS — IMPORT FICHIER ────────────────────────────────────
 function attacherFichier(input, itemId, type){
@@ -5930,6 +5835,18 @@ function recalcInfoTotal(){
   });
   const el = document.getElementById('info-total');
   if(el) el.textContent = total.toLocaleString('fr-FR') + ' € HT';
+}
+
+
+// ── RADIO CARD INLINE ─────────────────────────────────────────
+function selectRadioCard(el, name, value){
+  // Désélectionner tous du même groupe
+  document.querySelectorAll('.radio-card-inline input[name="'+name+'"]').forEach(r => {
+    r.closest('.radio-card-inline').classList.remove('selected');
+  });
+  el.classList.add('selected');
+  const radio = el.querySelector('input[type="radio"]');
+  if(radio) radio.checked = true;
 }
 
 // ── INIT SECTIONS ACCORDÉONS ─────────────────────────────────
@@ -9246,61 +9163,6 @@ function majResumeReleves(){
 }
 
 // ── RELEVÉS EXISTANT / PROJET ────────────────────────────────
-function renderRelevesType(type){
-  const pieces = state.pieces.filter(p=>(p._type||'existant')===type);
-  const listEl = document.getElementById('pieces-list-'+type);
-  const emptyEl = document.getElementById('empty-pieces-'+type);
-  const resumeEl = document.getElementById('resume-'+type);
-  if(!listEl) return;
-
-  if(pieces.length === 0){
-    if(emptyEl) emptyEl.style.display='flex';
-    if(resumeEl) resumeEl.style.display='none';
-    return;
-  }
-  if(emptyEl) emptyEl.style.display='none';
-  if(resumeEl) resumeEl.style.display='flex';
-
-  const totalSurf = pieces.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
-  const avgHaut = pieces.filter(p=>p.hauteur).reduce((a,p,_,arr)=>a+(parseFloat(p.hauteur)||0)/arr.length,0);
-  const countEl = document.getElementById('count-'+type);
-  const surfEl = document.getElementById('surf-'+type);
-  const hautEl = document.getElementById('haut-'+type);
-  if(countEl) countEl.textContent = pieces.length;
-  if(surfEl) surfEl.textContent = totalSurf.toFixed(1)+' m²';
-  if(hautEl) hautEl.textContent = avgHaut>0?avgHaut.toFixed(2)+' m':'—';
-
-  const badge = document.getElementById('nb-pieces-'+type);
-  if(badge) badge.textContent = pieces.length;
-
-  if(type==='projet'){
-    const piecesEx = state.pieces.filter(p=>(p._type||'existant')==='existant');
-    const surfEx = piecesEx.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
-    const compEl = document.getElementById('comparatif-surfaces');
-    const gridEl = document.getElementById('comparatif-grid');
-    if(compEl && gridEl && (surfEx>0||totalSurf>0)){
-      compEl.style.display='block';
-      const ecart = totalSurf - surfEx;
-      const pct = surfEx>0?((ecart/surfEx)*100).toFixed(1):0;
-      gridEl.innerHTML = `
-        <div style="text-align:center;padding:12px;background:var(--bg);border-radius:8px">
-          <div style="font-size:10px;color:var(--muted);font-weight:600">Existant</div>
-          <div style="font-size:18px;font-weight:800;color:var(--ink)">${surfEx.toFixed(1)} m²</div>
-          <div style="font-size:11px;color:var(--muted)">${piecesEx.length} pièce(s)</div>
-        </div>
-        <div style="text-align:center;padding:12px;background:var(--bg);border-radius:8px">
-          <div style="font-size:10px;color:var(--muted);font-weight:600">Projet</div>
-          <div style="font-size:18px;font-weight:800;color:var(--primary)">${totalSurf.toFixed(1)} m²</div>
-          <div style="font-size:11px;color:var(--muted)">${pieces.length} pièce(s)</div>
-        </div>
-        <div style="text-align:center;padding:12px;background:${Math.abs(ecart/Math.max(surfEx,1))>0.1?'var(--danger-light)':'var(--primary-light)'};border-radius:8px">
-          <div style="font-size:10px;color:var(--muted);font-weight:600">Écart</div>
-          <div style="font-size:18px;font-weight:800;color:${ecart>=0?'var(--primary)':'var(--danger)'}">${ecart>=0?'+':''}${ecart.toFixed(1)} m²</div>
-          <div style="font-size:11px;color:var(--muted)">${pct}%</div>
-        </div>`;
-    }
-  }
-}
 
 // ── CORRECTION AUTOMATIQUE ───────────────────────────────────
 function corrigerTexte(input){
@@ -9625,6 +9487,59 @@ function genererRapportDPGF(){
   }
 }
 
+
+@media(max-width:900px){
+  #travaux-tabs{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;scrollbar-width:none;-ms-overflow-style:none;flex-wrap:nowrap!important;gap:4px;padding-bottom:2px}
+  #travaux-tabs::-webkit-scrollbar{display:none}
+  #travaux-tabs .tab{flex-shrink:0;white-space:nowrap;padding:9px 18px;font-size:14px;min-width:max-content}
+}
+
+/* ══ CONFIG LOCAL — compact mobile ════════════════════════════ */
+/* Réduire les form-label dans les blocs config local/bat */
+#page-init .form-group .form-label {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: var(--muted) !important;
+  margin-bottom: 5px !important;
+  text-transform: uppercase !important;
+  letter-spacing: .04em !important;
+}
+
+/* Radios inline → style radio-card compact */
+#page-init .radio-card-inline {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink2);
+  cursor: pointer;
+  transition: all .12s;
+  background: white;
+  gap: 0;
+}
+#page-init .radio-card-inline:hover {
+  border-color: var(--primary-border);
+  background: var(--primary-light);
+}
+#page-init .radio-card-inline.selected {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+  font-weight: 600;
+}
+#page-init .radio-card-inline input {
+  display: none;
+}
+#page-init .radio-group-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 5px;
+}
+
 </style>
 </head>
 <body>
@@ -9884,8 +9799,6 @@ function ajouterDocuments(input){
   input.value = '';
   
 }
-
-
 
 function renderSecuriteIncendie(){}
 function renderPMR(){}
