@@ -906,8 +906,7 @@ input[type=number]{-moz-appearance:textfield}
     <!-- ══ COL GAUCHE ══ -->
     <div>
 
-      <!-- INFORMATIONS GÉNÉRALES -->
-      <div class="init-section">
+<div class="init-section">
   <div class="init-section-header" onclick="toggleInitSection('init-acc-infos')">
     <div class="init-section-title">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 3H8a2 2 0 00-2 2v2h12V5a2 2 0 00-2-2z"/></svg>
@@ -1155,24 +1154,7 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
-      <!-- MODAL HISTORIQUE CLIENTS -->
-      <div id="modal-clients" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:600;align-items:center;justify-content:center">
-        <div style="background:white;border-radius:14px;padding:24px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 20px 50px rgba(0,0,0,.25)">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-            <div style="font-size:15px;font-weight:700">Historique clients</div>
-            <button onclick="document.getElementById('modal-clients').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:18px;color:var(--muted)">✕</button>
-          </div>
-          <div id="clients-liste">
-            <div style="text-align:center;color:var(--muted);font-size:13px;padding:20px">Aucun client enregistré</div>
-          </div>
-        </div>
-      </div>
-
-
-
-      <!-- TRAVAUX PRÉVUS -->
-      <!-- AUTORISATIONS, ÉTUDES & TRAVAUX PRÉVUS -->
-      <div class="init-section">
+<div class="init-section">
   <div class="init-section-header" onclick="toggleInitSection('init-acc-travaux')">
     <div class="init-section-title">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
@@ -1414,12 +1396,9 @@ input[type=number]{-moz-appearance:textfield}
           </div>
         </div>
   </div>
-</div><!-- /card-travaux -->
+</div>
 
-
-
-      <!-- ÉTAT DU LOCAL -->
-      <div class="init-section">
+<div class="init-section">
   <div class="init-section-header" onclick="toggleInitSection('init-acc-etat')">
     <div class="init-section-title">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -1566,9 +1545,7 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
-
-      <!-- EXTRACTIONS EXISTANTES -->
-      <div class="init-section">
+<div class="init-section">
   <div class="init-section-header" onclick="toggleInitSection('init-acc-extractions')">
     <div class="init-section-title">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1114 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/></svg>
@@ -1603,14 +1580,12 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
-
     </div><!-- /col gauche -->
 
     <!-- ══ COL DROITE ══ -->
     <div>
 
-      <!-- CONTRAINTES DE CHANTIER -->
-      <div class="init-section">
+<div class="init-section">
   <div class="init-section-header" onclick="toggleInitSection('init-acc-contraintes')">
     <div class="init-section-title">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -1650,12 +1625,142 @@ input[type=number]{-moz-appearance:textfield}
                   </div>
   </div>
 </div>
+
+<div class="init-section">
+  <div class="init-section-header" onclick="toggleInitSection('init-acc-budget')">
+    <div class="init-section-title">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      Budget & Planning
     </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="init-section-badge" id="init-acc-budget-badge"></span>
+      <svg class="init-section-arrow" id="init-acc-budget-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </div>
+  <div class="init-section-body collapsed" id="init-acc-budget-body">
+<div class="form-row" style="margin-bottom:14px">
+          <div class="form-group">
+            <label class="form-label">Budget travaux estimé</label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+              <input type="number" id="ctx-budget-travaux" class="form-input" placeholder="0" style="font-size:16px">
+              <span style="font-size:12px;color:var(--muted)">€ HT</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Budget global projet</label>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:4px">travaux + honoraires + cuisine + matériel + mobilier + enseigne + communication</div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <input type="number" id="ctx-budget-global" class="form-input" placeholder="0" style="font-size:16px">
+              <span style="font-size:12px;color:var(--muted)">€ HT</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Budget validé</label>
+          <div style="display:flex;gap:14px;margin-top:6px;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="oui"> Oui</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="non"> Non</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="en-cours" checked> En cours de définition</label>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Financement obtenu</label>
+          <div style="display:flex;gap:14px;margin-top:6px;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="oui" onchange="document.getElementById('ctx-financement-montant').style.display='block'"> Oui</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="non" checked onchange="document.getElementById('ctx-financement-montant').style.display='none'"> Non</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="en-cours" onchange="document.getElementById('ctx-financement-montant').style.display='none'"> En cours</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="recherche" onchange="document.getElementById('ctx-financement-montant').style.display='none'"> À rechercher</label>
+          </div>
+        </div>
+        <div id="ctx-financement-montant" style="display:none;margin-bottom:14px">
+          <div class="form-group">
+            <label class="form-label">Montant du financement obtenu</label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+              <input type="number" id="ctx-montant-financement" class="form-input" placeholder="0" style="font-size:16px">
+              <span style="font-size:12px;color:var(--muted)">€</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+          <div class="form-group">
+            <label class="form-label">Date souhaitée de démarrage</label>
+            <input type="date" id="ctx-date-demarrage" class="form-input" style="margin-top:6px;font-size:16px">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date souhaitée d'ouverture</label>
+            <input type="date" id="ctx-date-ouverture" class="form-input" style="margin-top:6px;font-size:16px">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Délai maximum accepté</label>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="1m"> 1 mois</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="2m"> 2 mois</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="3m"> 3 mois</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="6m"> 6 mois</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="6m+"> Plus de 6 mois</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Niveau d'urgence</label>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="faible"> Faible</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="moyen" checked> Moyen</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="eleve"> Élevé</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="urgent"> Très urgent</label>
+            </div>
+          </div>
+        </div>
+  </div>
+</div>
 
-    
+<div class="init-section">
+  <div class="init-section-header" onclick="toggleInitSection('init-acc-avancement')">
+    <div class="init-section-title">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Avancement du projet
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="init-section-badge" id="init-acc-avancement-badge"></span>
+      <svg class="init-section-arrow" id="init-acc-avancement-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+  </div>
+  <div class="init-section-body collapsed" id="init-acc-avancement-body">
+<div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Situation du local</label>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="recherche"> Recherche de local</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="identifie"> Local identifié</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="visites"> Visites en cours</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="negociation"> Négociation en cours</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="promesse"> Promesse de bail signée</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="bail" checked> Bail signé</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="acte"> Acte signé</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="exploite"> Local déjà exploité</label>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:14px">
+          <label class="form-label">Le client dispose-t-il des clés ?</label>
+          <div style="display:flex;gap:14px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-cles" value="oui"> Oui</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-cles" value="non" checked> Non</label>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="form-group">
+            <label class="form-label">Date prévisionnelle signature bail</label>
+            <input type="date" id="ctx-date-bail" class="form-input" style="margin-top:6px;font-size:16px">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date remise des clés prévue</label>
+            <input type="date" id="ctx-date-cles" class="form-input" style="margin-top:6px;font-size:16px">
+          </div>
+        </div>
+  </div>
+</div>
 
-      <!-- ALIMENTATION PROVISOIRE DE CHANTIER -->
-      <div class="init-section">
+<div class="init-section">
   <div class="init-section-header" onclick="toggleInitSection('init-acc-alim')">
     <div class="init-section-title">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
@@ -1724,9 +1829,7 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
-
-      <!-- PRESTATAIRES & ACCOMPAGNEMENT -->
-      <div class="init-section">
+<div class="init-section">
   <div class="init-section-header" onclick="toggleInitSection('init-acc-prest')">
     <div class="init-section-title">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
@@ -1975,150 +2078,9 @@ input[type=number]{-moz-appearance:textfield}
 
         </div><!-- /prest-categories -->
   </div>
-</div><!-- /prestataires -->
-
-
-
-      <!-- CONTEXTE PROJET & CLIENT -->
-
-      <!-- BUDGET & PLANNING -->
-      <div class="init-section">
-  <div class="init-section-header" onclick="toggleInitSection('init-acc-budget')">
-    <div class="init-section-title">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-      Budget & Planning
-    </div>
-    <div style="display:flex;align-items:center;gap:8px">
-      <span class="init-section-badge" id="init-acc-budget-badge"></span>
-      <svg class="init-section-arrow" id="init-acc-budget-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
-    </div>
-  </div>
-  <div class="init-section-body collapsed" id="init-acc-budget-body">
-<div class="form-row" style="margin-bottom:14px">
-          <div class="form-group">
-            <label class="form-label">Budget travaux estimé</label>
-            <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-              <input type="number" id="ctx-budget-travaux" class="form-input" placeholder="0" style="font-size:16px">
-              <span style="font-size:12px;color:var(--muted)">€ HT</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Budget global projet</label>
-            <div style="font-size:10px;color:var(--muted);margin-bottom:4px">travaux + honoraires + cuisine + matériel + mobilier + enseigne + communication</div>
-            <div style="display:flex;align-items:center;gap:8px">
-              <input type="number" id="ctx-budget-global" class="form-input" placeholder="0" style="font-size:16px">
-              <span style="font-size:12px;color:var(--muted)">€ HT</span>
-            </div>
-          </div>
-        </div>
-        <div class="form-group" style="margin-bottom:14px">
-          <label class="form-label">Budget validé</label>
-          <div style="display:flex;gap:14px;margin-top:6px;flex-wrap:wrap">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="oui"> Oui</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="non"> Non</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="en-cours" checked> En cours de définition</label>
-          </div>
-        </div>
-        <div class="form-group" style="margin-bottom:14px">
-          <label class="form-label">Financement obtenu</label>
-          <div style="display:flex;gap:14px;margin-top:6px;flex-wrap:wrap">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="oui" onchange="document.getElementById('ctx-financement-montant').style.display='block'"> Oui</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="non" checked onchange="document.getElementById('ctx-financement-montant').style.display='none'"> Non</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="en-cours" onchange="document.getElementById('ctx-financement-montant').style.display='none'"> En cours</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="recherche" onchange="document.getElementById('ctx-financement-montant').style.display='none'"> À rechercher</label>
-          </div>
-        </div>
-        <div id="ctx-financement-montant" style="display:none;margin-bottom:14px">
-          <div class="form-group">
-            <label class="form-label">Montant du financement obtenu</label>
-            <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-              <input type="number" id="ctx-montant-financement" class="form-input" placeholder="0" style="font-size:16px">
-              <span style="font-size:12px;color:var(--muted)">€</span>
-            </div>
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
-          <div class="form-group">
-            <label class="form-label">Date souhaitée de démarrage</label>
-            <input type="date" id="ctx-date-demarrage" class="form-input" style="margin-top:6px;font-size:16px">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Date souhaitée d'ouverture</label>
-            <input type="date" id="ctx-date-ouverture" class="form-input" style="margin-top:6px;font-size:16px">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Délai maximum accepté</label>
-            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="1m"> 1 mois</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="2m"> 2 mois</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="3m"> 3 mois</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="6m"> 6 mois</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="6m+"> Plus de 6 mois</label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Niveau d'urgence</label>
-            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="faible"> Faible</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="moyen" checked> Moyen</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="eleve"> Élevé</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="urgent"> Très urgent</label>
-            </div>
-          </div>
-        </div>
-  </div>
 </div>
 
-      <!-- AVANCEMENT DU PROJET -->
-      <div class="init-section">
-  <div class="init-section-header" onclick="toggleInitSection('init-acc-avancement')">
-    <div class="init-section-title">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      Avancement du projet
-    </div>
-    <div style="display:flex;align-items:center;gap:8px">
-      <span class="init-section-badge" id="init-acc-avancement-badge"></span>
-      <svg class="init-section-arrow" id="init-acc-avancement-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
-    </div>
-  </div>
-  <div class="init-section-body collapsed" id="init-acc-avancement-body">
-<div class="form-group" style="margin-bottom:14px">
-          <label class="form-label">Situation du local</label>
-          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="recherche"> Recherche de local</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="identifie"> Local identifié</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="visites"> Visites en cours</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="negociation"> Négociation en cours</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="promesse"> Promesse de bail signée</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="bail" checked> Bail signé</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="acte"> Acte signé</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="exploite"> Local déjà exploité</label>
-          </div>
-        </div>
-        <div class="form-group" style="margin-bottom:14px">
-          <label class="form-label">Le client dispose-t-il des clés ?</label>
-          <div style="display:flex;gap:14px;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-cles" value="oui"> Oui</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-cles" value="non" checked> Non</label>
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-          <div class="form-group">
-            <label class="form-label">Date prévisionnelle signature bail</label>
-            <input type="date" id="ctx-date-bail" class="form-input" style="margin-top:6px;font-size:16px">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Date remise des clés prévue</label>
-            <input type="date" id="ctx-date-cles" class="form-input" style="margin-top:6px;font-size:16px">
-          </div>
-        </div>
-  </div>
-</div>
-
-      <!-- CONSULTATION ENTREPRISES -->
-      <div class="init-section">
+<div class="init-section">
   <div class="init-section-header" onclick="toggleInitSection('init-acc-consult')">
     <div class="init-section-title">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
@@ -2158,8 +2120,7 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
-      <!-- DÉCIDEURS -->
-      <div class="init-section">
+<div class="init-section">
   <div class="init-section-header" onclick="toggleInitSection('init-acc-decideurs')">
     <div class="init-section-title">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="23" y1="11" x2="17" y2="11"/><line x1="20" y1="8" x2="20" y2="14"/></svg>
@@ -2200,8 +2161,7 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
-      <!-- INFORMATIONS COMPLÉMENTAIRES -->
-      <div class="init-section">
+<div class="init-section">
   <div class="init-section-header" onclick="toggleInitSection('init-acc-infos-comp')">
     <div class="init-section-title">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -2243,20 +2203,12 @@ input[type=number]{-moz-appearance:textfield}
           <textarea id="ctx-commentaires" class="form-input" rows="6" placeholder="Notes libres du chargé d'études / commercial..." style="resize:vertical;font-size:13px;line-height:1.6"></textarea>
         </div>
   </div>
-</div>
-
-
-    
-  
-
-
-
-
-
 
     </div><!-- /col droite -->
 
   </div><!-- /g2 -->
+</div>
+</div>
 </div><!-- /page-init -->
 
 
