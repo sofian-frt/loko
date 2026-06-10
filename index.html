@@ -1251,57 +1251,77 @@ input[type=number]{-moz-appearance:textfield}
         <div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div>
 
         <!-- CONFIGURATION DU LOCAL -->
-        <div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Configuration du local</div>
-
-        <!-- RÉSUMÉ TECHNIQUE -->
-        <div id="cfg-resume" style="background:#F0F4FF;border:1px solid #C7D2FE;border-radius:8px;padding:10px 14px;margin-bottom:12px;display:none">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-            <span style="font-size:11px;font-weight:700;color:#4338CA;text-transform:uppercase;letter-spacing:.05em">Résumé technique</span>
-            <span id="cfg-badge" style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:#FEF3C7;color:#D97706">⚠ À compléter</span>
-          </div>
-          <div id="cfg-resume-content" style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:12px;color:#374151"></div>
+        <div style="font-size:13px;font-weight:700;color:var(--ink);letter-spacing:-.01em;margin-bottom:12px;display:flex;align-items:center;gap:8px">
+          <div style="width:3px;height:16px;background:var(--primary);border-radius:2px;flex-shrink:0"></div>
+          Configuration locale
         </div>
 
-        <!-- 4 CARTES NAVIGATION -->
+        <!-- TYPE DE LOCAL -->
+        <div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Type de local</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">
+
+          <div class="cfg-type-card radio-card" onclick="selectEtatLocalCfg('brut',this)" data-coeff="1.0" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 8px;text-align:center;min-height:80px">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom:6px;color:var(--muted)"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            <div class="radio-card-label">Local brut</div>
+            <div class="radio-card-sub">Béton brut</div>
+          </div>
+
+          <div class="cfg-type-card radio-card" onclick="selectEtatLocalCfg('semi',this)" data-coeff="0.85" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 8px;text-align:center;min-height:80px">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom:6px;color:var(--muted)"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <div class="radio-card-label">Semi-aménagé</div>
+            <div class="radio-card-sub">Partiellement fait</div>
+          </div>
+
+          <div class="cfg-type-card radio-card" onclick="selectEtatLocalCfg('amenage',this)" data-coeff="0.6" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 8px;text-align:center;min-height:80px">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom:6px;color:var(--muted)"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/><line x1="12" y1="3" x2="12" y2="22"/></svg>
+            <div class="radio-card-label">Local aménagé</div>
+            <div class="radio-card-sub">Déjà réalisé</div>
+          </div>
+
+        </div>
+
+        <!-- RÉSEAUX TECHNIQUES -->
+        <div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px">Réseaux techniques</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px" id="cfg-cards-grid">
 
           <!-- Électricité -->
-          <div class="cfg-nav-card" id="cfg-card-elec" onclick="toggleCfgCard('elec')" style="background:#fff;border:1.5px solid #E5E7EB;border-radius:10px;padding:14px 12px;cursor:pointer;text-align:center;transition:all .15s">
-            <div style="font-size:22px;margin-bottom:6px">⚡</div>
-            <div style="font-size:13px;font-weight:600;color:#374151">Électricité</div>
+          <div class="cfg-nav-card" id="cfg-card-elec" onclick="toggleCfgCard('elec')" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 10px;text-align:center;min-height:80px;background:#fff;border:1.5px solid #E5E7EB;border-radius:var(--radius);cursor:pointer;transition:all .15s">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom:6px;color:var(--muted)" id="cfg-icon-elec"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <div style="font-size:12px;font-weight:600;color:var(--ink)">Électricité</div>
             <div id="cfg-card-elec-badge" style="font-size:10px;color:#9CA3AF;margin-top:3px">Non renseigné</div>
           </div>
 
           <!-- Extraction -->
-          <div class="cfg-nav-card" id="cfg-card-ext" onclick="toggleCfgCard('ext')" style="background:#fff;border:1.5px solid #E5E7EB;border-radius:10px;padding:14px 12px;cursor:pointer;text-align:center;transition:all .15s">
-            <div style="font-size:22px;margin-bottom:6px">🌬️</div>
-            <div style="font-size:13px;font-weight:600;color:#374151">Extraction</div>
+          <div class="cfg-nav-card" id="cfg-card-ext" onclick="toggleCfgCard('ext')" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 10px;text-align:center;min-height:80px;background:#fff;border:1.5px solid #E5E7EB;border-radius:var(--radius);cursor:pointer;transition:all .15s">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom:6px;color:var(--muted)" id="cfg-icon-ext"><path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1114 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/></svg>
+            <div style="font-size:12px;font-weight:600;color:var(--ink)">Extraction</div>
             <div id="cfg-card-ext-badge" style="font-size:10px;color:#9CA3AF;margin-top:3px">Non renseigné</div>
           </div>
 
           <!-- Gaz -->
-          <div class="cfg-nav-card" id="cfg-card-gaz" onclick="toggleCfgCard('gaz')" style="background:#fff;border:1.5px solid #E5E7EB;border-radius:10px;padding:14px 12px;cursor:pointer;text-align:center;transition:all .15s">
-            <div style="font-size:22px;margin-bottom:6px">🔥</div>
-            <div style="font-size:13px;font-weight:600;color:#374151">Gaz</div>
+          <div class="cfg-nav-card" id="cfg-card-gaz" onclick="toggleCfgCard('gaz')" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 10px;text-align:center;min-height:80px;background:#fff;border:1.5px solid #E5E7EB;border-radius:var(--radius);cursor:pointer;transition:all .15s">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom:6px;color:var(--muted)" id="cfg-icon-gaz"><path d="M12 2c-4 4-4 8 0 10s4 6 0 10"/><path d="M8 6c-2 3-2 6 0 8"/><path d="M16 6c2 3 2 6 0 8"/></svg>
+            <div style="font-size:12px;font-weight:600;color:var(--ink)">Gaz</div>
             <div id="cfg-card-gaz-badge" style="font-size:10px;color:#9CA3AF;margin-top:3px">Non renseigné</div>
           </div>
 
           <!-- Télécommunications -->
-          <div class="cfg-nav-card" id="cfg-card-fibre" onclick="toggleCfgCard('fibre')" style="background:#fff;border:1.5px solid #E5E7EB;border-radius:10px;padding:14px 12px;cursor:pointer;text-align:center;transition:all .15s">
-            <div style="font-size:22px;margin-bottom:6px">🌐</div>
-            <div style="font-size:13px;font-weight:600;color:#374151">Télécoms</div>
+          <div class="cfg-nav-card" id="cfg-card-fibre" onclick="toggleCfgCard('fibre')" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 10px;text-align:center;min-height:80px;background:#fff;border:1.5px solid #E5E7EB;border-radius:var(--radius);cursor:pointer;transition:all .15s">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom:6px;color:var(--muted)" id="cfg-icon-fibre"><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+            <div style="font-size:12px;font-weight:600;color:var(--ink)">Télécoms</div>
             <div id="cfg-card-fibre-badge" style="font-size:10px;color:#9CA3AF;margin-top:3px">Non renseigné</div>
           </div>
 
         </div>
 
-        <!-- PANNEAUX DÉTAIL (un seul visible à la fois) -->
-
-        <!-- Panneau Électricité -->
-        <div id="cfg-panel-elec" style="display:none;background:#F9FAFB;border:1.5px solid #6366F1;border-radius:10px;padding:14px;margin-bottom:10px;animation:fadeUp .15s ease">
-          <div style="font-size:12px;font-weight:700;color:#4338CA;margin-bottom:12px;display:flex;align-items:center;gap:6px">
-            ⚡ Électricité
-            <button onclick="toggleCfgCard('elec')" style="margin-left:auto;background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:16px;line-height:1">×</button>
+        <!-- PANNEAUX DÉTAIL -->
+        <div id="cfg-panel-elec" style="display:none;background:#F9FAFB;border:1.5px solid var(--primary);border-radius:var(--radius);padding:14px;margin-bottom:10px;animation:fadeUp .15s ease">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <span style="font-size:12px;font-weight:700;color:var(--primary);display:flex;align-items:center;gap:6px">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Électricité
+            </span>
+            <button onclick="toggleCfgCard('elec')" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;padding:0">×</button>
           </div>
           <div class="form-group" style="margin-bottom:10px">
             <label class="form-label">Puissance disponible</label>
@@ -1310,21 +1330,23 @@ input[type=number]{-moz-appearance:textfield}
               <span style="font-size:13px;color:var(--muted);font-weight:600">kVA</span>
             </div>
           </div>
-          <div id="cfg-tarif-auto" style="display:none;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:6px;padding:8px 12px;font-size:12px;color:#4338CA;margin-bottom:10px">
-            <span style="font-weight:600">Tarif estimé automatiquement :</span> <span id="cfg-tarif-label">—</span>
+          <div id="cfg-tarif-auto" style="display:none;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:6px;padding:8px 12px;font-size:12px;color:var(--primary)">
+            <span style="font-weight:700">Tarif estimé :</span> <span id="cfg-tarif-label">—</span>
           </div>
-          <input type="hidden" name="cfg-elec-tarif" id="cfg-elec-tarif" value="">
+          <input type="hidden" id="cfg-elec-tarif" value="">
         </div>
 
-        <!-- Panneau Extraction -->
-        <div id="cfg-panel-ext" style="display:none;background:#F9FAFB;border:1.5px solid #6366F1;border-radius:10px;padding:14px;margin-bottom:10px;animation:fadeUp .15s ease">
-          <div style="font-size:12px;font-weight:700;color:#4338CA;margin-bottom:12px;display:flex;align-items:center;gap:6px">
-            🌬️ Extraction
-            <button onclick="toggleCfgCard('ext')" style="margin-left:auto;background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:16px;line-height:1">×</button>
+        <div id="cfg-panel-ext" style="display:none;background:#F9FAFB;border:1.5px solid var(--primary);border-radius:var(--radius);padding:14px;margin-bottom:10px;animation:fadeUp .15s ease">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <span style="font-size:12px;font-weight:700;color:var(--primary);display:flex;align-items:center;gap:6px">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1114 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/></svg>
+              Extraction
+            </span>
+            <button onclick="toggleCfgCard('ext')" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;padding:0">×</button>
           </div>
           <div class="form-group" style="margin-bottom:8px">
             <label class="form-label">Présence d'une extraction</label>
-            <div style="display:flex;gap:10px;margin-top:6px">
+            <div style="display:flex;gap:12px;margin-top:6px">
               <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="oui" onchange="toggleCfgExtSection(this);majResumeConfig()"> Oui</label>
               <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="non" checked onchange="toggleCfgExtSection(this);majResumeConfig()"> Non</label>
             </div>
@@ -1341,32 +1363,36 @@ input[type=number]{-moz-appearance:textfield}
           </div>
         </div>
 
-        <!-- Panneau Gaz -->
-        <div id="cfg-panel-gaz" style="display:none;background:#F9FAFB;border:1.5px solid #6366F1;border-radius:10px;padding:14px;margin-bottom:10px;animation:fadeUp .15s ease">
-          <div style="font-size:12px;font-weight:700;color:#4338CA;margin-bottom:12px;display:flex;align-items:center;gap:6px">
-            🔥 Gaz
-            <button onclick="toggleCfgCard('gaz')" style="margin-left:auto;background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:16px;line-height:1">×</button>
+        <div id="cfg-panel-gaz" style="display:none;background:#F9FAFB;border:1.5px solid var(--primary);border-radius:var(--radius);padding:14px;margin-bottom:10px;animation:fadeUp .15s ease">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <span style="font-size:12px;font-weight:700;color:var(--primary);display:flex;align-items:center;gap:6px">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2c-4 4-4 8 0 10s4 6 0 10"/></svg>
+              Gaz
+            </span>
+            <button onclick="toggleCfgCard('gaz')" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;padding:0">×</button>
           </div>
           <div class="form-group" style="margin-bottom:8px">
             <label class="form-label">Présence d'une arrivée gaz</label>
-            <div style="display:flex;gap:10px;margin-top:6px">
+            <div style="display:flex;gap:12px;margin-top:6px">
               <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-gaz" value="oui" onchange="document.getElementById('cfg-gaz-type').style.display='flex';majResumeConfig()"> Oui</label>
               <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-gaz" value="non" checked onchange="document.getElementById('cfg-gaz-type').style.display='none';majResumeConfig()"> Non</label>
             </div>
           </div>
           <div id="cfg-gaz-type" style="display:none;flex-wrap:wrap;gap:10px;margin-top:4px">
-            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="naturel"> Gaz naturel</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="naturel" checked> Gaz naturel</label>
             <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="propane"> Propane</label>
           </div>
         </div>
 
-        <!-- Panneau Fibre -->
-        <div id="cfg-panel-fibre" style="display:none;background:#F9FAFB;border:1.5px solid #6366F1;border-radius:10px;padding:14px;margin-bottom:14px;animation:fadeUp .15s ease">
-          <div style="font-size:12px;font-weight:700;color:#4338CA;margin-bottom:12px;display:flex;align-items:center;gap:6px">
-            🌐 Télécommunications — Fibre
-            <button onclick="toggleCfgCard('fibre')" style="margin-left:auto;background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:16px;line-height:1">×</button>
+        <div id="cfg-panel-fibre" style="display:none;background:#F9FAFB;border:1.5px solid var(--primary);border-radius:var(--radius);padding:14px;margin-bottom:14px;animation:fadeUp .15s ease">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <span style="font-size:12px;font-weight:700;color:var(--primary);display:flex;align-items:center;gap:6px">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+              Télécommunications — Fibre
+            </span>
+            <button onclick="toggleCfgCard('fibre')" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;padding:0">×</button>
           </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
             <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-fibre" value="oui" onchange="majResumeConfig()"> Oui</label>
             <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-fibre" value="non" checked onchange="majResumeConfig()"> Non</label>
           </div>
@@ -5884,6 +5910,18 @@ function selectRadioCard(el, name, value){
 }
 
 
+
+// ── TYPE LOCAL (cartes cfg) ───────────────────────────────────
+function selectEtatLocalCfg(type, el){
+  // Synchroniser avec selectEtatLocal existant
+  const existingCard = document.querySelector('#etat-type-local .radio-card[onclick*=\"'+type+'\"]');
+  if(existingCard) selectEtatLocal(type, existingCard);
+
+  // Mettre à jour les cartes cfg
+  document.querySelectorAll('.cfg-type-card').forEach(c => c.classList.remove('selected'));
+  if(el) el.classList.add('selected');
+}
+
 // ══ CONFIG LOCAL — 4 CARTES NAVIGATION ═══════════════════════
 function toggleCfgCard(name){
   const panels = ['elec','ext','gaz','fibre'];
@@ -9687,6 +9725,41 @@ function genererRapportDPGF(){
   flex-wrap: wrap;
   gap: 6px;
   margin-top: 5px;
+}
+
+
+/* ══ CFG TYPE + NAV CARDS — même hauteur, même style ════════ */
+.cfg-type-card, .cfg-nav-card {
+  min-height: 90px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 14px 10px !important;
+  background: #fff;
+  border: 1.5px solid #E5E7EB;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all .15s;
+  user-select: none;
+}
+.cfg-type-card:hover, .cfg-nav-card:hover {
+  border-color: var(--primary-border);
+  background: var(--primary-light);
+}
+.cfg-type-card.selected, .cfg-nav-card.active {
+  border-color: var(--primary) !important;
+  background: var(--primary-light) !important;
+}
+.cfg-type-card.selected svg,
+.cfg-type-card.selected .radio-card-label,
+.cfg-nav-card.active svg,
+.cfg-nav-card.active div {
+  color: var(--primary) !important;
+}
+@media(min-width:769px){
+  #cfg-cards-grid { grid-template-columns: repeat(4,1fr) !important; }
 }
 
 </style>
