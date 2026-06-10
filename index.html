@@ -1014,7 +1014,7 @@ input[type=number]{-moz-appearance:textfield}
         <div id="siret-info" style="display:none;margin-bottom:12px"></div>
 
         <!-- LIGNE 3 : Adresse chantier -->
-        <div class="form-group" style="margin-bottom:14px">
+        <div class="form-group">
           <label class="form-label">Adresse du chantier</label>
           <div style="position:relative">
             <div style="display:flex;gap:6px">
@@ -1247,23 +1247,23 @@ input[type=number]{-moz-appearance:textfield}
         <div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div>
 
         <!-- CONFIGURATION DU LOCAL -->
-        <div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Configuration du local</div>
+        <div class="init-subsection-title">Configuration du local</div>
 
         <!-- Extraction -->
-        <div style="background:var(--surface2);border:1px solid #F3F4F6;border-radius:var(--radius);padding:10px 12px;margin-bottom:8px">
-          <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px">
+        <div class="init-info-block">
+          <div class="init-info-block-title">
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1114 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/></svg>
             Extraction
           </div>
           <div class="form-group">
             <label class="form-label">Présence d'une extraction</label>
-            <div style="display:flex;gap:14px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="oui" onchange="toggleCfgExtSection(this)"> Oui</label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="non" checked onchange="toggleCfgExtSection(this)"> Non</label>
+            <div style="display:flex;gap:14px;margin-top:6px">
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="oui" onchange="toggleCfgExtSection(this)"> Oui</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="non" checked onchange="toggleCfgExtSection(this)"> Non</label>
             </div>
           </div>
           <div id="cfg-ext-section" style="display:none;margin-top:8px">
-            <div class="form-group" style="margin-bottom:8px">
+            <div class="form-group">
               <label class="form-label">Nombre d'extractions</label>
               <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
                 <input type="number" id="cfg-ext-nombre" class="form-input" value="1" min="1" max="10" style="max-width:70px;font-size:14px" oninput="genererFichesExtraction(this.value,'cfg-ext-fiches')">
@@ -1275,29 +1275,29 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <!-- Gaz -->
-        <div style="background:var(--surface2);border:1px solid #F3F4F6;border-radius:var(--radius);padding:10px 12px;margin-bottom:8px">
-          <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px">
+        <div class="init-info-block">
+          <div class="init-info-block-title">
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2c-4 4-4 8 0 10s4 6 0 10"/></svg>
             Gaz
           </div>
           <div class="form-group" style="margin-bottom:6px">
             <label class="form-label">Présence d'une arrivée gaz</label>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz" value="oui" onchange="document.getElementById('cfg-gaz-type').style.display='flex'"> Oui</label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz" value="non" checked onchange="document.getElementById('cfg-gaz-type').style.display='none'"> Non</label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz" value="inconnu" onchange="document.getElementById('cfg-gaz-type').style.display='none'"> Inconnu</label>
+            <div style="display:flex;gap:14px;margin-top:6px;flex-wrap:wrap">
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-gaz" value="oui" onchange="document.getElementById('cfg-gaz-type').style.display='flex'"> Oui</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-gaz" value="non" checked onchange="document.getElementById('cfg-gaz-type').style.display='none'"> Non</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-gaz" value="inconnu" onchange="document.getElementById('cfg-gaz-type').style.display='none'"> Inconnu</label>
             </div>
           </div>
           <div id="cfg-gaz-type" style="display:none;gap:10px;flex-wrap:wrap;margin-top:4px">
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="naturel"> Gaz naturel</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="propane"> Propane</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="inconnu" checked> Inconnu</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="naturel"> Gaz naturel</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="propane"> Propane</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="inconnu" checked> Inconnu</label>
           </div>
         </div>
 
         <!-- Électricité -->
-        <div style="background:var(--surface2);border:1px solid #F3F4F6;border-radius:var(--radius);padding:10px 12px;margin-bottom:8px">
-          <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px">
+        <div class="init-info-block">
+          <div class="init-info-block-title">
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             Électricité
           </div>
@@ -1311,11 +1311,11 @@ input[type=number]{-moz-appearance:textfield}
             </div>
             <div class="form-group">
               <label class="form-label">Type d'abonnement</label>
-              <div style="display:flex;flex-direction:column;gap:3px;margin-top:4px">
-                <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="bleu"> Tarif Bleu</label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="jaune"> Tarif Jaune</label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="vert"> Tarif Vert</label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="inconnu" checked> Inconnu</label>
+              <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+                <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="bleu"> Tarif Bleu</label>
+                <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="jaune"> Tarif Jaune</label>
+                <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="vert"> Tarif Vert</label>
+                <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="inconnu" checked> Inconnu</label>
               </div>
             </div>
           </div>
@@ -1323,19 +1323,19 @@ input[type=number]{-moz-appearance:textfield}
 
         <!-- Télécommunications -->
         <div style="background:var(--surface2);border:1px solid #F3F4F6;border-radius:var(--radius);padding:10px 12px;margin-bottom:14px">
-          <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px">
+          <div class="init-info-block-title">
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
             Télécommunications — Fibre
           </div>
           <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:2px">
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-fibre" value="oui"> Oui</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-fibre" value="non"> Non</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-fibre" value="inconnu" checked> Inconnu</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-fibre" value="oui"> Oui</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-fibre" value="non"> Non</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-fibre" value="inconnu" checked> Inconnu</label>
           </div>
         </div>
 
         <!-- CONFIGURATION DU BÂTIMENT -->
-        <div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Configuration du bâtiment</div>
+        <div class="init-subsection-title">Configuration du bâtiment</div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
           <div class="form-group">
@@ -1365,11 +1365,11 @@ input[type=number]{-moz-appearance:textfield}
           </div>
           <div class="form-group">
             <label class="form-label">Localisation du local</label>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="rdc" checked> RDC</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="sous-sol"> Sous-sol</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="etage"> Étage</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="mezzanine"> Mezzanine</label>
+            <div style="display:flex;gap:14px;margin-top:6px;flex-wrap:wrap">
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-localisation" value="rdc" checked> RDC</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-localisation" value="sous-sol"> Sous-sol</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-localisation" value="etage"> Étage</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-localisation" value="mezzanine"> Mezzanine</label>
             </div>
           </div>
         </div>
@@ -1377,44 +1377,44 @@ input[type=number]{-moz-appearance:textfield}
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px">
           <div class="form-group">
             <label class="form-label">Voisins au-dessus</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="non" checked> Non</label>
+            <div style="display:flex;gap:14px;margin-top:6px">
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="oui"> Oui</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="non" checked> Non</label>
             </div>
           </div>
           <div class="form-group">
             <label class="form-label">Voisins en dessous</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="non" checked> Non</label>
+            <div style="display:flex;gap:14px;margin-top:6px">
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="oui"> Oui</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="non" checked> Non</label>
             </div>
           </div>
           <div class="form-group">
             <label class="form-label">Voisins mitoyens</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="non" checked> Non</label>
+            <div style="display:flex;gap:14px;margin-top:6px">
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="oui"> Oui</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="non" checked> Non</label>
             </div>
           </div>
           <div class="form-group">
             <label class="form-label">Copropriété</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-copropriete" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-copropriete" value="non" checked> Non</label>
+            <div style="display:flex;gap:14px;margin-top:6px">
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-copropriete" value="oui"> Oui</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-copropriete" value="non" checked> Non</label>
             </div>
           </div>
           <div class="form-group">
             <label class="form-label">Accès toiture</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-toiture" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-toiture" value="non" checked> Non</label>
+            <div style="display:flex;gap:14px;margin-top:6px">
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-toiture" value="oui"> Oui</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-toiture" value="non" checked> Non</label>
             </div>
           </div>
           <div class="form-group">
             <label class="form-label">Local technique</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-local-tech" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-local-tech" value="non" checked> Non</label>
+            <div style="display:flex;gap:14px;margin-top:6px">
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-local-tech" value="oui"> Oui</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-local-tech" value="non" checked> Non</label>
             </div>
           </div>
         </div>
@@ -1424,9 +1424,9 @@ input[type=number]{-moz-appearance:textfield}
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
           <div class="form-group">
             <label class="form-label">Escalier existant</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-escalier" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-escalier" value="non" checked> Non</label>
+            <div style="display:flex;gap:14px;margin-top:6px">
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-escalier" value="oui"> Oui</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-escalier" value="non" checked> Non</label>
             </div>
           </div>
           <div class="form-group">
@@ -1442,9 +1442,8 @@ input[type=number]{-moz-appearance:textfield}
         </div>
   
 
-<div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div>
-<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Contraintes de chantier</div>
-<div style="font-size:12px;color:var(--muted);margin-bottom:14px">Anticiper les coûts, accès et contraintes logistiques</div>
+<hr class="init-sep"><div class="init-subsection-title">Contraintes de chantier</div>
+<div class="init-hint">Anticiper les coûts, accès et contraintes logistiques</div>
 
         <div class="form-section-title" style="margin-bottom:8px">Accès</div>
         <div class="check-grid" style="margin-bottom:14px">
@@ -1472,8 +1471,7 @@ input[type=number]{-moz-appearance:textfield}
                   </div>
   
 
-<div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div>
-<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Alimentation provisoire de chantier</div>
+<hr class="init-sep"><div class="init-subsection-title">Alimentation provisoire de chantier</div>
 <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Anticiper les installations temporaires pour le préchiffrage des frais de chantier</div>
 
         <!-- Eau / Élec / Sanitaires -->
@@ -1481,9 +1479,9 @@ input[type=number]{-moz-appearance:textfield}
           <div class="form-group">
             <label class="form-label">Eau</label>
             <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="site" onchange="toggleVeoliaInfo()"> Disponible sur site</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="souscomptage" onchange="toggleVeoliaInfo()"> Sous-comptage</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="raccord" onchange="toggleVeoliaInfo()"> Raccordement provisoire Veolia</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="prov-eau" value="site" onchange="toggleVeoliaInfo()"> Disponible sur site</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="prov-eau" value="souscomptage" onchange="toggleVeoliaInfo()"> Sous-comptage</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="prov-eau" value="raccord" onchange="toggleVeoliaInfo()"> Raccordement provisoire Veolia</label>
               <div id="prov-eau-veolia-info" style="display:none;margin-top:6px;padding:8px 10px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:7px;font-size:11px;color:#1E40AF;line-height:1.6">
                 <strong>À la charge du client :</strong> La demande de branchement provisoire eau doit être effectuée directement par le client auprès de Veolia (ou du distributeur d'eau local selon la commune). Le client doit contacter son agence Veolia pour une demande de branchement chantier.<br><br>
                 <span style="color:#1D4ED8">Délai moyen : 2 à 4 semaines · Coût : 500 à 1 500 € selon distance au réseau · À anticiper avant démarrage du chantier</span>
@@ -1493,9 +1491,9 @@ input[type=number]{-moz-appearance:textfield}
           <div class="form-group">
             <label class="form-label">Électricité</label>
             <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="site" onchange="toggleEnedisInfo()"> Disponible sur site</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="souscomptage" onchange="toggleEnedisInfo()"> Sous-comptage</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="raccord" onchange="toggleEnedisInfo()"> Raccordement provisoire Enedis</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="prov-elec" value="site" onchange="toggleEnedisInfo()"> Disponible sur site</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="prov-elec" value="souscomptage" onchange="toggleEnedisInfo()"> Sous-comptage</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="prov-elec" value="raccord" onchange="toggleEnedisInfo()"> Raccordement provisoire Enedis</label>
               <div id="prov-elec-enedis-info" style="display:none;margin-top:6px;padding:8px 10px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:7px;font-size:11px;color:var(--warn);line-height:1.6">
                 <strong>Puissance recommandée pour un chantier : 9 kVA</strong> (alimentation outillage, éclairage, compresseur, chargeurs...)<br><br>
                 <strong>À la charge du client :</strong> La demande de raccordement provisoire doit être effectuée par le client auprès de son fournisseur d'énergie (EDF ou autre fournisseur). C'est le fournisseur qui mandate Enedis pour réaliser le raccordement — le client ne contacte pas Enedis directement.<br><br>
@@ -1505,12 +1503,12 @@ input[type=number]{-moz-appearance:textfield}
           </div>
         </div>
 
-        <div class="form-group" style="margin-bottom:10px">
+        <div class="form-group">
           <label class="form-label">Sanitaires de chantier</label>
           <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="existants"> Toilettes existantes utilisables</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="provisoires"> Toilettes provisoires à prévoir</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="base-vie"> Base vie complète à prévoir</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="prov-sanit" value="existants"> Toilettes existantes utilisables</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="prov-sanit" value="provisoires"> Toilettes provisoires à prévoir</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="prov-sanit" value="base-vie"> Base vie complète à prévoir</label>
           </div>
         </div>
 
@@ -1639,7 +1637,7 @@ input[type=number]{-moz-appearance:textfield}
               </div>
 
               <!-- Utilisation prévue -->
-              <div class="form-group" style="margin-bottom:14px">
+              <div class="form-group">
                 <label class="form-label">Utilisation prévue</label>
                 <div class="check-grid" style="margin-top:6px" id="mezz-usages">
                   <label class="check-item" onclick="toggleCheck(this);verifierMezzanine()"><input type="checkbox" id="mezz-salle"> Salle de restauration</label>
@@ -1654,18 +1652,18 @@ input[type=number]{-moz-appearance:textfield}
               </div>
 
               <!-- Charge exploitation -->
-              <div class="form-group" style="margin-bottom:14px">
+              <div class="form-group">
                 <label class="form-label">Charge d'exploitation prévue</label>
                 <div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">
-                  <label style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer"><input type="radio" name="mezz-charge" value="faible" onchange="verifierMezzanine()"> Faible — archives, bureau</label>
-                  <label style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer"><input type="radio" name="mezz-charge" value="moyenne" onchange="verifierMezzanine()"> Moyenne — réserve légère</label>
-                  <label style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer"><input type="radio" name="mezz-charge" value="elevee" onchange="verifierMezzanine()"> Élevée — stockage lourd</label>
-                  <label style="display:flex;align-items:center;gap:8px;font-size:12px;cursor:pointer"><input type="radio" name="mezz-charge" value="public" onchange="verifierMezzanine()"> Accueil du public</label>
+                  <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="mezz-charge" value="faible" onchange="verifierMezzanine()"> Faible — archives, bureau</label>
+                  <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="mezz-charge" value="moyenne" onchange="verifierMezzanine()"> Moyenne — réserve légère</label>
+                  <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="mezz-charge" value="elevee" onchange="verifierMezzanine()"> Élevée — stockage lourd</label>
+                  <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="mezz-charge" value="public" onchange="verifierMezzanine()"> Accueil du public</label>
                 </div>
               </div>
 
               <!-- Surface proposée -->
-              <div class="form-group" style="margin-bottom:14px">
+              <div class="form-group">
                 <label class="form-label">Surface mezzanine (m²) <span style="font-weight:400;color:var(--muted)">— modifiable</span></label>
                 <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
                   <input type="number" id="mezz-surface" class="form-input" placeholder="calculée auto" oninput="verifierMezzanine()" style="max-width:140px;font-size:16px">
@@ -1756,7 +1754,7 @@ input[type=number]{-moz-appearance:textfield}
 
         <!-- TAB DOCUMENTS -->
         <div id="tv-tab-documents" style="display:none">
-          <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Documents disponibles pour ce projet</div>
+          <div class="init-hint">Documents disponibles pour ce projet</div>
           <div class="check-grid">
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="doc-plans-existants"> Plans existants</label>
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="doc-plans-bailleur"> Plans bailleur</label>
@@ -2064,21 +2062,21 @@ input[type=number]{-moz-appearance:textfield}
             </div>
           </div>
         </div>
-        <div class="form-group" style="margin-bottom:14px">
+        <div class="form-group">
           <label class="form-label">Budget validé</label>
           <div style="display:flex;gap:14px;margin-top:6px;flex-wrap:wrap">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="oui"> Oui</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="non"> Non</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="en-cours" checked> En cours de définition</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="oui"> Oui</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="non"> Non</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="en-cours" checked> En cours de définition</label>
           </div>
         </div>
-        <div class="form-group" style="margin-bottom:14px">
+        <div class="form-group">
           <label class="form-label">Financement obtenu</label>
           <div style="display:flex;gap:14px;margin-top:6px;flex-wrap:wrap">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="oui" onchange="document.getElementById('ctx-financement-montant').style.display='block'"> Oui</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="non" checked onchange="document.getElementById('ctx-financement-montant').style.display='none'"> Non</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="en-cours" onchange="document.getElementById('ctx-financement-montant').style.display='none'"> En cours</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-financement" value="recherche" onchange="document.getElementById('ctx-financement-montant').style.display='none'"> À rechercher</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-financement" value="oui" onchange="document.getElementById('ctx-financement-montant').style.display='block'"> Oui</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-financement" value="non" checked onchange="document.getElementById('ctx-financement-montant').style.display='none'"> Non</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-financement" value="en-cours" onchange="document.getElementById('ctx-financement-montant').style.display='none'"> En cours</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-financement" value="recherche" onchange="document.getElementById('ctx-financement-montant').style.display='none'"> À rechercher</label>
           </div>
         </div>
         <div id="ctx-financement-montant" style="display:none;margin-bottom:14px">
@@ -2104,43 +2102,43 @@ input[type=number]{-moz-appearance:textfield}
           <div class="form-group">
             <label class="form-label">Délai maximum accepté</label>
             <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="1m"> 1 mois</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="2m"> 2 mois</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="3m"> 3 mois</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="6m"> 6 mois</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-delai" value="6m+"> Plus de 6 mois</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-delai" value="1m"> 1 mois</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-delai" value="2m"> 2 mois</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-delai" value="3m"> 3 mois</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-delai" value="6m"> 6 mois</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-delai" value="6m+"> Plus de 6 mois</label>
             </div>
           </div>
           <div class="form-group">
             <label class="form-label">Niveau d'urgence</label>
             <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="faible"> Faible</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="moyen" checked> Moyen</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="eleve"> Élevé</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-urgence" value="urgent"> Très urgent</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-urgence" value="faible"> Faible</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-urgence" value="moyen" checked> Moyen</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-urgence" value="eleve"> Élevé</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-urgence" value="urgent"> Très urgent</label>
             </div>
           </div>
         </div>
 
-<div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Avancement du projet</div>
-<div class="form-group" style="margin-bottom:14px">
+<hr class="init-sep"><div class="init-subsection-title">Avancement du projet</div>
+<div class="form-group">
           <label class="form-label">Situation du local</label>
           <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="recherche" onchange="majChampsBailCles()"> Recherche de local</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="identifie" onchange="majChampsBailCles()"> Local identifié</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="visites" onchange="majChampsBailCles()"> Visites en cours</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="negociation" onchange="majChampsBailCles()"> Négociation en cours</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="promesse" onchange="majChampsBailCles()"> Promesse de bail signée</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="bail" checked onchange="majChampsBailCles()"> Bail signé</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="acte" onchange="majChampsBailCles()"> Acte signé</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="exploite" onchange="majChampsBailCles()"> Local déjà exploité</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-situation" value="recherche" onchange="majChampsBailCles()"> Recherche de local</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-situation" value="identifie" onchange="majChampsBailCles()"> Local identifié</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-situation" value="visites" onchange="majChampsBailCles()"> Visites en cours</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-situation" value="negociation" onchange="majChampsBailCles()"> Négociation en cours</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-situation" value="promesse" onchange="majChampsBailCles()"> Promesse de bail signée</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-situation" value="bail" checked onchange="majChampsBailCles()"> Bail signé</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-situation" value="acte" onchange="majChampsBailCles()"> Acte signé</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-situation" value="exploite" onchange="majChampsBailCles()"> Local déjà exploité</label>
           </div>
         </div>
-        <div class="form-group" style="margin-bottom:14px">
+        <div class="form-group">
           <label class="form-label">Le client dispose-t-il des clés ?</label>
           <div style="display:flex;gap:14px;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-cles" value="oui" onchange="majChampsBailCles()"> Oui</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-cles" value="non" checked onchange="majChampsBailCles()"> Non</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-cles" value="oui" onchange="majChampsBailCles()"> Oui</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-cles" value="non" checked onchange="majChampsBailCles()"> Non</label>
           </div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
@@ -2176,24 +2174,24 @@ input[type=number]{-moz-appearance:textfield}
     </div>
   </div>
   <div class="init-section-body collapsed" id="init-acc-contexte-comm-body">
-<div class="form-group" style="margin-bottom:12px">
+<div class="form-group">
           <label class="form-label">D'autres entreprises ont-elles été consultées ?</label>
           <div style="display:flex;gap:14px;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-consult" value="oui" onchange="document.getElementById('ctx-consult-section').style.display='block';genererEntreprises(1)"> Oui</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-consult" value="non" checked onchange="document.getElementById('ctx-consult-section').style.display='none'"> Non</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-consult" value="oui" onchange="document.getElementById('ctx-consult-section').style.display='block';genererEntreprises(1)"> Oui</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-consult" value="non" checked onchange="document.getElementById('ctx-consult-section').style.display='none'"> Non</label>
           </div>
         </div>
         <div id="ctx-consult-section" style="display:none">
-          <div class="form-group" style="margin-bottom:12px">
+          <div class="form-group">
             <label class="form-label">Nombre d'entreprises consultées</label>
             <input type="number" id="ctx-nb-entreprises" class="form-input" value="1" min="1" max="10" style="max-width:80px;font-size:16px;margin-top:6px" oninput="genererEntreprises(this.value)">
           </div>
           <div id="ctx-entreprises-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px"></div>
-          <div class="form-group" style="margin-bottom:12px">
+          <div class="form-group">
             <label class="form-label">Le client dispose-t-il des devis ?</label>
             <div style="display:flex;gap:14px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-devis-dispo" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-devis-dispo" value="non" checked> Non</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-devis-dispo" value="oui"> Oui</label>
+              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-devis-dispo" value="non" checked> Non</label>
             </div>
           </div>
           <div id="ctx-analyse-concurrence" style="display:none;padding:12px;background:var(--surface2);border-radius:var(--radius);border:1px solid var(--border)">
@@ -2202,49 +2200,49 @@ input[type=number]{-moz-appearance:textfield}
           </div>
         </div>
 
-<div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Décideurs</div>
-<div class="form-group" style="margin-bottom:14px">
+<hr class="init-sep"><div class="init-subsection-title">Décideurs</div>
+<div class="form-group">
           <label class="form-label">Interlocuteur principal</label>
           <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="proprio" checked> Propriétaire exploitant</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="associe"> Associé</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="investisseur"> Investisseur</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="franchise"> Franchise</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="bailleur"> Bailleur</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="mandataire"> Mandataire</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="dev"> Responsable développement</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="proprio" checked> Propriétaire exploitant</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="associe"> Associé</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="investisseur"> Investisseur</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="franchise"> Franchise</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="bailleur"> Bailleur</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="mandataire"> Mandataire</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-interlocuteur" value="dev"> Responsable développement</label>
           </div>
         </div>
-        <div class="form-group" style="margin-bottom:14px">
+        <div class="form-group">
           <label class="form-label">Nombre de décideurs</label>
           <input type="number" id="ctx-nb-decideurs" class="form-input" value="1" min="1" style="max-width:80px;font-size:16px;margin-top:6px">
         </div>
         <div class="form-group">
           <label class="form-label">Validation finale par</label>
           <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-validation" value="une" checked> Une personne</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-validation" value="associes"> Plusieurs associés</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-validation" value="franchise"> Franchise</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-validation" value="investisseur"> Investisseur</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-validation" value="ca"> Conseil d'administration</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-validation" value="une" checked> Une personne</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-validation" value="associes"> Plusieurs associés</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-validation" value="franchise"> Franchise</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-validation" value="investisseur"> Investisseur</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-validation" value="ca"> Conseil d'administration</label>
           </div>
         </div>
 
-<div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Informations complémentaires</div>
-<div class="form-group" style="margin-bottom:14px">
+<hr class="init-sep"><div class="init-subsection-title">Informations complémentaires</div>
+<div class="form-group">
           <label class="form-label">Origine du contact</label>
           <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="recommandation"> Recommandation</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="apporteur"> Apporteur d'affaires</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="architecte"> Architecte</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="reseau-pro"> Réseau professionnel</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="internet"> Internet</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="reseaux-sociaux"> Réseaux sociaux</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="ancien-client"> Ancien client</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-origine" value="autre"> Autre</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-origine" value="recommandation"> Recommandation</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-origine" value="apporteur"> Apporteur d'affaires</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-origine" value="architecte"> Architecte</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-origine" value="reseau-pro"> Réseau professionnel</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-origine" value="internet"> Internet</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-origine" value="reseaux-sociaux"> Réseaux sociaux</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-origine" value="ancien-client"> Ancien client</label>
+            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-origine" value="autre"> Autre</label>
           </div>
         </div>
-        <div class="form-group" style="margin-bottom:14px">
+        <div class="form-group">
           <label class="form-label">Type d'accompagnement recherché</label>
           <div class="check-grid" style="margin-top:6px">
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ctx-acc-chiffrage"> Chiffrage uniquement</label>
@@ -10303,6 +10301,239 @@ label{
   padding: 12px 14px 14px;
   border-top: 1px solid #E5E7EB;
   margin-top: auto;
+}
+
+
+/* ══ PAGE INITIALISATION — HARMONISATION COMPLÈTE ══════════════
+   Une seule logique visuelle, cohérente sur toute la page
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Sous-titres de sous-section (Config local, Config bâtiment, Contraintes...) */
+.init-subsection-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: #6B7280;
+  margin: 16px 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.init-subsection-title::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 12px;
+  background: #6366F1;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Séparateurs visuels entre sous-sections */
+.init-sep {
+  border: none;
+  border-top: 1px solid #F3F4F6;
+  margin: 14px 0;
+}
+
+/* ── Blocs d'info compacts (extraction, gaz, élec, telecom) */
+.init-info-block {
+  background: #FAFAFA;
+  border: 1px solid #F0F0F0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.init-info-block-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 10px;
+}
+.init-info-block-title svg {
+  color: #6B7280;
+  flex-shrink: 0;
+}
+
+/* ── Labels radio/checkbox inline */
+#page-init label:not(.check-item):not(.radio-card):not(.form-label):not(.btn) {
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.5;
+}
+
+/* ── Radios inline dans page-init */
+#page-init .radio-inline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #374151;
+}
+
+/* ── Texte d'aide / description */
+#page-init .init-hint {
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+/* ── Grilles internes */
+#page-init .init-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+#page-init .init-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+@media(max-width:768px){
+  #page-init .init-grid-3,
+  #page-init .init-grid-2 { grid-template-columns: 1fr; }
+}
+
+/* ── Fiches dynamiques (extractions) */
+#page-init .fiche-extraction {
+  background: #FFFFFF;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+#page-init .fiche-extraction-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ── Suppression des couleurs parasites inline */
+#page-init [style*="color:var(--primary)"][style*="font-size:10px"],
+#page-init [style*="color:var(--muted)"][style*="font-size:10px"] {
+  /* Ces titres seront remplacés par .init-subsection-title via JS */
+}
+
+/* ── Alertes dans page-init */
+#page-init .alert-inline {
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-radius: 7px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #1E40AF;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+#page-init .alert-warn-inline {
+  background: #FFF7ED;
+  border: 1px solid #FED7AA;
+  border-radius: 7px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: #C2410C;
+  margin-bottom: 10px;
+}
+
+/* ── Unification des form-group dans page-init */
+#page-init .form-group {
+  margin-bottom: 12px;
+}
+#page-init .form-label {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #374151 !important;
+  margin-bottom: 4px !important;
+  display: block;
+}
+#page-init .form-input,
+#page-init .form-select {
+  font-size: 14px !important;
+  height: 38px !important;
+  border: 1.5px solid #E5E7EB !important;
+  border-radius: 8px !important;
+  padding: 0 12px !important;
+}
+#page-init textarea.form-input {
+  height: auto !important;
+  padding: 10px 12px !important;
+}
+
+/* ── Check-items dans page-init */
+#page-init .check-item {
+  font-size: 13px;
+  padding: 7px 11px;
+}
+
+/* ── Radio cards dans page-init */
+#page-init .radio-cards {
+  gap: 7px;
+  margin-bottom: 12px;
+}
+#page-init .radio-card {
+  padding: 10px 13px;
+}
+#page-init .radio-card-label {
+  font-size: 13px;
+}
+
+/* ── Accordéon travaux (catégories) */
+#page-init .cat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  cursor: pointer;
+  border-radius: 8px;
+  background: #F9FAFB;
+  border: 1.5px solid #E5E7EB;
+  margin-bottom: 4px;
+  transition: all .12s;
+}
+#page-init .cat-header:hover {
+  background: #F3F4F6;
+  border-color: #D1D5DB;
+}
+#page-init .cat-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+#page-init .cat-body {
+  background: #FAFAFA;
+  border: 1px solid #F0F0F0;
+  border-radius: 0 0 8px 8px;
+  padding: 12px 14px;
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+/* ── Boutons dans page-init */
+#page-init .btn-sm {
+  font-size: 12px;
+  padding: 6px 12px;
+}
+
+/* ── Résultat mezzanine */
+#page-init #mezz-result > div {
+  border-radius: 8px !important;
+  font-size: 13px !important;
+}
+
+/* ── Bandeau recap */
+#recap-banner .card {
+  border-left: 3px solid #6366F1 !important;
+  background: linear-gradient(135deg, #F5F3FF 0%, #FFFFFF 100%) !important;
 }
 
 </style>
