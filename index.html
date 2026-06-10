@@ -712,18 +712,20 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 
   <div class="nav-group">
-    <span class="nav-label">Chiffrage</span>
+    <span class="nav-label">Livrables</span>
+        <button class="nav-item" onclick="showPage('chiffrage')" id="nav-chiffrage">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></span> DPGF
+    </button>
+    <button class="nav-item" onclick="showPage('planning')" id="nav-planning">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> Planning
+    </button>
     <button class="nav-item" onclick="showPage('prechiffrage')" id="nav-prechiffrage">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></span> Pré-chiffrage
-    </button>
-    <button class="nav-item" onclick="showPage('chiffrage')" id="nav-chiffrage">
-      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></span> DPGF
     </button>
     <button class="nav-item" onclick="showPage('synthese')" id="nav-synthese">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span> Synthèse
       <span class="nav-badge warn" id="nb-alertes-nav" style="display:none">!</span>
-    </button>
-  </div>
+    </button>  </div>
 
   <div class="nav-group">
     <span class="nav-label">Base de données</span>
@@ -3248,6 +3250,54 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 </div>
 
+
+<!-- ══ PAGE PLANNING ══ -->
+<div class="page" id="page-planning">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Planning chantier</h2>
+      <p>Généré automatiquement selon les travaux prévus · Ajustez les dates et durées</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-secondary" onclick="switchPlanningView('liste')" id="btn-plan-liste" style="font-size:12px">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        Liste
+      </button>
+      <button class="btn btn-secondary" onclick="switchPlanningView('gantt')" id="btn-plan-gantt" style="font-size:12px">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Gantt
+      </button>
+      <button class="btn btn-primary" onclick="genererPlanning()" style="font-size:12px">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+        Régénérer
+      </button>
+    </div>
+  </div>
+
+  <!-- Date de début du chantier -->
+  <div class="card" style="margin-bottom:16px;padding:14px 16px">
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div class="form-group" style="margin:0">
+        <label class="form-label">Date de début souhaitée</label>
+        <input type="date" id="plan-date-debut" class="form-input" style="font-size:13px;margin-top:4px" onchange="genererPlanning()">
+      </div>
+      <div id="plan-resume" style="font-size:12px;color:var(--muted);flex:1;min-width:200px"></div>
+      <div id="plan-kpis" style="display:flex;gap:12px"></div>
+    </div>
+  </div>
+
+  <!-- Vues -->
+  <div id="planning-liste" style="display:block">
+    <div id="planning-liste-content"></div>
+  </div>
+
+  <div id="planning-gantt" style="display:none">
+    <div class="card" style="overflow-x:auto;padding:16px">
+      <div id="planning-gantt-content"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ══ PAGE BIBLIOTHÈQUE ══ -->
 <div class="page" id="page-bibliotheque">
   <div class="page-header-actions">
@@ -4145,7 +4195,8 @@ const PAGE_META={
   'accessibilite-pmr':{title:'Accessibilité PMR',step:''},
   'facade-enseigne':{title:'Façade & Enseigne',step:''},
   // ── CHIFFRAGE ──
-  prechiffrage:{title:'Pré-chiffrage rapide',step:''},
+  prechiffrage:{title:'Pré-chiffrage',step:''},
+  'planning':{title:'Planning chantier',step:''},
   chiffrage:{title:'DPGF',step:''},
   synthese:{title:'Synthèse du projet',step:''},
   // ── BASE ──
@@ -4185,6 +4236,7 @@ function showPage(id){
   }
   if(id==='prechiffrage')recalculate();
   if(id==='chiffrage')renderChiffrageDetail();
+  if(id==='planning')genererPlanning();
   if(id==='synthese')renderSynthese();
   if(id==='bibliotheque')renderBibliotheque();
   if(id==='chantiers')renderChantiers();
@@ -4960,6 +5012,316 @@ function toggleItemDone(itemId){
   const cb   = document.getElementById(itemId);
   if(!wrap || !cb) return;
   wrap.style.opacity = cb.checked ? '0.65' : '1';
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// PLANNING CHANTIER
+// ══════════════════════════════════════════════════════════════
+
+let _planningView = 'liste';
+let _planningTaches = [];
+
+const PLANNING_PHASES = [
+  // [id, label, categorie, durée_base_jours, couleur, icône, conditions]
+  {id:'etudes',       label:'Études & conception',         cat:'Études',         dur:14, color:'#8B5CF6', icon:'📐', always:true},
+  {id:'aut-dp',       label:'Dépôt Déclaration Préalable', cat:'Autorisations',  dur:30, color:'#F59E0B', icon:'📋', cond:'besoinsDP'},
+  {id:'aut-at',       label:'Autorisation de Travaux',     cat:'Autorisations',  dur:60, color:'#F59E0B', icon:'📋', cond:'besoinsAT'},
+  {id:'aut-bail',     label:'Accord Bailleur',             cat:'Autorisations',  dur:21, color:'#EF4444', icon:'🏠', cond:'besoinsAccordBailleur'},
+  {id:'consultation', label:'Consultation entreprises',    cat:'Préparation',    dur:21, color:'#0EA5E9', icon:'💼', always:true},
+  {id:'commandes',    label:'Commandes & approvisionnements', cat:'Préparation', dur:21, color:'#0EA5E9', icon:'📦', always:true},
+  {id:'install-chantier', label:'Installation de chantier', cat:'Travaux',      dur:3,  color:'#6B7280', icon:'🏗', always:true},
+  {id:'curage',       label:'Curage & démolition',         cat:'Travaux',        dur:7,  color:'#78716C', icon:'🔨', cond:'hasCurage'},
+  {id:'gros-oeuvre',  label:'Gros œuvre & structure',      cat:'Travaux',        dur:14, color:'#92400E', icon:'🧱', cond:'hasGrosOeuvre'},
+  {id:'cloisons',     label:'Cloisons & doublages',        cat:'Travaux',        dur:10, color:'#D97706', icon:'🧱', always:true},
+  {id:'plafonds',     label:'Faux plafonds',               cat:'Travaux',        dur:7,  color:'#D97706', icon:'⬜', always:true},
+  {id:'electricite',  label:'Électricité',                 cat:'Travaux',        dur:10, color:'#F59E0B', icon:'⚡', always:true},
+  {id:'plomberie',    label:'Plomberie',                   cat:'Travaux',        dur:8,  color:'#0EA5E9', icon:'🚿', always:true},
+  {id:'cvc',          label:'CVC / Ventilation',           cat:'Travaux',        dur:7,  color:'#06B6D4', icon:'💨', cond:'hasCVC'},
+  {id:'sols',         label:'Revêtements de sol',          cat:'Travaux',        dur:7,  color:'#84CC16', icon:'⬛', always:true},
+  {id:'cuisine-pose', label:'Cuisine professionnelle',     cat:'Travaux',        dur:5,  color:'#EA580C', icon:'👨‍🍳', cond:'hasCuisine'},
+  {id:'mobilier',     label:'Mobilier & agencement',       cat:'Travaux',        dur:5,  color:'#8B5CF6', icon:'🪑', always:true},
+  {id:'peinture',     label:'Peinture & finitions',        cat:'Travaux',        dur:7,  color:'#EC4899', icon:'🎨', always:true},
+  {id:'reserves',     label:'Levée de réserves',           cat:'Réception',      dur:3,  color:'#EF4444', icon:'✅', always:true},
+  {id:'commission',   label:'Commission de sécurité',      cat:'Réception',      dur:14, color:'#EF4444', icon:'🚒', cond:'hasERP'},
+  {id:'reception',    label:'Réception chantier',          cat:'Réception',      dur:1,  color:'#16A34A', icon:'🏁', always:true},
+  {id:'ouverture',    label:'Ouverture',                   cat:'Ouverture',      dur:1,  color:'#16A34A', icon:'🎉', always:true},
+];
+
+function genererPlanning(){
+  // Lire les données projet
+  const surface = parseFloat(document.getElementById('proj-surface')?.value) || 100;
+  const coeff = surface > 200 ? 1.4 : surface > 100 ? 1.1 : 0.9;
+
+  // Détecter conditions
+  const ids = id => !!document.getElementById(id)?.checked;
+  const besoinsDP      = ids('tv-vitrine-creation')||ids('tv-porte-creation')||ids('tv-ouverture-creation')||ids('tv-habillage-facade')||ids('tv-groupe-facade')||ids('tv-extraction-facade');
+  const besoinsAT      = ids('tv-redistribution')||ids('tv-sanitaires-pmr')||ids('tv-mur-porteur')||ids('tv-demol-porteur')||ids('tv-cuisine-pro');
+  const besoinsAccordBailleur = ids('tv-extraction-toiture')||ids('tv-groupe-toiture')||ids('tv-enseigne-bandeau');
+  const hasCurage      = document.querySelector('#etat-type-local .radio-card.selected')?.getAttribute('onclick')?.includes('curer') || ids('tv-redistribution');
+  const hasGrosOeuvre  = ids('tv-mur-porteur')||ids('tv-demol-porteur')||ids('tv-tremie')||ids('tv-extension')||ids('tv-creation-mezzanine');
+  const hasCVC         = ids('tv-extraction-creation')||ids('tv-hotte-pro')||ids('tv-ue')||ids('tv-ui')||ids('tv-cta');
+  const hasCuisine     = ids('tv-cuisine-pro')||ids('tv-cf-positive')||ids('tv-cf-negative');
+  const hasERP         = ids('chk-erp');
+
+  const conditions = { besoinsDP, besoinsAT, besoinsAccordBailleur, hasCurage, hasGrosOeuvre, hasCVC, hasCuisine, hasERP };
+
+  // Filtrer les tâches pertinentes
+  const taches = PLANNING_PHASES.filter(p => p.always || conditions[p.cond]);
+
+  // Date de début
+  const dateDebutInput = document.getElementById('plan-date-debut');
+  let dateDebut = dateDebutInput?.value ? new Date(dateDebutInput.value) : new Date();
+  if(!dateDebutInput?.value){
+    dateDebut.setDate(dateDebut.getDate() + 30); // +30 jours par défaut
+    if(dateDebutInput) dateDebutInput.value = dateDebut.toISOString().slice(0,10);
+  }
+
+  // Calculer les dates (séquentiel simplifié avec chevauchements)
+  let current = new Date(dateDebut);
+  _planningTaches = taches.map((p, i) => {
+    const dur = Math.ceil(p.dur * coeff);
+    const debut = new Date(current);
+    const fin = new Date(current);
+    fin.setDate(fin.getDate() + dur);
+
+    // Certaines tâches se chevauchent (travaux en parallèle)
+    const parallel = ['electricite','plomberie','cvc','sols'].includes(p.id);
+    if(!parallel) {
+      // Avancer la date si pas en parallèle (sauf première tâche)
+      if(i > 0) {
+        const prev = _planningTaches?.[i-1];
+        // Les travaux préparatoires et le gros œuvre sont séquentiels
+      }
+      current = new Date(fin);
+    }
+
+    return {
+      ...p,
+      dur,
+      debut: new Date(debut),
+      fin: new Date(fin),
+      statut: 'a_faire', // a_faire, en_cours, termine
+    };
+  });
+
+  // Calculer dates réelles avec dépendances simplifiées
+  _planningTaches = calculerDependances(_planningTaches, dateDebut);
+
+  // Résumé
+  const lastTask = _planningTaches[_planningTaches.length - 1];
+  const totalJours = Math.ceil((lastTask.fin - dateDebut) / (1000*60*60*24));
+  const totalSem = Math.ceil(totalJours / 7);
+  const resumeEl = document.getElementById('plan-resume');
+  if(resumeEl) resumeEl.innerHTML = `
+    <strong>${_planningTaches.length} phases</strong> · Début : ${dateDebut.toLocaleDateString('fr-FR')} · Fin estimée : ${lastTask.fin.toLocaleDateString('fr-FR')}`;
+
+  const kpisEl = document.getElementById('plan-kpis');
+  if(kpisEl) kpisEl.innerHTML = `
+    <div style="text-align:center;padding:6px 12px;background:var(--primary-light);border-radius:6px;border:1px solid var(--primary-border)">
+      <div style="font-size:18px;font-weight:800;color:var(--primary)">${totalSem}</div>
+      <div style="font-size:10px;color:var(--muted)">semaines</div>
+    </div>
+    <div style="text-align:center;padding:6px 12px;background:var(--surface2);border-radius:6px">
+      <div style="font-size:18px;font-weight:800;color:var(--ink)">${_planningTaches.length}</div>
+      <div style="font-size:10px;color:var(--muted)">phases</div>
+    </div>`;
+
+  renderPlanningView();
+}
+
+function calculerDependances(taches, dateDebut){
+  // Logique de dépendances simplifiée
+  const ORDER = ['etudes','aut-dp','aut-at','aut-bail','consultation','commandes',
+    'install-chantier','curage','gros-oeuvre','cloisons','plafonds',
+    'electricite','plomberie','cvc','sols','cuisine-pose','mobilier',
+    'peinture','reserves','commission','reception','ouverture'];
+
+  // Parallelismes (commencent en même temps que leur prédécesseur)
+  const PARALLEL_WITH = {
+    'plomberie': 'electricite',
+    'cvc':       'electricite',
+  };
+
+  const taskMap = {};
+  taches.forEach(t => taskMap[t.id] = t);
+
+  let lastEndDate = new Date(dateDebut);
+  // Phases études et autorisations en parallèle
+  const autoPhases = taches.filter(t => t.cat === 'Autorisations');
+  const etudesPhase = taches.find(t => t.id === 'etudes');
+
+  taches.forEach((t, i) => {
+    if(i === 0){
+      t.debut = new Date(dateDebut);
+    } else {
+      const prev = taches[i-1];
+      // Autorisations en parallèle avec études
+      if(t.cat === 'Autorisations'){
+        t.debut = new Date(etudesPhase?.debut || dateDebut);
+      }
+      // Consultation commence après études
+      else if(t.id === 'consultation'){
+        t.debut = new Date(etudesPhase ? etudesPhase.fin : dateDebut);
+      }
+      // Commandes commence pendant consultation
+      else if(t.id === 'commandes'){
+        const consult = taskMap['consultation'];
+        t.debut = consult ? new Date(consult.debut) : new Date(prev.fin);
+        t.debut.setDate(t.debut.getDate() + 7);
+      }
+      // Travaux : séquentiels sauf parallélismes
+      else if(PARALLEL_WITH[t.id]){
+        const parallelWith = taskMap[PARALLEL_WITH[t.id]];
+        t.debut = parallelWith ? new Date(parallelWith.debut) : new Date(prev.fin);
+      }
+      else {
+        t.debut = new Date(prev.fin);
+      }
+    }
+    t.fin = new Date(t.debut);
+    t.fin.setDate(t.fin.getDate() + t.dur);
+  });
+
+  return taches;
+}
+
+function switchPlanningView(view){
+  _planningView = view;
+  document.getElementById('planning-liste').style.display = view === 'liste' ? 'block' : 'none';
+  document.getElementById('planning-gantt').style.display = view === 'gantt' ? 'block' : 'none';
+  ['liste','gantt'].forEach(v => {
+    const btn = document.getElementById('btn-plan-'+v);
+    if(btn) btn.className = v === view ? 'btn btn-primary' : 'btn btn-secondary';
+    if(btn) btn.style.fontSize = '12px';
+  });
+  renderPlanningView();
+}
+
+function renderPlanningView(){
+  if(_planningView === 'gantt') renderGantt();
+  else renderListePlanning();
+}
+
+function renderListePlanning(){
+  const el = document.getElementById('planning-liste-content');
+  if(!el || !_planningTaches.length) return;
+
+  const cats = [...new Set(_planningTaches.map(t => t.cat))];
+
+  let html = '';
+  cats.forEach(cat => {
+    const tasks = _planningTaches.filter(t => t.cat === cat);
+    html += `<div class="card" style="margin-bottom:12px">
+      <div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">${cat}</div>
+      <div style="display:grid;grid-template-columns:24px 1fr 90px 90px 60px 80px 100px;gap:8px;padding:0 0 6px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);margin-bottom:6px">
+        <span></span><span>Phase</span><span>Début</span><span>Fin</span><span>Durée</span><span>Statut</span><span>Ajustement</span>
+      </div>`;
+    tasks.forEach(t => {
+      const debutStr = t.debut.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'});
+      const finStr   = t.fin.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'});
+      const statColors = {a_faire:'#6B7280',en_cours:'#F59E0B',termine:'#16A34A'};
+      const statLabels = {a_faire:'À faire',en_cours:'En cours',termine:'Terminé'};
+      html += `<div style="display:grid;grid-template-columns:24px 1fr 90px 90px 60px 80px 100px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--surface2)">
+        <span style="font-size:14px">${t.icon}</span>
+        <span style="font-size:12px;font-weight:600;color:var(--ink)">${t.label}</span>
+        <input type="date" value="${t.debut.toISOString().slice(0,10)}" style="font-size:11px;border:1px solid var(--border);border-radius:4px;padding:3px 6px;font-family:var(--font)" onchange="majDateTache('${t.id}','debut',this.value)">
+        <input type="date" value="${t.fin.toISOString().slice(0,10)}" style="font-size:11px;border:1px solid var(--border);border-radius:4px;padding:3px 6px;font-family:var(--font)" onchange="majDateTache('${t.id}','fin',this.value)">
+        <span style="font-size:12px;color:var(--muted);font-weight:600">${t.dur}j</span>
+        <select style="font-size:11px;border:1px solid ${statColors[t.statut]}44;border-radius:4px;padding:3px 6px;color:${statColors[t.statut]};font-weight:600;font-family:var(--font);background:${statColors[t.statut]}11" onchange="majStatutTache('${t.id}',this.value)">
+          ${Object.entries(statLabels).map(([k,v])=>`<option value="${k}" ${t.statut===k?'selected':''}>${v}</option>`).join('')}
+        </select>
+        <input type="number" value="${t.dur}" min="1" style="font-size:11px;border:1px solid var(--border);border-radius:4px;padding:3px 6px;font-family:var(--font);width:55px" onchange="majDureeTache('${t.id}',this.value)">
+      </div>`;
+    });
+    html += `</div>`;
+  });
+
+  el.innerHTML = html;
+}
+
+function renderGantt(){
+  const el = document.getElementById('planning-gantt-content');
+  if(!el || !_planningTaches.length) return;
+
+  const minDate = _planningTaches[0].debut;
+  const maxDate = _planningTaches[_planningTaches.length-1].fin;
+  const totalDays = Math.ceil((maxDate - minDate) / (1000*60*60*24));
+
+  // En-tête des semaines
+  const weeks = [];
+  let d = new Date(minDate);
+  while(d <= maxDate){
+    weeks.push(new Date(d));
+    d.setDate(d.getDate() + 7);
+  }
+
+  const COL_LABEL = 180;
+  const COL_DAY = Math.max(16, Math.min(28, Math.floor((900 - COL_LABEL) / weeks.length)));
+  const totalW = COL_LABEL + weeks.length * COL_DAY;
+
+  let html = `<div style="min-width:${totalW}px">
+    <!-- En-tête semaines -->
+    <div style="display:flex;padding-left:${COL_LABEL}px;margin-bottom:4px">
+      ${weeks.map(w => `<div style="width:${COL_DAY * 7}px;flex-shrink:0;font-size:9px;font-weight:700;color:var(--muted);text-align:center;border-left:1px solid var(--border);padding-left:2px">
+        ${w.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})}
+      </div>`).join('')}
+    </div>`;
+
+  // Lignes tâches
+  _planningTaches.forEach(t => {
+    const startDay = Math.ceil((t.debut - minDate) / (1000*60*60*24));
+    const leftPx = COL_LABEL + startDay * COL_DAY;
+    const widthPx = Math.max(COL_DAY, t.dur * COL_DAY);
+    const opacity = t.statut === 'termine' ? 0.5 : 1;
+    const pctDone = t.statut === 'termine' ? 100 : t.statut === 'en_cours' ? 50 : 0;
+
+    html += `<div style="display:flex;align-items:center;margin-bottom:4px;position:relative;height:32px">
+      <!-- Label -->
+      <div style="width:${COL_LABEL}px;flex-shrink:0;font-size:11px;font-weight:600;color:var(--ink);padding-right:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+        ${t.icon} ${t.label}
+      </div>
+      <!-- Barre -->
+      <div style="position:relative;height:32px;flex:1">
+        <!-- Grille de fond -->
+        ${weeks.map((w,wi) => `<div style="position:absolute;left:${wi*COL_DAY*7}px;top:0;width:${COL_DAY*7}px;height:100%;border-left:1px solid var(--border);opacity:.3"></div>`).join('')}
+        <!-- Barre Gantt -->
+        <div style="position:absolute;left:${startDay * COL_DAY}px;top:4px;width:${widthPx}px;height:24px;background:${t.color};border-radius:4px;opacity:${opacity};display:flex;align-items:center;padding:0 8px;overflow:hidden;min-width:20px" title="${t.label} · ${t.dur} jours">
+          ${pctDone > 0 ? `<div style="position:absolute;left:0;top:0;height:100%;width:${pctDone}%;background:rgba(0,0,0,.2);border-radius:4px 0 0 4px"></div>` : ''}
+          <span style="font-size:10px;font-weight:700;color:white;position:relative;white-space:nowrap">${t.dur > 5 ? t.label : t.icon}</span>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  html += `</div>`;
+  el.innerHTML = html;
+}
+
+function majDateTache(id, field, val){
+  const t = _planningTaches.find(t => t.id === id);
+  if(!t) return;
+  t[field] = new Date(val);
+  if(field === 'debut'){
+    t.fin = new Date(t.debut);
+    t.fin.setDate(t.fin.getDate() + t.dur);
+  }
+  renderPlanningView();
+}
+
+function majDureeTache(id, val){
+  const t = _planningTaches.find(t => t.id === id);
+  if(!t) return;
+  t.dur = parseInt(val) || t.dur;
+  t.fin = new Date(t.debut);
+  t.fin.setDate(t.fin.getDate() + t.dur);
+  renderPlanningView();
+}
+
+function majStatutTache(id, val){
+  const t = _planningTaches.find(t => t.id === id);
+  if(t) t.statut = val;
+  renderPlanningView();
 }
 
 // ── CONFIG LOCAL — EXTRACTION ─────────────────────────────────
