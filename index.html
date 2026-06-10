@@ -584,12 +584,6 @@ input[type=number]{-moz-appearance:textfield}
   .page{display:block!important}
   .card{box-shadow:none;border:1px solid #ddd}
 }
-
-@media(max-width:900px){
-  #travaux-tabs{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;scrollbar-width:none;-ms-overflow-style:none;flex-wrap:nowrap!important;gap:4px;padding-bottom:2px}
-  #travaux-tabs::-webkit-scrollbar{display:none}
-  #travaux-tabs .tab{flex-shrink:0;white-space:nowrap;padding:9px 18px;font-size:14px;min-width:max-content}
-}
 </style>
 </head>
 <body>
@@ -1259,17 +1253,80 @@ input[type=number]{-moz-appearance:textfield}
         <!-- CONFIGURATION DU LOCAL -->
         <div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Configuration du local</div>
 
-        <!-- Extraction -->
-        <div style="background:#F9FAFB;border:1px solid #F3F4F6;border-radius:8px;padding:10px 12px;margin-bottom:8px">
-          <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1114 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/></svg>
-            Extraction
+        <!-- RÉSUMÉ TECHNIQUE -->
+        <div id="cfg-resume" style="background:#F0F4FF;border:1px solid #C7D2FE;border-radius:8px;padding:10px 14px;margin-bottom:12px;display:none">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <span style="font-size:11px;font-weight:700;color:#4338CA;text-transform:uppercase;letter-spacing:.05em">Résumé technique</span>
+            <span id="cfg-badge" style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:#FEF3C7;color:#D97706">⚠ À compléter</span>
           </div>
-          <div class="form-group">
+          <div id="cfg-resume-content" style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:12px;color:#374151"></div>
+        </div>
+
+        <!-- 4 CARTES NAVIGATION -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px" id="cfg-cards-grid">
+
+          <!-- Électricité -->
+          <div class="cfg-nav-card" id="cfg-card-elec" onclick="toggleCfgCard('elec')" style="background:#fff;border:1.5px solid #E5E7EB;border-radius:10px;padding:14px 12px;cursor:pointer;text-align:center;transition:all .15s">
+            <div style="font-size:22px;margin-bottom:6px">⚡</div>
+            <div style="font-size:13px;font-weight:600;color:#374151">Électricité</div>
+            <div id="cfg-card-elec-badge" style="font-size:10px;color:#9CA3AF;margin-top:3px">Non renseigné</div>
+          </div>
+
+          <!-- Extraction -->
+          <div class="cfg-nav-card" id="cfg-card-ext" onclick="toggleCfgCard('ext')" style="background:#fff;border:1.5px solid #E5E7EB;border-radius:10px;padding:14px 12px;cursor:pointer;text-align:center;transition:all .15s">
+            <div style="font-size:22px;margin-bottom:6px">🌬️</div>
+            <div style="font-size:13px;font-weight:600;color:#374151">Extraction</div>
+            <div id="cfg-card-ext-badge" style="font-size:10px;color:#9CA3AF;margin-top:3px">Non renseigné</div>
+          </div>
+
+          <!-- Gaz -->
+          <div class="cfg-nav-card" id="cfg-card-gaz" onclick="toggleCfgCard('gaz')" style="background:#fff;border:1.5px solid #E5E7EB;border-radius:10px;padding:14px 12px;cursor:pointer;text-align:center;transition:all .15s">
+            <div style="font-size:22px;margin-bottom:6px">🔥</div>
+            <div style="font-size:13px;font-weight:600;color:#374151">Gaz</div>
+            <div id="cfg-card-gaz-badge" style="font-size:10px;color:#9CA3AF;margin-top:3px">Non renseigné</div>
+          </div>
+
+          <!-- Télécommunications -->
+          <div class="cfg-nav-card" id="cfg-card-fibre" onclick="toggleCfgCard('fibre')" style="background:#fff;border:1.5px solid #E5E7EB;border-radius:10px;padding:14px 12px;cursor:pointer;text-align:center;transition:all .15s">
+            <div style="font-size:22px;margin-bottom:6px">🌐</div>
+            <div style="font-size:13px;font-weight:600;color:#374151">Télécoms</div>
+            <div id="cfg-card-fibre-badge" style="font-size:10px;color:#9CA3AF;margin-top:3px">Non renseigné</div>
+          </div>
+
+        </div>
+
+        <!-- PANNEAUX DÉTAIL (un seul visible à la fois) -->
+
+        <!-- Panneau Électricité -->
+        <div id="cfg-panel-elec" style="display:none;background:#F9FAFB;border:1.5px solid #6366F1;border-radius:10px;padding:14px;margin-bottom:10px;animation:fadeUp .15s ease">
+          <div style="font-size:12px;font-weight:700;color:#4338CA;margin-bottom:12px;display:flex;align-items:center;gap:6px">
+            ⚡ Électricité
+            <button onclick="toggleCfgCard('elec')" style="margin-left:auto;background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:16px;line-height:1">×</button>
+          </div>
+          <div class="form-group" style="margin-bottom:10px">
+            <label class="form-label">Puissance disponible</label>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+              <input type="number" id="cfg-elec-puissance" class="form-input" placeholder="0" style="max-width:100px;font-size:16px;font-weight:700" oninput="majTarifElec();majResumeConfig()">
+              <span style="font-size:13px;color:var(--muted);font-weight:600">kVA</span>
+            </div>
+          </div>
+          <div id="cfg-tarif-auto" style="display:none;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:6px;padding:8px 12px;font-size:12px;color:#4338CA;margin-bottom:10px">
+            <span style="font-weight:600">Tarif estimé automatiquement :</span> <span id="cfg-tarif-label">—</span>
+          </div>
+          <input type="hidden" name="cfg-elec-tarif" id="cfg-elec-tarif" value="">
+        </div>
+
+        <!-- Panneau Extraction -->
+        <div id="cfg-panel-ext" style="display:none;background:#F9FAFB;border:1.5px solid #6366F1;border-radius:10px;padding:14px;margin-bottom:10px;animation:fadeUp .15s ease">
+          <div style="font-size:12px;font-weight:700;color:#4338CA;margin-bottom:12px;display:flex;align-items:center;gap:6px">
+            🌬️ Extraction
+            <button onclick="toggleCfgCard('ext')" style="margin-left:auto;background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:16px;line-height:1">×</button>
+          </div>
+          <div class="form-group" style="margin-bottom:8px">
             <label class="form-label">Présence d'une extraction</label>
-            <div style="display:flex;gap:14px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="oui" onchange="toggleCfgExtSection(this)"> Oui</label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="non" checked onchange="toggleCfgExtSection(this)"> Non</label>
+            <div style="display:flex;gap:10px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="oui" onchange="toggleCfgExtSection(this);majResumeConfig()"> Oui</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="non" checked onchange="toggleCfgExtSection(this);majResumeConfig()"> Non</label>
             </div>
           </div>
           <div id="cfg-ext-section" style="display:none;margin-top:8px">
@@ -1284,67 +1341,38 @@ input[type=number]{-moz-appearance:textfield}
           </div>
         </div>
 
-        <!-- Gaz -->
-        <div style="background:#F9FAFB;border:1px solid #F3F4F6;border-radius:8px;padding:10px 12px;margin-bottom:8px">
-          <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2c-4 4-4 8 0 10s4 6 0 10"/></svg>
-            Gaz
+        <!-- Panneau Gaz -->
+        <div id="cfg-panel-gaz" style="display:none;background:#F9FAFB;border:1.5px solid #6366F1;border-radius:10px;padding:14px;margin-bottom:10px;animation:fadeUp .15s ease">
+          <div style="font-size:12px;font-weight:700;color:#4338CA;margin-bottom:12px;display:flex;align-items:center;gap:6px">
+            🔥 Gaz
+            <button onclick="toggleCfgCard('gaz')" style="margin-left:auto;background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:16px;line-height:1">×</button>
           </div>
-          <div class="form-group" style="margin-bottom:6px">
+          <div class="form-group" style="margin-bottom:8px">
             <label class="form-label">Présence d'une arrivée gaz</label>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz" value="oui" onchange="document.getElementById('cfg-gaz-type').style.display='flex'"> Oui</label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz" value="non" checked onchange="document.getElementById('cfg-gaz-type').style.display='none'"> Non</label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz" value="inconnu" onchange="document.getElementById('cfg-gaz-type').style.display='none'"> Inconnu</label>
+            <div style="display:flex;gap:10px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-gaz" value="oui" onchange="document.getElementById('cfg-gaz-type').style.display='flex';majResumeConfig()"> Oui</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-gaz" value="non" checked onchange="document.getElementById('cfg-gaz-type').style.display='none';majResumeConfig()"> Non</label>
             </div>
           </div>
-          <div id="cfg-gaz-type" style="display:none;gap:10px;flex-wrap:wrap;margin-top:4px">
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="naturel"> Gaz naturel</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="propane"> Propane</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="inconnu" checked> Inconnu</label>
+          <div id="cfg-gaz-type" style="display:none;flex-wrap:wrap;gap:10px;margin-top:4px">
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="naturel"> Gaz naturel</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="propane"> Propane</label>
           </div>
         </div>
 
-        <!-- Électricité -->
-        <div style="background:#F9FAFB;border:1px solid #F3F4F6;border-radius:8px;padding:10px 12px;margin-bottom:8px">
-          <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            Électricité
+        <!-- Panneau Fibre -->
+        <div id="cfg-panel-fibre" style="display:none;background:#F9FAFB;border:1.5px solid #6366F1;border-radius:10px;padding:14px;margin-bottom:14px;animation:fadeUp .15s ease">
+          <div style="font-size:12px;font-weight:700;color:#4338CA;margin-bottom:12px;display:flex;align-items:center;gap:6px">
+            🌐 Télécommunications — Fibre
+            <button onclick="toggleCfgCard('fibre')" style="margin-left:auto;background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:16px;line-height:1">×</button>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-            <div class="form-group">
-              <label class="form-label">Puissance disponible</label>
-              <div style="display:flex;align-items:center;gap:6px;margin-top:4px">
-                <input type="number" id="cfg-elec-puissance" class="form-input" placeholder="0" style="font-size:14px">
-                <span style="font-size:11px;color:var(--muted);white-space:nowrap">kVA</span>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Type d'abonnement</label>
-              <div style="display:flex;flex-direction:column;gap:3px;margin-top:4px">
-                <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="bleu"> Tarif Bleu</label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="jaune"> Tarif Jaune</label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="vert"> Tarif Vert</label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="inconnu" checked> Inconnu</label>
-              </div>
-            </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-fibre" value="oui" onchange="majResumeConfig()"> Oui</label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-fibre" value="non" checked onchange="majResumeConfig()"> Non</label>
           </div>
         </div>
 
-        <!-- Télécommunications -->
-        <div style="background:#F9FAFB;border:1px solid #F3F4F6;border-radius:8px;padding:10px 12px;margin-bottom:14px">
-          <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
-            Télécommunications — Fibre
-          </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:2px">
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-fibre" value="oui"> Oui</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-fibre" value="non"> Non</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-fibre" value="inconnu" checked> Inconnu</label>
-          </div>
-        </div>
-
-        <!-- CONFIGURATION DU BÂTIMENT -->
+                <!-- CONFIGURATION DU BÂTIMENT -->
         <div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Configuration du bâtiment</div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
@@ -4316,8 +4344,6 @@ function updateRecap(){
   ${dateV?`<div style="font-size:11px;color:var(--muted)">📅 Visite : ${dateV}</div>`:''}`;
 }
 
-
-
 // ── STRUCTURE & OUVRAGES PORTEURS ────────────────────────────
 
 const ST_ETUDES = [
@@ -4328,83 +4354,6 @@ const ST_ETUDES = [
   'Géomètre',
   'Coordinateur SPS'
 ];
-
-function updateStructureAuto(){
-  const ids = id => document.getElementById(id)?.checked;
-  const radio = name => document.querySelector(`input[name="${name}"]:checked`)?.value;
-  const sel = id => document.getElementById(id)?.value;
-
-  // Calcul des besoins
-  const betOblig = ids('st-renforcement-struct')||ids('st-creation-ouvrage')||
-    ids('st-deplacement-ouvrage')||ids('st-suppression-ouvrage')||
-    ids('st-ouverture-mur')||ids('st-supp-complete')||ids('st-supp-partielle');
-  const betRecom = ids('st-creation-tremie')||ids('st-agrand-tremie')||
-    ids('st-creation-plancher')||ids('st-creation-mezzanine')||
-    ids('st-renf-plancher')||ids('st-renf-dalle');
-  const bcRecom  = betOblig||betRecom||ids('st-extension')||ids('st-surelevation');
-  const pcRequis = ids('st-extension')||ids('st-surelevation');
-  const erpCheck = radio('st-mezzanine')==='oui'||
-    sel('st-esc-intervention')==='creation'||sel('st-esc-intervention')==='remplacement';
-  const spsRecom = betOblig||ids('st-etaiement')||ids('st-sous-oeuvre')||ids('st-grutage');
-  const geoRecom = ids('st-extension')||ids('st-surelevation')||ids('st-creation-plancher');
-
-  const niveaux = {
-    'BET Structure'                 : betOblig ? 'Obligatoire' : betRecom ? 'Recommandé' : null,
-    'Diagnostic structure existante': betOblig||betRecom ? 'Recommandé' : null,
-    'Calcul de charges'             : betOblig||ids('st-charges') ? 'Recommandé' : null,
-    'Bureau de contrôle'            : bcRecom ? 'Recommandé' : null,
-    'Géomètre'                      : geoRecom ? 'À prévoir' : null,
-    'Coordinateur SPS'              : spsRecom ? 'Recommandé' : null,
-  };
-
-  // Alertes structure
-  const alertes = [];
-  if(pcRequis) alertes.push({lvl:'danger', txt:'Extension ou surélévation → Permis de Construire requis'});
-  if(betOblig) alertes.push({lvl:'danger', txt:'Travaux sur éléments porteurs → BET Structure obligatoire'});
-  if(erpCheck) alertes.push({lvl:'warning', txt:'Mezzanine ou escalier modifié → Vérification ERP et accessibilité requise'});
-  if(ids('st-sous-oeuvre')) alertes.push({lvl:'warning', txt:'Reprise en sous-œuvre → Étude géotechnique recommandée'});
-  if(ids('st-etaiement')) alertes.push({lvl:'warning', txt:'Étaiement provisoire → Impact planning chantier à anticiper'});
-
-  // Rendu études
-  const el = document.getElementById('st-etudes-list');
-  if(!el) return;
-
-  const niveauBadge = {'Obligatoire':'var(--danger)','Recommandé':'#0EA5E9','À prévoir':'#B45309'};
-  const hasAny = Object.values(niveaux).some(v=>v);
-
-  if(!hasAny && !alertes.length){
-    el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Cochez des travaux structurels pour voir les besoins en études</div>';
-    return;
-  }
-
-  const alertesHTML = alertes.map(a=>`
-    <div style="display:flex;gap:8px;padding:8px 12px;background:${a.lvl==='danger'?'#FEF2F2':'#FFFBEB'};border-radius:8px;border-left:3px solid ${a.lvl==='danger'?'var(--danger)':'#B45309'};margin-bottom:8px">
-      ${a.lvl==='danger'?`<svg width="14" height="14" fill="none" stroke="var(--danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`:`<svg width="14" height="14" fill="none" stroke="#B45309" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`}
-      <span style="font-size:12px;color:var(--ink2)">${a.txt}</span>
-    </div>`).join('');
-
-  const etudesHTML = ST_ETUDES.filter(n=>niveaux[n]).map(nom=>{
-    const niv = niveaux[nom];
-    const key = nom.replace(/[^a-zA-Z]/g,'_');
-    return `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);gap:10px">
-      <div>
-        <span style="font-size:10px;background:${niveauBadge[niv]};color:white;padding:2px 7px;border-radius:10px;margin-right:6px">${niv}</span>
-        <span style="font-size:12px;font-weight:600;color:var(--ink)">${nom}</span>
-      </div>
-      <select id="st-etude-${key}" style="font-size:11px;border:1.5px solid var(--border);border-radius:6px;padding:4px 8px;font-family:var(--font);flex-shrink:0">
-        <option value="a_prevoir">À prévoir</option>
-        <option value="missionne">Déjà missionné ✅</option>
-        <option value="non_necessaire">Non nécessaire</option>
-      </select>
-    </div>`;
-  }).join('');
-
-  el.innerHTML = (alertesHTML ? `<div style="margin-bottom:12px">${alertesHTML}</div>` : '') + etudesHTML;
-}
-
-
-
 
 // ── ESTIMATION AUTOMATIQUE DURÉE & COMPAGNONS ─────────────────
 
@@ -4612,8 +4561,6 @@ function estimerDureeEtCompagnons(){
   document.getElementById('prov-duree-mois').value = dureeMois.toFixed(1);
   document.getElementById('prov-nb-intervenants').value = nbCompagnons;
 
-
-
   calculerFraisProvisoires();
 }
 
@@ -4654,9 +4601,6 @@ function calculerFraisProvisoires(){
   // Élec
   if(radio('prov-elec')==='raccord'){ lignes.push({l:'Raccordement élec provisoire',m:1500,u:'forfait'}); somme+=1500; }
 
-
-
-
   // Sanitaires
 
   // Base vie
@@ -4680,8 +4624,6 @@ function calculerFraisProvisoires(){
 
   total.textContent = somme.toLocaleString('fr-FR') + ' € HT';
 }
-
-
 
 // ── EXTRACTIONS EXISTANTES ────────────────────────────────────
 
@@ -4972,9 +4914,6 @@ function analyserConcurrence(){
       </div>
     </div>`;
 }
-
-
-
 
 // ── PHOTOS — IMPORT FICHIER ────────────────────────────────────
 function attacherFichier(input, itemId, type){
@@ -5930,6 +5869,133 @@ function recalcInfoTotal(){
   });
   const el = document.getElementById('info-total');
   if(el) el.textContent = total.toLocaleString('fr-FR') + ' € HT';
+}
+
+
+// ── RADIO CARD INLINE ─────────────────────────────────────────
+function selectRadioCard(el, name, value){
+  // Désélectionner tous du même groupe
+  document.querySelectorAll('.radio-card-inline input[name="'+name+'"]').forEach(r => {
+    r.closest('.radio-card-inline').classList.remove('selected');
+  });
+  el.classList.add('selected');
+  const radio = el.querySelector('input[type="radio"]');
+  if(radio) radio.checked = true;
+}
+
+
+// ══ CONFIG LOCAL — 4 CARTES NAVIGATION ═══════════════════════
+function toggleCfgCard(name){
+  const panels = ['elec','ext','gaz','fibre'];
+  const cards  = ['elec','ext','gaz','fibre'];
+
+  panels.forEach(p => {
+    const panel = document.getElementById('cfg-panel-'+p);
+    const card  = document.getElementById('cfg-card-'+p);
+    if(!panel || !card) return;
+
+    if(p === name){
+      const isOpen = panel.style.display !== 'none';
+      panel.style.display = isOpen ? 'none' : 'block';
+      if(isOpen){
+        card.style.borderColor = '#E5E7EB';
+        card.style.background = '#fff';
+        card.querySelector('div:first-child').style.opacity = '1';
+      } else {
+        card.style.borderColor = '#6366F1';
+        card.style.background = '#EEF2FF';
+      }
+    } else {
+      panel.style.display = 'none';
+      card.style.borderColor = '#E5E7EB';
+      card.style.background = '#fff';
+    }
+  });
+}
+
+function majTarifElec(){
+  const kva = parseFloat(document.getElementById('cfg-elec-puissance')?.value) || 0;
+  const tarifEl = document.getElementById('cfg-tarif-label');
+  const tarifAuto = document.getElementById('cfg-tarif-auto');
+  const tarifInput = document.getElementById('cfg-elec-tarif');
+  if(!tarifEl) return;
+
+  if(kva <= 0){
+    tarifAuto.style.display = 'none';
+    return;
+  }
+
+  let tarif, tarifVal;
+  if(kva <= 36){
+    tarif = 'Tarif Bleu'; tarifVal = 'bleu';
+  } else if(kva <= 250){
+    tarif = 'Tarif Jaune'; tarifVal = 'jaune';
+  } else {
+    tarif = 'Tarif Vert'; tarifVal = 'vert';
+  }
+
+  tarifEl.textContent = tarif;
+  tarifAuto.style.display = 'block';
+  if(tarifInput) tarifInput.value = tarifVal;
+  majResumeConfig();
+}
+
+function majResumeConfig(){
+  const resume = document.getElementById('cfg-resume');
+  const content = document.getElementById('cfg-resume-content');
+  const badge = document.getElementById('cfg-badge');
+  if(!resume || !content) return;
+
+  const kva = parseFloat(document.getElementById('cfg-elec-puissance')?.value) || 0;
+  const tarif = document.getElementById('cfg-tarif-label')?.textContent || '—';
+  const extPresence = document.querySelector('input[name="cfg-ext-presence"]:checked')?.value;
+  const gazPresence = document.querySelector('input[name="cfg-gaz"]:checked')?.value;
+  const fibre = document.querySelector('input[name="cfg-fibre"]:checked')?.value;
+  const nbExt = document.getElementById('cfg-ext-nombre')?.value || '1';
+
+  // Mettre à jour les badges des cartes
+  const setBadge = (id, text, color) => {
+    const el = document.getElementById('cfg-card-'+id+'-badge');
+    if(el){ el.textContent = text; el.style.color = color; }
+  };
+
+  setBadge('elec', kva > 0 ? kva+' kVA — '+tarif : 'Non renseigné', kva > 0 ? '#059669' : '#9CA3AF');
+  setBadge('ext', extPresence === 'oui' ? nbExt+' extraction(s)' : extPresence === 'non' ? 'Absent' : 'Non renseigné', extPresence ? '#059669' : '#9CA3AF');
+  setBadge('gaz', gazPresence === 'oui' ? 'Présent' : gazPresence === 'non' ? 'Absent' : 'Non renseigné', gazPresence ? '#059669' : '#9CA3AF');
+  setBadge('fibre', fibre === 'oui' ? 'Présente' : fibre === 'non' ? 'Absente' : 'Non renseigné', fibre ? '#059669' : '#9CA3AF');
+
+  // Résumé
+  const items = [];
+  if(kva > 0) items.push(['⚡ Puissance', kva+' kVA']);
+  if(kva > 0) items.push(['📋 Tarif estimé', tarif]);
+  if(extPresence) items.push(['🌬️ Extraction', extPresence === 'oui' ? nbExt+' présente(s)' : 'Absente']);
+  if(gazPresence) items.push(['🔥 Gaz', gazPresence === 'oui' ? 'Présent' : 'Absent']);
+  if(fibre) items.push(['🌐 Fibre', fibre === 'oui' ? 'Présente' : 'Absente']);
+
+  if(items.length === 0){
+    resume.style.display = 'none';
+    return;
+  }
+
+  resume.style.display = 'block';
+  content.innerHTML = items.map(([k,v]) =>
+    `<div style="display:flex;justify-content:space-between;gap:8px;padding:2px 0">
+      <span style="color:#6B7280">${k}</span>
+      <span style="font-weight:600;color:#111827">${v}</span>
+    </div>`
+  ).join('');
+
+  // Badge complétion
+  const filled = [kva > 0, extPresence !== undefined, gazPresence !== undefined, fibre !== undefined].filter(Boolean).length;
+  if(filled >= 4){
+    badge.textContent = '✅ Configuration complétée';
+    badge.style.background = '#D1FAE5';
+    badge.style.color = '#059669';
+  } else {
+    badge.textContent = `⚠ ${4-filled} information(s) restante(s)`;
+    badge.style.background = '#FEF3C7';
+    badge.style.color = '#D97706';
+  }
 }
 
 // ── INIT SECTIONS ACCORDÉONS ─────────────────────────────────
@@ -9246,61 +9312,6 @@ function majResumeReleves(){
 }
 
 // ── RELEVÉS EXISTANT / PROJET ────────────────────────────────
-function renderRelevesType(type){
-  const pieces = state.pieces.filter(p=>(p._type||'existant')===type);
-  const listEl = document.getElementById('pieces-list-'+type);
-  const emptyEl = document.getElementById('empty-pieces-'+type);
-  const resumeEl = document.getElementById('resume-'+type);
-  if(!listEl) return;
-
-  if(pieces.length === 0){
-    if(emptyEl) emptyEl.style.display='flex';
-    if(resumeEl) resumeEl.style.display='none';
-    return;
-  }
-  if(emptyEl) emptyEl.style.display='none';
-  if(resumeEl) resumeEl.style.display='flex';
-
-  const totalSurf = pieces.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
-  const avgHaut = pieces.filter(p=>p.hauteur).reduce((a,p,_,arr)=>a+(parseFloat(p.hauteur)||0)/arr.length,0);
-  const countEl = document.getElementById('count-'+type);
-  const surfEl = document.getElementById('surf-'+type);
-  const hautEl = document.getElementById('haut-'+type);
-  if(countEl) countEl.textContent = pieces.length;
-  if(surfEl) surfEl.textContent = totalSurf.toFixed(1)+' m²';
-  if(hautEl) hautEl.textContent = avgHaut>0?avgHaut.toFixed(2)+' m':'—';
-
-  const badge = document.getElementById('nb-pieces-'+type);
-  if(badge) badge.textContent = pieces.length;
-
-  if(type==='projet'){
-    const piecesEx = state.pieces.filter(p=>(p._type||'existant')==='existant');
-    const surfEx = piecesEx.reduce((a,p)=>a+(parseFloat(p.surface)||0),0);
-    const compEl = document.getElementById('comparatif-surfaces');
-    const gridEl = document.getElementById('comparatif-grid');
-    if(compEl && gridEl && (surfEx>0||totalSurf>0)){
-      compEl.style.display='block';
-      const ecart = totalSurf - surfEx;
-      const pct = surfEx>0?((ecart/surfEx)*100).toFixed(1):0;
-      gridEl.innerHTML = `
-        <div style="text-align:center;padding:12px;background:var(--bg);border-radius:8px">
-          <div style="font-size:10px;color:var(--muted);font-weight:600">Existant</div>
-          <div style="font-size:18px;font-weight:800;color:var(--ink)">${surfEx.toFixed(1)} m²</div>
-          <div style="font-size:11px;color:var(--muted)">${piecesEx.length} pièce(s)</div>
-        </div>
-        <div style="text-align:center;padding:12px;background:var(--bg);border-radius:8px">
-          <div style="font-size:10px;color:var(--muted);font-weight:600">Projet</div>
-          <div style="font-size:18px;font-weight:800;color:var(--primary)">${totalSurf.toFixed(1)} m²</div>
-          <div style="font-size:11px;color:var(--muted)">${pieces.length} pièce(s)</div>
-        </div>
-        <div style="text-align:center;padding:12px;background:${Math.abs(ecart/Math.max(surfEx,1))>0.1?'var(--danger-light)':'var(--primary-light)'};border-radius:8px">
-          <div style="font-size:10px;color:var(--muted);font-weight:600">Écart</div>
-          <div style="font-size:18px;font-weight:800;color:${ecart>=0?'var(--primary)':'var(--danger)'}">${ecart>=0?'+':''}${ecart.toFixed(1)} m²</div>
-          <div style="font-size:11px;color:var(--muted)">${pct}%</div>
-        </div>`;
-    }
-  }
-}
 
 // ── CORRECTION AUTOMATIQUE ───────────────────────────────────
 function corrigerTexte(input){
@@ -9625,6 +9636,59 @@ function genererRapportDPGF(){
   }
 }
 
+
+@media(max-width:900px){
+  #travaux-tabs{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;scrollbar-width:none;-ms-overflow-style:none;flex-wrap:nowrap!important;gap:4px;padding-bottom:2px}
+  #travaux-tabs::-webkit-scrollbar{display:none}
+  #travaux-tabs .tab{flex-shrink:0;white-space:nowrap;padding:9px 18px;font-size:14px;min-width:max-content}
+}
+
+/* ══ CONFIG LOCAL — compact mobile ════════════════════════════ */
+/* Réduire les form-label dans les blocs config local/bat */
+#page-init .form-group .form-label {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: var(--muted) !important;
+  margin-bottom: 5px !important;
+  text-transform: uppercase !important;
+  letter-spacing: .04em !important;
+}
+
+/* Radios inline → style radio-card compact */
+#page-init .radio-card-inline {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink2);
+  cursor: pointer;
+  transition: all .12s;
+  background: white;
+  gap: 0;
+}
+#page-init .radio-card-inline:hover {
+  border-color: var(--primary-border);
+  background: var(--primary-light);
+}
+#page-init .radio-card-inline.selected {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+  font-weight: 600;
+}
+#page-init .radio-card-inline input {
+  display: none;
+}
+#page-init .radio-group-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 5px;
+}
+
 </style>
 </head>
 <body>
@@ -9884,8 +9948,6 @@ function ajouterDocuments(input){
   input.value = '';
   
 }
-
-
 
 function renderSecuriteIncendie(){}
 function renderPMR(){}
