@@ -2130,31 +2130,35 @@ input[type=number]{-moz-appearance:textfield}
 <div class="form-group" style="margin-bottom:14px">
           <label class="form-label">Situation du local</label>
           <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="recherche"> Recherche de local</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="identifie"> Local identifié</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="visites"> Visites en cours</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="negociation"> Négociation en cours</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="promesse"> Promesse de bail signée</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="bail" checked> Bail signé</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="acte"> Acte signé</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="exploite"> Local déjà exploité</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="recherche" onchange="majChampsBailCles()"> Recherche de local</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="identifie" onchange="majChampsBailCles()"> Local identifié</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="visites" onchange="majChampsBailCles()"> Visites en cours</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="negociation" onchange="majChampsBailCles()"> Négociation en cours</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="promesse" onchange="majChampsBailCles()"> Promesse de bail signée</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="bail" checked onchange="majChampsBailCles()"> Bail signé</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="acte" onchange="majChampsBailCles()"> Acte signé</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-situation" value="exploite" onchange="majChampsBailCles()"> Local déjà exploité</label>
           </div>
         </div>
         <div class="form-group" style="margin-bottom:14px">
           <label class="form-label">Le client dispose-t-il des clés ?</label>
           <div style="display:flex;gap:14px;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-cles" value="oui"> Oui</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-cles" value="non" checked> Non</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-cles" value="oui" onchange="majChampsBailCles()"> Oui</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-cles" value="non" checked onchange="majChampsBailCles()"> Non</label>
           </div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-          <div class="form-group">
-            <label class="form-label">Date prévisionnelle signature bail</label>
-            <input type="date" id="ctx-date-bail" class="form-input" style="margin-top:6px;font-size:16px">
+          <div id="ctx-wrap-date-bail" style="display:none">
+            <div class="form-group">
+              <label class="form-label">Date prévisionnelle de signature du bail</label>
+              <input type="date" id="ctx-date-bail" class="form-input" style="margin-top:6px;font-size:13px">
+            </div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Date remise des clés prévue</label>
-            <input type="date" id="ctx-date-cles" class="form-input" style="margin-top:6px;font-size:16px">
+          <div id="ctx-wrap-date-cles" style="display:block">
+            <div class="form-group">
+              <label class="form-label">Date de remise des clés prévue</label>
+              <input type="date" id="ctx-date-cles" class="form-input" style="margin-top:6px;font-size:13px">
+            </div>
           </div>
         </div>
   </div>
@@ -5322,6 +5326,20 @@ function majStatutTache(id, val){
   const t = _planningTaches.find(t => t.id === id);
   if(t) t.statut = val;
   renderPlanningView();
+}
+
+
+// ── AVANCEMENT — CHAMPS CONDITIONNELS ─────────────────────────
+function majChampsBailCles(){
+  const situation = document.querySelector('input[name="ctx-situation"]:checked')?.value || 'bail';
+  const cles      = document.querySelector('input[name="ctx-cles"]:checked')?.value || 'non';
+  const wrapBail  = document.getElementById('ctx-wrap-date-bail');
+  const wrapCles  = document.getElementById('ctx-wrap-date-cles');
+  // Bail déjà signé → masquer date prévisionnelle
+  const bailSigne = ['bail','acte','exploite'].includes(situation);
+  if(wrapBail) wrapBail.style.display = bailSigne ? 'none' : 'block';
+  // Clés déjà obtenues → masquer date remise clés
+  if(wrapCles) wrapCles.style.display = cles === 'oui' ? 'none' : 'block';
 }
 
 // ── CONFIG LOCAL — EXTRACTION ─────────────────────────────────
