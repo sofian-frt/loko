@@ -1401,48 +1401,42 @@ input[type=number]{-moz-appearance:textfield}
           </div>
         </div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px">
-          <div class="form-group">
-            <label class="form-label">Voisins au-dessus</label>
-            <div style="display:flex;gap:14px;margin-top:6px">
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="oui"> Oui</label>
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="non" checked> Non</label>
-            </div>
+        <div class="init-bool-grid" style="margin-bottom:12px">
+          <div class="init-bool-card" onclick="toggleBoolToggle(this,'bat-voisins-dessus')" title="Cliquer pour activer">
+            <div class="bool-icon"></div>
+            Voisins au-dessus
+            <input type="radio" name="bat-voisins-dessus" value="oui">
+            <input type="radio" name="bat-voisins-dessus" value="non" checked style="display:none">
           </div>
-          <div class="form-group">
-            <label class="form-label">Voisins en dessous</label>
-            <div style="display:flex;gap:14px;margin-top:6px">
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="oui"> Oui</label>
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="non" checked> Non</label>
-            </div>
+          <div class="init-bool-card" onclick="toggleBoolToggle(this,'bat-voisins-dessous')" title="Cliquer pour activer">
+            <div class="bool-icon"></div>
+            Voisins en dessous
+            <input type="radio" name="bat-voisins-dessous" value="oui">
+            <input type="radio" name="bat-voisins-dessous" value="non" checked style="display:none">
           </div>
-          <div class="form-group">
-            <label class="form-label">Voisins mitoyens</label>
-            <div style="display:flex;gap:14px;margin-top:6px">
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="oui"> Oui</label>
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="non" checked> Non</label>
-            </div>
+          <div class="init-bool-card" onclick="toggleBoolToggle(this,'bat-mitoyens')" title="Cliquer pour activer">
+            <div class="bool-icon"></div>
+            Voisins mitoyens
+            <input type="radio" name="bat-mitoyens" value="oui">
+            <input type="radio" name="bat-mitoyens" value="non" checked style="display:none">
           </div>
-          <div class="form-group">
-            <label class="form-label">Copropriété</label>
-            <div style="display:flex;gap:14px;margin-top:6px">
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-copropriete" value="oui"> Oui</label>
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-copropriete" value="non" checked> Non</label>
-            </div>
+          <div class="init-bool-card" onclick="toggleBoolToggle(this,'bat-copropriete')" title="Cliquer pour activer">
+            <div class="bool-icon"></div>
+            Copropriété
+            <input type="radio" name="bat-copropriete" value="oui">
+            <input type="radio" name="bat-copropriete" value="non" checked style="display:none">
           </div>
-          <div class="form-group">
-            <label class="form-label">Accès toiture</label>
-            <div style="display:flex;gap:14px;margin-top:6px">
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-toiture" value="oui"> Oui</label>
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-toiture" value="non" checked> Non</label>
-            </div>
+          <div class="init-bool-card" onclick="toggleBoolToggle(this,'bat-toiture')" title="Cliquer pour activer">
+            <div class="bool-icon"></div>
+            Accès toiture
+            <input type="radio" name="bat-toiture" value="oui">
+            <input type="radio" name="bat-toiture" value="non" checked style="display:none">
           </div>
-          <div class="form-group">
-            <label class="form-label">Local technique</label>
-            <div style="display:flex;gap:14px;margin-top:6px">
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-local-tech" value="oui"> Oui</label>
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-local-tech" value="non" checked> Non</label>
-            </div>
+          <div class="init-bool-card" onclick="toggleBoolToggle(this,'bat-local-tech')" title="Cliquer pour activer">
+            <div class="bool-icon"></div>
+            Local technique
+            <input type="radio" name="bat-local-tech" value="oui">
+            <input type="radio" name="bat-local-tech" value="non" checked style="display:none">
           </div>
         </div>
 
@@ -1451,22 +1445,14 @@ input[type=number]{-moz-appearance:textfield}
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
           <div class="form-group">
             <label class="form-label">Escalier existant</label>
-            <div style="display:flex;gap:14px;margin-top:6px">
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-escalier" value="oui"> Oui</label>
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="bat-escalier" value="non" checked> Non</label>
+            <div class="init-bool-group" style="display:flex;gap:6px;margin-top:6px">
+              <div class="init-bool-card" onclick="toggleBoolToggle(this,'bat-escalier')" title="Cliquer pour activer">
+                <div class="bool-icon"></div> Escalier existant
+                <input type="radio" name="bat-escalier" value="oui">
+                <input type="radio" name="bat-escalier" value="non" checked style="display:none">
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">État</label>
-            <select id="bat-esc-etat" class="form-select" style="margin-top:4px">
-              <option value="">— Sélectionner —</option>
-              <option value="conserve">Conservé</option>
-              <option value="renover">À rénover</option>
-              <option value="remplacer">À remplacer</option>
-              <option value="supprimer">À supprimer</option>
-            </select>
-          </div>
-        </div>
+          </div>>
   
 
 <hr class="init-sep"><div class="init-subsection-title">Contraintes de chantier</div>
@@ -2325,6 +2311,7 @@ input[type=number]{-moz-appearance:textfield}
 </div><!-- /col droite -->
 
   </div>
+</div>
 </div><!-- /init-grid -->
 </div><!-- /page-init -->
 
