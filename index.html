@@ -1257,9 +1257,18 @@ input[type=number]{-moz-appearance:textfield}
           </div>
           <div class="form-group">
             <label class="form-label">Présence d'une extraction</label>
-            <div style="display:flex;gap:14px;margin-top:6px">
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="oui" onchange="toggleCfgExtSection(this)"> Oui</label>
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="non" checked onchange="toggleCfgExtSection(this)"> Non</label>
+            <div class="init-bool-group" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+              <div class="init-bool-card " onclick="toggleBoolCard(this,'cfg-ext-presence','oui')">
+                <div class="bool-icon"></div>
+                Oui
+                <input type="radio" name="cfg-ext-presence" value="oui" >
+              </div>
+              <div class="init-bool-card active" onclick="toggleBoolCard(this,'cfg-ext-presence','non')">
+                <div class="bool-icon"></div>
+                Non
+                <input type="radio" name="cfg-ext-presence" value="non" checked>
+              </div>
+              
             </div>
           </div>
           <div id="cfg-ext-section" style="display:none;margin-top:8px">
@@ -1280,12 +1289,21 @@ input[type=number]{-moz-appearance:textfield}
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2c-4 4-4 8 0 10s4 6 0 10"/></svg>
             Gaz
           </div>
-          <div class="form-group" style="margin-bottom:6px">
+          <div class="form-group">
             <label class="form-label">Présence d'une arrivée gaz</label>
-            <div style="display:flex;gap:14px;margin-top:6px;flex-wrap:wrap">
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-gaz" value="oui" onchange="document.getElementById('cfg-gaz-type').style.display='flex'"> Oui</label>
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-gaz" value="non" checked onchange="document.getElementById('cfg-gaz-type').style.display='none'"> Non</label>
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-gaz" value="inconnu" onchange="document.getElementById('cfg-gaz-type').style.display='none'"> Inconnu</label>
+            <div class="init-bool-group" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+              <div class="init-bool-card" onclick="toggleBoolCard(this,'cfg-gaz','oui');document.getElementById('cfg-gaz-type').style.display='flex'">
+                <div class="bool-icon"></div> Oui
+                <input type="radio" name="cfg-gaz" value="oui">
+              </div>
+              <div class="init-bool-card active" onclick="toggleBoolCard(this,'cfg-gaz','non');document.getElementById('cfg-gaz-type').style.display='none'">
+                <div class="bool-icon"></div> Non
+                <input type="radio" name="cfg-gaz" value="non" checked>
+              </div>
+              <div class="init-bool-card" onclick="toggleBoolCard(this,'cfg-gaz','inconnu');document.getElementById('cfg-gaz-type').style.display='none'">
+                <div class="bool-icon"></div> Inconnu
+                <input type="radio" name="cfg-gaz" value="inconnu">
+              </div>
             </div>
           </div>
           <div id="cfg-gaz-type" style="display:none;gap:10px;flex-wrap:wrap;margin-top:4px">
@@ -1327,10 +1345,19 @@ input[type=number]{-moz-appearance:textfield}
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
             Télécommunications — Fibre
           </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:2px">
-            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-fibre" value="oui"> Oui</label>
-            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-fibre" value="non"> Non</label>
-            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="cfg-fibre" value="inconnu" checked> Inconnu</label>
+          <div class="init-bool-group" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
+            <div class="init-bool-card" onclick="toggleBoolCard(this,'cfg-fibre','oui')">
+              <div class="bool-icon"></div> Oui
+              <input type="radio" name="cfg-fibre" value="oui">
+            </div>
+            <div class="init-bool-card" onclick="toggleBoolCard(this,'cfg-fibre','non')">
+              <div class="bool-icon"></div> Non
+              <input type="radio" name="cfg-fibre" value="non">
+            </div>
+            <div class="init-bool-card active" onclick="toggleBoolCard(this,'cfg-fibre','inconnu')">
+              <div class="bool-icon"></div> Inconnu
+              <input type="radio" name="cfg-fibre" value="inconnu" checked>
+            </div>
           </div>
         </div>
 
@@ -2064,19 +2091,28 @@ input[type=number]{-moz-appearance:textfield}
         </div>
         <div class="form-group">
           <label class="form-label">Budget validé</label>
-          <div style="display:flex;gap:14px;margin-top:6px;flex-wrap:wrap">
-            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="oui"> Oui</label>
-            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="non"> Non</label>
-            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-budget-valide" value="en-cours" checked> En cours de définition</label>
+          <div class="init-bool-group" style="display:flex;gap:6px;margin-top:6px">
+            <div class="init-bool-card " onclick="toggleBoolCard(this,'ctx-budget-valide','oui')">
+              <div class="bool-icon"></div> Oui
+              <input type="radio" name="ctx-budget-valide" value="oui" >
+            </div>
+            <div class="init-bool-card active" onclick="toggleBoolCard(this,'ctx-budget-valide','non')">
+              <div class="bool-icon"></div> Non
+              <input type="radio" name="ctx-budget-valide" value="non" checked>
+            </div>
           </div>
         </div>
         <div class="form-group">
           <label class="form-label">Financement obtenu</label>
-          <div style="display:flex;gap:14px;margin-top:6px;flex-wrap:wrap">
-            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-financement" value="oui" onchange="document.getElementById('ctx-financement-montant').style.display='block'"> Oui</label>
-            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-financement" value="non" checked onchange="document.getElementById('ctx-financement-montant').style.display='none'"> Non</label>
-            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-financement" value="en-cours" onchange="document.getElementById('ctx-financement-montant').style.display='none'"> En cours</label>
-            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-financement" value="recherche" onchange="document.getElementById('ctx-financement-montant').style.display='none'"> À rechercher</label>
+          <div class="init-bool-group" style="display:flex;gap:6px;margin-top:6px">
+            <div class="init-bool-card " onclick="toggleBoolCard(this,'ctx-financement','oui');document.getElementById('ctx-financement-montant').style.display='block'">
+              <div class="bool-icon"></div> Oui
+              <input type="radio" name="ctx-financement" value="oui" >
+            </div>
+            <div class="init-bool-card active" onclick="toggleBoolCard(this,'ctx-financement','non');document.getElementById('ctx-financement-montant').style.display='none'">
+              <div class="bool-icon"></div> Non
+              <input type="radio" name="ctx-financement" value="non" checked>
+            </div>
           </div>
         </div>
         <div id="ctx-financement-montant" style="display:none;margin-bottom:14px">
@@ -2135,12 +2171,21 @@ input[type=number]{-moz-appearance:textfield}
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">Le client dispose-t-il des clés ?</label>
-          <div style="display:flex;gap:14px;margin-top:6px">
-            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-cles" value="oui" onchange="majChampsBailCles()"> Oui</label>
-            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-cles" value="non" checked onchange="majChampsBailCles()"> Non</label>
+            <label class="form-label">Le client dispose-t-il des clés ?</label>
+            <div class="init-bool-group" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+              <div class="init-bool-card " onclick="toggleBoolCard(this,'ctx-cles','oui')">
+                <div class="bool-icon"></div>
+                Oui
+                <input type="radio" name="ctx-cles" value="oui" >
+              </div>
+              <div class="init-bool-card active" onclick="toggleBoolCard(this,'ctx-cles','non')">
+                <div class="bool-icon"></div>
+                Non
+                <input type="radio" name="ctx-cles" value="non" checked>
+              </div>
+              
+            </div>
           </div>
-        </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
           <div id="ctx-wrap-date-bail" style="display:none">
             <div class="form-group">
@@ -2175,12 +2220,21 @@ input[type=number]{-moz-appearance:textfield}
   </div>
   <div class="init-section-body collapsed" id="init-acc-contexte-comm-body">
 <div class="form-group">
-          <label class="form-label">D'autres entreprises ont-elles été consultées ?</label>
-          <div style="display:flex;gap:14px;margin-top:6px">
-            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-consult" value="oui" onchange="document.getElementById('ctx-consult-section').style.display='block';genererEntreprises(1)"> Oui</label>
-            <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-consult" value="non" checked onchange="document.getElementById('ctx-consult-section').style.display='none'"> Non</label>
+            <label class="form-label">D'autres entreprises ont-elles été consultées ?</label>
+            <div class="init-bool-group" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+              <div class="init-bool-card " onclick="toggleBoolCard(this,'ctx-consult','oui')">
+                <div class="bool-icon"></div>
+                Oui
+                <input type="radio" name="ctx-consult" value="oui" >
+              </div>
+              <div class="init-bool-card active" onclick="toggleBoolCard(this,'ctx-consult','non')">
+                <div class="bool-icon"></div>
+                Non
+                <input type="radio" name="ctx-consult" value="non" checked>
+              </div>
+              
+            </div>
           </div>
-        </div>
         <div id="ctx-consult-section" style="display:none">
           <div class="form-group">
             <label class="form-label">Nombre d'entreprises consultées</label>
@@ -2189,9 +2243,18 @@ input[type=number]{-moz-appearance:textfield}
           <div id="ctx-entreprises-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px"></div>
           <div class="form-group">
             <label class="form-label">Le client dispose-t-il des devis ?</label>
-            <div style="display:flex;gap:14px;margin-top:6px">
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-devis-dispo" value="oui"> Oui</label>
-              <label class="radio-inline" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="radio" name="ctx-devis-dispo" value="non" checked> Non</label>
+            <div class="init-bool-group" style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
+              <div class="init-bool-card " onclick="toggleBoolCard(this,'ctx-devis-dispo','oui')">
+                <div class="bool-icon"></div>
+                Oui
+                <input type="radio" name="ctx-devis-dispo" value="oui" >
+              </div>
+              <div class="init-bool-card active" onclick="toggleBoolCard(this,'ctx-devis-dispo','non')">
+                <div class="bool-icon"></div>
+                Non
+                <input type="radio" name="ctx-devis-dispo" value="non" checked>
+              </div>
+              
             </div>
           </div>
           <div id="ctx-analyse-concurrence" style="display:none;padding:12px;background:var(--surface2);border-radius:var(--radius);border:1px solid var(--border)">
@@ -5322,6 +5385,49 @@ function majStatutTache(id, val){
   renderPlanningView();
 }
 
+
+
+
+// ── BOOL TOGGLE — case simple ON/OFF (bat-*) ─────────────────
+function toggleBoolToggle(el, radioName){
+  const isActive = el.classList.contains('active');
+  el.classList.toggle('active');
+  const radOui = el.querySelector('input[value="oui"]');
+  const radNon = el.querySelector('input[value="non"]');
+  if(radOui) radOui.checked = !isActive;
+  if(radNon) radNon.checked = isActive;
+  // Effets secondaires
+  if(radioName === 'bat-toiture' || radioName === 'bat-local-tech') {
+    // Déclencher actualisation checklist photos si ouverte
+    const photosPage = document.getElementById('page-photos');
+    if(photosPage && photosPage.classList.contains('active')) genererChecklistPhotos();
+  }
+  estimerDureeEtCompagnons();
+}
+
+// ── BOOL CARDS — Toggle Oui/Non en cartes activables ─────────
+function toggleBoolCard(el, radioName, value){
+  // Mettre à jour l'état visuel
+  const group = el.closest('.init-bool-grid, .init-bool-group');
+  if(group){
+    group.querySelectorAll('.init-bool-card').forEach(c => c.classList.remove('active'));
+  }
+  el.classList.add('active');
+  // Mettre à jour le radio caché
+  const radio = el.querySelector('input[type="radio"]');
+  if(radio) radio.checked = true;
+  // Déclencher les onchange si nécessaire
+  if(radioName === 'cfg-ext-presence') toggleCfgExtSection({value});
+  if(radioName === 'ctx-cles' || radioName === 'ctx-situation') majChampsBailCles();
+  if(radioName === 'ctx-consult'){
+    const s = document.getElementById('ctx-consult-section');
+    if(s) s.style.display = value === 'oui' ? 'block' : 'none';
+  }
+  if(radioName === 'ctx-devis-dispo'){
+    const s = document.getElementById('ctx-devis-section');
+    if(s) s.style.display = value === 'oui' ? 'block' : 'none';
+  }
+}
 
 // ── AVANCEMENT — CHAMPS CONDITIONNELS ─────────────────────────
 function majChampsBailCles(){
@@ -10534,6 +10640,108 @@ label{
 #recap-banner .card {
   border-left: 3px solid #6366F1 !important;
   background: linear-gradient(135deg, #F5F3FF 0%, #FFFFFF 100%) !important;
+}
+
+
+/* ══ TOGGLE CHIPS — remplace les Oui/Non radio ══════════════ */
+.toggle-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.toggle-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 13px;
+  border-radius: 20px;
+  border: 1.5px solid #E5E7EB;
+  background: #FFFFFF;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all .15s;
+  user-select: none;
+}
+.toggle-chip:hover {
+  border-color: #A5B4FC;
+  background: #F5F3FF;
+  color: #4338CA;
+}
+.toggle-chip.active {
+  border-color: #6366F1;
+  background: #EEF2FF;
+  color: #4338CA;
+  font-weight: 600;
+}
+.toggle-chip input[type="radio"] {
+  display: none;
+}
+
+/* ══ CHECKBOX CARDS — remplace les grilles Oui/Non ══════════ */
+.init-bool-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+@media(max-width:900px){ .init-bool-grid { grid-template-columns: 1fr 1fr; } }
+@media(max-width:600px){ .init-bool-grid { grid-template-columns: 1fr; } }
+
+.init-bool-card {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 12px;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 8px;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: all .15s;
+  user-select: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+}
+.init-bool-card:hover {
+  border-color: #A5B4FC;
+  background: #F5F3FF;
+  color: #4338CA;
+}
+.init-bool-card.active {
+  border-color: #6366F1;
+  background: #EEF2FF;
+  color: #4338CA;
+  font-weight: 600;
+}
+.init-bool-card .bool-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #D1D5DB;
+  background: #FFFFFF;
+  flex-shrink: 0;
+  transition: all .15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.init-bool-card.active .bool-icon {
+  border-color: #6366F1;
+  background: #6366F1;
+}
+.init-bool-card.active .bool-icon::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: white;
+  display: block;
+}
+.init-bool-card input[type="radio"] {
+  display: none;
 }
 
 </style>
