@@ -1626,17 +1626,17 @@ input[type=number]{-moz-appearance:textfield}
 </div>
 
 <div class="init-section">
-  <div class="init-section-header" onclick="toggleInitSection('init-acc-budget')">
+  <div class="init-section-header" onclick="toggleInitSection('init-acc-budget-avanc')">
     <div class="init-section-title">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-      Budget & Planning
+      Budget, Planning & Avancement
     </div>
     <div style="display:flex;align-items:center;gap:8px">
-      <span class="init-section-badge" id="init-acc-budget-badge"></span>
-      <svg class="init-section-arrow" id="init-acc-budget-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
+      <span class="init-section-badge" id="init-acc-budget-avanc-badge"></span>
+      <svg class="init-section-arrow" id="init-acc-budget-avanc-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
     </div>
   </div>
-  <div class="init-section-body collapsed" id="init-acc-budget-body">
+  <div class="init-section-body collapsed" id="init-acc-budget-avanc-body">
 <div class="form-row" style="margin-bottom:14px">
           <div class="form-group">
             <label class="form-label">Budget travaux estimé</label>
@@ -1711,21 +1711,8 @@ input[type=number]{-moz-appearance:textfield}
             </div>
           </div>
         </div>
-  </div>
-</div>
 
-<div class="init-section">
-  <div class="init-section-header" onclick="toggleInitSection('init-acc-avancement')">
-    <div class="init-section-title">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      Avancement du projet
-    </div>
-    <div style="display:flex;align-items:center;gap:8px">
-      <span class="init-section-badge" id="init-acc-avancement-badge"></span>
-      <svg class="init-section-arrow" id="init-acc-avancement-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
-    </div>
-  </div>
-  <div class="init-section-body collapsed" id="init-acc-avancement-body">
+<div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Avancement du projet</div>
 <div class="form-group" style="margin-bottom:14px">
           <label class="form-label">Situation du local</label>
           <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
@@ -2080,17 +2067,17 @@ input[type=number]{-moz-appearance:textfield}
 </div>
 
 <div class="init-section">
-  <div class="init-section-header" onclick="toggleInitSection('init-acc-consult')">
+  <div class="init-section-header" onclick="toggleInitSection('init-acc-contexte-comm')">
     <div class="init-section-title">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-      Consultation entreprises
+      Contexte commercial
     </div>
     <div style="display:flex;align-items:center;gap:8px">
-      <span class="init-section-badge" id="init-acc-consult-badge"></span>
-      <svg class="init-section-arrow" id="init-acc-consult-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
+      <span class="init-section-badge" id="init-acc-contexte-comm-badge"></span>
+      <svg class="init-section-arrow" id="init-acc-contexte-comm-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
     </div>
   </div>
-  <div class="init-section-body collapsed" id="init-acc-consult-body">
+  <div class="init-section-body collapsed" id="init-acc-contexte-comm-body">
 <div class="form-group" style="margin-bottom:12px">
           <label class="form-label">D'autres entreprises ont-elles été consultées ?</label>
           <div style="display:flex;gap:14px;margin-top:6px">
@@ -2116,21 +2103,8 @@ input[type=number]{-moz-appearance:textfield}
             <div id="ctx-analyse-detail" style="font-size:12px;color:var(--ink2);line-height:2"></div>
           </div>
         </div>
-  </div>
-</div>
 
-<div class="init-section">
-  <div class="init-section-header" onclick="toggleInitSection('init-acc-decideurs')">
-    <div class="init-section-title">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="23" y1="11" x2="17" y2="11"/><line x1="20" y1="8" x2="20" y2="14"/></svg>
-      Décideurs
-    </div>
-    <div style="display:flex;align-items:center;gap:8px">
-      <span class="init-section-badge" id="init-acc-decideurs-badge"></span>
-      <svg class="init-section-arrow" id="init-acc-decideurs-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
-    </div>
-  </div>
-  <div class="init-section-body collapsed" id="init-acc-decideurs-body">
+<div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Décideurs</div>
 <div class="form-group" style="margin-bottom:14px">
           <label class="form-label">Interlocuteur principal</label>
           <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
@@ -2157,21 +2131,8 @@ input[type=number]{-moz-appearance:textfield}
             <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-validation" value="ca"> Conseil d'administration</label>
           </div>
         </div>
-  </div>
-</div>
 
-<div class="init-section">
-  <div class="init-section-header" onclick="toggleInitSection('init-acc-infos-comp')">
-    <div class="init-section-title">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      Informations complémentaires
-    </div>
-    <div style="display:flex;align-items:center;gap:8px">
-      <span class="init-section-badge" id="init-acc-infos-comp-badge"></span>
-      <svg class="init-section-arrow" id="init-acc-infos-comp-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
-    </div>
-  </div>
-  <div class="init-section-body collapsed" id="init-acc-infos-comp-body">
+<div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div><div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Informations complémentaires</div>
 <div class="form-group" style="margin-bottom:14px">
           <label class="form-label">Origine du contact</label>
           <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
@@ -2202,8 +2163,7 @@ input[type=number]{-moz-appearance:textfield}
           <textarea id="ctx-commentaires" class="form-input" rows="6" placeholder="Notes libres du chargé d'études / commercial..." style="resize:vertical;font-size:13px;line-height:1.6"></textarea>
         </div>
   </div>
-
-    </div><!-- /col droite -->
+</div><!-- /col droite -->
 
   </div>
 </div><!-- /init-grid -->
