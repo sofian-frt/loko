@@ -661,8 +661,11 @@ input[type=number]{-moz-appearance:textfield}
     <button class="nav-item" onclick="showPage('init')" id="nav-init" style="">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><path d="M9 12h6M9 16h4"/></svg></span> Initialisation
     </button>
+    <button class="nav-item" onclick="showPage('photos')" id="nav-photos">
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span> Photos &amp; Vidéos
+    </button>
     <button class="nav-item" onclick="showPage('analyse-ia')" id="nav-analyse-ia">
-      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg></span> Analyse IA
+      <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg></span> Documents
     </button>
     <button class="nav-item" onclick="showPage('releves-existant')" id="nav-releves-existant">
       <span class="nav-icon"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 21L21 3M3 21h7M3 21v-7"/></svg></span> Relevés & Métrés
@@ -2254,11 +2257,60 @@ input[type=number]{-moz-appearance:textfield}
 </div><!-- /page-init -->
 
 
+
+<!-- ══ PAGE PHOTOS & VIDÉOS ══ -->
+<div class="page" id="page-photos">
+  <div class="page-header-actions">
+    <div class="page-header">
+      <h2>Photos &amp; Vidéos</h2>
+      <p>Checklist générée automatiquement selon votre initialisation · Aucune photo importante ne sera oublié</p>
+    </div>
+    <button class="btn btn-primary" onclick="genererChecklistPhotos()">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+      Actualiser la checklist
+    </button>
+  </div>
+
+  <!-- Progression -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px">
+    <div class="card" style="padding:14px;text-align:center">
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Photos</div>
+      <div style="font-size:28px;font-weight:800;color:var(--primary)" id="photos-pct-photos">0%</div>
+      <div style="height:4px;background:var(--border);border-radius:2px;margin-top:8px"><div id="photos-bar-photos" style="height:100%;background:var(--primary);border-radius:2px;width:0%;transition:width .4s"></div></div>
+    </div>
+    <div class="card" style="padding:14px;text-align:center">
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Vidéos</div>
+      <div style="font-size:28px;font-weight:800;color:var(--primary)" id="photos-pct-videos">0%</div>
+      <div style="height:4px;background:var(--border);border-radius:2px;margin-top:8px"><div id="photos-bar-videos" style="height:100%;background:var(--primary);border-radius:2px;width:0%;transition:width .4s"></div></div>
+    </div>
+    <div class="card" style="padding:14px;text-align:center">
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Complétude dossier</div>
+      <div style="font-size:28px;font-weight:800;color:var(--primary)" id="photos-pct-global">0%</div>
+      <div style="height:4px;background:var(--border);border-radius:2px;margin-top:8px"><div id="photos-bar-global" style="height:100%;background:var(--primary);border-radius:2px;width:0%;transition:width .4s"></div></div>
+    </div>
+  </div>
+
+  <!-- Éléments manquants -->
+  <div id="photos-manquants" style="display:none;margin-bottom:16px;padding:10px 14px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;font-size:12px;color:#92400E">
+    <strong>Éléments manquants :</strong> <span id="photos-manquants-list"></span>
+  </div>
+
+  <!-- Contenu de la checklist -->
+  <div id="photos-checklist-content">
+    <div style="text-align:center;padding:40px;color:var(--muted)">
+      <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom:12px;opacity:.4"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      <div style="font-size:14px;font-weight:600;margin-bottom:6px">Checklist non générée</div>
+      <div style="font-size:12px">Renseignez l'Initialisation puis cliquez sur "Actualiser la checklist"</div>
+    </div>
+  </div>
+
+</div>
+
 <!-- ══ PAGE ANALYSE IA ══ -->
 <div class="page" id="page-analyse-ia">
   <div class="page-header-actions">
     <div class="page-header">
-      <h2>Analyse IA & Documents</h2>
+      <h2>Documents</h2>
       <p>Gérez les documents du dossier · L'IA extrait et résume automatiquement les informations clés</p>
     </div>
     <input id="ia-analyse-key" type="password" class="form-input" placeholder="Clé API sk-ant-..."
@@ -3848,7 +3900,8 @@ function _chk(id){const e=_get(id);return e?e.checked:false;}
 const PAGE_META={
   // ── PROJET ──
   init:{title:'Initialisation du projet',step:''},
-  'analyse-ia':{title:'Analyse IA & Documents',step:''},
+  'photos':{title:'Photos & Vidéos',step:''},
+  'analyse-ia':{title:'Documents',step:''},
   'releves-existant':{title:'Relevés & Métrés',step:''},
   // ── DIMENSIONNEMENT ──
   eclairage:{title:'Éclairage',step:''},
@@ -3876,6 +3929,7 @@ function showPage(id){
   const nav=_get('nav-'+id);if(nav)nav.classList.add('active');
   const meta=PAGE_META[id]||{title:id,step:''};
   _set('mobile-page-title',meta.title);
+  if(id==='photos')genererChecklistPhotos();
   if(id==='releves')renderPieces();
   if(id==='eclairage')renderEclairage();
   if(id==='electricite'){renderElecPieces();calcElec();}
@@ -4634,6 +4688,303 @@ function toggleCfgExtSection(radio){
     genererFichesExtraction(nb, 'cfg-ext-fiches');
   } else {
     section.style.display = 'none';
+  }
+}
+
+
+// ══════════════════════════════════════════════════════════════
+// PAGE PHOTOS & VIDÉOS — CHECKLIST INTELLIGENTE
+// ══════════════════════════════════════════════════════════════
+
+function genererChecklistPhotos(){
+  const container = document.getElementById('photos-checklist-content');
+  if(!container) return;
+
+  const ids  = id => !!document.getElementById(id)?.checked;
+  const val  = id => document.getElementById(id)?.value || '';
+  const rad  = name => document.querySelector(`input[name="${name}"]:checked`)?.value || '';
+
+  // Données initialisation
+  const etatLocal     = document.querySelector('#etat-type-local .radio-card.selected');
+  const etatOnclick   = etatLocal?.getAttribute('onclick') || '';
+  const etatType      = etatOnclick.match(/selectEtatLocal\('(\w+)'/)?.[1] || 'brut';
+  const hasPieces     = (document.querySelectorAll('#pieces-existantes-list .piece-card') || []).length > 0;
+  const hasGaz        = rad('cfg-gaz') === 'oui';
+  const hasExt        = rad('cfg-ext-presence') === 'oui';
+  const nbExt         = parseInt(val('cfg-ext-nombre')) || 0;
+  const hasToiture    = rad('bat-toiture') === 'oui';
+  const hasLocalTech  = rad('bat-local-tech') === 'oui';
+  const hasEscalier   = rad('bat-escalier') === 'oui';
+  const hasStructure  = ids('tv-mur-porteur') || ids('tv-demol-porteur') || ids('tv-renforcement-struct') || ids('tv-creation-mezzanine');
+  const hasClim       = ids('tv-ue') || ids('tv-ui') || ids('tv-groupe-facade') || ids('tv-groupe-toiture');
+
+  // Pièces déclarées
+  const pieceCards = document.querySelectorAll('#pieces-existantes-list .piece-card, #pieces-existantes-list [data-piece-type]');
+  const pieces = [];
+  pieceCards.forEach(el => {
+    const type = el.querySelector('select')?.value || el.dataset?.pieceType || '';
+    const nom  = el.querySelector('.piece-name')?.textContent || type;
+    if(type) pieces.push({type, nom});
+  });
+
+  // Générer les sections HTML
+  let html = '';
+  let totalItems = 0;
+  let checkedItems = 0;
+
+  function makeSection(titre, icon, items, idPrefix){
+    let sectionHtml = `<div class="card" style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <svg width="14" height="14" fill="none" stroke="var(--primary)" stroke-width="1.8" viewBox="0 0 24 24">${icon}</svg>
+        <span style="font-size:12px;font-weight:700;color:var(--ink)">${titre}</span>
+        <span id="${idPrefix}-pct" style="margin-left:auto;font-size:10px;color:var(--muted)">0%</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px">`;
+
+    items.forEach((item, i) => {
+      const itemId = `${idPrefix}-${i}`;
+      const isVideo = item.video;
+      const isRequired = item.required;
+      totalItems++;
+      sectionHtml += `
+        <label style="display:flex;align-items:flex-start;gap:10px;padding:7px 10px;background:var(--surface2);border-radius:6px;cursor:pointer;font-size:12px" onclick="majProgressionPhotos()">
+          <input type="checkbox" id="${itemId}" style="margin-top:1px;flex-shrink:0" onchange="majProgressionPhotos()">
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:6px">
+              ${isVideo ? '<svg width="11" height="11" fill="none" stroke="#8B5CF6" stroke-width="2" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>' : '<svg width="11" height="11" fill="none" stroke="var(--muted)" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'}
+              <span style="font-weight:${isRequired?'600':'400'};color:var(--ink)">${item.label}</span>
+              ${isRequired ? '<span style="font-size:9px;background:#FEF2F2;color:var(--danger);padding:1px 5px;border-radius:4px;font-weight:600">OBLIGATOIRE</span>' : ''}
+            </div>
+            ${item.consigne ? `<div style="font-size:10px;color:var(--muted);margin-top:2px">${item.consigne}</div>` : ''}
+          </div>
+          <input type="text" placeholder="Annotation..." onclick="event.stopPropagation()" style="font-size:10px;border:1px solid var(--border);border-radius:4px;padding:2px 6px;width:140px;color:var(--ink);background:white;flex-shrink:0">
+        </label>`;
+    });
+
+    sectionHtml += `</div></div>`;
+    return sectionHtml;
+  }
+
+  // ── MÉDIAS GÉNÉRAUX ──────────────────────────────────────────
+  html += makeSection('Médias généraux du local',
+    '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',
+    [
+      {label:'Vidéo complète du local', video:true, required:true, consigne:'Depuis l\'entrée jusqu\'au fond — 30s à 3 min'},
+      {label:'Façade complète', required:true},
+      {label:'Enseigne existante'},
+      {label:'Vitrine'},
+      {label:'Entrée principale', required:true},
+      {label:'Vue générale intérieure', required:true},
+      {label:'Vue vers le fond du local', required:true},
+      {label:'Sol général', required:true},
+      {label:'Plafond général', required:true},
+      {label:'Tableau électrique principal', required:true},
+      {label:'Compteur électrique', required:true},
+    ], 'ph-general');
+
+  // ── PIÈCES ───────────────────────────────────────────────────
+  if(pieces.length > 0){
+    pieces.forEach((piece, pi) => {
+      const type = piece.type?.toLowerCase() || '';
+      const isCuisine   = type.includes('cuisine');
+      const isSanit     = type.includes('wc') || type.includes('sanit') || type.includes('toilette');
+      const items = [
+        {label:`Vidéo ${piece.nom}`, video:true, required:true},
+        {label:'Vue générale n°1', required:true},
+        {label:'Vue générale n°2'},
+        {label:'Sol', required:true},
+        {label:'Plafond', required:true},
+        {label:'Mur principal'},
+        {label:'Mur secondaire'},
+        ...(isCuisine ? [
+          {label:'Arrivées d\'eau', required:true},
+          {label:'Évacuations', required:true},
+          {label:'Arrivée gaz'},
+          {label:'Extraction', required:true},
+          {label:'Équipements existants'},
+        ] : []),
+        ...(isSanit ? [
+          {label:'WC'},
+          {label:'Lavabos'},
+          {label:'Ventilation'},
+          {label:'Évacuations'},
+          {label:'Accessibilité PMR'},
+        ] : []),
+        {label:'Réseaux visibles'},
+        {label:'Particularités'},
+      ];
+      html += makeSection(`Pièce — ${piece.nom}`,
+        '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+        items, `ph-piece-${pi}`);
+    });
+  } else if(etatType === 'brut'){
+    html += makeSection('Local brut béton — Photos obligatoires',
+      '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>',
+      [
+        {label:'Vidéo générale du local', video:true, required:true},
+        {label:'Angle n°1', required:true},
+        {label:'Angle n°2', required:true},
+        {label:'Angle n°3', required:true},
+        {label:'Angle n°4', required:true},
+        {label:'Sol', required:true},
+        {label:'Plafond', required:true},
+        {label:'Façade', required:true},
+        {label:'Réseaux en attente'},
+        {label:'Gaines techniques'},
+        {label:'Colonnes techniques'},
+        {label:'Poteaux'},
+        {label:'Poutres'},
+        {label:'Trémies'},
+        {label:'Escaliers'},
+      ], 'ph-brut');
+  }
+
+  // ── TECHNIQUE — EXTRACTIONS ──────────────────────────────────
+  if(hasExt && nbExt > 0){
+    for(let i = 1; i <= nbExt; i++){
+      html += makeSection(`Extraction n°${i}`,
+        '<path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1114 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/>',
+        [
+          {label:'Départ extraction', required:true},
+          {label:'Conduit visible', required:true},
+          {label:'Coudes visibles'},
+          {label:'Traversée technique'},
+          {label:'Débouché toiture'},
+          {label:'Débouché façade'},
+          {label:'Plaque signalétique'},
+        ], `ph-ext-${i}`);
+    }
+  }
+
+  // ── GAZ ──────────────────────────────────────────────────────
+  if(hasGaz){
+    html += makeSection('Gaz',
+      '<path d="M12 2c-4 4-4 8 0 10s4 6 0 10"/>',
+      [
+        {label:'Compteur gaz', required:true},
+        {label:'Arrivée gaz', required:true},
+        {label:'Détendeur'},
+        {label:'Plaque signalétique'},
+      ], 'ph-gaz');
+  }
+
+  // ── CLIMATISATION ────────────────────────────────────────────
+  if(hasClim){
+    html += makeSection('Climatisation',
+      '<path d="M17.7 7.7a2.5 2.5 0 111.8 4.3H2M9.6 4.6A2 2 0 1111 8H2M15.2 19.2a2.5 2.5 0 10-2.1-4.2H2"/>',
+      [
+        {label:'Unités intérieures', required:true},
+        {label:'Unités extérieures', required:true},
+        {label:'Plaques signalétiques'},
+        {label:'Passage frigorifique'},
+      ], 'ph-clim');
+  }
+
+  // ── TOITURE ──────────────────────────────────────────────────
+  if(hasToiture){
+    html += makeSection('Toiture',
+      '<path d="M3 9l9-7 9 7M5 8v13h14V8"/>',
+      [
+        {label:'Vidéo toiture', video:true, required:true},
+        {label:'Vue générale toiture', required:true},
+        {label:'Sorties extraction'},
+        {label:'Groupes extérieurs existants'},
+        {label:'Emplacements disponibles'},
+        {label:'Réservations techniques'},
+      ], 'ph-toiture');
+  }
+
+  // ── LOCAL TECHNIQUE ──────────────────────────────────────────
+  if(hasLocalTech){
+    html += makeSection('Local technique',
+      '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15"/>',
+      [
+        {label:'Vidéo local technique', video:true, required:true},
+        {label:'Vue générale', required:true},
+        {label:'Colonnes techniques'},
+        {label:'Gaines'},
+        {label:'Tableau électrique'},
+        {label:'Réseaux plomberie'},
+        {label:'Réseaux chauffage'},
+        {label:'Réseaux ventilation'},
+      ], 'ph-local-tech');
+  }
+
+  // ── ESCALIERS ────────────────────────────────────────────────
+  if(hasEscalier){
+    html += makeSection('Escaliers',
+      '<polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>',
+      [
+        {label:'Vue générale', required:true},
+        {label:'Départ escalier', required:true},
+        {label:'Arrivée escalier', required:true},
+        {label:'Garde-corps'},
+        {label:'Structure'},
+      ], 'ph-escalier');
+  }
+
+  // ── STRUCTURE ────────────────────────────────────────────────
+  if(hasStructure){
+    html += makeSection('Structure & Ouvrages porteurs',
+      '<rect x="2" y="3" width="6" height="18"/><path d="M8 7h10M8 12h8M8 17h6M18 7v10"/>',
+      [
+        {label:'Poteaux'},
+        {label:'Poutres'},
+        {label:'Murs porteurs', required:true},
+        {label:'Trémies'},
+        {label:'Mezzanine existante'},
+        {label:'Zones de renforcement'},
+      ], 'ph-structure');
+  }
+
+  container.innerHTML = html;
+  majProgressionPhotos();
+}
+
+function majProgressionPhotos(){
+  const all     = document.querySelectorAll('#photos-checklist-content input[type="checkbox"]');
+  const checked = document.querySelectorAll('#photos-checklist-content input[type="checkbox"]:checked');
+  const allV    = document.querySelectorAll('#photos-checklist-content input[type="checkbox"]');
+  
+  // Séparer photos et vidéos (labels avec icône vidéo)
+  let totalPh=0, checkedPh=0, totalVid=0, checkedVid=0;
+  all.forEach(cb => {
+    const label = cb.closest('label');
+    const isVid = label?.innerHTML.includes('#8B5CF6');
+    if(isVid){ totalVid++; if(cb.checked) checkedVid++; }
+    else     { totalPh++;  if(cb.checked) checkedPh++;  }
+  });
+
+  const pctPh  = totalPh  > 0 ? Math.round(checkedPh /totalPh *100)  : 0;
+  const pctVid = totalVid > 0 ? Math.round(checkedVid/totalVid*100) : 0;
+  const pctGlob = all.length > 0 ? Math.round(checked.length/all.length*100) : 0;
+
+  const set = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val+'%'; };
+  const bar = (id, val) => { const el=document.getElementById(id); if(el) el.style.width=val+'%'; };
+
+  set('photos-pct-photos', pctPh); bar('photos-bar-photos', pctPh);
+  set('photos-pct-videos', pctVid); bar('photos-bar-videos', pctVid);
+  set('photos-pct-global', pctGlob); bar('photos-bar-global', pctGlob);
+
+  // Éléments manquants (obligatoires non cochés)
+  const manquants = [];
+  document.querySelectorAll('#photos-checklist-content input[type="checkbox"]:not(:checked)').forEach(cb => {
+    const label = cb.closest('label');
+    if(label?.innerHTML.includes('OBLIGATOIRE')){
+      const nom = label.querySelector('span[style*="font-weight"]')?.textContent?.trim();
+      if(nom) manquants.push(nom);
+    }
+  });
+
+  const manqEl = document.getElementById('photos-manquants');
+  const manqList = document.getElementById('photos-manquants-list');
+  if(manqEl && manqList){
+    if(manquants.length > 0){
+      manqEl.style.display = 'block';
+      manqList.textContent = manquants.slice(0,8).join(' · ') + (manquants.length>8 ? ` +${manquants.length-8} autres` : '');
+    } else {
+      manqEl.style.display = 'none';
+    }
   }
 }
 
