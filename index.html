@@ -1478,37 +1478,23 @@ input[type=number]{-moz-appearance:textfield}
 <div style="font-size:12px;color:var(--muted);margin-bottom:10px">Anticiper les installations temporaires pour le préchiffrage des frais de chantier</div>
 
         <!-- Eau / Élec / Sanitaires -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px">
-          <div class="form-group">
-            <label class="form-label">Eau</label>
-            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <div class="init-bool-card " onclick="toggleBoolCard(this,'prov-eau','site');toggleVeoliaInfo()"><input type="radio" name="prov-eau" value="site"  style="display:none">Disponible sur site</div>
-              <div class="init-bool-card " onclick="toggleBoolCard(this,'prov-eau','souscomptage');toggleVeoliaInfo()"><input type="radio" name="prov-eau" value="souscomptage"  style="display:none">Sous-comptage</div>
-              <div class="init-bool-card " onclick="toggleBoolCard(this,'prov-eau','raccord');toggleVeoliaInfo()"><input type="radio" name="prov-eau" value="raccord"  style="display:none">Raccordement provisoire Veolia</div>
-              <div id="prov-eau-veolia-info" style="display:none;margin-top:6px;padding:8px 10px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:7px;font-size:11px;color:#1E40AF;line-height:1.6">
-                <strong>À la charge du client :</strong> La demande de branchement provisoire eau doit être effectuée directement par le client auprès de Veolia (ou du distributeur d'eau local selon la commune). Le client doit contacter son agence Veolia pour une demande de branchement chantier.<br><br>
-                <span style="color:#1D4ED8">Délai moyen : 2 à 4 semaines · Coût : 500 à 1 500 € selon distance au réseau · À anticiper avant démarrage du chantier</span>
-              </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:10px">
+          <div>
+            <span class="prov-label">Eau</span>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div class="init-bool-card " onclick="toggleBoolCard(this,'prov-eau','site');toggleVeoliaInfo()"><input type="radio" name="prov-eau" value="site"  style="display:none">Disponible sur site</div><div class="init-bool-card " onclick="toggleBoolCard(this,'prov-eau','souscomptage');toggleVeoliaInfo()"><input type="radio" name="prov-eau" value="souscomptage"  style="display:none">Sous-comptage</div><div class="init-bool-card " onclick="toggleBoolCard(this,'prov-eau','raccord');toggleVeoliaInfo()"><input type="radio" name="prov-eau" value="raccord"  style="display:none">Raccordement provisoire Veolia</div>
             </div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Électricité</label>
-            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <div class="init-bool-card " onclick="toggleBoolCard(this,'prov-elec','site');toggleEnedisInfo()"><input type="radio" name="prov-elec" value="site"  style="display:none">Disponible sur site</div>
-              <div class="init-bool-card " onclick="toggleBoolCard(this,'prov-elec','souscomptage');toggleEnedisInfo()"><input type="radio" name="prov-elec" value="souscomptage"  style="display:none">Sous-comptage</div>
-              <div class="init-bool-card " onclick="toggleBoolCard(this,'prov-elec','raccord');toggleEnedisInfo()"><input type="radio" name="prov-elec" value="raccord"  style="display:none">Raccordement provisoire Enedis</div>
-              <div id="prov-elec-enedis-info" style="display:none;margin-top:6px;padding:8px 10px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:7px;font-size:11px;color:var(--warn);line-height:1.6">
-                <strong>Puissance recommandée pour un chantier : 9 kVA</strong> (alimentation outillage, éclairage, compresseur, chargeurs...)<br><br>
-                <strong>À la charge du client :</strong> La demande de raccordement provisoire doit être effectuée par le client auprès de son fournisseur d'énergie (EDF ou autre fournisseur). C'est le fournisseur qui mandate Enedis pour réaliser le raccordement — le client ne contacte pas Enedis directement.<br><br>
-                <span style="color:var(--warn)">Délai moyen : 3 à 6 semaines · Coût : 1 500 à 4 000 € selon puissance · À anticiper avant démarrage du chantier</span>
-              </div>
+          <div>
+            <span class="prov-label">Électricité</span>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div class="init-bool-card " onclick="toggleBoolCard(this,'prov-elec','site');toggleEnedisInfo()"><input type="radio" name="prov-elec" value="site"  style="display:none">Disponible sur site</div><div class="init-bool-card " onclick="toggleBoolCard(this,'prov-elec','souscomptage');toggleEnedisInfo()"><input type="radio" name="prov-elec" value="souscomptage"  style="display:none">Sous-comptage</div><div class="init-bool-card " onclick="toggleBoolCard(this,'prov-elec','raccord');toggleEnedisInfo()"><input type="radio" name="prov-elec" value="raccord"  style="display:none">Raccordement provisoire Enedis</div>
             </div>
           </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Sanitaires de chantier</label>
-          <div class="init-bool-group"><div class="init-bool-card " onclick="toggleBoolCard(this,'prov-sanit','existants')"><input type="radio" name="prov-sanit" value="existants"  style="display:none">Toilettes existantes utilisables</div><div class="init-bool-card " onclick="toggleBoolCard(this,'prov-sanit','provisoires')"><input type="radio" name="prov-sanit" value="provisoires"  style="display:none">Toilettes provisoires à prévoir</div><div class="init-bool-card " onclick="toggleBoolCard(this,'prov-sanit','base-vie')"><input type="radio" name="prov-sanit" value="base-vie"  style="display:none">Base vie complète à prévoir</div></div>
+          <div>
+            <span class="prov-label">Sanitaires</span>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div class="init-bool-card " onclick="toggleBoolCard(this,'prl-group"><div class="init-bool-card " onclick="toggleBoolCard(this,'prov-sanit','existants')"><input type="radio" name="prov-sanit" value="existants"  style="display:none">Toilettes existantes utilisables</div><div class="init-bool-card " onclick="toggleBoolCard(this,'prov-sanit','provisoires')"><input type="radio" name="prov-sanit" value="provisoires"  style="display:none">Toilettes provisoires à prévoir</div><div class="init-bool-card " onclick="toggleBoolCard(this,'prov-sanit','base-vie')"><input type="radio" name="prov-sanit" value="base-vie"  style="display:none">Base vie complète à prévoir</div></div>
         </div>
 
 
@@ -2287,6 +2273,8 @@ input[type=number]{-moz-appearance:textfield}
 </div><!-- /col droite -->
 
   </div>
+</div>
+</div>
 </div>
 </div><!-- /init-grid -->
 </div><!-- /page-init -->
@@ -10754,6 +10742,81 @@ label{
 /* Réduire les form-group dans init */
 #page-init .form-group { margin-bottom: 10px !important; }
 #page-init .init-section-body { padding: 12px 16px !important; }
+
+
+/* ══ CHECK-ITEMS COMPACTS — style cohérent avec radio-cards ═ */
+#page-init .check-item {
+  padding: 6px 10px !important;
+  font-size: 13px !important;
+  border: 1.5px solid #E5E7EB !important;
+  border-radius: 7px !important;
+  gap: 7px !important;
+  line-height: 1.3 !important;
+  background: white !important;
+  color: #374151 !important;
+  transition: all .12s !important;
+}
+#page-init .check-item:hover {
+  border-color: #A5B4FC !important;
+  background: #F5F3FF !important;
+}
+#page-init .check-item.checked,
+#page-init .check-item input:checked ~ * {
+  border-color: #6366F1 !important;
+  background: #EEF2FF !important;
+  color: #4338CA !important;
+}
+#page-init .check-item input[type="checkbox"] {
+  width: 13px !important;
+  height: 13px !important;
+  flex-shrink: 0;
+  accent-color: #6366F1;
+}
+#page-init .check-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 5px !important;
+  margin-bottom: 10px;
+}
+
+/* Alimentation : init-bool-card en flex-wrap compact */
+#page-init .init-bool-card {
+  padding: 6px 12px !important;
+  font-size: 13px !important;
+  border-radius: 7px !important;
+  white-space: nowrap;
+}
+
+/* Colonnes alimentation : flex-wrap au lieu de colonne */
+#page-init .prov-col {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+/* Titres Eau / Électricité / Sanitaires → discrets */
+#page-init .prov-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: #9CA3AF;
+  margin-bottom: 6px;
+  margin-top: 10px;
+  display: block;
+}
+
+/* form-section-title dans init */
+#page-init .form-section-title {
+  margin-top: 12px !important;
+  margin-bottom: 8px !important;
+}
+
+/* Réduire l'espace des subsection-titles */
+#page-init .init-subsection-title {
+  margin-top: 14px !important;
+  margin-bottom: 8px !important;
+}
 
 </style>
 </head>
