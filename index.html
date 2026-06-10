@@ -1431,48 +1431,188 @@ input[type=number]{-moz-appearance:textfield}
           </div>
         </div>
 
-        <!-- CONFIGURATION BÂTIMENT -->
-        <div class="form-section-title" style="margin-top:16px;margin-bottom:10px">Configuration du bâtiment</div>
-        <div class="form-row" style="margin-bottom:12px">
-          <div class="form-group">
-            <label class="form-label">Nombre de niveaux</label>
-            <select id="bat-niveaux" class="form-select">
-              <option value="rdc">RDC uniquement</option>
-              <option value="rdc1">RDC + 1</option>
-              <option value="rdc2">RDC + 2</option>
-              <option value="rdcn">RDC + plusieurs étages</option>
-            </select>
+        <!-- CONFIGURATION DU LOCAL -->
+        <div class="form-section-title" style="margin-top:16px;margin-bottom:4px">Configuration du local</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:12px">Réseaux et équipements techniques existants</div>
+
+        <!-- Extraction -->
+        <div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px">
+          <div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:6px">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1114 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/></svg>
+            Extraction
           </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
-          <div class="form-group">
-            <label class="form-label">Présence d'un étage</label>
-            <div style="display:flex;gap:12px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-etage" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-etage" value="non" checked> Non</label>
+          <div class="form-group" style="margin-bottom:10px">
+            <label class="form-label">Présence d'une extraction</label>
+            <div style="display:flex;gap:14px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="oui" onchange="toggleExtSection(this)"> Oui</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-ext-presence" value="non" checked onchange="toggleExtSection(this)"> Non</label>
             </div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Présence d'une mezzanine</label>
-            <div style="display:flex;gap:12px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-mezzanine" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-mezzanine" value="non" checked> Non</label>
+          <div id="cfg-ext-section" style="display:none">
+            <div class="form-group" style="margin-bottom:10px">
+              <label class="form-label">Nombre d'extractions</label>
+              <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
+                <input type="number" id="cfg-ext-nombre" class="form-input" value="1" min="1" max="10" style="max-width:80px;font-size:16px" oninput="genererFichesExtraction(this.value,'cfg-ext-fiches')">
+                <span style="font-size:12px;color:var(--muted)">extraction(s)</span>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="form-group" style="margin-bottom:12px">
-          <label class="form-label">Type de structure principale</label>
-          <div class="check-grid" style="margin-top:6px">
-            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="bat-struct-beton"> Béton</label>
-            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="bat-struct-metal"> Métallique</label>
-            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="bat-struct-bois"> Bois</label>
-            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="bat-struct-mixte"> Mixte</label>
-            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="bat-struct-inconnue"> Inconnue</label>
+            <div id="cfg-ext-fiches" style="display:flex;flex-direction:column;gap:10px"></div>
           </div>
         </div>
 
-        <!-- ESCALIERS EXISTANTS -->
-        <div class="form-section-title" style="margin-top:16px;margin-bottom:10px">Escaliers existants</div>
+        <!-- Gaz -->
+        <div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px">
+          <div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:6px">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2c-4 4-4 8 0 10s4 6 0 10"/><path d="M8 6c-2 3-2 6 0 8s2 5 0 8"/><path d="M16 6c2 3 2 6 0 8s-2 5 0 8"/></svg>
+            Gaz
+          </div>
+          <div class="form-group" style="margin-bottom:10px">
+            <label class="form-label">Présence d'une arrivée gaz</label>
+            <div style="display:flex;gap:14px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz-presence" value="oui" onchange="document.getElementById('cfg-gaz-type').style.display='block'"> Oui</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz-presence" value="non" checked onchange="document.getElementById('cfg-gaz-type').style.display='none'"> Non</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz-presence" value="inconnu" onchange="document.getElementById('cfg-gaz-type').style.display='none'"> Inconnu</label>
+            </div>
+          </div>
+          <div id="cfg-gaz-type" style="display:none">
+            <label class="form-label">Type</label>
+            <div style="display:flex;gap:14px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="naturel"> Gaz naturel</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="propane"> Propane</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-gaz-type-val" value="inconnu" checked> Inconnu</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Électricité -->
+        <div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px">
+          <div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:6px">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Électricité
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div class="form-group">
+              <label class="form-label">Puissance disponible</label>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+                <input type="number" id="cfg-elec-puissance" class="form-input" placeholder="0" style="font-size:16px">
+                <span style="font-size:12px;color:var(--muted)">kVA</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Type d'abonnement</label>
+              <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+                <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="bleu"> Tarif Bleu</label>
+                <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="jaune"> Tarif Jaune</label>
+                <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="vert"> Tarif Vert</label>
+                <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-elec-tarif" value="inconnu" checked> Inconnu</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Télécommunications -->
+        <div style="border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:16px">
+          <div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:6px">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+            Télécommunications
+          </div>
+          <label class="form-label">Présence de la fibre</label>
+          <div style="display:flex;gap:14px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-fibre" value="oui"> Oui</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-fibre" value="non"> Non</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="cfg-fibre" value="inconnu" checked> Inconnu</label>
+          </div>
+        </div>
+
+        <!-- CONFIGURATION DU BÂTIMENT -->
+        <div class="form-section-title" style="margin-top:4px;margin-bottom:4px">Configuration du bâtiment</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:12px">Contraintes générales du bâtiment</div>
+
+        <div class="form-group" style="margin-bottom:10px">
+          <label class="form-label">Type de bâtiment</label>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-type" value="immeuble" checked> Immeuble collectif</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-type" value="centre-comm"> Centre commercial</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-type" value="entrepot"> Entrepôt</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-type" value="maison"> Maison individuelle</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-type" value="industriel"> Bâtiment industriel</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-type" value="tertiaire"> Bâtiment tertiaire</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-type" value="autre"> Autre</label>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:10px">
+          <label class="form-label">Ancienneté du bâtiment</label>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-anciennete" value="ancien"> Ancien bâtiment</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-anciennete" value="recent"> Bâtiment récent</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-anciennete" value="neuf"> Bâtiment neuf</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-anciennete" value="inconnu" checked> Inconnu</label>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:10px">
+          <label class="form-label">Nombre total d'étages</label>
+          <input type="number" id="bat-nb-etages" class="form-input" placeholder="0" min="0" style="max-width:80px;font-size:16px;margin-top:6px">
+        </div>
+
+        <div class="form-group" style="margin-bottom:10px">
+          <label class="form-label">Le local est situé</label>
+          <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-localisation" value="rdc" checked> RDC</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-localisation" value="sous-sol"> Sous-sol</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-localisation" value="etage"> Étage</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-localisation" value="mezzanine"> Mezzanine</label>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+          <div class="form-group">
+            <label class="form-label">Voisins au-dessus</label>
+            <div style="display:flex;gap:12px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="oui"> Oui</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="non" checked> Non</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Voisins en dessous</label>
+            <div style="display:flex;gap:12px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="oui"> Oui</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="non" checked> Non</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Voisins mitoyens</label>
+            <div style="display:flex;gap:12px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="oui"> Oui</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="non" checked> Non</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Copropriété</label>
+            <div style="display:flex;gap:12px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-copropriete" value="oui"> Oui</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-copropriete" value="non" checked> Non</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Accès toiture</label>
+            <div style="display:flex;gap:12px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-toiture" value="oui"> Oui</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-toiture" value="non" checked> Non</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Local technique accessible</label>
+            <div style="display:flex;gap:12px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-local-tech" value="oui"> Oui</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="bat-local-tech" value="non" checked> Non</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- ESCALIERS EXISTANTS (conservé) -->
+        <div class="form-section-title" style="margin-top:12px;margin-bottom:10px">Escaliers existants</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px">
           <div class="form-group">
             <label class="form-label">Présence d'un escalier</label>
@@ -1501,34 +1641,6 @@ input[type=number]{-moz-appearance:textfield}
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="bat-esc-mixte"> Mixte</label>
           </div>
         </div>
-      </div>
-
-
-      <!-- EXTRACTIONS EXISTANTES -->
-      <div class="card" style="margin-bottom:16px">
-        <div class="card-title">Extractions existantes</div>
-        <div style="font-size:12px;color:var(--muted);margin-bottom:14px">Décrivez les extractions en place pour préparer le relevé et anticiper les travaux</div>
-
-        <div class="form-group" style="margin-bottom:14px">
-          <label class="form-label">Présence d'une extraction</label>
-          <div style="display:flex;gap:14px;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="radio" name="ext-presence" value="oui" onchange="toggleExtSection(this)"> Oui</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="radio" name="ext-presence" value="non" checked onchange="toggleExtSection(this)"> Non</label>
-          </div>
-        </div>
-
-        <div id="ext-section" style="display:none">
-          <div class="form-group" style="margin-bottom:14px">
-            <label class="form-label">Nombre d'extractions</label>
-            <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
-              <input type="number" id="ext-nombre" class="form-input" value="1" min="1" max="10" style="max-width:80px;font-size:16px" oninput="genererFichesExtraction(this.value)">
-              <span style="font-size:12px;color:var(--muted)">extraction(s)</span>
-            </div>
-          </div>
-          <div id="ext-fiches" style="display:flex;flex-direction:column;gap:12px"></div>
-        </div>
-      </div>
-
       <!-- CONTRAINTES DE CHANTIER -->
       <div class="card" style="margin-bottom:16px">
         <div class="card-title">Contraintes de chantier</div>
@@ -4169,27 +4281,26 @@ function calculerFraisProvisoires(){
 // ── EXTRACTIONS EXISTANTES ────────────────────────────────────
 
 function toggleExtSection(radio){
-  const section = document.getElementById('ext-section');
+  // Gérer les deux contextes : cfg-ext (config local) et ext (card séparée)
+  const isCfg = radio.name === 'cfg-ext-presence';
+  const sectionId = isCfg ? 'cfg-ext-section' : 'ext-section';
+  const nombreId  = isCfg ? 'cfg-ext-nombre'  : 'ext-nombre';
+  const fichesId  = isCfg ? 'cfg-ext-fiches'  : 'ext-fiches';
+  const section   = document.getElementById(sectionId);
   if(!section) return;
   if(radio.value === 'oui'){
     section.style.display = 'block';
-    genererFichesExtraction(document.getElementById('ext-nombre')?.value || 1);
+    genererFichesExtraction(document.getElementById(nombreId)?.value || 1, fichesId);
   } else {
     section.style.display = 'none';
   }
 }
 
-function genererFichesExtraction(nb){
+function genererFichesExtraction(nb, fichesId){
   nb = Math.min(Math.max(parseInt(nb)||1, 1), 10);
-  const container = document.getElementById('ext-fiches');
+  const containerId = fichesId || 'cfg-ext-fiches';
+  const container = document.getElementById(containerId);
   if(!container) return;
-
-  // Conserver les données saisies
-  const existing = {};
-  container.querySelectorAll('[data-ext-id]').forEach(el => {
-    existing[el.dataset.extId] = el;
-  });
-
   container.innerHTML = '';
   for(let i = 1; i <= nb; i++){
     container.appendChild(creerFicheExtraction(i));
