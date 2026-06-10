@@ -4359,17 +4359,11 @@ function toggleExtSection(radio){
   }
 }
 
-function genererFichesExtraction(nb){
+function genererFichesExtraction(nb, containerId){
   nb = Math.min(Math.max(parseInt(nb)||1, 1), 10);
-  const container = document.getElementById('ext-fiches');
+  const cid = containerId || 'cfg-ext-fiches';
+  const container = document.getElementById(cid);
   if(!container) return;
-
-  // Conserver les données saisies
-  const existing = {};
-  container.querySelectorAll('[data-ext-id]').forEach(el => {
-    existing[el.dataset.extId] = el;
-  });
-
   container.innerHTML = '';
   for(let i = 1; i <= nb; i++){
     container.appendChild(creerFicheExtraction(i));
@@ -4650,10 +4644,8 @@ function toggleCfgExtSection(radio){
   if(!section) return;
   if(radio.value === 'oui'){
     section.style.display = 'block';
-    genererFichesExtraction(
-      document.getElementById('cfg-ext-nombre')?.value || 1,
-      'cfg-ext-fiches'
-    );
+    const nb = document.getElementById('cfg-ext-nombre')?.value || 1;
+    genererFichesExtraction(nb, 'cfg-ext-fiches');
   } else {
     section.style.display = 'none';
   }
