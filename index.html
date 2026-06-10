@@ -87,7 +87,7 @@ input[type=number]{-moz-appearance:textfield}
   width:100%;text-align:left;transition:all .15s;
   margin-bottom:2px;position:relative;
 }
-.nav-item:hover{background:#F6F8FA;color:#0A0A0B}
+.nav-item:hover{background:var(--surface2);color:var(--ink)}
 .nav-item.active{background:#F5F4FF;color:#635BFF;font-weight:700;border-left:3px solid #635BFF}
 .nav-item.active .nav-icon{color:var(--primary)}
 .nav-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0;color:var(--muted)}
@@ -145,7 +145,7 @@ input[type=number]{-moz-appearance:textfield}
 .btn-sm{padding:6px 12px;font-size:12px;border-radius:var(--radius-sm)}
 .btn-lg{padding:12px 24px;font-size:14px;border-radius:var(--radius-lg)}
 .btn-primary{background:var(--primary);color:white;border-color:var(--primary)}
-.btn-primary:hover{background:#4F46E5;border-color:#4F46E5;box-shadow:0 4px 14px rgba(99,91,255,.4)}
+.btn-primary:hover{background:#4F46E5;border-color:var(--primary-dark);box-shadow:0 4px 14px rgba(99,91,255,.4)}
 .btn-secondary{background:white;color:var(--ink2);border-color:var(--border2)}
 .btn-secondary:hover{background:var(--bg);border-color:var(--border2)}
 .btn-ghost{background:none;color:var(--mid);border-color:transparent}
@@ -157,7 +157,7 @@ input[type=number]{-moz-appearance:textfield}
 
 /* ═══ PAGE HEADER ═══ */
 .page-header{margin-bottom:28px}
-.page-header h2{font-size:24px;font-weight:800;color:#0A0A0B;letter-spacing:-.6px;margin-bottom:6px;line-height:1.2}
+.page-header h2{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.6px;margin-bottom:6px;line-height:1.2}
 .page-header p{font-size:13px;color:var(--mid);line-height:1.6}
 .page-header-actions{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
 
@@ -166,13 +166,13 @@ input[type=number]{-moz-appearance:textfield}
 #page-init .radio-card{padding:8px 10px!important}
 #page-init .radio-cards{gap:5px!important}
 
-.init-section{background:#fff;border:1px solid #E8EAED;border-radius:10px;margin-bottom:8px;overflow:hidden}
+.init-section{background:#fff;border:1px solid #E8EAED;border-radius:var(--radius-lg);margin-bottom:8px;overflow:hidden}
 .init-section-header{
   display:flex;align-items:center;justify-content:space-between;
   padding:12px 16px;cursor:pointer;user-select:none;
   background:#fff;transition:background .15s
 }
-.init-section-header:hover{background:#F9FAFB}
+.init-section-header:hover{background:var(--surface2)}
 .init-section-title{
   display:flex;align-items:center;gap:10px;
   font-size:12px;font-weight:700;color:var(--ink);letter-spacing:-.01em
@@ -180,25 +180,21 @@ input[type=number]{-moz-appearance:textfield}
 .init-section-title svg{color:var(--primary);flex-shrink:0}
 .init-section-badge{
   font-size:10px;background:var(--primary);color:#fff;
-  padding:2px 7px;border-radius:10px;display:none;font-weight:600
+  padding:2px 7px;border-radius:var(--radius-lg);display:none;font-weight:600
 }
 .init-section-arrow{transition:transform .2s;flex-shrink:0;color:var(--muted)}
 .init-section-body{padding:0 16px 14px;border-top:1px solid #F3F4F6}
 .init-section-body.collapsed{display:none}
 /* ══ PAGE INIT — COMPACT ══ */
-#page-init .card{padding:14px 16px!important;margin-bottom:8px!important;border-radius:8px!important}
 #page-init .card-title{font-size:10px!important;margin-bottom:10px!important;letter-spacing:.08em!important}
 #page-init .form-group{margin-bottom:8px!important}
-#page-init .form-label{font-size:11px!important;margin-bottom:3px!important;font-weight:600!important}
-#page-init .form-input{padding:7px 10px!important;font-size:13px!important}
-#page-init .form-select{height:34px!important;font-size:13px!important;padding:0 10px!important}
 #page-init .check-item{font-size:12px!important;padding:5px 8px!important}
 #page-init .form-row{gap:10px!important;margin-bottom:8px!important}
 #page-init .check-grid{gap:5px!important;grid-template-columns:1fr 1fr!important}
 #page-init .form-section-title{font-size:10px!important;margin-bottom:6px!important;margin-top:10px!important}
 .card{
   background:#FFFFFF;border:1px solid #E8EAED;
-  border-radius:10px;padding:14px;
+  border-radius:var(--radius-lg);padding:14px;
   box-shadow:0 1px 3px rgba(0,0,0,.04);
 }
 .card-sm{padding:16px;border-radius:var(--radius)}
@@ -287,7 +283,7 @@ input[type=number]{-moz-appearance:textfield}
 .kpi-val-sm{font-size:18px}
 .kpi-label{font-size:11px;color:var(--muted);font-weight:500;margin-bottom:6px}
 .kpi-sub{font-size:11px;color:var(--mid);margin-top:4px}
-.kpi-trend{font-size:11px;font-weight:600;margin-top:6px;padding:2px 8px;border-radius:10px;display:inline-block}
+.kpi-trend{font-size:11px;font-weight:600;margin-top:6px;padding:2px 8px;border-radius:var(--radius-lg);display:inline-block}
 .kpi-trend.good{background:var(--success-light);color:var(--success)}
 .kpi-trend.warn{background:var(--warn-light);color:var(--warn)}
 .kpi-trend.danger{background:var(--danger-light);color:var(--danger)}
@@ -338,7 +334,7 @@ input[type=number]{-moz-appearance:textfield}
 .piece-header{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border);background:var(--surface)}
 .piece-header:hover{background:var(--bg)}
 .piece-header-left{flex:1;display:flex;align-items:center;gap:10px}
-.piece-icon{width:36px;height:36px;border-radius:10px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.piece-icon{width:36px;height:36px;border-radius:var(--radius-lg);background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
 .piece-name{font-size:14px;font-weight:600;color:var(--ink)}
 .piece-meta{font-size:11px;color:var(--mid);margin-top:2px}
 .piece-actions{display:flex;gap:6px}
@@ -370,14 +366,14 @@ input[type=number]{-moz-appearance:textfield}
 /* ═══ LOTS TABLE ═══ */
 .lots-table{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px}
 .lots-header{display:grid;grid-template-columns:1fr 50px 120px;padding:10px 18px;background:var(--ink)}
-.lots-header span{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8}
+.lots-header span{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .lots-header span:last-child,.lots-header span:nth-child(2){text-align:right}
 .lot-row{display:grid;grid-template-columns:1fr 50px 120px;padding:12px 18px;border-bottom:1px solid var(--border);align-items:start;transition:background .1s}
 .lot-row:last-child{border-bottom:none}
 .lot-row:hover{background:var(--bg)}
 .lot-name{font-size:12px;font-weight:600;color:var(--ink)}
 .lot-detail{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.5}
-.lot-alert{display:inline-block;margin-top:4px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px}
+.lot-alert{display:inline-block;margin-top:4px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:var(--radius-sm)}
 .lot-alert.warn{background:var(--warn-light);color:var(--warn);border:1px solid #FDE68A}
 .lot-alert.erp{background:var(--danger-light);color:var(--danger);border:1px solid #FCA5A5}
 .lot-pct{text-align:right;font-size:12px;font-weight:700;color:var(--primary-dark);padding-top:1px}
@@ -399,7 +395,7 @@ input[type=number]{-moz-appearance:textfield}
 
 /* ═══ MOBILE ═══ */
 .mobile-topbar{display:none;position:fixed;top:0;left:0;right:0;width:100%;background:#FFFFFF;border-bottom:1px solid var(--border);padding:0 16px;height:54px;z-index:500;align-items:center;justify-content:space-between;box-sizing:border-box}
-.hamburger{background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:var(--ink)}
+.hamburger{background:none;border:none;cursor:pointer;padding:6px;border-radius:var(--radius);color:var(--ink)}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:199}
 .fab{display:none;position:fixed;bottom:20px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--primary);color:white;font-size:24px;border:none;cursor:pointer;box-shadow:var(--shadow-lg);z-index:150;align-items:center;justify-content:center}
 .fab-left{right:auto;left:20px}
@@ -597,7 +593,7 @@ input[type=number]{-moz-appearance:textfield}
     </svg>
   </button>
   <!-- Logo centré absolument — clique → Initialisation -->
-  <button onclick="showPage('init')" style="position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:8px">
+  <button onclick="showPage('init')" style="position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:var(--radius)">
     <div style="width:28px;height:28px;background:var(--ink);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
       <span style="font-size:13px;font-weight:900;color:white;font-family:var(--font)">L</span>
     </div>
@@ -615,16 +611,16 @@ input[type=number]{-moz-appearance:textfield}
         <div id="mobile-menu-entreprise" style="font-size:11px;color:var(--muted);margin-top:2px">—</div>
       </div>
       <div style="padding:6px">
-        <button onclick="showPage('compte');toggleMobileMenu()" style="width:100%;text-align:left;padding:12px 14px;border:none;background:none;cursor:pointer;border-radius:8px;font-size:14px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)">
+        <button onclick="showPage('compte');toggleMobileMenu()" style="width:100%;text-align:left;padding:12px 14px;border:none;background:none;cursor:pointer;border-radius:var(--radius);font-size:14px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)">
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           Mon compte
         </button>
-        <button onclick="showPage('compte');document.getElementById('tab-entreprise').click();toggleMobileMenu()" style="width:100%;text-align:left;padding:12px 14px;border:none;background:none;cursor:pointer;border-radius:8px;font-size:14px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)">
+        <button onclick="showPage('compte');document.getElementById('tab-entreprise').click();toggleMobileMenu()" style="width:100%;text-align:left;padding:12px 14px;border:none;background:none;cursor:pointer;border-radius:var(--radius);font-size:14px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)">
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
           Mon entreprise
         </button>
         <div style="height:1px;background:var(--border);margin:4px 0"></div>
-        <button id="mobile-btn-deconnexion" onclick="deconnexionFirebase();toggleMobileMenu()" style="width:100%;text-align:left;padding:12px 14px;border:none;background:none;cursor:pointer;border-radius:8px;font-size:14px;color:var(--danger);display:flex;align-items:center;gap:10px;font-family:var(--font)">
+        <button id="mobile-btn-deconnexion" onclick="deconnexionFirebase();toggleMobileMenu()" style="width:100%;text-align:left;padding:12px 14px;border:none;background:none;cursor:pointer;border-radius:var(--radius);font-size:14px;color:var(--danger);display:flex;align-items:center;gap:10px;font-family:var(--font)">
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
           Se déconnecter
         </button>
@@ -638,7 +634,7 @@ input[type=number]{-moz-appearance:textfield}
 <aside class="sidebar" id="sidebar" style="display:none">
   <div class="sidebar-header" style="display:flex;align-items:center;justify-content:space-between">
     <button onclick="showPage('init')" style="display:flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;padding:0;text-align:left;transition:opacity .15s" onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='1'">
-      <div style="width:32px;height:32px;background:var(--ink);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <div style="width:32px;height:32px;background:var(--ink);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;flex-shrink:0">
         <span style="font-size:14px;font-weight:900;color:white;font-family:var(--font)">L</span>
       </div>
       <div>
@@ -647,7 +643,7 @@ input[type=number]{-moz-appearance:textfield}
       </div>
     </button>
     <!-- Bouton fermer sidebar — mobile uniquement -->
-    <button onclick="toggleMobileSidebar()" class="sidebar-close-btn" style="display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:var(--muted);font-size:20px;line-height:1" style="background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:var(--muted);font-size:20px;line-height:1">✕</button>
+    <button onclick="toggleMobileSidebar()" class="sidebar-close-btn" style="display:none;background:none;border:none;cursor:pointer;padding:6px;border-radius:var(--radius);color:var(--muted);font-size:20px;line-height:1" style="background:none;border:none;cursor:pointer;padding:6px;border-radius:var(--radius);color:var(--muted);font-size:20px;line-height:1">✕</button>
   </div>
 
   <div class="nav-group">
@@ -776,9 +772,9 @@ input[type=number]{-moz-appearance:textfield}
     <!-- Card -->
     <div style="background:white;border-radius:var(--radius-lg);padding:32px;box-shadow:var(--shadow-lg);border:1px solid var(--border)">
       <!-- Tabs connexion/inscription -->
-      <div style="display:flex;gap:0;margin-bottom:24px;background:var(--bg);border-radius:8px;padding:4px">
-        <button id="login-tab-connexion" onclick="switchLoginTab('connexion')" style="flex:1;padding:8px;border:none;background:white;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink);box-shadow:var(--shadow)">Se connecter</button>
-        <button id="login-tab-inscription" onclick="switchLoginTab('inscription')" style="flex:1;padding:8px;border:none;background:none;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;color:var(--muted)">Créer un compte</button>
+      <div style="display:flex;gap:0;margin-bottom:24px;background:var(--bg);border-radius:var(--radius);padding:4px">
+        <button id="login-tab-connexion" onclick="switchLoginTab('connexion')" style="flex:1;padding:8px;border:none;background:white;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;color:var(--ink);box-shadow:var(--shadow)">Se connecter</button>
+        <button id="login-tab-inscription" onclick="switchLoginTab('inscription')" style="flex:1;padding:8px;border:none;background:none;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;color:var(--muted)">Créer un compte</button>
       </div>
 
       <!-- Formulaire connexion -->
@@ -809,7 +805,7 @@ input[type=number]{-moz-appearance:textfield}
               oninput="this.value=this.value.replace(/[^0-9]/g,'');if(this.value.length===9)rechercherSirenInscription(this.value)">
             <div id="reg-siren-status" style="font-size:16px;flex-shrink:0;width:20px"></div>
           </div>
-          <div id="reg-siren-info" style="display:none;margin-top:6px;padding:8px 12px;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;font-size:11px;line-height:1.6"></div>
+          <div id="reg-siren-info" style="display:none;margin-top:6px;padding:8px 12px;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:var(--radius);font-size:11px;line-height:1.6"></div>
         </div>
         <div id="reg-fields-manuel" style="margin-bottom:0">
           <div class="form-row" style="margin-bottom:14px">
@@ -841,7 +837,7 @@ input[type=number]{-moz-appearance:textfield}
       </div>
 
       <!-- Message erreur -->
-      <div id="login-error" style="display:none;margin-top:14px;padding:10px 14px;background:var(--danger-light);border:1px solid #FCA5A5;border-radius:8px;font-size:12px;color:var(--danger)"></div>
+      <div id="login-error" style="display:none;margin-top:14px;padding:10px 14px;background:var(--danger-light);border:1px solid #FCA5A5;border-radius:var(--radius);font-size:12px;color:var(--danger)"></div>
     </div>
 
     <div style="text-align:center;margin-top:16px;font-size:11px;color:var(--muted)">
@@ -884,15 +880,15 @@ input[type=number]{-moz-appearance:textfield}
         <div id="profil-menu-entreprise" style="font-size:11px;color:var(--muted);margin-top:2px">Non configuré</div>
       </div>
       <div style="padding:6px">
-        <button onclick="showPage('compte');toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
+        <button onclick="showPage('compte');toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:var(--radius-sm);font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           Mon compte
         </button>
-        <button onclick="showPage('compte');document.getElementById('tab-entreprise').click();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
+        <button onclick="showPage('compte');document.getElementById('tab-entreprise').click();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:var(--radius-sm);font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
           Mon entreprise
         </button>
-        <button onclick="showPage('compte');document.getElementById('tab-preferences').click();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
+        <button onclick="showPage('compte');document.getElementById('tab-preferences').click();toggleProfilMenu()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:var(--radius-sm);font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='none'">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
           Préférences
         </button>
@@ -1029,18 +1025,18 @@ input[type=number]{-moz-appearance:textfield}
                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8" stroke-dasharray="2 2"/></svg>
               </button>
             </div>
-            <div id="adresse-suggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:white;border:1.5px solid var(--primary);border-radius:8px;box-shadow:var(--shadow-lg);z-index:300;max-height:220px;overflow-y:auto;margin-top:4px"></div>
+            <div id="adresse-suggestions" style="display:none;position:absolute;top:100%;left:0;right:0;background:white;border:1.5px solid var(--primary);border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:300;max-height:220px;overflow-y:auto;margin-top:4px"></div>
           </div>
           <div id="gps-coords" style="display:none;font-size:10px;color:var(--muted);margin-top:3px"></div>
         </div>
 
         <!-- Mini carte -->
-        <div id="satellite-container" style="display:none;border-radius:10px;overflow:hidden;margin-bottom:14px;border:1.5px solid var(--border);box-shadow:var(--shadow)">
+        <div id="satellite-container" style="display:none;border-radius:var(--radius-lg);overflow:hidden;margin-bottom:14px;border:1.5px solid var(--border);box-shadow:var(--shadow)">
           <div style="position:relative;height:220px">
             <iframe id="satellite-frame" style="width:100%;height:100%;border:none" loading="lazy"></iframe>
             <div id="satellite-frame-loading" style="position:absolute;inset:0;background:#0A1628;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px">
               <svg width="24" height="24" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24" style="opacity:.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
-              <div style="font-size:12px;color:#98A2B3">Chargement...</div>
+              <div style="font-size:12px;color:var(--muted)">Chargement...</div>
             </div>
           </div>
           <div style="display:flex;gap:6px;padding:8px 10px;background:var(--surface2);border-top:1px solid var(--border);flex-wrap:wrap;align-items:center">
@@ -1159,7 +1155,7 @@ input[type=number]{-moz-appearance:textfield}
           <!-- Aperçu docs -->
           <div id="obs-docs-liste" style="margin-top:6px"></div>
           <!-- Note vocale -->
-          <div id="note-vocale-zone" style="display:none;margin-top:8px;padding:10px;background:var(--danger-light);border:1px solid #FCA5A5;border-radius:8px">
+          <div id="note-vocale-zone" style="display:none;margin-top:8px;padding:10px;background:var(--danger-light);border:1px solid #FCA5A5;border-radius:var(--radius)">
             <div style="display:flex;align-items:center;gap:10px">
               <div id="vocale-status" style="font-size:12px;color:var(--danger);font-weight:600">● Enregistrement en cours...</div>
               <button type="button" onclick="arreterNoteVocale()" class="btn btn-sm" style="background:var(--danger);color:white;border-color:var(--danger);font-size:11px">Arrêter</button>
@@ -1204,7 +1200,7 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <!-- BRUT : info automatique -->
-        <div id="etat-brut-info" style="padding:12px;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;font-size:12px;color:var(--primary-dark)">
+        <div id="etat-brut-info" style="padding:12px;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:var(--radius);font-size:12px;color:var(--primary-dark)">
           <strong>Tous les lots sont à créer :</strong> Cloisons · Sols · Faux plafonds · Électricité · Plomberie · Ventilation · Climatisation · Extraction
         </div>
 
@@ -1226,7 +1222,7 @@ input[type=number]{-moz-appearance:textfield}
 
         <!-- CURER : ancienne activité -->
         <div id="etat-curer-section" style="display:none;margin-top:16px">
-          <div style="padding:12px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;font-size:12px;color:#92400E;margin-bottom:14px">
+          <div style="padding:12px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:var(--radius);font-size:12px;color:var(--warn);margin-bottom:14px">
             <strong>Dépose complète :</strong> Sols · Plafonds · Cloisons · Réseaux électriques · Plomberie · Ventilation · Climatisation · Curage complet
           </div>
           <div class="form-group">
@@ -1254,7 +1250,7 @@ input[type=number]{-moz-appearance:textfield}
         <div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Configuration du local</div>
 
         <!-- Extraction -->
-        <div style="background:#F9FAFB;border:1px solid #F3F4F6;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+        <div style="background:var(--surface2);border:1px solid #F3F4F6;border-radius:var(--radius);padding:10px 12px;margin-bottom:8px">
           <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px">
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1114 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/></svg>
             Extraction
@@ -1279,7 +1275,7 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <!-- Gaz -->
-        <div style="background:#F9FAFB;border:1px solid #F3F4F6;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+        <div style="background:var(--surface2);border:1px solid #F3F4F6;border-radius:var(--radius);padding:10px 12px;margin-bottom:8px">
           <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px">
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2c-4 4-4 8 0 10s4 6 0 10"/></svg>
             Gaz
@@ -1300,7 +1296,7 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <!-- Électricité -->
-        <div style="background:#F9FAFB;border:1px solid #F3F4F6;border-radius:8px;padding:10px 12px;margin-bottom:8px">
+        <div style="background:var(--surface2);border:1px solid #F3F4F6;border-radius:var(--radius);padding:10px 12px;margin-bottom:8px">
           <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px">
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             Électricité
@@ -1326,7 +1322,7 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <!-- Télécommunications -->
-        <div style="background:#F9FAFB;border:1px solid #F3F4F6;border-radius:8px;padding:10px 12px;margin-bottom:14px">
+        <div style="background:var(--surface2);border:1px solid #F3F4F6;border-radius:var(--radius);padding:10px 12px;margin-bottom:14px">
           <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px">
             <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
             Télécommunications — Fibre
@@ -1500,10 +1496,10 @@ input[type=number]{-moz-appearance:textfield}
               <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="site" onchange="toggleEnedisInfo()"> Disponible sur site</label>
               <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="souscomptage" onchange="toggleEnedisInfo()"> Sous-comptage</label>
               <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="raccord" onchange="toggleEnedisInfo()"> Raccordement provisoire Enedis</label>
-              <div id="prov-elec-enedis-info" style="display:none;margin-top:6px;padding:8px 10px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:7px;font-size:11px;color:#92400E;line-height:1.6">
+              <div id="prov-elec-enedis-info" style="display:none;margin-top:6px;padding:8px 10px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:7px;font-size:11px;color:var(--warn);line-height:1.6">
                 <strong>Puissance recommandée pour un chantier : 9 kVA</strong> (alimentation outillage, éclairage, compresseur, chargeurs...)<br><br>
                 <strong>À la charge du client :</strong> La demande de raccordement provisoire doit être effectuée par le client auprès de son fournisseur d'énergie (EDF ou autre fournisseur). C'est le fournisseur qui mandate Enedis pour réaliser le raccordement — le client ne contacte pas Enedis directement.<br><br>
-                <span style="color:#B45309">Délai moyen : 3 à 6 semaines · Coût : 1 500 à 4 000 € selon puissance · À anticiper avant démarrage du chantier</span>
+                <span style="color:var(--warn)">Délai moyen : 3 à 6 semaines · Coût : 1 500 à 4 000 € selon puissance · À anticiper avant démarrage du chantier</span>
               </div>
             </div>
           </div>
@@ -1524,7 +1520,7 @@ input[type=number]{-moz-appearance:textfield}
         <input type="hidden" id="prov-nb-intervenants" value="0">
         <div id="prov-estimation-hint" style="display:none"></div>
         <!-- Résultat calcul automatique -->
-        <div id="prov-frais-result" style="display:none;padding:12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+        <div id="prov-frais-result" style="display:none;padding:12px;background:var(--surface2);border-radius:var(--radius);border:1px solid var(--border)">
           <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Estimation frais de chantier provisoires</div>
           <div id="prov-frais-detail" style="font-size:12px;color:var(--ink2);line-height:2"></div>
           <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px;display:flex;justify-content:space-between;align-items:center">
@@ -1562,8 +1558,8 @@ input[type=number]{-moz-appearance:textfield}
           <div style="display:flex;flex-direction:column;gap:8px" id="travaux-categories">
 
             <!-- Façade & Enseigne -->
-            <div><div onclick="toggleCat('facade')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
-              <div style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><rect x="9" y="14" width="6" height="7"/></svg><span style="font-size:13px;font-weight:600">Façade & Enseigne</span><span id="cat-facade-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span></div>
+            <div><div onclick="toggleCat('facade')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;user-select:none">
+              <div style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><rect x="9" y="14" width="6" height="7"/></svg><span style="font-size:13px;font-weight:600">Façade & Enseigne</span><span id="cat-facade-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:var(--radius-lg);display:none">0</span></div>
               <svg id="cat-facade-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s"><path d="M6 9l6 6 6-6"/></svg>
             </div>
             <div id="cat-facade-body" style="display:none;padding:10px 14px 4px;grid-template-columns:1fr 1fr;gap:6px">
@@ -1581,8 +1577,8 @@ input[type=number]{-moz-appearance:textfield}
             </div></div>
 
             <!-- Extraction & Ventilation -->
-            <div><div onclick="toggleCat('extraction')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
-              <div style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1014 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/></svg><span style="font-size:13px;font-weight:600">Extraction & Ventilation</span><span id="cat-extraction-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span></div>
+            <div><div onclick="toggleCat('extraction')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;user-select:none">
+              <div style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1014 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/></svg><span style="font-size:13px;font-weight:600">Extraction & Ventilation</span><span id="cat-extraction-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:var(--radius-lg);display:none">0</span></div>
               <svg id="cat-extraction-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s"><path d="M6 9l6 6 6-6"/></svg>
             </div>
             <div id="cat-extraction-body" style="display:none;padding:10px 14px 4px;grid-template-columns:1fr 1fr;gap:6px">
@@ -1596,8 +1592,8 @@ input[type=number]{-moz-appearance:textfield}
             </div></div>
 
             <!-- Climatisation -->
-            <div><div onclick="toggleCat('clim')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
-              <div style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5l-5 5-5-5M17 19l-5-5-5 5M2 12h20M5 7l5 5-5 5M19 7l-5 5 5 5"/></svg><span style="font-size:13px;font-weight:600">Climatisation</span><span id="cat-clim-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span></div>
+            <div><div onclick="toggleCat('clim')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;user-select:none">
+              <div style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5l-5 5-5-5M17 19l-5-5-5 5M2 12h20M5 7l5 5-5 5M19 7l-5 5 5 5"/></svg><span style="font-size:13px;font-weight:600">Climatisation</span><span id="cat-clim-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:var(--radius-lg);display:none">0</span></div>
               <svg id="cat-clim-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s"><path d="M6 9l6 6 6-6"/></svg>
             </div>
             <div id="cat-clim-body" style="display:none;padding:10px 14px 4px;grid-template-columns:1fr 1fr;gap:6px">
@@ -1610,8 +1606,8 @@ input[type=number]{-moz-appearance:textfield}
             </div></div>
 
             <!-- Structure & Ouvrages Porteurs -->
-            <div><div onclick="toggleCat('structure')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
-              <div style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="3" width="6" height="18"/><path d="M8 7h10M8 12h8M8 17h6M18 7v10"/></svg><span style="font-size:13px;font-weight:600">Structure & Ouvrages Porteurs</span><span id="cat-structure-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span></div>
+            <div><div onclick="toggleCat('structure')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;user-select:none">
+              <div style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="3" width="6" height="18"/><path d="M8 7h10M8 12h8M8 17h6M18 7v10"/></svg><span style="font-size:13px;font-weight:600">Structure & Ouvrages Porteurs</span><span id="cat-structure-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:var(--radius-lg);display:none">0</span></div>
               <svg id="cat-structure-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s"><path d="M6 9l6 6 6-6"/></svg>
             </div>
             <div id="cat-structure-body" style="display:none;padding:10px 14px 4px;grid-template-columns:1fr 1fr;gap:6px">
@@ -1636,7 +1632,7 @@ input[type=number]{-moz-appearance:textfield}
             </div></div>
 
             <!-- PANEL MEZZANINE -->
-            <div id="mezzanine-panel" style="display:none;margin-top:8px;border:1.5px solid var(--primary-border);border-radius:10px;padding:16px;background:var(--primary-light)">
+            <div id="mezzanine-panel" style="display:none;margin-top:8px;border:1.5px solid var(--primary-border);border-radius:var(--radius-lg);padding:16px;background:var(--primary-light)">
               <div style="font-size:13px;font-weight:700;color:var(--primary-dark);margin-bottom:14px;display:flex;align-items:center;gap:8px">
                 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
                 Configuration mezzanine
@@ -1682,8 +1678,8 @@ input[type=number]{-moz-appearance:textfield}
             </div>
 
             <!-- Aménagement intérieur -->
-            <div><div onclick="toggleCat('amenagement')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
-              <div style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg><span style="font-size:13px;font-weight:600">Aménagement intérieur</span><span id="cat-amenagement-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span></div>
+            <div><div onclick="toggleCat('amenagement')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;user-select:none">
+              <div style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg><span style="font-size:13px;font-weight:600">Aménagement intérieur</span><span id="cat-amenagement-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:var(--radius-lg);display:none">0</span></div>
               <svg id="cat-amenagement-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s"><path d="M6 9l6 6 6-6"/></svg>
             </div>
             <div id="cat-amenagement-body" style="display:none;padding:10px 14px 4px;grid-template-columns:1fr 1fr;gap:6px">
@@ -1698,8 +1694,8 @@ input[type=number]{-moz-appearance:textfield}
             </div></div>
 
             <!-- Réseaux techniques -->
-            <div><div onclick="toggleCat('reseaux')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
-              <div style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span style="font-size:13px;font-weight:600">Réseaux techniques</span><span id="cat-reseaux-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span></div>
+            <div><div onclick="toggleCat('reseaux')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;user-select:none">
+              <div style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span style="font-size:13px;font-weight:600">Réseaux techniques</span><span id="cat-reseaux-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:var(--radius-lg);display:none">0</span></div>
               <svg id="cat-reseaux-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s"><path d="M6 9l6 6 6-6"/></svg>
             </div>
             <div id="cat-reseaux-body" style="display:none;padding:10px 14px 4px;grid-template-columns:1fr 1fr;gap:6px">
@@ -1714,8 +1710,8 @@ input[type=number]{-moz-appearance:textfield}
             </div></div>
 
             <!-- Cuisine -->
-            <div><div onclick="toggleCat('cuisine')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
-              <div style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6h3.5a1.5 1.5 0 011.5 1.5V22"/></svg><span style="font-size:13px;font-weight:600">Cuisine</span><span id="cat-cuisine-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:10px;display:none">0</span></div>
+            <div><div onclick="toggleCat('cuisine')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;user-select:none">
+              <div style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6h3.5a1.5 1.5 0 011.5 1.5V22"/></svg><span style="font-size:13px;font-weight:600">Cuisine</span><span id="cat-cuisine-count" style="font-size:10px;background:var(--primary);color:white;padding:2px 6px;border-radius:var(--radius-lg);display:none">0</span></div>
               <svg id="cat-cuisine-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transition:.2s"><path d="M6 9l6 6 6-6"/></svg>
             </div>
             <div id="cat-cuisine-body" style="display:none;padding:10px 14px 4px;grid-template-columns:1fr 1fr;gap:6px">
@@ -1806,7 +1802,7 @@ input[type=number]{-moz-appearance:textfield}
 
           <!-- ARCHITECTE D'INTÉRIEUR -->
           <div>
-            <div onclick="togglePrest('archi')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
+            <div onclick="togglePrest('archi')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;user-select:none">
               <div style="display:flex;align-items:center;gap:10px">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M2 20h20M4 20V10l8-6 8 6v10M10 20v-5h4v5"/></svg>
                 <span style="font-size:13px;font-weight:600;color:var(--ink)">Architecte d'intérieur</span>
@@ -1838,7 +1834,7 @@ input[type=number]{-moz-appearance:textfield}
 
           <!-- FOOD CONSULTING -->
           <div>
-            <div onclick="togglePrest('food')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
+            <div onclick="togglePrest('food')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;user-select:none">
               <div style="display:flex;align-items:center;gap:10px">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2M7 2v20M21 15V2a5 5 0 00-5 5v6h3.5a1.5 1.5 0 011.5 1.5V22"/></svg>
                 <span style="font-size:13px;font-weight:600;color:var(--ink)">Food Consulting</span>
@@ -1876,7 +1872,7 @@ input[type=number]{-moz-appearance:textfield}
 
           <!-- SYSTÈME DE CAISSE -->
           <div>
-            <div onclick="togglePrest('caisse')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
+            <div onclick="togglePrest('caisse')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;user-select:none">
               <div style="display:flex;align-items:center;gap:10px">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
                 <span style="font-size:13px;font-weight:600;color:var(--ink)">Système de caisse</span>
@@ -1920,7 +1916,7 @@ input[type=number]{-moz-appearance:textfield}
 
           <!-- BORNES DE COMMANDE -->
           <div>
-            <div onclick="togglePrest('bornes')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
+            <div onclick="togglePrest('bornes')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;user-select:none">
               <div style="display:flex;align-items:center;gap:10px">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M9 22h6M12 18h.01"/></svg>
                 <span style="font-size:13px;font-weight:600;color:var(--ink)">Bornes de commande</span>
@@ -1956,7 +1952,7 @@ input[type=number]{-moz-appearance:textfield}
 
           <!-- AGENCE DE COMMUNICATION -->
           <div>
-            <div onclick="togglePrest('com')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
+            <div onclick="togglePrest('com')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;user-select:none">
               <div style="display:flex;align-items:center;gap:10px">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
                 <span style="font-size:13px;font-weight:600;color:var(--ink)">Agence de communication</span>
@@ -1998,7 +1994,7 @@ input[type=number]{-moz-appearance:textfield}
 
           <!-- ÉQUIPEMENTS COMPLÉMENTAIRES -->
           <div>
-            <div onclick="togglePrest('equip')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;cursor:pointer;user-select:none">
+            <div onclick="togglePrest('equip')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer;user-select:none">
               <div style="display:flex;align-items:center;gap:10px">
                 <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
                 <span style="font-size:13px;font-weight:600;color:var(--ink)">Équipements complémentaires</span>
@@ -2200,7 +2196,7 @@ input[type=number]{-moz-appearance:textfield}
               <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="ctx-devis-dispo" value="non" checked> Non</label>
             </div>
           </div>
-          <div id="ctx-analyse-concurrence" style="display:none;padding:12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+          <div id="ctx-analyse-concurrence" style="display:none;padding:12px;background:var(--surface2);border-radius:var(--radius);border:1px solid var(--border)">
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px">Analyse concurrence</div>
             <div id="ctx-analyse-detail" style="font-size:12px;color:var(--ink2);line-height:2"></div>
           </div>
@@ -2306,7 +2302,7 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 
   <!-- Éléments manquants -->
-  <div id="photos-manquants" style="display:none;margin-bottom:16px;padding:10px 14px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;font-size:12px;color:#92400E">
+  <div id="photos-manquants" style="display:none;margin-bottom:16px;padding:10px 14px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:var(--radius);font-size:12px;color:var(--warn)">
     <strong>Éléments manquants :</strong> <span id="photos-manquants-list"></span>
   </div>
 
@@ -2366,7 +2362,7 @@ input[type=number]{-moz-appearance:textfield}
       <div class="card" style="margin-bottom:16px">
         <div class="card-title">Analyser un document</div>
         <div id="ia-doc-drop-zone"
-          style="border:2px dashed var(--border2);border-radius:10px;padding:30px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);margin-bottom:12px"
+          style="border:2px dashed var(--border2);border-radius:var(--radius-lg);padding:30px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg);margin-bottom:12px"
           onclick="document.getElementById('ia-doc-input').click()"
           ondragover="event.preventDefault();this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
           ondragleave="this.style.borderColor='var(--border2)';this.style.background='var(--bg)'"
@@ -2411,7 +2407,7 @@ input[type=number]{-moz-appearance:textfield}
   </div>
 
   <!-- Onglets Existant / Projet -->
-  <div style="display:flex;gap:0;margin-bottom:20px;background:var(--bg);border-radius:10px;padding:4px;width:fit-content">
+  <div style="display:flex;gap:0;margin-bottom:20px;background:var(--bg);border-radius:var(--radius-lg);padding:4px;width:fit-content">
     <button id="tab-releve-existant" onclick="switchReleveTab('existant')"
       style="padding:8px 24px;border:none;background:white;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink);box-shadow:var(--shadow);transition:all .15s">
       Relevé existant <span id="badge-existant" style="margin-left:6px;background:var(--primary);color:white;border-radius:20px;padding:1px 7px;font-size:10px;font-weight:700">0</span>
@@ -3375,7 +3371,7 @@ input[type=number]{-moz-appearance:textfield}
         onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
         onmouseout="this.style.borderColor='var(--border)';this.style.background='white'">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-          <div style="width:36px;height:36px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center">
+          <div style="width:36px;height:36px;background:var(--primary-light);border-radius:var(--radius);display:flex;align-items:center;justify-content:center">
             <svg width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </div>
           <div style="font-size:14px;font-weight:700;color:var(--ink)">Mon compte</div>
@@ -3386,7 +3382,7 @@ input[type=number]{-moz-appearance:textfield}
         onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
         onmouseout="this.style.borderColor='var(--border)';this.style.background='white'">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-          <div style="width:36px;height:36px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center">
+          <div style="width:36px;height:36px;background:var(--primary-light);border-radius:var(--radius);display:flex;align-items:center;justify-content:center">
             <svg width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
           </div>
           <div style="font-size:14px;font-weight:700;color:var(--ink)">Mon entreprise</div>
@@ -3397,7 +3393,7 @@ input[type=number]{-moz-appearance:textfield}
         onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
         onmouseout="this.style.borderColor='var(--border)';this.style.background='white'">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-          <div style="width:36px;height:36px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center">
+          <div style="width:36px;height:36px;background:var(--primary-light);border-radius:var(--radius);display:flex;align-items:center;justify-content:center">
             <svg width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
           </div>
           <div style="font-size:14px;font-weight:700;color:var(--ink)">Coordonnées bancaires</div>
@@ -3408,7 +3404,7 @@ input[type=number]{-moz-appearance:textfield}
         onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
         onmouseout="this.style.borderColor='var(--border)';this.style.background='white'">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-          <div style="width:36px;height:36px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center">
+          <div style="width:36px;height:36px;background:var(--primary-light);border-radius:var(--radius);display:flex;align-items:center;justify-content:center">
             <svg width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
           </div>
           <div style="font-size:14px;font-weight:700;color:var(--ink)">Documents & Devis</div>
@@ -3419,7 +3415,7 @@ input[type=number]{-moz-appearance:textfield}
         onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
         onmouseout="this.style.borderColor='var(--border)';this.style.background='white'">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-          <div style="width:36px;height:36px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center">
+          <div style="width:36px;height:36px;background:var(--primary-light);border-radius:var(--radius);display:flex;align-items:center;justify-content:center">
             <svg width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
           </div>
           <div style="font-size:14px;font-weight:700;color:var(--ink)">Préférences</div>
@@ -3517,7 +3513,7 @@ input[type=number]{-moz-appearance:textfield}
         </div>
         <div class="form-group">
           <label class="form-label">Zone de signature (image)</label>
-          <div id="signature-zone" style="border:2px dashed var(--border2);border-radius:8px;padding:20px;text-align:center;cursor:pointer;background:var(--bg)" onclick="document.getElementById('signature-file').click()">
+          <div id="signature-zone" style="border:2px dashed var(--border2);border-radius:var(--radius);padding:20px;text-align:center;cursor:pointer;background:var(--bg)" onclick="document.getElementById('signature-file').click()">
             <img id="signature-preview" style="display:none;max-height:80px;max-width:200px;margin:0 auto">
             <div id="signature-placeholder" style="font-size:12px;color:var(--muted)">
               <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 8px;display:block"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
@@ -3593,7 +3589,7 @@ input[type=number]{-moz-appearance:textfield}
       <div class="card">
         <div class="card-title">Logo de l'entreprise</div>
         <div id="logo-zone" style="border:2px dashed var(--border2);border-radius:12px;padding:32px;text-align:center;cursor:pointer;background:var(--bg);margin-bottom:14px;transition:all .2s" onclick="document.getElementById('logo-file').click()" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='var(--border2)'">
-          <img id="logo-preview" style="display:none;max-height:100px;max-width:240px;margin:0 auto;border-radius:8px">
+          <img id="logo-preview" style="display:none;max-height:100px;max-width:240px;margin:0 auto;border-radius:var(--radius)">
           <div id="logo-placeholder">
             <svg width="32" height="32" fill="none" stroke="var(--muted)" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 10px;display:block"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
             <div style="font-size:13px;font-weight:600;color:var(--ink2)">Importer le logo</div>
@@ -3604,7 +3600,7 @@ input[type=number]{-moz-appearance:textfield}
         <button id="logo-supprimer" class="btn btn-ghost btn-sm" style="display:none" onclick="supprimerLogo()">Supprimer le logo</button>
 
         <div class="card-title" style="margin-top:16px">Aperçu en-tête document</div>
-        <div id="apercu-entete" style="border:1px solid var(--border);border-radius:8px;padding:16px;background:white">
+        <div id="apercu-entete" style="border:1px solid var(--border);border-radius:var(--radius);padding:16px;background:white">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
             <div>
               <img id="apercu-logo" style="display:none;max-height:50px;max-width:140px">
@@ -3647,7 +3643,7 @@ input[type=number]{-moz-appearance:textfield}
           <input id="cb-titulaire" class="form-input" placeholder="Ma Société SAS" oninput="sauvegarderCompte()">
         </div>
       </div>
-      <div style="margin-top:16px;padding:14px;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;font-size:12px;color:var(--primary-dark)">
+      <div style="margin-top:16px;padding:14px;background:var(--primary-light);border:1px solid var(--primary-border);border-radius:var(--radius);font-size:12px;color:var(--primary-dark)">
         Ces informations apparaîtront en bas de vos devis et chiffrages pour faciliter les règlements.
       </div>
     </div>
@@ -3858,14 +3854,14 @@ input[type=number]{-moz-appearance:textfield}
       <div style="display:flex;justify-content:space-between;align-items:start;flex-wrap:wrap;gap:12px">
         <div>
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-            <span id="dp-code" style="font-family:monospace;font-size:11px;color:var(--muted);background:var(--surface2);padding:2px 8px;border-radius:4px">—</span>
+            <span id="dp-code" style="font-family:monospace;font-size:11px;color:var(--muted);background:var(--surface2);padding:2px 8px;border-radius:var(--radius-sm)">—</span>
             <span id="dp-statut-badge" style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px">—</span>
           </div>
           <div id="dp-nom" style="font-size:20px;font-weight:800;color:var(--ink);line-height:1.2;margin-bottom:4px">—</div>
           <div id="dp-client" style="font-size:13px;color:var(--mid)">—</div>
           <div id="dp-adresse" style="font-size:12px;color:var(--muted);margin-top:3px">—</div>
         </div>
-        <button onclick="fermerDetailPanel()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--mid);white-space:nowrap">✕ Fermer</button>
+        <button onclick="fermerDetailPanel()" style="background:none;border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;font-size:12px;cursor:pointer;color:var(--mid);white-space:nowrap">✕ Fermer</button>
       </div>
     </div>
 
@@ -4298,11 +4294,11 @@ function updateRecap(){
   </div>
   ${adresse?`<div style="font-size:12px;color:var(--mid);margin-bottom:12px">📍 ${adresse}</div>`:''}
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
-    <div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center">
+    <div style="background:var(--bg);border-radius:var(--radius);padding:12px;text-align:center">
       <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">Surface</div>
       <div style="font-size:20px;font-weight:800">${surface||'—'} <span style="font-size:12px;font-weight:400">m²</span></div>
     </div>
-    <div style="background:var(--bg);border-radius:8px;padding:12px;text-align:center">
+    <div style="background:var(--bg);border-radius:var(--radius);padding:12px;text-align:center">
       <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">Hauteur</div>
       <div style="font-size:20px;font-weight:800">${hauteur||'—'} <span style="font-size:12px;font-weight:400">m</span></div>
     </div>
@@ -4372,7 +4368,7 @@ function updateStructureAuto(){
   }
 
   const alertesHTML = alertes.map(a=>`
-    <div style="display:flex;gap:8px;padding:8px 12px;background:${a.lvl==='danger'?'#FEF2F2':'#FFFBEB'};border-radius:8px;border-left:3px solid ${a.lvl==='danger'?'var(--danger)':'#B45309'};margin-bottom:8px">
+    <div style="display:flex;gap:8px;padding:8px 12px;background:${a.lvl==='danger'?'#FEF2F2':'#FFFBEB'};border-radius:var(--radius);border-left:3px solid ${a.lvl==='danger'?'var(--danger)':'#B45309'};margin-bottom:8px">
       ${a.lvl==='danger'?`<svg width="14" height="14" fill="none" stroke="var(--danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`:`<svg width="14" height="14" fill="none" stroke="#B45309" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`}
       <span style="font-size:12px;color:var(--ink2)">${a.txt}</span>
     </div>`).join('');
@@ -4383,10 +4379,10 @@ function updateStructureAuto(){
     return `
     <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);gap:10px">
       <div>
-        <span style="font-size:10px;background:${niveauBadge[niv]};color:white;padding:2px 7px;border-radius:10px;margin-right:6px">${niv}</span>
+        <span style="font-size:10px;background:${niveauBadge[niv]};color:white;padding:2px 7px;border-radius:var(--radius-lg);margin-right:6px">${niv}</span>
         <span style="font-size:12px;font-weight:600;color:var(--ink)">${nom}</span>
       </div>
-      <select id="st-etude-${key}" style="font-size:11px;border:1.5px solid var(--border);border-radius:6px;padding:4px 8px;font-family:var(--font);flex-shrink:0">
+      <select id="st-etude-${key}" style="font-size:11px;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:4px 8px;font-family:var(--font);flex-shrink:0">
         <option value="a_prevoir">À prévoir</option>
         <option value="missionne">Déjà missionné ✅</option>
         <option value="non_necessaire">Non nécessaire</option>
@@ -4704,7 +4700,7 @@ function genererFichesExtraction(nb, containerId){
 function creerFicheExtraction(n){
   const div = document.createElement('div');
   div.dataset.extId = n;
-  div.style.cssText = 'border:1.5px solid var(--border);border-radius:10px;overflow:hidden';
+  div.style.cssText = 'border:1.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden';
 
   div.innerHTML = `
     <div onclick="toggleFicheExt(${n})" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);cursor:pointer;user-select:none">
@@ -4901,7 +4897,7 @@ function genererEntreprises(nb){
   list.innerHTML = '';
   for(let i = 1; i <= nb; i++){
     list.innerHTML += `
-      <div style="border:1.5px solid var(--border);border-radius:8px;padding:12px">
+      <div style="border:1.5px solid var(--border);border-radius:var(--radius);padding:12px">
         <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:10px">Entreprise n°${i}</div>
         <div class="form-row" style="margin-bottom:10px">
           <div class="form-group">
@@ -4948,19 +4944,19 @@ function analyserConcurrence(){
   el.style.display = 'block';
   det.innerHTML = `
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
-      <div style="text-align:center;padding:8px;background:white;border-radius:6px">
+      <div style="text-align:center;padding:8px;background:white;border-radius:var(--radius-sm)">
         <div style="font-size:14px;font-weight:800;color:var(--primary)">${fmt(min)}</div>
         <div style="font-size:10px;color:var(--muted)">Minimum</div>
       </div>
-      <div style="text-align:center;padding:8px;background:white;border-radius:6px">
+      <div style="text-align:center;padding:8px;background:white;border-radius:var(--radius-sm)">
         <div style="font-size:14px;font-weight:800;color:var(--primary)">${fmt(max)}</div>
         <div style="font-size:10px;color:var(--muted)">Maximum</div>
       </div>
-      <div style="text-align:center;padding:8px;background:white;border-radius:6px">
+      <div style="text-align:center;padding:8px;background:white;border-radius:var(--radius-sm)">
         <div style="font-size:14px;font-weight:800;color:var(--primary)">${fmt(moy)}</div>
         <div style="font-size:10px;color:var(--muted)">Moyenne</div>
       </div>
-      <div style="text-align:center;padding:8px;background:white;border-radius:6px">
+      <div style="text-align:center;padding:8px;background:white;border-radius:var(--radius-sm)">
         <div style="font-size:14px;font-weight:800;color:${ecar>30?'var(--danger)':'var(--ink)'}">±${ecar}%</div>
         <div style="font-size:10px;color:var(--muted)">Écart</div>
       </div>
@@ -4982,18 +4978,18 @@ function attacherFichier(input, itemId, type){
   const size = (file.size/1024/1024).toFixed(1)+' Mo';
   if(type === 'video'){
     preview.innerHTML = `
-      <div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:white;border:1px solid #DDD6FE;border-radius:6px">
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:white;border:1px solid #DDD6FE;border-radius:var(--radius-sm)">
         <svg width="14" height="14" fill="none" stroke="#8B5CF6" stroke-width="1.8" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
         <div style="flex:1;min-width:0">
           <div style="font-size:11px;font-weight:600;color:#5B21B6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</div>
           <div style="font-size:10px;color:var(--muted)">${size}</div>
         </div>
-        <video src="${url}" controls style="max-width:160px;max-height:90px;border-radius:4px;flex-shrink:0"></video>
+        <video src="${url}" controls style="max-width:160px;max-height:90px;border-radius:var(--radius-sm);flex-shrink:0"></video>
       </div>`;
   } else {
     preview.innerHTML = `
-      <div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:white;border:1px solid var(--border);border-radius:6px">
-        <img src="${url}" style="width:60px;height:45px;object-fit:cover;border-radius:4px;flex-shrink:0">
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:white;border:1px solid var(--border);border-radius:var(--radius-sm)">
+        <img src="${url}" style="width:60px;height:45px;object-fit:cover;border-radius:var(--radius-sm);flex-shrink:0">
         <div style="flex:1;min-width:0">
           <div style="font-size:11px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</div>
           <div style="font-size:10px;color:var(--muted)">${size}</div>
@@ -5122,11 +5118,11 @@ function genererPlanning(){
 
   const kpisEl = document.getElementById('plan-kpis');
   if(kpisEl) kpisEl.innerHTML = `
-    <div style="text-align:center;padding:6px 12px;background:var(--primary-light);border-radius:6px;border:1px solid var(--primary-border)">
+    <div style="text-align:center;padding:6px 12px;background:var(--primary-light);border-radius:var(--radius-sm);border:1px solid var(--primary-border)">
       <div style="font-size:18px;font-weight:800;color:var(--primary)">${totalSem}</div>
       <div style="font-size:10px;color:var(--muted)">semaines</div>
     </div>
-    <div style="text-align:center;padding:6px 12px;background:var(--surface2);border-radius:6px">
+    <div style="text-align:center;padding:6px 12px;background:var(--surface2);border-radius:var(--radius-sm)">
       <div style="font-size:18px;font-weight:800;color:var(--ink)">${_planningTaches.length}</div>
       <div style="font-size:10px;color:var(--muted)">phases</div>
     </div>`;
@@ -5229,13 +5225,13 @@ function renderListePlanning(){
       html += `<div style="display:grid;grid-template-columns:24px 1fr 90px 90px 60px 80px 100px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--surface2)">
         <span style="font-size:14px">${t.icon}</span>
         <span style="font-size:12px;font-weight:600;color:var(--ink)">${t.label}</span>
-        <input type="date" value="${t.debut.toISOString().slice(0,10)}" style="font-size:11px;border:1px solid var(--border);border-radius:4px;padding:3px 6px;font-family:var(--font)" onchange="majDateTache('${t.id}','debut',this.value)">
-        <input type="date" value="${t.fin.toISOString().slice(0,10)}" style="font-size:11px;border:1px solid var(--border);border-radius:4px;padding:3px 6px;font-family:var(--font)" onchange="majDateTache('${t.id}','fin',this.value)">
+        <input type="date" value="${t.debut.toISOString().slice(0,10)}" style="font-size:11px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:3px 6px;font-family:var(--font)" onchange="majDateTache('${t.id}','debut',this.value)">
+        <input type="date" value="${t.fin.toISOString().slice(0,10)}" style="font-size:11px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:3px 6px;font-family:var(--font)" onchange="majDateTache('${t.id}','fin',this.value)">
         <span style="font-size:12px;color:var(--muted);font-weight:600">${t.dur}j</span>
-        <select style="font-size:11px;border:1px solid ${statColors[t.statut]}44;border-radius:4px;padding:3px 6px;color:${statColors[t.statut]};font-weight:600;font-family:var(--font);background:${statColors[t.statut]}11" onchange="majStatutTache('${t.id}',this.value)">
+        <select style="font-size:11px;border:1px solid ${statColors[t.statut]}44;border-radius:var(--radius-sm);padding:3px 6px;color:${statColors[t.statut]};font-weight:600;font-family:var(--font);background:${statColors[t.statut]}11" onchange="majStatutTache('${t.id}',this.value)">
           ${Object.entries(statLabels).map(([k,v])=>`<option value="${k}" ${t.statut===k?'selected':''}>${v}</option>`).join('')}
         </select>
-        <input type="number" value="${t.dur}" min="1" style="font-size:11px;border:1px solid var(--border);border-radius:4px;padding:3px 6px;font-family:var(--font);width:55px" onchange="majDureeTache('${t.id}',this.value)">
+        <input type="number" value="${t.dur}" min="1" style="font-size:11px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:3px 6px;font-family:var(--font);width:55px" onchange="majDureeTache('${t.id}',this.value)">
       </div>`;
     });
     html += `</div>`;
@@ -5290,8 +5286,8 @@ function renderGantt(){
         <!-- Grille de fond -->
         ${weeks.map((w,wi) => `<div style="position:absolute;left:${wi*COL_DAY*7}px;top:0;width:${COL_DAY*7}px;height:100%;border-left:1px solid var(--border);opacity:.3"></div>`).join('')}
         <!-- Barre Gantt -->
-        <div style="position:absolute;left:${startDay * COL_DAY}px;top:4px;width:${widthPx}px;height:24px;background:${t.color};border-radius:4px;opacity:${opacity};display:flex;align-items:center;padding:0 8px;overflow:hidden;min-width:20px" title="${t.label} · ${t.dur} jours">
-          ${pctDone > 0 ? `<div style="position:absolute;left:0;top:0;height:100%;width:${pctDone}%;background:rgba(0,0,0,.2);border-radius:4px 0 0 4px"></div>` : ''}
+        <div style="position:absolute;left:${startDay * COL_DAY}px;top:4px;width:${widthPx}px;height:24px;background:${t.color};border-radius:var(--radius-sm);opacity:${opacity};display:flex;align-items:center;padding:0 8px;overflow:hidden;min-width:20px" title="${t.label} · ${t.dur} jours">
+          ${pctDone > 0 ? `<div style="position:absolute;left:0;top:0;height:100%;width:${pctDone}%;background:rgba(0,0,0,.2);border-radius:var(--radius-sm) 0 0 4px"></div>` : ''}
           <span style="font-size:10px;font-weight:700;color:white;position:relative;white-space:nowrap">${t.dur > 5 ? t.label : t.icon}</span>
         </div>
       </div>
@@ -5411,18 +5407,18 @@ function genererChecklistPhotos(){
       const isRequired = item.required;
       totalItems++;
       sectionHtml += `
-        <div style="background:var(--surface2);border-radius:6px;padding:7px 10px;font-size:12px" id="item-wrap-${itemId}">
+        <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:7px 10px;font-size:12px" id="item-wrap-${itemId}">
           <div style="display:flex;align-items:center;gap:8px">
             <input type="checkbox" id="${itemId}" style="flex-shrink:0;margin-top:0" onchange="majProgressionPhotos();toggleItemDone('${itemId}')">
             <div style="flex:1;display:flex;align-items:center;gap:6px;cursor:pointer" onclick="document.getElementById('${itemId}').click()">
               ${isVideo ? '<svg width="11" height="11" fill="none" stroke="#8B5CF6" stroke-width="2" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>' : '<svg width="11" height="11" fill="none" stroke="var(--muted)" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'}
               <span style="font-weight:${isRequired?'600':'400'};color:var(--ink)">${item.label}</span>
-              ${isRequired ? '<span style="font-size:9px;background:#FEF2F2;color:var(--danger);padding:1px 5px;border-radius:4px;font-weight:600">OBLIGATOIRE</span>' : ''}
+              ${isRequired ? '<span style="font-size:9px;background:#FEF2F2;color:var(--danger);padding:1px 5px;border-radius:var(--radius-sm);font-weight:600">OBLIGATOIRE</span>' : ''}
             </div>
-            <input type="text" placeholder="Annotation..." onclick="event.stopPropagation()" style="font-size:10px;border:1px solid var(--border);border-radius:4px;padding:2px 6px;width:110px;color:var(--ink);background:white;flex-shrink:0">
+            <input type="text" placeholder="Annotation..." onclick="event.stopPropagation()" style="font-size:10px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:2px 6px;width:110px;color:var(--ink);background:white;flex-shrink:0">
             <label onclick="event.stopPropagation()" style="cursor:pointer;flex-shrink:0" title="${isVideo?'Importer une vidéo':'Importer une photo'}">
               <input type="file" accept="${isVideo?'video/*':'image/*'}" style="display:none" onchange="attacherFichier(this,'${itemId}','${isVideo?'video':'photo'}')">
-              <span style="display:flex;align-items:center;gap:3px;font-size:10px;color:${isVideo?'#8B5CF6':'var(--primary)'};border:1px solid ${isVideo?'#8B5CF6':'var(--primary)'};border-radius:4px;padding:2px 7px;background:white">
+              <span style="display:flex;align-items:center;gap:3px;font-size:10px;color:${isVideo?'#8B5CF6':'var(--primary)'};border:1px solid ${isVideo?'#8B5CF6':'var(--primary)'};border-radius:var(--radius-sm);padding:2px 7px;background:white">
                 ${isVideo ? '<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>' : '<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'}
                 ${isVideo?'Vidéo':'Photo'}
               </span>
@@ -5705,7 +5701,7 @@ function calculerMaterielCuisine(){
     const eid = 'cui_'+i;
     const montant = e.q * e.p;
     total += montant;
-    html += `<div style="display:grid;grid-template-columns:2fr 1fr 80px 80px 40px;gap:8px;align-items:center;padding:7px 10px;background:var(--surface2);border-radius:6px;margin-bottom:4px">
+    html += `<div style="display:grid;grid-template-columns:2fr 1fr 80px 80px 40px;gap:8px;align-items:center;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm);margin-bottom:4px">
       <span style="font-size:12px;color:var(--ink)">${e.n}</span>
       <span style="font-size:11px;color:var(--muted)">${e.u}</span>
       <input type="number" class="form-input" value="${e.q}" style="font-size:12px;text-align:center;padding:4px" oninput="recalcCuiTotal()">
@@ -5757,15 +5753,15 @@ function calculerMobilier(){
   if(placesEl && surfSalle > 0){
     placesEl.innerHTML = `
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
-        <div style="text-align:center;padding:10px;background:var(--primary-light);border-radius:6px">
+        <div style="text-align:center;padding:10px;background:var(--primary-light);border-radius:var(--radius-sm)">
           <div style="font-size:20px;font-weight:800;color:var(--primary)">${placesSalle}</div>
           <div style="font-size:10px;color:var(--muted)">Places salle</div>
         </div>
-        <div style="text-align:center;padding:10px;background:var(--surface2);border-radius:6px">
+        <div style="text-align:center;padding:10px;background:var(--surface2);border-radius:var(--radius-sm)">
           <div style="font-size:20px;font-weight:800;color:var(--ink)">${placesTerrasse}</div>
           <div style="font-size:10px;color:var(--muted)">Places terrasse</div>
         </div>
-        <div style="text-align:center;padding:10px;background:var(--surface2);border-radius:6px">
+        <div style="text-align:center;padding:10px;background:var(--surface2);border-radius:var(--radius-sm)">
           <div style="font-size:20px;font-weight:800;color:var(--ink)">${totalPlaces}</div>
           <div style="font-size:10px;color:var(--muted)">Total places</div>
         </div>
@@ -5799,7 +5795,7 @@ function calculerMobilier(){
   equips.forEach((e,i) => {
     const montant = e.q * e.p;
     total += montant;
-    html += `<div style="display:grid;grid-template-columns:2fr 1fr 80px 80px 40px;gap:8px;align-items:center;padding:7px 10px;background:var(--surface2);border-radius:6px;margin-bottom:4px">
+    html += `<div style="display:grid;grid-template-columns:2fr 1fr 80px 80px 40px;gap:8px;align-items:center;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm);margin-bottom:4px">
       <span style="font-size:12px;color:var(--ink)">${e.n}</span>
       <span style="font-size:11px;color:var(--muted)">${e.u}</span>
       <input type="number" class="form-input" value="${e.q}" style="font-size:12px;text-align:center;padding:4px" oninput="recalcMobTotal()">
@@ -5901,7 +5897,7 @@ function calculerMaterielInfo(){
     }
     const montant = e.q * e.p;
     total += montant;
-    html += `<div style="display:grid;grid-template-columns:2fr 1fr 80px 80px 40px;gap:8px;align-items:center;padding:7px 10px;background:var(--surface2);border-radius:6px;margin-bottom:4px">
+    html += `<div style="display:grid;grid-template-columns:2fr 1fr 80px 80px 40px;gap:8px;align-items:center;padding:7px 10px;background:var(--surface2);border-radius:var(--radius-sm);margin-bottom:4px">
       <span style="font-size:12px;color:var(--ink)">${e.n}</span>
       <span style="font-size:11px;color:var(--muted)">${e.u}</span>
       <input type="number" class="form-input" value="${e.q}" style="font-size:12px;text-align:center;padding:4px" oninput="recalcInfoTotal()">
@@ -6072,23 +6068,23 @@ function verifierMezzanine(){
 
   if(motifs.length > 0 && !noData){
     // Cas 3 : impossible
-    html = `<div style="padding:14px;background:#FEF2F2;border:1.5px solid #FCA5A5;border-radius:10px">
+    html = `<div style="padding:14px;background:#FEF2F2;border:1.5px solid #FCA5A5;border-radius:var(--radius-lg)">
       <div style="font-size:13px;font-weight:700;color:var(--danger);margin-bottom:8px">❌ Création de mezzanine non recommandée</div>
       <ul style="margin:0;padding-left:16px;font-size:12px;color:#991B1B;line-height:1.8">${motifs.map(m=>`<li>${m}</li>`).join('')}</ul>
       <div style="font-size:11px;color:var(--muted);margin-top:8px">Vérifiez la hauteur sous plafond dans les informations générales du projet.</div>
     </div>`;
   } else if(contraintes.length > 0 || noData){
     // Cas 2 : sous réserve
-    html = `<div style="padding:14px;background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:10px">
-      <div style="font-size:13px;font-weight:700;color:#B45309;margin-bottom:${noData?4:8}px">⚠️ Création possible sous réserve d'adaptations</div>
-      ${noData ? '<div style="font-size:11px;color:#92400E">Renseignez la hauteur sous plafond et la surface dans les informations générales pour vérifier la faisabilité.</div>' : ''}
-      ${contraintes.length ? `<ul style="margin:0;padding-left:16px;font-size:12px;color:#92400E;line-height:1.8">${contraintes.map(m=>`<li>${m}</li>`).join('')}</ul>` : ''}
+    html = `<div style="padding:14px;background:#FFFBEB;border:1.5px solid #FCD34D;border-radius:var(--radius-lg)">
+      <div style="font-size:13px;font-weight:700;color:var(--warn);margin-bottom:${noData?4:8}px">⚠️ Création possible sous réserve d'adaptations</div>
+      ${noData ? '<div style="font-size:11px;color:var(--warn)">Renseignez la hauteur sous plafond et la surface dans les informations générales pour vérifier la faisabilité.</div>' : ''}
+      ${contraintes.length ? `<ul style="margin:0;padding-left:16px;font-size:12px;color:var(--warn);line-height:1.8">${contraintes.map(m=>`<li>${m}</li>`).join('')}</ul>` : ''}
       ${!noData ? _chiffresBloc(surfEstim||0, hDessous, hDessus) : ''}
       ${_getBesoinsMezzanine(usagesPublic, isLourd)}
     </div>`;
   } else {
     // Cas 1 : faisable
-    html = `<div style="padding:14px;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:10px">
+    html = `<div style="padding:14px;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:var(--radius-lg)">
       <div style="font-size:13px;font-weight:700;color:#166534;margin-bottom:10px">✅ Création de mezzanine possible</div>
       ${_chiffresBloc(surfEstim||0, hDessous, hDessus)}
       ${_getBesoinsMezzanine(usagesPublic, isLourd)}
@@ -6100,15 +6096,15 @@ function verifierMezzanine(){
 
 function _chiffresBloc(surf, hBas, hHaut){
   return `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0">
-    <div style="text-align:center;padding:8px;background:white;border-radius:6px">
+    <div style="text-align:center;padding:8px;background:white;border-radius:var(--radius-sm)">
       <div style="font-size:20px;font-weight:800;color:var(--primary)">${surf}</div>
       <div style="font-size:10px;color:var(--muted)">m² estimés</div>
     </div>
-    <div style="text-align:center;padding:8px;background:white;border-radius:6px">
+    <div style="text-align:center;padding:8px;background:white;border-radius:var(--radius-sm)">
       <div style="font-size:20px;font-weight:800;color:var(--primary)">${hBas.toFixed(2)}</div>
       <div style="font-size:10px;color:var(--muted)">m sous mezz.</div>
     </div>
-    <div style="text-align:center;padding:8px;background:white;border-radius:6px">
+    <div style="text-align:center;padding:8px;background:white;border-radius:var(--radius-sm)">
       <div style="font-size:20px;font-weight:800;color:var(--primary)">${hHaut.toFixed(2)}</div>
       <div style="font-size:10px;color:var(--muted)">m à l'étage</div>
     </div>
@@ -6122,7 +6118,7 @@ function _getBesoinsMezzanine(isPublic, isLourd){
     isPublic ? '✓ Bureau de contrôle obligatoire (ERP)' : null,
     isLourd  ? '✓ Calcul de charges renforcé nécessaire' : null,
   ].filter(Boolean);
-  return `<div style="margin-top:8px;padding:8px 10px;background:rgba(99,91,255,.06);border-radius:6px;font-size:11px;color:var(--primary-dark);line-height:1.8">${items.join('<br>')}</div>`;
+  return `<div style="margin-top:8px;padding:8px 10px;background:rgba(99,91,255,.06);border-radius:var(--radius-sm);font-size:11px;color:var(--primary-dark);line-height:1.8">${items.join('<br>')}</div>`;
 }
 
 // ── TRAVAUX PRÉVUS & ANALYSE IA ───────────────────────────────
@@ -6294,12 +6290,12 @@ function afficherAutorisations(liste){
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
         <span style="font-size:14px;font-weight:700;color:var(--ink)">${a.nom}</span>
-        <span style="font-size:10px;background:var(--danger);color:white;padding:2px 8px;border-radius:10px">Obligatoire</span>
+        <span style="font-size:10px;background:var(--danger);color:white;padding:2px 8px;border-radius:var(--radius-lg)">Obligatoire</span>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
         <div>
           <div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:4px">Statut</div>
-          <select id="aut-statut-${a.key}" style="width:100%;height:32px;border:1.5px solid var(--border);border-radius:6px;padding:0 8px;font-size:12px;font-family:var(--font)">
+          <select id="aut-statut-${a.key}" style="width:100%;height:32px;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:0 8px;font-size:12px;font-family:var(--font)">
             <option value="a_deposer">À déposer</option>
             <option value="depose">Déposé</option>
             <option value="accorde">Accordé ✅</option>
@@ -6312,11 +6308,11 @@ function afficherAutorisations(liste){
         </div>
         <div>
           <div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:4px">Date de dépôt</div>
-          <input type="date" id="aut-depot-${a.key}" style="width:100%;height:32px;border:1.5px solid var(--border);border-radius:6px;padding:0 8px;font-size:12px;font-family:var(--font)">
+          <input type="date" id="aut-depot-${a.key}" style="width:100%;height:32px;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:0 8px;font-size:12px;font-family:var(--font)">
         </div>
         <div>
           <div style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:4px">Date de réponse</div>
-          <input type="date" id="aut-reponse-${a.key}" style="width:100%;height:32px;border:1.5px solid var(--border);border-radius:6px;padding:0 8px;font-size:12px;font-family:var(--font)">
+          <input type="date" id="aut-reponse-${a.key}" style="width:100%;height:32px;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:0 8px;font-size:12px;font-family:var(--font)">
         </div>
       </div>
       ${a.travaux.length ? `<div style="font-size:11px;color:var(--mid);margin-bottom:8px">🎯 <strong>Travaux concernés :</strong> ${a.travaux.join(', ')}</div>` : ''}
@@ -6324,7 +6320,7 @@ function afficherAutorisations(liste){
         <span style="font-size:11px;color:var(--mid)">Travaux avant obtention :</span>
         <span style="font-size:11px;font-weight:700;color:${a.peut_avant?'var(--success)':'var(--danger)'}">${a.peut_avant?'✅ Oui':'❌ Non'}</span>
       </div>
-      <div style="padding:8px 10px;background:#FEF2F2;border-radius:6px;font-size:11px;color:var(--danger)">⚠️ ${a.risques}</div>
+      <div style="padding:8px 10px;background:#FEF2F2;border-radius:var(--radius-sm);font-size:11px;color:var(--danger)">⚠️ ${a.risques}</div>
     </div>`).join('');
 }
 
@@ -6348,12 +6344,12 @@ function afficherIntervenants(liste){
       <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);gap:10px;flex-wrap:wrap">
         <div style="flex:1;min-width:0">
           <div style="display:flex;align-items:center;gap:6px">
-            ${found ? `<span style="font-size:10px;background:${niveauBadge[niveau]};color:white;padding:2px 7px;border-radius:10px;flex-shrink:0">${niveau}</span>` : ''}
+            ${found ? `<span style="font-size:10px;background:${niveauBadge[niveau]};color:white;padding:2px 7px;border-radius:var(--radius-lg);flex-shrink:0">${niveau}</span>` : ''}
             <span style="font-size:12px;font-weight:600;color:${found?'var(--ink)':'var(--muted)'}">${nom}</span>
           </div>
           ${raison ? `<div style="font-size:11px;color:var(--muted);margin-top:2px">${raison}</div>` : ''}
         </div>
-        <select id="int-${key}" style="font-size:11px;border:1.5px solid var(--border);border-radius:6px;padding:4px 8px;font-family:var(--font);flex-shrink:0">
+        <select id="int-${key}" style="font-size:11px;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:4px 8px;font-family:var(--font);flex-shrink:0">
           <option value="a_prevoir" ${!found||niveau==='À prévoir'?'selected':''}>À prévoir</option>
           <option value="missionne" ${niveau==='Déjà missionné'?'selected':''}>Déjà missionné ✅</option>
           <option value="non_necessaire" ${!found&&niveau!=='À prévoir'?'selected':''}>Non nécessaire</option>
@@ -6427,21 +6423,21 @@ function renderPieceExistante(id){
 
   const div = document.createElement('div');
   div.id = 'pe-card-'+id;
-  div.style.cssText = 'border:1.5px solid var(--border);border-radius:10px;padding:14px;background:white';
+  div.style.cssText = 'border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:14px;background:white';
   div.innerHTML = `
     <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
-      <select onchange="updatePieceExistante('${id}','type',this.value)" style="flex:1;min-width:140px;height:34px;border:1.5px solid var(--border);border-radius:6px;padding:0 10px;font-size:13px;font-family:var(--font)">
+      <select onchange="updatePieceExistante('${id}','type',this.value)" style="flex:1;min-width:140px;height:34px;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:0 10px;font-size:13px;font-family:var(--font)">
         ${TYPES_PIECES_EXISTANTES.map(t=>`<option value="${t}" ${piece.type===t?'selected':''}>${t}</option>`).join('')}
       </select>
-      <select onchange="updatePieceExistante('${id}','niveau',this.value);updateElementsColor('${id}',this.value)" style="flex:1;min-width:140px;height:34px;border:1.5px solid var(--border);border-radius:6px;padding:0 10px;font-size:13px;font-family:var(--font)">
+      <select onchange="updatePieceExistante('${id}','niveau',this.value);updateElementsColor('${id}',this.value)" style="flex:1;min-width:140px;height:34px;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:0 10px;font-size:13px;font-family:var(--font)">
         ${NIVEAUX_INTERVENTION.map(n=>`<option value="${n}" ${piece.niveau===n?'selected':''}>${n}</option>`).join('')}
       </select>
-      <button onclick="supprimerPieceExistante('${id}')" style="background:none;border:1px solid #FCA5A5;border-radius:6px;padding:6px 10px;cursor:pointer;color:var(--danger);font-size:12px;flex-shrink:0">✕</button>
+      <button onclick="supprimerPieceExistante('${id}')" style="background:none;border:1px solid #FCA5A5;border-radius:var(--radius-sm);padding:6px 10px;cursor:pointer;color:var(--danger);font-size:12px;flex-shrink:0">✕</button>
     </div>
     <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">Éléments conservés</div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px" id="pe-elements-${id}">
       ${ELEMENTS_CONSERVES.map(el=>`
-        <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;padding:4px 6px;border-radius:6px;border:1px solid var(--border);background:white" id="pe-el-${id}-${el.replace(/\s/g,'_')}">
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;padding:4px 6px;border-radius:var(--radius-sm);border:1px solid var(--border);background:white" id="pe-el-${id}-${el.replace(/\s/g,'_')}">
           <input type="checkbox" ${piece.elements.includes(el)?'checked':''} onchange="toggleElementConserve('${id}','${el}',this.checked)" style="accent-color:var(--primary)">
           ${el}
         </label>`).join('')}
@@ -6634,10 +6630,10 @@ function renderPieceCard(id, type){
     <div class="form-group"><label class="form-label">Ouvertures (m²)</label><input type="number" step="0.1" class="form-input" value="${p.ouvertures}" oninput="upP('${id}','ouvertures',+this.value)"></div>
   </div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">
-    <div style="background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--primary);font-weight:600;text-transform:uppercase">Sol</div><div style="font-size:16px;font-weight:800;color:var(--primary)">${p.surface} m²</div></div>
-    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Murs bruts</div><div style="font-size:15px;font-weight:700" id="smurs-${id}">— m²</div></div>
-    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Murs nets</div><div style="font-size:15px;font-weight:700" id="snet-${id}">— m²</div></div>
-    <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Faïence</div><div style="font-size:15px;font-weight:700" id="sfaience-${id}">— m²</div></div>
+    <div style="background:var(--primary-light);border:1px solid var(--primary-border);border-radius:var(--radius);padding:10px;text-align:center"><div style="font-size:9px;color:var(--primary);font-weight:600;text-transform:uppercase">Sol</div><div style="font-size:16px;font-weight:800;color:var(--primary)">${p.surface} m²</div></div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:10px;text-align:center"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Murs bruts</div><div style="font-size:15px;font-weight:700" id="smurs-${id}">— m²</div></div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:10px;text-align:center"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Murs nets</div><div style="font-size:15px;font-weight:700" id="snet-${id}">— m²</div></div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:10px;text-align:center"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Faïence</div><div style="font-size:15px;font-weight:700" id="sfaience-${id}">— m²</div></div>
   </div>
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">
     <div class="form-group"><label class="form-label">Faux plafond</label>
@@ -6745,10 +6741,10 @@ function renderEclairage(){
         <span class="badge badge-primary">${lux} lux</span>
       </div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
-        <div style="text-align:center;background:var(--bg);border-radius:6px;padding:8px"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Luminaires</div><div style="font-size:18px;font-weight:800">${nbL}</div></div>
-        <div style="text-align:center;background:var(--bg);border-radius:6px;padding:8px"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Circuits</div><div style="font-size:18px;font-weight:800">${nbC}</div></div>
-        <div style="text-align:center;background:${nbB>0?'var(--primary-light)':'var(--bg)'};border-radius:6px;padding:8px"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">BAES</div><div style="font-size:18px;font-weight:800;color:${nbB>0?'var(--primary)':'var(--muted)'}">${nbB}</div></div>
-        <div style="text-align:center;background:var(--bg);border-radius:6px;padding:8px"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Puiss.</div><div style="font-size:14px;font-weight:700">${pW}W</div></div>
+        <div style="text-align:center;background:var(--bg);border-radius:var(--radius-sm);padding:8px"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Luminaires</div><div style="font-size:18px;font-weight:800">${nbL}</div></div>
+        <div style="text-align:center;background:var(--bg);border-radius:var(--radius-sm);padding:8px"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Circuits</div><div style="font-size:18px;font-weight:800">${nbC}</div></div>
+        <div style="text-align:center;background:${nbB>0?'var(--primary-light)':'var(--bg)'};border-radius:var(--radius-sm);padding:8px"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">BAES</div><div style="font-size:18px;font-weight:800;color:${nbB>0?'var(--primary)':'var(--muted)'}">${nbB}</div></div>
+        <div style="text-align:center;background:var(--bg);border-radius:var(--radius-sm);padding:8px"><div style="font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase">Puiss.</div><div style="font-size:14px;font-weight:700">${pW}W</div></div>
       </div>
       ${warn?'<div class="alert critique" style="margin-top:10px;padding:8px 10px"><div class="alert-icon"><svg width="14" height="14" fill="none" stroke="var(--danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div class="alert-body"><div class="alert-title" style="font-size:11px">ERP — BAES requis</div></div></div>':''}
     </div>`;
@@ -6792,7 +6788,7 @@ function calcElec(){
     <div class="kpi"><div class="kpi-label">RJ45</div><div class="kpi-val kpi-val-sm">${tR}</div></div>
     <div class="kpi"><div class="kpi-label">Circuits</div><div class="kpi-val kpi-val-sm">${circ+tT}</div></div>
   </div>
-  <div style="background:var(--bg);border-radius:8px;padding:14px">
+  <div style="background:var(--bg);border-radius:var(--radius);padding:14px">
     <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Puissance estimée</span><span style="font-size:14px;font-weight:700">${pE.toFixed(1)} kVA</span></div>
     <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-size:12px;color:var(--mid)">Puissance disponible</span><span style="font-size:14px;font-weight:700">${pD||'?'} kVA</span></div>
   </div>
@@ -6830,7 +6826,7 @@ function calcPlomberie(){
     <div class="kpi"><div class="kpi-label">WC total</div><div class="kpi-val kpi-val-sm">${tWC}</div></div>
     <div class="kpi" style="border:1px solid ${tPMR>0?'var(--success)':'var(--danger)'}"><div class="kpi-label">WC PMR</div><div class="kpi-val kpi-val-sm" style="color:${tPMR>0?'var(--success)':'var(--danger)'}">${tPMR}</div></div>
   </div>
-  <div style="background:var(--bg);border-radius:8px;padding:14px">
+  <div style="background:var(--bg);border-radius:var(--radius);padding:14px">
     <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Plonges</span><span style="font-size:13px;font-weight:700">${tPl}</span></div>
     <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Bac à graisse</span><span style="font-size:13px;font-weight:700;color:${bg?'var(--success)':'var(--danger)'}">${bg?'✓ Prévu':'✗ Non prévu'}</span></div>
     <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-size:12px;color:var(--mid)">Volume ECS</span><span style="font-size:13px;font-weight:700">${ecs} L</span></div>
@@ -6870,7 +6866,7 @@ function calcVentilation(){
     <div class="kpi"><div class="kpi-label">Débit air neuf</div><div class="kpi-val kpi-val-sm">${fmtN(tD)} m³/h</div></div>
     <div class="kpi"><div class="kpi-label">Extraction cuisine</div><div class="kpi-val kpi-val-sm">${fmtN(dH)} m³/h</div></div>
   </div>
-  <div style="background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;padding:14px;text-align:center">
+  <div style="background:var(--primary-light);border:1px solid var(--primary-border);border-radius:var(--radius);padding:14px;text-align:center">
     <div style="font-size:11px;color:var(--primary);font-weight:600;margin-bottom:4px">DÉBIT TOTAL ESTIMÉ</div>
     <div style="font-size:24px;font-weight:800;color:var(--primary)">${fmtN(tD+dH)} m³/h</div>
   </div>
@@ -6912,7 +6908,7 @@ function calcClim(){
     <div class="kpi"><div class="kpi-label">Puissance estimée</div><div class="kpi-val kpi-val-sm">${(tP/1000).toFixed(1)} kW</div></div>
     <div class="kpi"><div class="kpi-label">Liaisons frigo</div><div class="kpi-val kpi-val-sm">${li.toFixed(0)} ml</div></div>
   </div>
-  <div style="background:var(--bg);border-radius:8px;padding:14px">
+  <div style="background:var(--bg);border-radius:var(--radius);padding:14px">
     <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Unités ext.</span><span style="font-size:13px;font-weight:700">${nb}</span></div>
     <div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-size:12px;color:var(--mid)">Emplacement</span><span style="font-size:13px;font-weight:700">${_val('clim-ext-empl','—')}</span></div>
   </div>`;
@@ -6956,7 +6952,7 @@ function calcERP(){
     <div class="kpi"><div class="kpi-label">Places PMR min</div><div class="kpi-val">${pPMR}</div></div>
     <div class="kpi"><div class="kpi-label">Effectif estimé</div><div class="kpi-val">${eff}</div></div>
   </div>
-  <div style="background:var(--primary-light);border:2px solid var(--primary-border);border-radius:8px;padding:16px;text-align:center">
+  <div style="background:var(--primary-light);border:2px solid var(--primary-border);border-radius:var(--radius);padding:16px;text-align:center">
     <div style="font-size:11px;color:var(--primary);font-weight:600;margin-bottom:4px">CATÉGORIE ERP PROBABLE</div>
     <div style="font-size:22px;font-weight:800;color:var(--primary)">${cat}</div>
     <div style="font-size:11px;color:var(--mid);margin-top:4px">Type ${type} · ${eff} pers.</div>
@@ -7147,7 +7143,7 @@ function renderChiffrageDetail(){
     <table class="table">
       <thead><tr><th>Lot</th><th>%</th><th style="text-align:right">Matériaux</th><th style="text-align:right">Main-d'œuvre</th><th style="text-align:right">Sous-trait.</th><th style="text-align:right">DS Total</th></tr></thead>
       <tbody>${cur.lots.map((l,i)=>{const ds=Math.round(bB*l.pct/100);return `<tr style="background:${i%2?'var(--bg)':'white'}"><td class="label">${l.nom}</td><td><span class="badge badge-primary">${l.pct}%</span></td><td class="num">${fmt(Math.round(ds*0.55))}</td><td class="num">${fmt(Math.round(ds*0.35))}</td><td class="num" style="color:var(--muted)">${fmt(Math.round(ds*0.10))}</td><td class="num" style="font-size:14px;font-weight:800">${fmt(ds)}</td></tr>`;}).join('')}</tbody>
-      <tfoot><tr style="background:var(--ink);color:white"><td style="padding:10px 14px;font-weight:700" colspan="2">TOTAL DS</td><td style="padding:10px 14px;text-align:right">${fmt(Math.round(bB*0.55))}</td><td style="padding:10px 14px;text-align:right">${fmt(Math.round(bB*0.35))}</td><td style="padding:10px 14px;text-align:right;color:#94A3B8">${fmt(Math.round(bB*0.10))}</td><td style="padding:10px 14px;text-align:right;font-size:18px;font-weight:800">${fmt(bB)}</td></tr></tfoot>
+      <tfoot><tr style="background:var(--ink);color:white"><td style="padding:10px 14px;font-weight:700" colspan="2">TOTAL DS</td><td style="padding:10px 14px;text-align:right">${fmt(Math.round(bB*0.55))}</td><td style="padding:10px 14px;text-align:right">${fmt(Math.round(bB*0.35))}</td><td style="padding:10px 14px;text-align:right;color:var(--muted)">${fmt(Math.round(bB*0.10))}</td><td style="padding:10px 14px;text-align:right;font-size:18px;font-weight:800">${fmt(bB)}</td></tr></tfoot>
     </table>
   </div>`;
 }
@@ -7188,39 +7184,39 @@ function renderSynthese(){
   </div>
 
   <div style="margin-bottom:20px">
-    <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary);padding:8px 14px;background:var(--primary-light);border-radius:6px;border-left:3px solid var(--primary);margin-bottom:12px">📐 Surfaces & Métrés</div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary);padding:8px 14px;background:var(--primary-light);border-radius:var(--radius-sm);border-left:3px solid var(--primary);margin-bottom:12px">📐 Surfaces & Métrés</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px">
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Surface totale</div><div style="font-size:16px;font-weight:700">${surf} m²</div></div>
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Volume total</div><div style="font-size:16px;font-weight:700">${fmtN(tVol)} m³</div></div>
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Nb pièces</div><div style="font-size:16px;font-weight:700">${state.pieces.length}</div></div>
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Hauteur moy.</div><div style="font-size:16px;font-weight:700">${_val('proj-hauteur','2.70')} m</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Surface totale</div><div style="font-size:16px;font-weight:700">${surf} m²</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Volume total</div><div style="font-size:16px;font-weight:700">${fmtN(tVol)} m³</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Nb pièces</div><div style="font-size:16px;font-weight:700">${state.pieces.length}</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Hauteur moy.</div><div style="font-size:16px;font-weight:700">${_val('proj-hauteur','2.70')} m</div></div>
     </div>
   </div>
 
   <div style="margin-bottom:20px">
-    <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary);padding:8px 14px;background:var(--primary-light);border-radius:6px;border-left:3px solid var(--primary);margin-bottom:12px">⚡ Bilan technique</div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary);padding:8px 14px;background:var(--primary-light);border-radius:var(--radius-sm);border-left:3px solid var(--primary);margin-bottom:12px">⚡ Bilan technique</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px">
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Luminaires</div><div style="font-size:16px;font-weight:700">${tLum}</div></div>
-      <div style="background:var(--primary-light);border:1px solid var(--primary-border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--primary);font-weight:500;margin-bottom:4px">BAES</div><div style="font-size:16px;font-weight:700;color:var(--primary)">${tBAES}</div></div>
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Prises</div><div style="font-size:16px;font-weight:700">${tPri}</div></div>
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">RJ45</div><div style="font-size:16px;font-weight:700">${tRJ}</div></div>
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Points WC</div><div style="font-size:16px;font-weight:700">${tWC}</div></div>
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Ventilation</div><div style="font-size:14px;font-weight:700">${fmtN(tDeb)} m³/h</div></div>
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Climatisation</div><div style="font-size:14px;font-weight:700">${(tCl/1000).toFixed(1)} kW</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Luminaires</div><div style="font-size:16px;font-weight:700">${tLum}</div></div>
+      <div style="background:var(--primary-light);border:1px solid var(--primary-border);border-radius:var(--radius);padding:12px"><div style="font-size:10px;color:var(--primary);font-weight:500;margin-bottom:4px">BAES</div><div style="font-size:16px;font-weight:700;color:var(--primary)">${tBAES}</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Prises</div><div style="font-size:16px;font-weight:700">${tPri}</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">RJ45</div><div style="font-size:16px;font-weight:700">${tRJ}</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Points WC</div><div style="font-size:16px;font-weight:700">${tWC}</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Ventilation</div><div style="font-size:14px;font-weight:700">${fmtN(tDeb)} m³/h</div></div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:12px"><div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px">Climatisation</div><div style="font-size:14px;font-weight:700">${(tCl/1000).toFixed(1)} kW</div></div>
     </div>
   </div>
 
   <div style="margin-bottom:20px">
-    <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary);padding:8px 14px;background:var(--primary-light);border-radius:6px;border-left:3px solid var(--primary);margin-bottom:12px">💶 Chiffrage</div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary);padding:8px 14px;background:var(--primary-light);border-radius:var(--radius-sm);border-left:3px solid var(--primary);margin-bottom:12px">💶 Chiffrage</div>
     ${surf>0?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:18px">
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px">
         <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Déboursé sec</span><span style="font-size:13px;font-weight:600">${fmt(bB)}</span></div>
         <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Frais généraux ${fg}%</span><span style="font-size:13px;font-weight:600">+ ${fmt(mFG)}</span></div>
         <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Aléas ${Math.round(al*100)}%</span><span style="font-size:13px;font-weight:600">+ ${fmt(mAl)}</span></div>
         <div style="display:flex;justify-content:space-between;padding:7px 0"><span style="font-size:12px;color:var(--mid)">Marge ${mg}%</span><span style="font-size:13px;font-weight:600">+ ${fmt(mMa)}</span></div>
         <div style="display:flex;justify-content:space-between;padding:12px 0 0;border-top:2px solid var(--border);margin-top:8px"><span style="font-size:14px;font-weight:700">Travaux HT</span><span style="font-size:16px;font-weight:800;color:var(--primary)">${fmt(tT)}</span></div>
       </div>
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:18px">
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px">
         <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--border)"><span style="font-size:12px;color:var(--mid)">Travaux HT</span><span style="font-size:13px;font-weight:600">${fmt(tT)}</span></div>
         <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:2px solid var(--ink);margin-bottom:8px"><span style="font-size:12px;color:var(--mid)">Études & autorisations</span><span style="font-size:13px;font-weight:600">${fmt(bEt)}</span></div>
         <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--border)"><span style="font-size:14px;font-weight:800">Total HT</span><span style="font-size:16px;font-weight:800">${fmt(tHT)}</span></div>
@@ -7231,7 +7227,7 @@ function renderSynthese(){
   </div>
 
   ${state.alertes.length?`<div style="margin-bottom:20px">
-    <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--danger);padding:8px 14px;background:var(--danger-light);border-radius:6px;border-left:3px solid var(--danger);margin-bottom:12px">⚠️ Alertes (${state.alertes.length})</div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--danger);padding:8px 14px;background:var(--danger-light);border-radius:var(--radius-sm);border-left:3px solid var(--danger);margin-bottom:12px">⚠️ Alertes (${state.alertes.length})</div>
     ${state.alertes.map(a=>`<div class="alert ${a.level}"><div class="alert-icon">${a.level==='critique'?`<svg width="14" height="14" fill="none" stroke="var(--danger)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`:a.level==='important'?`<svg width="14" height="14" fill="none" stroke="#EA580C" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`:`<svg width="14" height="14" fill="none" stroke="#B45309" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`}</div><div class="alert-body"><div class="alert-title">${a.title}</div><div class="alert-desc">${a.desc}</div></div></div>`).join('')}
   </div>`:'<div class="alert success"><div class="alert-icon">✅</div><div class="alert-body"><div class="alert-title">Aucune alerte détectée</div></div></div>'}`;
 }
@@ -7589,7 +7585,7 @@ function renderHistoLots(ch, cur, tT, bB, mFG, mMa){
       {label:'PV HT',      val:fmt(Math.round(tT)),    bold:true},
     ];
     totaux.innerHTML = cols.map(c=>`
-      <div style="padding:10px 8px;background:var(--surface2);border-radius:8px">
+      <div style="padding:10px 8px;background:var(--surface2);border-radius:var(--radius)">
         <div style="font-size:10px;color:var(--muted);margin-bottom:4px">${c.label}</div>
         <div style="font-size:${c.bold?'13px':'12px'};font-weight:${c.bold?'800':'600'};color:${c.bold?'var(--primary)':'var(--ink2)'}">${c.val}</div>
       </div>`).join('');
@@ -7837,7 +7833,7 @@ function renderAlertes(ch){
     return;
   }
   list.innerHTML=alertes.map(a=>`
-    <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;background:${a.bg};border:1px solid ${a.color}22;margin-bottom:8px">
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--radius);background:${a.bg};border:1px solid ${a.color}22;margin-bottom:8px">
       <div style="font-size:20px;flex-shrink:0">${a.icon}</div>
       <div>
         <div style="font-size:12px;font-weight:700;color:${a.color}">${a.titre}</div>
@@ -8084,7 +8080,7 @@ function rechercherSiren(v){
   function showErr(msg){
     if(statusEl) statusEl.textContent='❌';
     if(infoEl){
-      infoEl.style.cssText='display:block;margin-top:6px;padding:10px 12px;background:#FEF2F2;border:1.5px solid #FCA5A5;border-radius:8px;font-size:12px;color:#EF4444';
+      infoEl.style.cssText='display:block;margin-top:6px;padding:10px 12px;background:#FEF2F2;border:1.5px solid #FCA5A5;border-radius:var(--radius);font-size:12px;color:#EF4444';
       infoEl.textContent=msg;
     }
   }
@@ -8136,14 +8132,14 @@ function rechercherSiren(v){
       if(statusEl) statusEl.textContent = '✅';
 
       if(infoEl){
-        infoEl.style.cssText='display:block;margin-top:6px;padding:12px 14px;background:#E6FAF5;border:1.5px solid #A7F3D8;border-radius:8px;font-size:12px;color:#1A1F36;line-height:1.9';
+        infoEl.style.cssText='display:block;margin-top:6px;padding:12px 14px;background:#E6FAF5;border:1.5px solid #A7F3D8;border-radius:var(--radius);font-size:12px;color:#1A1F36;line-height:1.9';
         infoEl.innerHTML=
           '<strong style="font-size:13px;color:#635BFF">'+nom+'</strong><br>'+
-          (forme ? '<span style="color:#6B7280">Statut juridique :</span> '+forme+'<br>' : '')+
-          (ape ? '<span style="color:#6B7280">Code APE :</span> '+ape+'<br>' : '')+
-          (siretFormate ? '<span style="color:#6B7280">SIRET siège :</span> '+siretFormate+'<br>' : '')+
-          '<span style="color:#6B7280">N° TVA :</span> '+tva+
-          (adresseFormatee ? '<br><span style="color:#6B7280">Adresse siège :</span> '+adresseFormatee : '');
+          (forme ? '<span style="color:var(--mid)">Statut juridique :</span> '+forme+'<br>' : '')+
+          (ape ? '<span style="color:var(--mid)">Code APE :</span> '+ape+'<br>' : '')+
+          (siretFormate ? '<span style="color:var(--mid)">SIRET siège :</span> '+siretFormate+'<br>' : '')+
+          '<span style="color:var(--mid)">N° TVA :</span> '+tva+
+          (adresseFormatee ? '<br><span style="color:var(--mid)">Adresse siège :</span> '+adresseFormatee : '');
       }
       updateRecap();
     })
@@ -8840,7 +8836,7 @@ function ajouterDeconnexionMenu(){
   if(!menu || menu.querySelector('.btn-deconnexion')) return;
   const div = document.createElement('div');
   div.style.cssText = 'padding:6px;border-top:1px solid var(--border);margin-top:4px';
-  div.innerHTML = `<button class="btn-deconnexion" onclick="deconnexionFirebase()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:6px;font-size:13px;color:var(--danger);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='#FEF2F2'" onmouseout="this.style.background='none'">
+  div.innerHTML = `<button class="btn-deconnexion" onclick="deconnexionFirebase()" style="width:100%;text-align:left;padding:9px 12px;border:none;background:none;cursor:pointer;border-radius:var(--radius-sm);font-size:13px;color:var(--danger);display:flex;align-items:center;gap:10px;font-family:var(--font)" onmouseover="this.style.background='#FEF2F2'" onmouseout="this.style.background='none'">
     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
     Se déconnecter
   </button>`;
@@ -9028,7 +9024,7 @@ function ouvrirHistoriqueClients(){
     return;
   }
   el.innerHTML = clients.map(c=>`
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1px solid var(--border);border-radius:8px;margin-bottom:6px;cursor:pointer"
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:6px;cursor:pointer"
       onclick="selectionnerClient('${c.siren||''}','${c.nom||''}');document.getElementById('modal-clients').style.display='none'"
       onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='white'">
       <div>
@@ -9081,7 +9077,7 @@ function verifierEcartSurface(){
     const color = ecart/surfRef > 0.05 ? 'var(--danger)' : 'var(--success)';
     html += `<div style="color:${color}">Écart : <strong>${ecart.toFixed(1)} m² (${pct}%)</strong></div>`;
     if(ecart/surfRef > 0.05){
-      html += `<div style="margin-top:6px;padding:8px 10px;background:var(--danger-light);border:1px solid #FCA5A5;border-radius:6px;color:var(--danger);font-size:11px">
+      html += `<div style="margin-top:6px;padding:8px 10px;background:var(--danger-light);border:1px solid #FCA5A5;border-radius:var(--radius-sm);color:var(--danger);font-size:11px">
         ⚠️ Écart important détecté entre la surface renseignée et les surfaces relevées. Veuillez vérifier vos données.
       </div>`;
     }
@@ -9105,7 +9101,7 @@ function ajouterObsPhotos(input){
       _obsPhotos.push({name: file.name, data: e.target.result});
       const div = document.createElement('div');
       div.style.cssText = 'position:relative;flex-shrink:0';
-      div.innerHTML = `<img src="${e.target.result}" style="width:80px;height:80px;object-fit:cover;border-radius:6px;border:1px solid var(--border)">
+      div.innerHTML = `<img src="${e.target.result}" style="width:80px;height:80px;object-fit:cover;border-radius:var(--radius-sm);border:1px solid var(--border)">
         <button onclick="supprimerObsPhoto(${_obsPhotos.length-1},this.parentElement)" style="position:absolute;top:-4px;right:-4px;background:var(--danger);color:white;border:none;border-radius:50%;width:18px;height:18px;cursor:pointer;font-size:10px;display:flex;align-items:center;justify-content:center">✕</button>`;
       preview.appendChild(div);
     };
@@ -9126,7 +9122,7 @@ function ajouterObsDocs(input){
   files.forEach(file => {
     _obsDocs.push({name: file.name, size: file.size});
     const div = document.createElement('div');
-    div.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--bg);border-radius:6px;margin-bottom:4px;font-size:12px';
+    div.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--bg);border-radius:var(--radius-sm);margin-bottom:4px;font-size:12px';
     div.innerHTML = `<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
       <span>${file.name}</span>
       <span style="color:var(--muted);margin-left:auto">${Math.round(file.size/1024)} Ko</span>`;
@@ -9277,17 +9273,17 @@ function renderRelevesType(type){
       const ecart = totalSurf - surfEx;
       const pct = surfEx>0?((ecart/surfEx)*100).toFixed(1):0;
       gridEl.innerHTML = `
-        <div style="text-align:center;padding:12px;background:var(--bg);border-radius:8px">
+        <div style="text-align:center;padding:12px;background:var(--bg);border-radius:var(--radius)">
           <div style="font-size:10px;color:var(--muted);font-weight:600">Existant</div>
           <div style="font-size:18px;font-weight:800;color:var(--ink)">${surfEx.toFixed(1)} m²</div>
           <div style="font-size:11px;color:var(--muted)">${piecesEx.length} pièce(s)</div>
         </div>
-        <div style="text-align:center;padding:12px;background:var(--bg);border-radius:8px">
+        <div style="text-align:center;padding:12px;background:var(--bg);border-radius:var(--radius)">
           <div style="font-size:10px;color:var(--muted);font-weight:600">Projet</div>
           <div style="font-size:18px;font-weight:800;color:var(--primary)">${totalSurf.toFixed(1)} m²</div>
           <div style="font-size:11px;color:var(--muted)">${pieces.length} pièce(s)</div>
         </div>
-        <div style="text-align:center;padding:12px;background:${Math.abs(ecart/Math.max(surfEx,1))>0.1?'var(--danger-light)':'var(--primary-light)'};border-radius:8px">
+        <div style="text-align:center;padding:12px;background:${Math.abs(ecart/Math.max(surfEx,1))>0.1?'var(--danger-light)':'var(--primary-light)'};border-radius:var(--radius)">
           <div style="font-size:10px;color:var(--muted);font-weight:600">Écart</div>
           <div style="font-size:18px;font-weight:800;color:${ecart>=0?'var(--primary)':'var(--danger)'}">${ecart>=0?'+':''}${ecart.toFixed(1)} m²</div>
           <div style="font-size:11px;color:var(--muted)">${pct}%</div>
@@ -9445,7 +9441,7 @@ function afficherChampsExtraits(data){
   const html = Object.entries(labels)
     .filter(([k]) => data[k] && data[k] !== 'null')
     .map(([k,label]) => `
-      <div style="padding:10px 12px;background:white;border-radius:8px;border:1px solid var(--border)">
+      <div style="padding:10px 12px;background:white;border-radius:var(--radius);border:1px solid var(--border)">
         <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">${label}</div>
         <div style="font-size:13px;font-weight:600;color:var(--ink)">${Array.isArray(data[k])?data[k].join(', '):data[k]}</div>
       </div>`).join('');
@@ -9530,8 +9526,8 @@ function genererRapportDPGF(){
     return `
       <tr style="border-bottom:1px solid #e5e7eb">
         <td style="padding:10px 14px;font-size:13px;font-weight:600;color:#374151">${String(i+1).padStart(2,'0')} - ${l.nom}</td>
-        <td style="padding:10px 14px;font-size:12px;color:#6b7280;text-align:center">${l.pct}%</td>
-        <td style="padding:10px 14px;font-size:13px;font-weight:700;color:#111827;text-align:right">${fmt(montant)} HT</td>
+        <td style="padding:10px 14px;font-size:12px;color:var(--mid);text-align:center">${l.pct}%</td>
+        <td style="padding:10px 14px;font-size:13px;font-weight:700;color:var(--ink);text-align:right">${fmt(montant)} HT</td>
       </tr>`;
   }).join('');
 
@@ -9550,20 +9546,20 @@ function genererRapportDPGF(){
 <title>Rapport DPGF — ${nom}</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Segoe UI',Arial,sans-serif; color:#111827; background:white; }
+  body { font-family:'Segoe UI',Arial,sans-serif; color:var(--ink); background:white; }
   .page { width:210mm; min-height:297mm; margin:0 auto; padding:20mm 18mm; }
   .header { display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:20px; border-bottom:3px solid #111827; margin-bottom:28px; }
   .logo-zone { max-height:60px; max-width:160px; }
   .logo-zone img { max-height:60px; max-width:160px; object-fit:contain; }
-  .company-info { text-align:right; font-size:11px; color:#6b7280; line-height:1.7; }
-  .doc-title { font-size:28px; font-weight:800; color:#111827; margin-bottom:6px; letter-spacing:-0.5px; }
-  .doc-subtitle { font-size:13px; color:#6b7280; margin-bottom:24px; }
+  .company-info { text-align:right; font-size:11px; color:var(--mid); line-height:1.7; }
+  .doc-title { font-size:28px; font-weight:800; color:var(--ink); margin-bottom:6px; letter-spacing:-0.5px; }
+  .doc-subtitle { font-size:13px; color:var(--mid); margin-bottom:24px; }
   .badge { display:inline-block; padding:3px 12px; background:#f0fdf4; border:1px solid #86efac; border-radius:20px; font-size:11px; font-weight:600; color:#16a34a; }
-  .section-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:#9ca3af; margin:28px 0 12px; }
+  .section-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin:28px 0 12px; }
   .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
-  .info-item { padding:12px 14px; background:#f9fafb; border-radius:8px; border:1px solid #e5e7eb; }
-  .info-label { font-size:10px; font-weight:600; color:#9ca3af; text-transform:uppercase; margin-bottom:3px; }
-  .info-value { font-size:13px; font-weight:600; color:#111827; }
+  .info-item { padding:12px 14px; background:#f9fafb; border-radius:var(--radius); border:1px solid #e5e7eb; }
+  .info-label { font-size:10px; font-weight:600; color:var(--muted); text-transform:uppercase; margin-bottom:3px; }
+  .info-value { font-size:13px; font-weight:600; color:var(--ink); }
   table { width:100%; border-collapse:collapse; margin-bottom:20px; }
   thead tr { background:#111827; }
   thead th { padding:10px 14px; font-size:11px; font-weight:600; color:white; text-align:left; letter-spacing:.05em; }
@@ -9572,11 +9568,11 @@ function genererRapportDPGF(){
   tfoot td { padding:12px 14px; font-size:13px; font-weight:700; }
   .total-row td { font-size:15px; font-weight:800; color:#059669; }
   .total-row td:last-child { text-align:right; }
-  .alert-box { padding:14px 18px; background:#fef3c7; border:1.5px solid #fcd34d; border-radius:8px; font-size:12px; color:#92400e; margin-bottom:16px; }
-  .footer { margin-top:40px; padding-top:16px; border-top:1px solid #e5e7eb; display:flex; justify-content:space-between; font-size:10px; color:#9ca3af; }
+  .alert-box { padding:14px 18px; background:#fef3c7; border:1.5px solid #fcd34d; border-radius:var(--radius); font-size:12px; color:#92400e; margin-bottom:16px; }
+  .footer { margin-top:40px; padding-top:16px; border-top:1px solid #e5e7eb; display:flex; justify-content:space-between; font-size:10px; color:var(--muted); }
   .signature-zone { margin-top:40px; display:grid; grid-template-columns:1fr 1fr; gap:40px; }
-  .signature-box { padding:20px; border:1px solid #e5e7eb; border-radius:8px; min-height:100px; }
-  .signature-label { font-size:11px; font-weight:600; color:#6b7280; margin-bottom:6px; }
+  .signature-box { padding:20px; border:1px solid #e5e7eb; border-radius:var(--radius); min-height:100px; }
+  .signature-label { font-size:11px; font-weight:600; color:var(--mid); margin-bottom:6px; }
   @media print { .page { padding:15mm 12mm; } }
 
 /* ═══ DASHBOARD RESPONSIVE ═══ */
@@ -9599,7 +9595,7 @@ function genererRapportDPGF(){
     justify-content:center;
     font-size:15px;
     padding:13px 20px;
-    border-radius:10px;
+    border-radius:var(--radius-lg);
   }
   #page-dashboard > div[style*="display:flex;gap:8px"]{
     flex-direction:column;
@@ -9619,6 +9615,560 @@ function genererRapportDPGF(){
   }
 }
 
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN SYSTEM — LOKOO SaaS PREMIUM
+   Harmonisation globale : typographie, espacement, couleurs
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── RESET DES OVERRIDES TROP AGRESSIFS ───────────────────────── */
+/* On supprime les !important sur .card pour laisser le CSS gérer */
+.card{
+  background:#FFFFFF;
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:18px 20px;
+  box-shadow:var(--shadow-sm);
+  margin-bottom:12px;
+}
+/* Override page-init uniquement */
+#page-init .card{
+  padding:14px 16px !important;
+  margin-bottom:8px !important;
+}
+
+/* ── TYPOGRAPHIE GLOBALE ──────────────────────────────────────── */
+/* Titres de pages */
+.page-header h2{
+  font-size:22px;
+  font-weight:800;
+  color:var(--ink);
+  letter-spacing:-.5px;
+  line-height:1.25;
+}
+.page-header p{
+  font-size:13px;
+  color:var(--muted);
+  margin-top:3px;
+  line-height:1.5;
+}
+
+/* Card titles — sentence case, discret */
+.card-title{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:14px;
+}
+
+/* Section titles */
+.form-section-title{
+  font-size:11px;
+  font-weight:700;
+  color:var(--ink2);
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  margin-bottom:8px;
+  margin-top:14px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.form-section-title::before{
+  content:'';
+  display:block;
+  width:3px;
+  height:14px;
+  background:var(--primary);
+  border-radius:2px;
+  flex-shrink:0;
+}
+
+/* Nav labels */
+.nav-label{
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding:8px 12px 4px;
+  display:block;
+}
+
+/* ── FORMULAIRES HARMONISÉS ───────────────────────────────────── */
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  margin-bottom:12px;
+}
+.form-label{
+  font-size:12px !important;
+  font-weight:600 !important;
+  color:var(--ink2) !important;
+  margin-bottom:0 !important;
+  letter-spacing:-.01em;
+}
+.form-input{
+  height:36px;
+  padding:0 10px !important;
+  font-size:13px !important;
+  border:1.5px solid var(--border) !important;
+  border-radius:var(--radius) !important;
+  background:#FFFFFF;
+  color:var(--ink);
+  font-family:var(--font);
+  transition:border-color .15s, box-shadow .15s;
+  outline:none;
+  width:100%;
+  box-sizing:border-box;
+}
+.form-input:focus{
+  border-color:var(--primary) !important;
+  box-shadow:0 0 0 3px rgba(99,91,255,.1) !important;
+}
+textarea.form-input{
+  height:auto;
+  padding:8px 10px !important;
+  resize:vertical;
+  line-height:1.5;
+}
+.form-select{
+  height:36px !important;
+  padding:0 10px !important;
+  font-size:13px !important;
+  border:1.5px solid var(--border) !important;
+  border-radius:var(--radius) !important;
+  background:#FFFFFF;
+  color:var(--ink);
+  font-family:var(--font);
+  cursor:pointer;
+  transition:border-color .15s;
+  outline:none;
+  width:100%;
+  box-sizing:border-box;
+}
+.form-select:focus{
+  border-color:var(--primary) !important;
+  box-shadow:0 0 0 3px rgba(99,91,255,.1) !important;
+}
+.form-hint{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+/* ── BOUTONS HARMONISÉS ───────────────────────────────────────── */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 16px;
+  border-radius:var(--radius);
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  border:1.5px solid transparent;
+  font-family:var(--font);
+  transition:all .15s;
+  white-space:nowrap;
+  line-height:1;
+}
+.btn-primary{
+  background:var(--primary);
+  color:#fff;
+  border-color:var(--primary);
+}
+.btn-primary:hover{
+  background:var(--primary-dark);
+  border-color:var(--primary-dark);
+  box-shadow:0 2px 8px rgba(99,91,255,.25);
+}
+.btn-secondary{
+  background:#fff;
+  color:var(--ink2);
+  border-color:var(--border2);
+}
+.btn-secondary:hover{
+  border-color:var(--primary);
+  color:var(--primary);
+  background:var(--primary-light);
+}
+.btn-ghost{
+  background:transparent;
+  color:var(--mid);
+  border-color:transparent;
+}
+.btn-ghost:hover{
+  background:var(--surface2);
+  color:var(--ink);
+}
+.btn-sm{
+  padding:5px 10px;
+  font-size:12px;
+}
+.btn-danger{
+  background:#fff;
+  color:var(--danger);
+  border-color:var(--danger);
+}
+.btn-danger:hover{
+  background:var(--danger-light);
+}
+
+/* ── NAVIGATION SIDEBAR ───────────────────────────────────────── */
+.nav-item{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:8px 12px;
+  border-radius:var(--radius-sm);
+  cursor:pointer;
+  font-size:13px;
+  font-weight:500;
+  color:var(--mid);
+  border:none;
+  background:transparent;
+  width:100%;
+  text-align:left;
+  transition:all .12s;
+  font-family:var(--font);
+}
+.nav-item:hover{
+  background:var(--surface2);
+  color:var(--ink);
+}
+.nav-item.active{
+  background:var(--primary-light);
+  color:var(--primary);
+  font-weight:700;
+}
+.nav-icon{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  width:18px;
+  color:inherit;
+}
+
+/* ── BADGES ───────────────────────────────────────────────────── */
+.badge{
+  font-size:10px;
+  font-weight:700;
+  padding:2px 7px;
+  border-radius:20px;
+  display:inline-flex;
+  align-items:center;
+  letter-spacing:.01em;
+}
+.badge-primary{background:var(--primary-light);color:var(--primary)}
+.badge-muted{background:var(--surface2);color:var(--mid)}
+.badge-success{background:var(--success-light);color:var(--success)}
+.badge-warn{background:var(--warn-light);color:var(--warn)}
+.badge-danger{background:var(--danger-light);color:var(--danger)}
+
+/* ── INIT SECTIONS ACCORDÉONS ─────────────────────────────────── */
+.init-section{
+  background:#fff;
+  border:1.5px solid var(--border);
+  border-radius:var(--radius-lg);
+  margin-bottom:8px;
+  overflow:hidden;
+  transition:box-shadow .15s;
+}
+.init-section:hover{
+  box-shadow:var(--shadow-sm);
+}
+.init-section-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:13px 16px;
+  cursor:pointer;
+  user-select:none;
+  background:#fff;
+  transition:background .12s;
+}
+.init-section-header:hover{
+  background:var(--surface2);
+}
+.init-section-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--ink);
+}
+.init-section-title svg{
+  color:var(--primary);
+  flex-shrink:0;
+}
+.init-section-arrow{
+  transition:transform .2s cubic-bezier(.4,0,.2,1);
+  flex-shrink:0;
+  color:var(--muted);
+}
+.init-section-body{
+  padding:14px 16px;
+  border-top:1px solid var(--border);
+}
+.init-section-body.collapsed{
+  display:none;
+}
+
+/* ── RADIO CARDS ──────────────────────────────────────────────── */
+.radio-card{
+  padding:9px 12px;
+  border:1.5px solid var(--border);
+  border-radius:var(--radius);
+  cursor:pointer;
+  transition:all .15s;
+  background:white;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.radio-card:hover{
+  border-color:var(--primary-border);
+  background:var(--primary-light);
+}
+.radio-card.selected{
+  border-color:var(--primary);
+  background:var(--primary-light);
+  box-shadow:0 0 0 3px rgba(99,91,255,.08);
+}
+.radio-card.selected .radio-card-label{
+  color:var(--primary);
+  font-weight:700;
+}
+
+/* ── CHECK ITEMS ──────────────────────────────────────────────── */
+.check-item{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  padding:6px 10px;
+  border-radius:var(--radius-sm);
+  border:1.5px solid var(--border);
+  cursor:pointer;
+  transition:all .12s;
+  background:white;
+  color:var(--ink2);
+}
+.check-item:hover{
+  border-color:var(--primary-border);
+  background:var(--primary-light);
+  color:var(--primary);
+}
+.check-item.checked{
+  border-color:var(--primary);
+  background:var(--primary-light);
+  color:var(--primary);
+  font-weight:600;
+}
+.check-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5px;
+}
+
+/* ── ALERTES ──────────────────────────────────────────────────── */
+.alert{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:12px 14px;
+  border-radius:var(--radius);
+  border:1px solid;
+  margin-bottom:10px;
+}
+.alert.info{background:var(--cyan-light);border-color:#BAE6FD;color:#0369A1}
+.alert.success{background:var(--success-light);border-color:#A7F3D0;color:var(--success)}
+.alert.critique{background:var(--danger-light);border-color:#FCA5A5;color:var(--danger)}
+.alert.important{background:var(--orange-light);border-color:#FDBA74;color:var(--orange)}
+.alert.vigilance{background:var(--warn-light);border-color:#FDE68A;color:var(--warn)}
+.alert-icon{flex-shrink:0;display:flex;align-items:center;margin-top:1px}
+.alert-title{font-size:13px;font-weight:700;margin-bottom:2px}
+.alert-desc{font-size:12px;opacity:.85;line-height:1.5}
+
+/* ── TABS ─────────────────────────────────────────────────────── */
+.tabs{
+  display:flex;
+  border-bottom:1.5px solid var(--border);
+  margin-bottom:16px;
+  gap:0;
+}
+.tab{
+  padding:8px 16px;
+  font-size:13px;
+  font-weight:500;
+  color:var(--mid);
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+  margin-bottom:-1.5px;
+  transition:all .12s;
+  background:none;
+  border-left:none;
+  border-right:none;
+  border-top:none;
+  font-family:var(--font);
+}
+.tab:hover{
+  color:var(--ink);
+  background:var(--surface2);
+  border-radius:var(--radius-sm) var(--radius-sm) 0 0;
+}
+.tab.active{
+  color:var(--primary);
+  font-weight:700;
+  border-bottom-color:var(--primary);
+}
+
+/* ── KPI CARDS ────────────────────────────────────────────────── */
+.kpi{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:12px 14px;
+  text-align:center;
+}
+.kpi-label{
+  font-size:10px;
+  font-weight:600;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  margin-bottom:4px;
+}
+.kpi-val{
+  font-size:22px;
+  font-weight:800;
+  color:var(--ink);
+  line-height:1;
+}
+.kpi-val-sm{font-size:16px}
+
+/* ── TABLE ────────────────────────────────────────────────────── */
+.table{width:100%;border-collapse:collapse;font-size:12px}
+.table th{
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--muted);
+  padding:8px 12px;
+  text-align:left;
+  border-bottom:1.5px solid var(--border);
+  background:var(--surface2);
+}
+.table td{
+  padding:10px 12px;
+  border-bottom:1px solid var(--border);
+  color:var(--ink2);
+  font-size:12px;
+}
+.table td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.table td.label{color:var(--ink);font-weight:500}
+.table tr:last-child td{border-bottom:none}
+.table tr:hover td{background:var(--surface2)}
+
+/* ── PROGRESS BAR ─────────────────────────────────────────────── */
+.progress-bar{
+  height:5px;
+  background:var(--border);
+  border-radius:3px;
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  background:var(--primary);
+  border-radius:3px;
+  transition:width .4s ease;
+}
+
+/* ── VERSION TAG ──────────────────────────────────────────────── */
+.version-tag{
+  font-size:10px;
+  font-weight:600;
+  color:var(--muted);
+  letter-spacing:.02em;
+}
+
+/* ── TOPBAR ───────────────────────────────────────────────────── */
+.topbar{
+  height:52px;
+  border-bottom:1px solid var(--border);
+  background:#fff;
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  gap:10px;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+/* ── PAGE HEADER ──────────────────────────────────────────────── */
+.page-header-actions{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+/* ── MODAL ────────────────────────────────────────────────────── */
+.modal-box{
+  background:#fff;
+  border-radius:var(--radius-xl);
+  padding:24px;
+  width:540px;
+  max-width:95vw;
+  box-shadow:var(--shadow-lg);
+  max-height:90vh;
+  overflow-y:auto;
+}
+.modal-title{
+  font-size:16px;
+  font-weight:800;
+  color:var(--ink);
+  margin-bottom:18px;
+  letter-spacing:-.3px;
+}
+
+/* ── RESPONSIVE GÉNÉRAL ───────────────────────────────────────── */
+@media(max-width:768px){
+  .card{padding:12px 14px!important}
+  .btn{padding:8px 12px;font-size:12px}
+  .page-header h2{font-size:18px}
+  .form-input, .form-select{height:38px!important}
+}
+
+/* ── REMPLACEMENT COULEURS HARDCODÉES ─────────────────────────── */
+/* Neutralise les couleurs inline inconsistantes via des classes utilitaires */
+.text-muted{color:var(--muted)!important}
+.text-mid{color:var(--mid)!important}
+.text-ink{color:var(--ink)!important}
+.text-primary{color:var(--primary)!important}
+.bg-surface{background:var(--surface2)!important}
+.bg-primary-light{background:var(--primary-light)!important}
+
+/* ── ANIMATION FADE ───────────────────────────────────────────── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.page.active{
+  display:block;
+  animation:fadeUp .18s ease;
+}
+
 </style>
 </head>
 <body>
@@ -9627,8 +10177,8 @@ function genererRapportDPGF(){
   <!-- EN-TÊTE -->
   <div class="header">
     <div>
-      ${logoData ? `<div class="logo-zone"><img src="${logoData}" alt="Logo"></div>` : `<div style="font-size:22px;font-weight:900;color:#111827">${entreprise.raison||'lokoo.io'}</div>`}
-      ${entreprise.raison ? `<div style="font-size:11px;color:#6b7280;margin-top:6px">${entreprise.raison}</div>` : ''}
+      ${logoData ? `<div class="logo-zone"><img src="${logoData}" alt="Logo"></div>` : `<div style="font-size:22px;font-weight:900;color:var(--ink)">${entreprise.raison||'lokoo.io'}</div>`}
+      ${entreprise.raison ? `<div style="font-size:11px;color:var(--mid);margin-top:6px">${entreprise.raison}</div>` : ''}
     </div>
     <div class="company-info">
       ${entreprise.adresse ? `<div>${entreprise.adresse}</div>` : ''}
@@ -9680,24 +10230,24 @@ function genererRapportDPGF(){
     </tbody>
     <tfoot>
       <tr><td colspan="2" style="font-size:13px;font-weight:700">Déboursé sec</td><td style="text-align:right;font-size:13px;font-weight:700">${fmt(bB)} HT</td></tr>
-      <tr><td colspan="2" style="font-size:12px;color:#6b7280">Frais généraux (${fg}%)</td><td style="text-align:right;font-size:12px;color:#6b7280">+ ${fmt(mFG)} HT</td></tr>
-      <tr><td colspan="2" style="font-size:12px;color:#6b7280">Aléas (${Math.round(cA*100)}%)</td><td style="text-align:right;font-size:12px;color:#6b7280">+ ${fmt(mAl)} HT</td></tr>
-      <tr><td colspan="2" style="font-size:12px;color:#6b7280">Marge nette (${marge}%)</td><td style="text-align:right;font-size:12px;color:#6b7280">+ ${fmt(mMa)} HT</td></tr>
+      <tr><td colspan="2" style="font-size:12px;color:var(--mid)">Frais généraux (${fg}%)</td><td style="text-align:right;font-size:12px;color:var(--mid)">+ ${fmt(mFG)} HT</td></tr>
+      <tr><td colspan="2" style="font-size:12px;color:var(--mid)">Aléas (${Math.round(cA*100)}%)</td><td style="text-align:right;font-size:12px;color:var(--mid)">+ ${fmt(mAl)} HT</td></tr>
+      <tr><td colspan="2" style="font-size:12px;color:var(--mid)">Marge nette (${marge}%)</td><td style="text-align:right;font-size:12px;color:var(--mid)">+ ${fmt(mMa)} HT</td></tr>
       <tr class="total-row"><td colspan="2">TOTAL GÉNÉRAL HT</td><td>${fmt(tT)} HT</td></tr>
     </tfoot>
   </table>
-  ${s > 0 ? `<div style="text-align:right;font-size:12px;color:#6b7280;margin-top:-12px;margin-bottom:20px">Soit ${Math.round(tT/s)} €/m² HT</div>` : ''}
+  ${s > 0 ? `<div style="text-align:right;font-size:12px;color:var(--mid);margin-top:-12px;margin-bottom:20px">Soit ${Math.round(tT/s)} €/m² HT</div>` : ''}
 
   <!-- ZONES DE SIGNATURE -->
   <div class="section-title">Validation</div>
   <div class="signature-zone">
     <div class="signature-box">
       <div class="signature-label">Le Maître d'ouvrage</div>
-      <div style="font-size:11px;color:#9ca3af;margin-top:4px">Bon pour accord · Date et signature</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px">Bon pour accord · Date et signature</div>
     </div>
     <div class="signature-box">
       <div class="signature-label">L'Entreprise</div>
-      <div style="font-size:11px;color:#9ca3af;margin-top:4px">${entreprise.raison||''} · Date et signature</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px">${entreprise.raison||''} · Date et signature</div>
     </div>
   </div>
 
@@ -9760,7 +10310,7 @@ function ouvrirRapport(rapportHtml, descriptions){
       const escaped = nom.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       rapportFinal = rapportFinal.replace(
         new RegExp(`(<td[^>]*>\\d+ - ${escaped}</td>)(</tr>)`, 'g'),
-        `$1<tr><td colspan="3" style="padding:4px 14px 10px;font-size:11px;color:#6b7280;font-style:italic;border-bottom:1px solid #e5e7eb">${desc}</td></tr>`
+        `$1<tr><td colspan="3" style="padding:4px 14px 10px;font-size:11px;color:var(--mid);font-style:italic;border-bottom:1px solid #e5e7eb">${desc}</td></tr>`
       );
     });
   }
@@ -9797,7 +10347,7 @@ function initDocsGrid(){
   const grid = document.getElementById('docs-grid');
   if(!grid) return;
   grid.innerHTML = TYPES_DOCS.map(d=>`
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;background:white;transition:all .15s"
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--radius);background:white;transition:all .15s"
       id="doc-card-${d.id}">
       <div style="display:flex;align-items:center;gap:10px">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="color:var(--muted);flex-shrink:0"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
@@ -9931,7 +10481,7 @@ function renderRecapBanner(){
     <!-- HEADER -->
     <div style="background:var(--ink);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
       <div style="display:flex;align-items:center;gap:14px">
-        <div style="width:44px;height:44px;background:rgba(255,255,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0">${cur.icon}</div>
+        <div style="width:44px;height:44px;background:rgba(255,255,255,.1);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0">${cur.icon}</div>
         <div>
           <div style="font-size:17px;font-weight:800;color:white">${nomChantier||client||'Projet sans nom'}</div>
           <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2px">${client&&adresse?client+' · '+adresse:client||adresse||'—'}</div>
@@ -9957,19 +10507,19 @@ function renderRecapBanner(){
     <!-- BODY -->
     <div style="padding:20px 24px">
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
-        <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center">
+        <div style="background:var(--bg);border-radius:var(--radius-lg);padding:14px;text-align:center">
           <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">Type</div>
           <div style="font-size:13px;font-weight:700;color:var(--ink)">${cur.label}</div>
         </div>
-        <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center">
+        <div style="background:var(--bg);border-radius:var(--radius-lg);padding:14px;text-align:center">
           <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">Surface</div>
           <div style="font-size:18px;font-weight:800;color:var(--ink)">${surface||'—'} <span style="font-size:11px;font-weight:400">m²</span></div>
         </div>
-        <div style="background:var(--bg);border-radius:10px;padding:14px;text-align:center">
+        <div style="background:var(--bg);border-radius:var(--radius-lg);padding:14px;text-align:center">
           <div style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;margin-bottom:4px">Pièces</div>
           <div style="font-size:18px;font-weight:800;color:var(--ink)">${state.pieces.length}</div>
         </div>
-        <div style="background:${bB>0?'var(--primary-light)':'var(--bg)'};border-radius:10px;padding:14px;text-align:center;border:${bB>0?'1px solid var(--primary-border)':'none'}">
+        <div style="background:${bB>0?'var(--primary-light)':'var(--bg)'};border-radius:var(--radius-lg);padding:14px;text-align:center;border:${bB>0?'1px solid var(--primary-border)':'none'}">
           <div style="font-size:10px;color:${bB>0?'var(--primary)':'var(--muted)'};font-weight:600;text-transform:uppercase;margin-bottom:4px">€/m²</div>
           <div style="font-size:18px;font-weight:800;color:${bB>0?'var(--primary)':'var(--ink)'}">${surface&&bB>0?Math.round(tT/surface):'—'}</div>
         </div>
@@ -10162,7 +10712,7 @@ function renderRecap(){
           ['Prises élec.', tPrises],
           ['Points WC', tWC],
           ['Points EF', tEF],
-        ].map(([k,v])=>`<div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center">
+        ].map(([k,v])=>`<div style="background:var(--bg);border-radius:var(--radius);padding:10px;text-align:center">
           <div style="font-size:10px;color:var(--muted);font-weight:500;margin-bottom:3px">${k}</div>
           <div style="font-size:16px;font-weight:700;color:var(--ink)">${v}</div>
         </div>`).join('')}
@@ -10208,8 +10758,8 @@ function renderRecap(){
               <span style="font-size:11px;font-weight:600;color:var(--ink)">${l.nom}</span>
               <span style="font-size:11px;color:var(--muted)">${pct}% · ${fmt(montant)}</span>
             </div>
-            <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden">
-              <div style="height:100%;background:var(--primary);width:${(pct/maxPct)*100}%;border-radius:4px;transition:width .5s ease"></div>
+            <div style="height:8px;background:var(--border);border-radius:var(--radius-sm);overflow:hidden">
+              <div style="height:100%;background:var(--primary);width:${(pct/maxPct)*100}%;border-radius:var(--radius-sm);transition:width .5s ease"></div>
             </div>
           </div>`;
         }).join('')}
@@ -10222,13 +10772,13 @@ function renderRecap(){
               <span style="font-size:11px;font-weight:600;color:var(--ink)">${l.nom}</span>
               <span style="font-size:11px;color:var(--muted)">${l.pct}% · ${fmt(montant)}</span>
             </div>
-            <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden">
-              <div style="height:100%;background:var(--primary);opacity:.6;width:${(l.pct/maxPct)*100}%;border-radius:4px"></div>
+            <div style="height:8px;background:var(--border);border-radius:var(--radius-sm);overflow:hidden">
+              <div style="height:100%;background:var(--primary);opacity:.6;width:${(l.pct/maxPct)*100}%;border-radius:var(--radius-sm)"></div>
             </div>
           </div>`;
         }).join('')}
         <!-- Donut visuel -->
-        <div style="margin-top:16px;padding:14px;background:var(--primary-light);border-radius:10px;border:1px solid var(--primary-border)">
+        <div style="margin-top:16px;padding:14px;background:var(--primary-light);border-radius:var(--radius-lg);border:1px solid var(--primary-border)">
           <div style="font-size:11px;color:var(--primary);font-weight:600;text-transform:uppercase;margin-bottom:6px">Indicateurs clés</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
             <div style="text-align:center"><div style="font-size:10px;color:var(--muted)">€/m²</div><div style="font-size:16px;font-weight:800;color:var(--primary)">${surface?Math.round(tT/surface):'-'}</div></div>
@@ -10466,7 +11016,7 @@ function renderAdresseSugg(sug){
     const row=document.createElement('div');
     row.style.cssText='padding:10px 14px;cursor:pointer;border-bottom:1px solid #E4E7EC;font-size:13px;background:white;';
     row.innerHTML='<div style="font-weight:500;color:#0A1628">'+props.label+'</div>'+
-      (props.city?'<div style="font-size:11px;color:#98A2B3;margin-top:2px">'+(props.postcode||'')+' '+props.city+'</div>':'');
+      (props.city?'<div style="font-size:11px;color:var(--muted);margin-top:2px">'+(props.postcode||'')+' '+props.city+'</div>':'');
     row.addEventListener('mouseenter',function(){this.style.background='#EFF6FF';});
     row.addEventListener('mouseleave',function(){this.style.background='white';});
     row.addEventListener('mousedown',function(e){
@@ -10533,13 +11083,13 @@ init();
     <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid #E4E7EC">
       <div>
         <div style="font-size:15px;font-weight:700" id="satellite-modal-title">Vue satellite</div>
-        <div style="font-size:11px;color:#98A2B3;margin-top:2px" id="satellite-modal-addr"></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px" id="satellite-modal-addr"></div>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
         <a id="satellite-gmaps-link" href="#" target="_blank" class="btn btn-secondary btn-sm" style="font-size:11px">
           <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg> Ouvrir dans Maps
         </a>
-        <button onclick="closeModal('modal-satellite')" style="background:none;border:none;cursor:pointer;font-size:20px;color:#98A2B3;padding:4px 8px">✕</button>
+        <button onclick="closeModal('modal-satellite')" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--muted);padding:4px 8px">✕</button>
       </div>
     </div>
     <div style="position:relative;height:480px;background:#1a1a2e">
@@ -10551,7 +11101,7 @@ init();
       </div>
     </div>
     <div style="padding:12px 20px;background:#F7F8FA;border-top:1px solid #E4E7EC;display:flex;justify-content:space-between;align-items:center">
-      <div style="font-size:11px;color:#98A2B3">📍 Point rouge = adresse sélectionnée · Source : Google Maps</div>
+      <div style="font-size:11px;color:var(--muted)">📍 Point rouge = adresse sélectionnée · Source : Google Maps</div>
       <div style="display:flex;gap:8px">
         <button onclick="switchSatelliteView('satellite')" id="btn-view-sat" class="btn btn-primary btn-sm" style="font-size:11px">Satellite</button>
         <button onclick="switchSatelliteView('roadmap')" id="btn-view-road" class="btn btn-secondary btn-sm" style="font-size:11px">Plan</button>
@@ -10601,7 +11151,7 @@ init();
 
     <!-- Preview -->
     <div id="ia-preview-wrap" style="display:none;margin-bottom:16px;text-align:center">
-      <img id="ia-preview-img" style="max-width:100%;max-height:300px;border-radius:8px;border:1px solid var(--border)">
+      <img id="ia-preview-img" style="max-width:100%;max-height:300px;border-radius:var(--radius);border:1px solid var(--border)">
       <div style="margin-top:8px">
         <button class="btn btn-ghost btn-sm" onclick="resetIAPhoto()"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" style="flex-shrink:0"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg> Supprimer</button>
       </div>
@@ -10613,7 +11163,7 @@ init();
     </button>
 
     <!-- Résultat -->
-    <div id="ia-result-modal" style="display:none;padding:16px;background:var(--primary-light);border:1.5px solid var(--primary-border);border-radius:10px;font-size:13px;line-height:1.7;white-space:pre-wrap;color:var(--ink)"></div>
+    <div id="ia-result-modal" style="display:none;padding:16px;background:var(--primary-light);border:1.5px solid var(--primary-border);border-radius:var(--radius-lg);font-size:13px;line-height:1.7;white-space:pre-wrap;color:var(--ink)"></div>
 
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
       <button class="btn btn-ghost btn-sm" onclick="fermerModalIA()">Fermer</button>
@@ -10744,7 +11294,7 @@ async function lancerAnalyseIA(){
     var pageResult = document.getElementById('ia-result-' + _iaContexte);
     if(pageResult){
       pageResult.style.display = 'block';
-      pageResult.innerHTML = '<div style="background:var(--primary-light);border:1.5px solid var(--primary-border);border-radius:8px;padding:14px;font-size:12px;line-height:1.7;white-space:pre-wrap;color:var(--ink)">' +
+      pageResult.innerHTML = '<div style="background:var(--primary-light);border:1.5px solid var(--primary-border);border-radius:var(--radius);padding:14px;font-size:12px;line-height:1.7;white-space:pre-wrap;color:var(--ink)">' +
         '<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;margin-bottom:8px">Analyse IA — ' + new Date().toLocaleTimeString('fr-FR') + '</div>' +
         texte.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div>';
     }
@@ -10941,7 +11491,7 @@ async function ouvrirListeCloud(){
     content.innerHTML = docs.map(d => {
       const date = d.savedAt ? new Date(d.savedAt).toLocaleString('fr-FR') : '—';
       const p = d.projet || {};
-      return `<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1.5px solid var(--border);border-radius:10px;margin-bottom:8px;background:white;transition:all .15s;cursor:pointer"
+      return `<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:8px;background:white;transition:all .15s;cursor:pointer"
         onmouseover="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)'"
         onmouseout="this.style.borderColor='var(--border)';this.style.background='white'">
         <div>
@@ -11005,7 +11555,7 @@ async function supprimerProjetCloud(docId, btn){
 
 function showToast(msg, color){
   const el = document.createElement('div');
-  el.style.cssText = 'position:fixed;top:70px;right:20px;background:'+(color||'var(--primary)')+';color:white;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.2);animation:fadeIn .2s ease';
+  el.style.cssText = 'position:fixed;top:70px;right:20px;background:'+(color||'var(--primary)')+';color:white;padding:12px 20px;border-radius:var(--radius-lg);font-size:13px;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,.2);animation:fadeIn .2s ease';
   el.textContent = msg;
   document.body.appendChild(el);
   setTimeout(()=>el.remove(), 3000);
