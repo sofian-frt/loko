@@ -412,6 +412,7 @@ input[type=number]{-moz-appearance:textfield}
   .mobile-topbar{display:flex}
   .content{padding:16px}
   .g2,.g3,.g4,.g-auto{grid-template-columns:1fr}
+  .init-grid{grid-template-columns:1fr!important}
   .form-row,.form-row-3{grid-template-columns:1fr}
   .fab{display:flex}
   .topbar{display:none}
@@ -868,7 +869,7 @@ input[type=number]{-moz-appearance:textfield}
   <!-- RÉCAPITULATIF DYNAMIQUE -->
   <div id="recap-banner" style="display:none;margin-bottom:20px"></div>
 
-  <div class="g2" style="align-items:start;gap:20px">
+  <div class="init-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;width:100%;box-sizing:border-box">
   <div class="g2" style="align-items:start;gap:20px">
 
     <!-- ══ COL GAUCHE ══ -->
