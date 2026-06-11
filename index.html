@@ -891,6 +891,22 @@ input[type=number]{-moz-appearance:textfield}
 
 
 
+
+/* ══ CARTE — badge "renseigné" ══════════════════════════════ */
+.cfg-card-badge {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6366F1;
+  display: none;
+}
+.cfg-card { position: relative; }
+.cfg-card.has-value .cfg-card-badge { display: block; }
+.cfg-card.has-value { border-color: #C7D2FE; }
+
 </style>
 </head>
 <body>
@@ -1498,12 +1514,12 @@ input[type=number]{-moz-appearance:textfield}
         <!-- 2 cartes type local -->
         <div class="cfg-grid-2">
 
-          <div class="cfg-card active" id="cfg-type-brut" onclick="selectEtatLocalCfg('brut',this)">
+          <div class="cfg-card active" id="cfg-type-brut" onclick="selectEtatLocalCfg('brut',this)"><span class="cfg-card-badge"></span>
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
             <span class="cfg-card-label">Local brut</span>
           </div>
 
-          <div class="cfg-card" id="cfg-type-semi" onclick="selectEtatLocalCfg('semi',this)">
+          <div class="cfg-card" id="cfg-type-semi" onclick="selectEtatLocalCfg('semi',this)"><span class="cfg-card-badge"></span>
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             <span class="cfg-card-label">Local aménagé</span>
           </div>
@@ -1531,22 +1547,22 @@ input[type=number]{-moz-appearance:textfield}
 <!-- 4 cartes réseaux -->
         <div class="cfg-grid-4" id="cfg-cards-grid">
 
-          <div class="cfg-card" id="cfg-card-elec" onclick="toggleCfgCard('elec')">
+          <div class="cfg-card" id="cfg-card-elec" onclick="toggleCfgCard('elec')"><span class="cfg-card-badge"></span>
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             <span class="cfg-card-label">Électricité</span>
           </div>
 
-          <div class="cfg-card" id="cfg-card-ext" onclick="toggleCfgCard('ext')">
+          <div class="cfg-card" id="cfg-card-ext" onclick="toggleCfgCard('ext')"><span class="cfg-card-badge"></span>
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1114 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/></svg>
             <span class="cfg-card-label">Extraction</span>
           </div>
 
-          <div class="cfg-card" id="cfg-card-gaz" onclick="toggleCfgCard('gaz')">
+          <div class="cfg-card" id="cfg-card-gaz" onclick="toggleCfgCard('gaz')"><span class="cfg-card-badge"></span>
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2c-4 4-4 8 0 10s4 6 0 10"/><path d="M8 6c-2 3-2 6 0 8"/><path d="M16 6c2 3 2 6 0 8"/></svg>
             <span class="cfg-card-label">Gaz</span>
           </div>
 
-          <div class="cfg-card" id="cfg-card-fibre" onclick="toggleCfgCard('fibre')">
+          <div class="cfg-card" id="cfg-card-fibre" onclick="toggleCfgCard('fibre')"><span class="cfg-card-badge"></span>
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><circle cx="12" cy="20" r="1"/></svg>
             <span class="cfg-card-label">Télécoms</span>
           </div>
@@ -1622,12 +1638,12 @@ input[type=number]{-moz-appearance:textfield}
 
         <div class="cfg-grid-2">
 
-          <div class="cfg-card" id="cfg-bat-card-batiment" onclick="toggleCfgBatCard('batiment')">
+          <div class="cfg-card" id="cfg-bat-card-batiment" onclick="toggleCfgBatCard('batiment')"><span class="cfg-card-badge"></span>
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><rect x="9" y="14" width="6" height="7"/></svg>
             <span class="cfg-card-label">Bâtiment</span>
           </div>
 
-          <div class="cfg-card" id="cfg-bat-card-acces" onclick="toggleCfgBatCard('acces')">
+          <div class="cfg-card" id="cfg-bat-card-acces" onclick="toggleCfgBatCard('acces')"><span class="cfg-card-badge"></span>
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
             <span class="cfg-card-label">Accès techniques</span>
           </div>
@@ -1699,12 +1715,12 @@ input[type=number]{-moz-appearance:textfield}
 
         <div class="cfg-grid-2" style="margin-bottom:4px" id="cfg-contr-grid">
 
-          <div class="cfg-card" id="cfg-contr-card-acces" onclick="toggleCfgContrCard('acces')">
+          <div class="cfg-card" id="cfg-contr-card-acces" onclick="toggleCfgContrCard('acces')"><span class="cfg-card-badge"></span>
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
             <span class="cfg-card-label">Accès chantier</span>
           </div>
 
-          <div class="cfg-card" id="cfg-contr-card-organisation" onclick="toggleCfgContrCard('organisation')">
+          <div class="cfg-card" id="cfg-contr-card-organisation" onclick="toggleCfgContrCard('organisation')"><span class="cfg-card-badge"></span>
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
             <span class="cfg-card-label">Organisation</span>
           </div>
@@ -1738,17 +1754,17 @@ input[type=number]{-moz-appearance:textfield}
 
         <div class="cfg-grid-2" style="margin-bottom:4px">
 
-          <div class="cfg-card" id="cfg-alim-card-eau" onclick="toggleCfgAlimCard('eau')">
+          <div class="cfg-card" id="cfg-alim-card-eau" onclick="toggleCfgAlimCard('eau')"><span class="cfg-card-badge"></span>
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2C6 8 4 12 4 15a8 8 0 0016 0c0-3-2-7-8-13z"/></svg>
             <span class="cfg-card-label">Eau</span>
           </div>
 
-          <div class="cfg-card" id="cfg-alim-card-elec" onclick="toggleCfgAlimCard('elec')">
+          <div class="cfg-card" id="cfg-alim-card-elec" onclick="toggleCfgAlimCard('elec')"><span class="cfg-card-badge"></span>
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             <span class="cfg-card-label">Électricité</span>
           </div>
 
-          <div class="cfg-card" id="cfg-alim-card-sanit" onclick="toggleCfgAlimCard('sanit')">
+          <div class="cfg-card" id="cfg-alim-card-sanit" onclick="toggleCfgAlimCard('sanit')"><span class="cfg-card-badge"></span>
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
             <span class="cfg-card-label">Sanitaires</span>
           </div>
@@ -10892,6 +10908,58 @@ function handleAdresseKey(e){
   }
 }
 init();
+
+// ── BADGES CARTES — mise à jour ──────────────────────────────
+function majCardBadges(){
+  // Mapping carte → champs à surveiller
+  const CARD_FIELDS = {
+    // Config local
+    'cfg-card-elec':         () => !!document.getElementById('cfg-elec-puissance')?.value,
+    'cfg-card-ext':          () => document.querySelector('input[name="cfg-ext-presence"]:checked')?.value === 'oui',
+    'cfg-card-gaz':          () => document.querySelector('input[name="cfg-gaz"]:checked')?.value === 'oui',
+    'cfg-card-fibre':        () => document.querySelector('input[name="cfg-fibre"]:checked')?.value === 'oui',
+    // Type local
+    'cfg-type-brut':         () => false, // always selected by default, skip
+    'cfg-type-semi':         () => document.querySelectorAll('#pieces-existantes-list .piece-card').length > 0,
+    // Config bâtiment
+    'cfg-bat-card-batiment':    () => !!document.getElementById('bat-type')?.value,
+    'cfg-bat-card-acces':       () => document.querySelector('input[name="bat-toiture"]:checked')?.value === 'oui'
+                                   || document.querySelector('input[name="bat-local-tech"]:checked')?.value === 'oui'
+                                   || document.querySelector('input[name="bat-sous-sol"]:checked')?.value === 'oui',
+    // Contraintes
+    'cfg-contr-card-acces':        () => document.querySelector('#cfg-contr-panel-acces input:checked') !== null,
+    'cfg-contr-card-organisation': () => document.querySelector('#cfg-contr-panel-organisation input:checked') !== null,
+    // Alimentation
+    'cfg-alim-card-eau':   () => document.querySelector('#cfg-alim-panel-eau input:checked') !== null,
+    'cfg-alim-card-elec':  () => document.querySelector('#cfg-alim-panel-elec input:checked') !== null,
+    'cfg-alim-card-sanit': () => document.querySelector('#cfg-alim-panel-sanit input:checked') !== null,
+  };
+
+  Object.entries(CARD_FIELDS).forEach(([cardId, hasFn]) => {
+    const card = document.getElementById(cardId);
+    if(!card) return;
+    try {
+      if(hasFn()) card.classList.add('has-value');
+      else card.classList.remove('has-value');
+    } catch(e){}
+  });
+}
+
+// Appeler majCardBadges sur chaque interaction
+(function patchCardBadges(){
+  const origToggleCfgCard    = window.toggleCfgCard;
+  const origToggleCfgBatCard = window.toggleCfgBatCard;
+  const origToggleCfgContr   = window.toggleCfgContrCard;
+  const origToggleCfgAlim    = window.toggleCfgAlimCard;
+  window.toggleCfgCard    = function(n){ if(origToggleCfgCard) origToggleCfgCard(n); majCardBadges(); };
+  window.toggleCfgBatCard = function(n){ if(origToggleCfgBatCard) origToggleCfgBatCard(n); majCardBadges(); };
+  window.toggleCfgContrCard = function(n){ if(origToggleCfgContr) origToggleCfgContr(n); majCardBadges(); };
+  window.toggleCfgAlimCard  = function(n){ if(origToggleCfgAlim) origToggleCfgAlim(n); majCardBadges(); };
+  // Observer les changements de champs
+  document.addEventListener('change', majCardBadges);
+  document.addEventListener('input',  majCardBadges);
+})();
+
 </script>
 
 <!-- MODAL SATELLITE -->
