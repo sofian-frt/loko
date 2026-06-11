@@ -597,7 +597,7 @@ input[type=number]{-moz-appearance:textfield}
 .cfg-card.active .cfg-card-label{font-size:16px;font-weight:600;color:#374151;line-height:1.2;transition:color .15s}
 
 /* Titres hiérarchiques section état des lieux */
-.etat-h2{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:16px 0 10px}
+.etat-h2{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;margin:16px 0 10px;font-size:11px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em}
 
 .etat-h3 {
   font-size: 10px;
@@ -1470,7 +1470,7 @@ input[type=number]{-moz-appearance:textfield}
         <!-- SÉPARATEUR -->
         <div style="border-top:1px solid #F3F4F6;margin:16px 0 12px"></div>
         <!-- CONFIGURATION DU BÂTIMENT -->
-        <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Configuration du bâtiment</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;margin-bottom:10px;font-size:11px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em"><span>Configuration du bâtiment</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
 
         <div class="cfg-grid-1col">
 
@@ -1547,7 +1547,7 @@ input[type=number]{-moz-appearance:textfield}
 
 <div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div>
 <div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div>
-<div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Contraintes de chantier</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;margin-bottom:10px;font-size:11px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em"><span>Contraintes de chantier</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
 
         <div class="cfg-grid-1col" style="margin-bottom:4px" id="cfg-contr-grid">
 
@@ -1586,7 +1586,7 @@ input[type=number]{-moz-appearance:textfield}
 
 
 
-<div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Alimentation provisoire de chantier</div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;margin-bottom:10px;font-size:11px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em"><span>Alimentation provisoire de chantier</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
 
         <div class="cfg-grid-1col" style="margin-bottom:4px">
 
@@ -4991,7 +4991,7 @@ function renderListePlanning(){
   cats.forEach(cat => {
     const tasks = _planningTaches.filter(t => t.cat === cat);
     html += `<div class="card" style="margin-bottom:12px">
-      <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">${cat}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;margin-bottom:10px;font-size:11px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em"><span>${cat}</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
       <div style="display:grid;grid-template-columns:24px 1fr 90px 90px 60px 80px 100px;gap:8px;padding:0 0 6px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);margin-bottom:6px">
         <span></span><span>Phase</span><span>Début</span><span>Fin</span><span>Durée</span><span>Statut</span><span>Ajustement</span>
       </div>`;
