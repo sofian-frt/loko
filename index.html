@@ -1524,8 +1524,10 @@ input[type=number]{-moz-appearance:textfield}
             <span class="cfg-card-label">Local aménagé</span>
           </div>
 
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:10px;margin-top:-4px">
+          <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#6366F1;flex-shrink:0"></span>
+          <span style="font-size:10px;color:#9CA3AF">Section renseignée</span>
         </div>
-
         <!-- Panneau brut -->
         <!-- Panneau semi — composition + pièces -->
         <div id="cfg-type-detail-semi" style="display:none;margin-bottom:12px">
@@ -1567,8 +1569,10 @@ input[type=number]{-moz-appearance:textfield}
             <span class="cfg-card-label">Télécoms</span>
           </div>
 
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:10px;margin-top:-4px">
+          <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#6366F1;flex-shrink:0"></span>
+          <span style="font-size:10px;color:#9CA3AF">Section renseignée</span>
         </div>
-
         <!-- Panneaux réseaux -->
         <div id="cfg-panel-elec" style="display:none" class="cfg-panel">
           <div class="cfg-panel-header">
@@ -1620,8 +1624,10 @@ input[type=number]{-moz-appearance:textfield}
             <span class="cfg-card-label">Organisation</span>
           </div>
 
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:10px;margin-top:-4px">
+          <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#6366F1;flex-shrink:0"></span>
+          <span style="font-size:10px;color:#9CA3AF">Section renseignée</span>
         </div>
-
         <div id="cfg-contr-panel-acces" class="cfg-panel" style="display:none">
           <div class="cfg-panel-header">
             <span class="cfg-panel-title">
@@ -1676,8 +1682,10 @@ input[type=number]{-moz-appearance:textfield}
             <span class="cfg-card-label">Sanitaires</span>
           </div>
 
+        <div style="display:flex;align-items:center;gap:5px;margin-bottom:10px;margin-top:-4px">
+          <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#6366F1;flex-shrink:0"></span>
+          <span style="font-size:10px;color:#9CA3AF">Section renseignée</span>
         </div>
-
         <div id="cfg-alim-panel-eau" class="cfg-panel" style="display:none">
           <div class="cfg-panel-header">
             <span class="cfg-panel-title">
@@ -2467,6 +2475,10 @@ input[type=number]{-moz-appearance:textfield}
 </div><!-- /col droite -->
 
   </div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -10847,7 +10859,7 @@ function majCardBadges(){
     'cfg-type-brut':         () => false, // always selected by default, skip
     'cfg-type-semi':         () => document.querySelectorAll('#pieces-existantes-list .piece-card').length > 0,
     // Config bâtiment
-    'cfg-bat-card-batiment':    () => !!document.getElementById('bat-type')?.value,
+    'cfg-bat-card-batiment':    () => { const t = document.getElementById('bat-type')?.value; const a = document.getElementById('bat-anciennete')?.value; const e = document.getElementById('bat-nb-etages')?.value; return (t && t !== 'immeuble') || (a && a !== 'inconnu') || (e && parseInt(e) > 0); },
     'cfg-bat-card-acces':       () => document.querySelector('input[name="bat-toiture"]:checked')?.value === 'oui'
                                    || document.querySelector('input[name="bat-local-tech"]:checked')?.value === 'oui'
                                    || document.querySelector('input[name="bat-sous-sol"]:checked')?.value === 'oui',
