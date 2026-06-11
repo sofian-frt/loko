@@ -736,9 +736,18 @@ input[type=number]{-moz-appearance:textfield}
 
 
 /* Titre accordéons État existant + Travaux prévus — plus visibles */
-#init-acc-etat .init-section-title,
-#init-acc-travaux .init-section-title {
+#init-acc-etat /* ══ ACCORDÉONS PRINCIPAUX — hiérarchie renforcée ══════════ */
+.init-section-title {
   font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: -.01em !important;
+}
+.init-section-title svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+.init-section-header {
+  padding: 14px 16px !important;
 }
 
 /* ══ ÉTAT DES LIEUX — SYSTÈME DE CARTES UNIFIÉ ══════════════ */
@@ -1463,10 +1472,10 @@ input[type=number]{-moz-appearance:textfield}
     </div>
     <div style="display:flex;align-items:center;gap:8px">
       <span class="init-section-badge" id="init-acc-etat-badge"></span>
-      <svg class="init-section-arrow" id="init-acc-etat-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      <svg class="init-section-arrow" id="init-acc-etat-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="transform:rotate(-90deg)"><path d="M6 9l6 6 6-6"/></svg>
     </div>
   </div>
-  <div class="init-section-body" id="init-acc-etat-body">
+  <div class="init-section-body collapsed" id="init-acc-etat-body">
 
         <!-- H2 : Configuration du local -->
         <div class="etat-h2">Configuration du local</div>
@@ -6175,8 +6184,7 @@ function majResumeConfig(){
 
 // ── INIT SECTIONS ACCORDÉONS ─────────────────────────────────
 function toggleInitSection(id){
-  const ALL_IDS = ['init-acc-infos','init-acc-etat','init-acc-travaux',
-                   'init-acc-prest','init-acc-budget-avanc','init-acc-contexte-comm'];
+  const ALL_IDS = ['init-acc-infos','init-acc-etat','init-acc-travaux','init-acc-prest'];
   const body  = document.getElementById(id+'-body');
   const arrow = document.getElementById(id+'-arrow');
   if(!body) return;
