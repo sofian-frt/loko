@@ -13,12 +13,39 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+/* ══ CFG-CARD — style ligne (comme Travaux prévus) ═════════ */
+.cfg-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--surface2);
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition: background .15s;
+  border: none;
+  min-height: 44px;
+}
+.cfg-card:hover { background: #E5E7EB; }
+.cfg-card.active { background: var(--primary-light); }
+.cfg-card svg { color: #9CA3AF; flex-shrink: 0; width: 16px; height: 16px; transition: color .15s; }
+.cfg-card:hover svg, .cfg-card.active svg { color: var(--primary); }
+.cfg-card-label { font-size: 13px; font-weight: 600; color: var(--ink); flex: 1; text-align: left; }
+.cfg-card:hover .cfg-card-label, .cfg-card.active .cfg-card-label { color: var(--primary); }
+.cfg-card-arrow { color: #9CA3AF; flex-shrink: 0; margin-left: auto; }
+.cfg-card.active .cfg-card-arrow { color: var(--primary); transform: rotate(180deg); }
+.cfg-card-badge { width: 7px; height: 7px; border-radius: 50%; background: #6366F1; flex-shrink: 0; display: none; margin-right: -4px; }
+.cfg-card.has-value .cfg-card-badge { display: block; }
+.cfg-card.has-value { background: var(--primary-light); }
+
 /* Orthographe native */
 input[spellcheck="true"], textarea[spellcheck="true"] {
   -webkit-spell-checking: yes;
   spell-checking: yes;
 }
-/* ═══ RESET & VARIABLES — Pennylane DA ═══ */
+
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#FFFFFF;
@@ -60,7 +87,7 @@ input,select,textarea,button{font-family:var(--font)}
 input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none}
 input[type=number]{-moz-appearance:textfield}
 
-/* ═══ LAYOUT ═══ */
+
 .app{display:flex;min-height:100vh}
 .sidebar{
   width:230px;flex-shrink:0;background:#FFFFFF;
@@ -129,12 +156,12 @@ input[type=number]{-moz-appearance:textfield}
 /* CONTENT */
 .content{padding:28px;flex:1}
 
-/* ═══ PAGES ═══ */
+
 .page{display:none}
 .page.active{display:block;animation:fadeUp .2s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* ═══ BUTTONS ═══ */
+
 .btn{
   display:inline-flex;align-items:center;gap:6px;
   padding:9px 18px;border-radius:var(--radius);
@@ -155,14 +182,14 @@ input[type=number]{-moz-appearance:textfield}
 .btn-cyan{background:var(--cyan);color:white;border-color:var(--cyan)}
 .btn-full{width:100%;justify-content:center}
 
-/* ═══ PAGE HEADER ═══ */
+
 .page-header{margin-bottom:28px}
 .page-header h2{font-size:24px;font-weight:800;color:#0A0A0B;letter-spacing:-.6px;margin-bottom:6px;line-height:1.2}
 .page-header p{font-size:13px;color:var(--mid);line-height:1.6}
 .page-header-actions{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}
 
-/* ═══ CARDS ═══ */
-/* ══ PAGE INIT — COMPACT + ACCORDÉONS ══ */
+
+
 #page-init .radio-card{padding:8px 10px!important}
 #page-init .radio-cards{gap:5px!important}
 
@@ -175,7 +202,7 @@ input[type=number]{-moz-appearance:textfield}
 
 
 
-/* ══ PAGE INIT — COMPACT ══ */
+
 #page-init .card{padding:14px 16px!important;margin-bottom:8px!important;border-radius:8px!important}
 #page-init .card-title{font-size:10px!important;margin-bottom:10px!important;letter-spacing:.08em!important}
 #page-init .form-group{margin-bottom:8px!important}
@@ -203,13 +230,13 @@ input[type=number]{-moz-appearance:textfield}
   border-bottom:1px solid var(--border);
 }
 
-/* ═══ GRIDS ═══ */
+
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .g-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
 
-/* ═══ FORMS ═══ */
+
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
 .form-row-1{margin-bottom:14px}
@@ -246,14 +273,14 @@ input[type=number]{-moz-appearance:textfield}
 }
 .form-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
 
-/* ═══ CHECKBOXES ═══ */
+
 .check-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
 .check-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface2);border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;color:var(--ink);line-height:1.3;min-height:44px}
 .check-item:hover{border-color:var(--primary-border);background:var(--primary-light)}
 .check-item input{accent-color:var(--primary);width:14px;height:14px;flex-shrink:0}
 .check-item.checked{border-color:var(--primary-border);background:var(--primary-light);color:var(--primary-dark)}
 
-/* ═══ RADIO CARDS ═══ */
+
 .radio-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
 .radio-card{
   padding:12px 14px;border:1.5px solid var(--border);
@@ -266,7 +293,7 @@ input[type=number]{-moz-appearance:textfield}
 .radio-card-label{font-size:12px;font-weight:600;color:var(--ink);line-height:1.2}
 .radio-card-sub{font-size:10px;color:var(--muted);margin-top:1px}
 
-/* ═══ KPI CARDS ═══ */
+
 .kpi{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:16px;}
 .kpi-val{font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-.5px}
 .kpi-val-sm{font-size:18px}
@@ -277,7 +304,7 @@ input[type=number]{-moz-appearance:textfield}
 .kpi-trend.warn{background:var(--warn-light);color:var(--warn)}
 .kpi-trend.danger{background:var(--danger-light);color:var(--danger)}
 
-/* ═══ ALERTS ═══ */
+
 .alert{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;border-radius:var(--radius);margin-bottom:8px;border:1.5px solid}
 .alert-icon{font-size:16px;flex-shrink:0;margin-top:1px}
 .alert-title{font-size:12px;font-weight:600;margin-bottom:2px}
@@ -288,7 +315,7 @@ input[type=number]{-moz-appearance:textfield}
 .alert.info{background:var(--primary-light);border-color:var(--primary-border);color:var(--primary-dark)}
 .alert.success{background:var(--success-light);border-color:#A7F3D8;color:var(--primary-dark)}
 
-/* ═══ BADGES ═══ */
+
 .badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;display:inline-block}
 .badge-primary{background:var(--primary-light);color:var(--primary-dark);border:1px solid var(--primary-border)}
 .badge-success{background:var(--success-light);color:var(--primary-dark)}
@@ -297,13 +324,13 @@ input[type=number]{-moz-appearance:textfield}
 .badge-orange{background:var(--orange-light);color:var(--orange)}
 .badge-muted{background:var(--bg);color:var(--mid);border:1px solid var(--border)}
 
-/* ═══ TABS ═══ */
+
 .tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:24px;gap:2px;overflow-x:auto}
 .tab{padding:10px 18px;font-size:13px;font-weight:500;color:var(--mid);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .15s;font-family:var(--font)}
 .tab:hover{color:var(--ink)}
 .tab.active{color:var(--primary-dark);border-bottom-color:var(--primary);font-weight:600}
 
-/* ═══ TABLE ═══ */
+
 .table{width:100%;border-collapse:collapse}
 .table th{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding:8px 14px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;background:var(--bg)}
 .table td{padding:11px 14px;border-bottom:1px solid var(--border);font-size:13px;color:var(--ink2);vertical-align:top}
@@ -312,13 +339,13 @@ input[type=number]{-moz-appearance:textfield}
 .table td.num{font-weight:600;color:var(--ink);text-align:right}
 .table td.label{font-weight:600;color:var(--ink)}
 
-/* ═══ DIVIDERS ═══ */
+
 .divider{height:1px;background:var(--border);margin:20px 0}
 .divider-label{display:flex;align-items:center;gap:12px;margin:20px 0 16px}
 .divider-label span{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
 .divider-label::before,.divider-label::after{content:'';flex:1;height:1px;background:var(--border)}
 
-/* ═══ PIECE CARD ═══ */
+
 .piece-card{background:white;border:1.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:12px}
 .piece-header{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border);background:var(--surface)}
 .piece-header:hover{background:var(--bg)}
@@ -330,19 +357,19 @@ input[type=number]{-moz-appearance:textfield}
 .piece-body{padding:20px;display:none}
 .piece-body.open{display:block;animation:fadeUp .15s ease}
 
-/* ═══ PROGRESS ═══ */
+
 .progress-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
 .progress-fill{height:100%;border-radius:3px;background:var(--primary);transition:width .4s ease}
 .progress-fill.success{background:var(--success)}
 .progress-fill.warn{background:var(--warn)}
 .progress-fill.danger{background:var(--danger)}
 
-/* ═══ SLIDER ═══ */
+
 .slider-wrap{display:flex;align-items:center;gap:10px}
 .slider-wrap input[type=range]{flex:1;accent-color:var(--primary);height:4px}
 .slider-display{min-width:54px;text-align:center;font-size:13px;font-weight:600;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:5px 8px;color:var(--ink)}
 
-/* ═══ TOTAUX ═══ */
+
 .totaux-block{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px}
 .totaux-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed var(--border)}
 .totaux-row:last-child{border-bottom:none;padding-bottom:0}
@@ -352,7 +379,7 @@ input[type=number]{-moz-appearance:textfield}
 .totaux-big .totaux-label{font-size:14px;font-weight:700;color:var(--ink)}
 .totaux-big .totaux-val{font-size:24px;font-weight:800;color:var(--primary)}
 
-/* ═══ LOTS TABLE ═══ */
+
 .lots-table{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px}
 .lots-header{display:grid;grid-template-columns:1fr 50px 120px;padding:10px 18px;background:var(--ink)}
 .lots-header span{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8}
@@ -374,7 +401,7 @@ input[type=number]{-moz-appearance:textfield}
 .lot-row.comp:hover{background:#DCFCE7}
 .lot-pct.comp-pct{color:var(--warn)}
 
-/* ═══ SYNTHESE ═══ */
+
 .synth-section{margin-bottom:24px}
 .synth-title{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--primary-dark);padding:8px 16px;background:var(--primary-light);border-radius:var(--radius-sm);border-left:3px solid var(--primary);margin-bottom:12px}
 .synth-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
@@ -382,7 +409,7 @@ input[type=number]{-moz-appearance:textfield}
 .synth-item-label{font-size:10px;color:var(--muted);font-weight:500;margin-bottom:4px}
 .synth-item-val{font-size:16px;font-weight:700;color:var(--ink)}
 
-/* ═══ MOBILE ═══ */
+
 .mobile-topbar{display:none;position:fixed;top:0;left:0;right:0;width:100%;background:#FFFFFF;border-bottom:1px solid var(--border);padding:0 16px;height:54px;z-index:500;align-items:center;justify-content:space-between;box-sizing:border-box}
 .hamburger{background:none;border:none;cursor:pointer;padding:6px;border-radius:8px;color:var(--ink)}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:199}
@@ -441,7 +468,7 @@ input[type=number]{-moz-appearance:textfield}
   #page-login ~ * .mobile-topbar,
   body.login-active .mobile-topbar{display:none!important}
   #page-login{padding-top:0;min-height:100dvh}
-  /* ═══ COMPTE & PARAMÈTRES — MOBILE UNIQUEMENT ═══ */
+  
 
   /* 0. Empêcher le débordement horizontal */
   #page-compte{
@@ -570,32 +597,9 @@ input[type=number]{-moz-appearance:textfield}
   .card{box-shadow:none;border:1px solid #ddd}
 }
 
-/* ══ ÉTAT DES LIEUX — SYSTÈME DE CARTES UNIFIÉ ══════════════ */
+
 
 /* Carte de base — partagée par type-local et réseaux */
-.cfg-card{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;min-height:96px;padding:20px 12px;background:#FFFFFF;
-  border:1.5px solid #E5E7EB;border-radius:16px;cursor:pointer;
-  transition:border-color .15s,background .15s,box-shadow .15s;user-select:none;gap:0;position:relative
-}
-.cfg-card:hover {
-  border-color: #C7D2FE;
-  background: #F5F3FF;
-  box-shadow: 0 2px 6px rgba(99,102,241,.08);
-}
-.cfg-card.active {
-  border-color: #6366F1;
-  background: #EEF2FF;
-  box-shadow: 0 0 0 3px rgba(99,102,241,.1);
-}
-.cfg-card svg{color:#9CA3AF;margin-bottom:12px;flex-shrink:0;transition:color .15s;width:24px;height:24px}
-.cfg-card:hover svg,
-.cfg-card.active svg { color: #6366F1; }
-.cfg-card-label{font-size:14px;font-weight:600;color:#374151;line-height:1.2;transition:color .15s}
-.cfg-card:hover .cfg-card-label,
-.cfg-card.active .cfg-card-label{font-size:16px;font-weight:600;color:#374151;line-height:1.2;transition:color .15s}
-
 /* Titres hiérarchiques section état des lieux */
 .etat-h2{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;margin:16px 0 10px;font-size:11px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em}
 
@@ -668,32 +672,9 @@ input[type=number]{-moz-appearance:textfield}
 
 
 
-/* ══ ÉTAT DES LIEUX — SYSTÈME DE CARTES UNIFIÉ ══════════════ */
+
 
 /* Carte de base — partagée par type-local et réseaux */
-.cfg-card{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;min-height:96px;padding:20px 12px;background:#FFFFFF;
-  border:1.5px solid #E5E7EB;border-radius:16px;cursor:pointer;
-  transition:border-color .15s,background .15s,box-shadow .15s;user-select:none;gap:0;position:relative
-}
-.cfg-card:hover {
-  border-color: #C7D2FE;
-  background: #F5F3FF;
-  box-shadow: 0 2px 6px rgba(99,102,241,.08);
-}
-.cfg-card.active {
-  border-color: #6366F1;
-  background: #EEF2FF;
-  box-shadow: 0 0 0 3px rgba(99,102,241,.1);
-}
-.cfg-card svg{color:#9CA3AF;margin-bottom:12px;flex-shrink:0;transition:color .15s;width:24px;height:24px}
-.cfg-card:hover svg,
-.cfg-card.active svg { color: #6366F1; }
-.cfg-card-label{font-size:16px;font-weight:600;color:#374151;line-height:1.2;transition:color .15s}
-.cfg-card:hover .cfg-card-label,
-.cfg-card.active .cfg-card-label{font-size:16px;font-weight:600;color:#374151;line-height:1.2;transition:color .15s}
-
 /* Titres hiérarchiques section état des lieux */
 .etat-h2{font-size:18px;font-weight:700;color:var(--ink);margin:20px 0 12px;display:flex;align-items:center;gap:8px}
 
@@ -764,30 +745,10 @@ input[type=number]{-moz-appearance:textfield}
 
 
 
-/* ══ CARTE — badge "renseigné" ══════════════════════════════ */
-.cfg-card-badge {
-  position: absolute;
-  top: 7px;
-  right: 7px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #6366F1;
-  display: none;
-}
-.cfg-card{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;min-height:96px;padding:20px 12px;background:#FFFFFF;
-  border:1.5px solid #E5E7EB;border-radius:16px;cursor:pointer;
-  transition:border-color .15s,background .15s,box-shadow .15s;user-select:none;gap:0;position:relative
-}
-.cfg-card.has-value .cfg-card-badge { display: block; }
-.cfg-card.has-value { border-color: #C7D2FE; }
-
 
 #proj-date-demarrage { height: 38px; }
 
-/* ══ INIT GRID — 2 colonnes desktop ══════════════════════════ */
+
 #init-col-gauche, #init-col-droite { min-width: 0; }
 @media(max-width:768px){
   .init-grid { grid-template-columns: 1fr !important; gap: 0 !important; }
@@ -796,7 +757,7 @@ input[type=number]{-moz-appearance:textfield}
   .init-grid { grid-template-columns: 1fr 1fr !important; gap: 20px !important; align-items: start !important; }
 }
 
-/* ══ INITIALISATION — titres uniformisés ════════════════════ */
+
 .init-section-title-static {
   font-size: 13px;
   font-weight: 700;
@@ -1350,14 +1311,16 @@ input[type=number]{-moz-appearance:textfield}
         <!-- 2 cartes type local -->
         <div class="cfg-grid-2">
 
-          <div class="cfg-card active" id="cfg-type-brut" onclick="selectEtatLocalCfg('brut',this)"><span class="cfg-card-badge"></span>
+          <div class="cfg-card active" id="cfg-type-brut" onclick="selectEtatLocalCfg('brut',this)">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
             <span class="cfg-card-label">Local brut</span>
+            <svg class="cfg-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </div>
 
-          <div class="cfg-card" id="cfg-type-semi" onclick="selectEtatLocalCfg('semi',this)"><span class="cfg-card-badge"></span>
+          <div class="cfg-card" id="cfg-type-semi" onclick="selectEtatLocalCfg('semi',this)">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             <span class="cfg-card-label">Local aménagé</span>
+            <svg class="cfg-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </div>
 
         </div>
@@ -1383,24 +1346,28 @@ input[type=number]{-moz-appearance:textfield}
 <!-- 4 cartes réseaux -->
         <div class="cfg-grid-4" id="cfg-cards-grid">
 
-          <div class="cfg-card" id="cfg-card-elec" onclick="toggleCfgCard('elec')"><span class="cfg-card-badge"></span>
+          <div class="cfg-card" id="cfg-card-elec" onclick="toggleCfgCard('elec')">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             <span class="cfg-card-label">Électricité</span>
+            <svg class="cfg-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </div>
 
-          <div class="cfg-card" id="cfg-card-ext" onclick="toggleCfgCard('ext')"><span class="cfg-card-badge"></span>
+          <div class="cfg-card" id="cfg-card-ext" onclick="toggleCfgCard('ext')">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1114 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/></svg>
             <span class="cfg-card-label">Extraction</span>
+            <svg class="cfg-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </div>
 
-          <div class="cfg-card" id="cfg-card-gaz" onclick="toggleCfgCard('gaz')"><span class="cfg-card-badge"></span>
+          <div class="cfg-card" id="cfg-card-gaz" onclick="toggleCfgCard('gaz')">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2c-4 4-4 8 0 10s4 6 0 10"/><path d="M8 6c-2 3-2 6 0 8"/><path d="M16 6c2 3 2 6 0 8"/></svg>
             <span class="cfg-card-label">Gaz</span>
+            <svg class="cfg-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </div>
 
-          <div class="cfg-card" id="cfg-card-fibre" onclick="toggleCfgCard('fibre')"><span class="cfg-card-badge"></span>
+          <div class="cfg-card" id="cfg-card-fibre" onclick="toggleCfgCard('fibre')">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><circle cx="12" cy="20" r="1"/></svg>
             <span class="cfg-card-label">Télécoms</span>
+            <svg class="cfg-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </div>
 
         </div>
@@ -1474,14 +1441,16 @@ input[type=number]{-moz-appearance:textfield}
 
         <div class="cfg-grid-1col">
 
-          <div class="cfg-card" id="cfg-bat-card-batiment" onclick="toggleCfgBatCard('batiment')"><span class="cfg-card-badge"></span>
+          <div class="cfg-card" id="cfg-bat-card-batiment" onclick="toggleCfgBatCard('batiment')">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><rect x="9" y="14" width="6" height="7"/></svg>
             <span class="cfg-card-label">Caractéristiques</span>
+            <svg class="cfg-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </div>
 
-          <div class="cfg-card" id="cfg-bat-card-acces" onclick="toggleCfgBatCard('acces')"><span class="cfg-card-badge"></span>
+          <div class="cfg-card" id="cfg-bat-card-acces" onclick="toggleCfgBatCard('acces')">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
             <span class="cfg-card-label">Accès techniques</span>
+            <svg class="cfg-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </div>
 
         </div>
@@ -1551,14 +1520,16 @@ input[type=number]{-moz-appearance:textfield}
 
         <div class="cfg-grid-1col" style="margin-bottom:4px" id="cfg-contr-grid">
 
-          <div class="cfg-card" id="cfg-contr-card-acces" onclick="toggleCfgContrCard('acces')"><span class="cfg-card-badge"></span>
+          <div class="cfg-card" id="cfg-contr-card-acces" onclick="toggleCfgContrCard('acces')">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
             <span class="cfg-card-label">Accès chantier</span>
+            <svg class="cfg-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </div>
 
-          <div class="cfg-card" id="cfg-contr-card-organisation" onclick="toggleCfgContrCard('organisation')"><span class="cfg-card-badge"></span>
+          <div class="cfg-card" id="cfg-contr-card-organisation" onclick="toggleCfgContrCard('organisation')">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
             <span class="cfg-card-label">Organisation</span>
+            <svg class="cfg-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </div>
 
         </div>
@@ -1590,19 +1561,22 @@ input[type=number]{-moz-appearance:textfield}
 
         <div class="cfg-grid-1col" style="margin-bottom:4px">
 
-          <div class="cfg-card" id="cfg-alim-card-eau" onclick="toggleCfgAlimCard('eau')"><span class="cfg-card-badge"></span>
+          <div class="cfg-card" id="cfg-alim-card-eau" onclick="toggleCfgAlimCard('eau')">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2C6 8 4 12 4 15a8 8 0 0016 0c0-3-2-7-8-13z"/></svg>
             <span class="cfg-card-label">Eau</span>
+            <svg class="cfg-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </div>
 
-          <div class="cfg-card" id="cfg-alim-card-elec" onclick="toggleCfgAlimCard('elec')"><span class="cfg-card-badge"></span>
+          <div class="cfg-card" id="cfg-alim-card-elec" onclick="toggleCfgAlimCard('elec')">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             <span class="cfg-card-label">Électricité</span>
+            <svg class="cfg-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </div>
 
-          <div class="cfg-card" id="cfg-alim-card-sanit" onclick="toggleCfgAlimCard('sanit')"><span class="cfg-card-badge"></span>
+          <div class="cfg-card" id="cfg-alim-card-sanit" onclick="toggleCfgAlimCard('sanit')">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
             <span class="cfg-card-label">Sanitaires</span>
+            <svg class="cfg-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </div>
 
         </div>
