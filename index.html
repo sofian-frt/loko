@@ -634,10 +634,9 @@ input[type=number]{-moz-appearance:textfield}
 
 /* Titres hiérarchiques section état des lieux */
 .etat-h2 {
-  font-size: 12px;
-  font-weight: 700;
-  color: #374151;
-  letter-spacing: .01em;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
   margin: 18px 0 10px;
   display: flex;
   align-items: center;
@@ -1591,7 +1590,7 @@ input[type=number]{-moz-appearance:textfield}
         <!-- SÉPARATEUR -->
         <div style="border-top:1px solid #F3F4F6;margin:16px 0 12px"></div>
         <!-- CONFIGURATION DU BÂTIMENT -->
-        <div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Configuration du bâtiment</div>
+        <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:10px">Configuration du bâtiment</div>
 
         <div class="cfg-grid-2">
 
@@ -1668,7 +1667,7 @@ input[type=number]{-moz-appearance:textfield}
 
 <div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div>
 <div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div>
-<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Contraintes de chantier</div>
+<div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:10px">Contraintes de chantier</div>
 
         <div class="cfg-grid-2" style="margin-bottom:4px" id="cfg-contr-grid">
 
@@ -1707,7 +1706,7 @@ input[type=number]{-moz-appearance:textfield}
 
 
 
-<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Alimentation provisoire de chantier</div>
+<div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:10px">Alimentation provisoire de chantier</div>
 
         <div class="cfg-grid-2" style="margin-bottom:4px">
 
@@ -5139,7 +5138,7 @@ function renderListePlanning(){
   cats.forEach(cat => {
     const tasks = _planningTaches.filter(t => t.cat === cat);
     html += `<div class="card" style="margin-bottom:12px">
-      <div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">${cat}</div>
+      <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:10px">${cat}</div>
       <div style="display:grid;grid-template-columns:24px 1fr 90px 90px 60px 80px 100px;gap:8px;padding:0 0 6px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border);margin-bottom:6px">
         <span></span><span>Phase</span><span>Début</span><span>Fin</span><span>Durée</span><span>Statut</span><span>Ajustement</span>
       </div>`;
