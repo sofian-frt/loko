@@ -770,6 +770,22 @@ input[type=number]{-moz-appearance:textfield}
 }
 
 .cfg-grid-1col{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px}
+
+.cfg-card-visual {
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  min-height: 88px !important;
+  padding: 16px 12px !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid #E5E7EB !important;
+  border-radius: 12px !important;
+}
+.cfg-card-visual .cfg-card-label { text-align: center !important; margin-left: 0 !important; flex: none !important; }
+.cfg-card-visual svg { margin-bottom: 8px !important; width: 22px !important; height: 22px !important; }
+.cfg-card-visual .cfg-card-arrow { display: none !important; }
+.cfg-card-visual.active { background: #EEF2FF !important; border-color: #6366F1 !important; }
 </style>
 </head>
 <body>
@@ -1303,21 +1319,22 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 </div>
 
+
 <div class="card" style="margin-bottom:12px">
-  <div class="card-title">ÉTAT EXISTANT</div>
-  <!-- H2 : Configuration du local -->
+  <div class="card-title">CONFIGURATION DU LOCAL</div>
+  Configuration du local -->
         <div class="etat-h2">Configuration du local</div>
 
         <!-- 2 cartes type local -->
         <div class="cfg-grid-2">
 
-          <div class="cfg-card active" id="cfg-type-brut" onclick="selectEtatLocalCfg('brut',this)">
+          <div class="cfg-card cfg-card-visual active" id="cfg-type-brut" onclick="selectEtatLocalCfg('brut',this)">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
             <span class="cfg-card-label">Local brut</span>
             <svg class="cfg-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
           </div>
 
-          <div class="cfg-card" id="cfg-type-semi" onclick="selectEtatLocalCfg('semi',this)">
+          <div class="cfg-card cfg-card-visual" id="cfg-type-semi" onclick="selectEtatLocalCfg('semi',this)">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             <span class="cfg-card-label">Local aménagé</span>
             <svg class="cfg-card-arrow" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
@@ -1437,7 +1454,12 @@ input[type=number]{-moz-appearance:textfield}
         <!-- SÉPARATEUR -->
         <div style="border-top:1px solid #F3F4F6;margin:16px 0 12px"></div>
         <!-- CONFIGURATION DU BÂTIMENT -->
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;margin-bottom:10px;font-size:11px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em"><span>Configuration du bâtiment</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;margin-bottom:10px;font-size:11px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em"><span>
+</div>
+
+<div class="card" style="margin-bottom:12px">
+  <div class="card-title">CONFIGURATION DU BÂTIMENT</div>
+  Configuration du bâtiment</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
 
         <div class="cfg-grid-1col">
 
@@ -1516,7 +1538,12 @@ input[type=number]{-moz-appearance:textfield}
 
 <div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div>
 <div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div>
-<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;margin-bottom:10px;font-size:11px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em"><span>Contraintes de chantier</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;margin-bottom:10px;font-size:11px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em"><span>
+</div>
+
+<div class="card" style="margin-bottom:12px">
+  <div class="card-title">CONTRAINTES DE CHANTIER</div>
+  Contraintes de chantier</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
 
         <div class="cfg-grid-1col" style="margin-bottom:4px" id="cfg-contr-grid">
 
@@ -1557,7 +1584,12 @@ input[type=number]{-moz-appearance:textfield}
 
 
 
-<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;margin-bottom:10px;font-size:11px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em"><span>Alimentation provisoire de chantier</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:8px;margin-bottom:10px;font-size:11px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.06em"><span>
+</div>
+
+<div class="card" style="margin-bottom:12px">
+  <div class="card-title">ALIMENTATION PROVISOIRE</div>
+  Alimentation provisoire de chantier</span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
 
         <div class="cfg-grid-1col" style="margin-bottom:4px">
 
@@ -1624,11 +1656,10 @@ input[type=number]{-moz-appearance:textfield}
 </div>
 </div>
 
+    </div><!-- /col gauche -->
 
-</div>
-
-
-    
+    <!-- ══ COL DROITE ══ -->
+    <div id="init-col-droite">
 
 <div class="card" style="margin-bottom:12px">
   <div class="card-title">TRAVAUX PRÉVUS</div>
@@ -2101,6 +2132,7 @@ input[type=number]{-moz-appearance:textfield}
           </div>
 
         </div><!-- /prest-categories -->
+</div>
 
     <!-- /col droite -->
 
