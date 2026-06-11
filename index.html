@@ -1571,7 +1571,13 @@ input[type=number]{-moz-appearance:textfield}
 
         <!-- Panneaux réseaux -->
         <div id="cfg-panel-elec" style="display:none" class="cfg-panel">
-          <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="cfg-panel-close" onclick="toggleCfgCard('elec')">×</button></div>
+          <div class="cfg-panel-header">
+            <span class="cfg-panel-title">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Électricité
+            </span>
+            <button class="cfg-panel-close" onclick="toggleCfgCard('elec')">×</button>
+          </div>
           <div class="form-group" style="margin-bottom:10px">
             <label class="form-label">Puissance disponible</label>
             <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
@@ -1586,7 +1592,13 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <div id="cfg-panel-ext" style="display:none" class="cfg-panel">
-          <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="cfg-panel-close" onclick="toggleCfgCard('ext')">×</button></div>
+          <div class="cfg-panel-header">
+            <span class="cfg-panel-title">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.59 4.59A2 2 0 1111 8H2M12.59 19.41A2 2 0 1114 16H2M17.73 7.73A2.5 2.5 0 1119.5 12H2"/></svg>
+              Extraction
+            </span>
+            <button class="cfg-panel-close" onclick="toggleCfgCard('ext')">×</button>
+          </div>
           <div class="form-group" style="margin-bottom:8px">
             <label class="form-label">Présence d'une extraction</label>
             <div style="display:flex;gap:12px;margin-top:6px">
@@ -1607,7 +1619,13 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <div id="cfg-panel-gaz" style="display:none" class="cfg-panel">
-          <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="cfg-panel-close" onclick="toggleCfgCard('gaz')">×</button></div>
+          <div class="cfg-panel-header">
+            <span class="cfg-panel-title">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2c-4 4-4 8 0 10s4 6 0 10"/></svg>
+              Gaz
+            </span>
+            <button class="cfg-panel-close" onclick="toggleCfgCard('gaz')">×</button>
+          </div>
           <div class="form-group" style="margin-bottom:8px">
             <label class="form-label">Présence d'une arrivée gaz</label>
             <div style="display:flex;gap:12px;margin-top:6px">
@@ -1622,7 +1640,13 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <div id="cfg-panel-fibre" style="display:none" class="cfg-panel">
-          <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="cfg-panel-close" onclick="toggleCfgCard('fibre')">×</button></div>
+          <div class="cfg-panel-header">
+            <span class="cfg-panel-title">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+              Télécoms
+            </span>
+            <button class="cfg-panel-close" onclick="toggleCfgCard('fibre')">×</button>
+          </div>
           <div style="display:flex;gap:12px;flex-wrap:wrap">
             <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-fibre" value="oui" onchange="majResumeConfig()"> Oui</label>
             <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="cfg-fibre" value="non" checked onchange="majResumeConfig()"> Non</label>
@@ -1651,7 +1675,13 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <div id="cfg-bat-panel-batiment" class="cfg-panel" style="display:none">
-          <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="cfg-panel-close" onclick="toggleCfgBatCard('batiment')">×</button></div>
+          <div class="cfg-panel-header">
+            <span class="cfg-panel-title">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><rect x="9" y="14" width="6" height="7"/></svg>
+              Bâtiment
+            </span>
+            <button class="cfg-panel-close" onclick="toggleCfgBatCard('batiment')">×</button>
+          </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
             <div class="form-group">
               <label class="form-label">Type de bâtiment</label>
@@ -1682,7 +1712,13 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <div id="cfg-bat-panel-acces" class="cfg-panel" style="display:none">
-          <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="cfg-panel-close" onclick="toggleCfgBatCard('acces')">×</button></div>
+          <div class="cfg-panel-header">
+            <span class="cfg-panel-title">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15"/></svg>
+              Accès techniques
+            </span>
+            <button class="cfg-panel-close" onclick="toggleCfgBatCard('acces')">×</button>
+          </div>
           <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
             <div class="form-group" style="margin:0">
               <label class="form-label">Accès toiture</label>
@@ -1728,7 +1764,13 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <div id="cfg-contr-panel-acces" class="cfg-panel" style="display:none">
-          <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="cfg-panel-close" onclick="toggleCfgContrCard('acces')">×</button></div>
+          <div class="cfg-panel-header">
+            <span class="cfg-panel-title">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+              Accès chantier
+            </span>
+            <button class="cfg-panel-close" onclick="toggleCfgContrCard('acces')">×</button>
+          </div>
           <div class="check-grid">
             <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-poids-lourd"> Accès poids lourd</label>
             <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-rue-comm"> Rue commerçante</label>
@@ -1738,7 +1780,13 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <div id="cfg-contr-panel-organisation" class="cfg-panel" style="display:none">
-          <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="cfg-panel-close" onclick="toggleCfgContrCard('logistique')">×</button></div>
+          <div class="cfg-panel-header">
+            <span class="cfg-panel-title">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+              Organisation
+            </span>
+            <button class="cfg-panel-close" onclick="toggleCfgContrCard('logistique')">×</button>
+          </div>
           <div class="check-grid">
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-zone-livraison"> Zone livraison</label>
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-benne-site"> Benne possible sur site</label>
@@ -1772,7 +1820,13 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <div id="cfg-alim-panel-eau" class="cfg-panel" style="display:none">
-          <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="cfg-panel-close" onclick="toggleCfgAlimCard('eau')">×</button></div>
+          <div class="cfg-panel-header">
+            <span class="cfg-panel-title">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2C6 8 4 12 4 15a8 8 0 0016 0c0-3-2-7-8-13z"/></svg>
+              Eau
+            </span>
+            <button class="cfg-panel-close" onclick="toggleCfgAlimCard('eau')">×</button>
+          </div>
           <div class="check-grid">
             <label class="check-item" onclick="toggleCheck(this);calculerFraisProvisoires()"><input type="checkbox" id="prov-eau-site"> Alimentation existante dans le local</label>
             <label class="check-item" onclick="toggleCheck(this);calculerFraisProvisoires()"><input type="checkbox" id="prov-eau-souscomptage"> Sous-comptage depuis le bâtiment</label>
@@ -1781,7 +1835,13 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <div id="cfg-alim-panel-elec" class="cfg-panel" style="display:none">
-          <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="cfg-panel-close" onclick="toggleCfgAlimCard('elec')">×</button></div>
+          <div class="cfg-panel-header">
+            <span class="cfg-panel-title">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Électricité
+            </span>
+            <button class="cfg-panel-close" onclick="toggleCfgAlimCard('elec')">×</button>
+          </div>
           <div class="check-grid">
             <label class="check-item" onclick="toggleCheck(this);calculerFraisProvisoires()"><input type="checkbox" id="prov-elec-site"> Alimentation existante dans le local</label>
             <label class="check-item" onclick="toggleCheck(this);calculerFraisProvisoires()"><input type="checkbox" id="prov-elec-souscomptage"> Sous-comptage depuis le bâtiment</label>
@@ -1790,7 +1850,13 @@ input[type=number]{-moz-appearance:textfield}
         </div>
 
         <div id="cfg-alim-panel-sanit" class="cfg-panel" style="display:none">
-          <div style="display:flex;justify-content:flex-end;margin-bottom:8px"><button class="cfg-panel-close" onclick="toggleCfgAlimCard('sanit')">×</button></div>
+          <div class="cfg-panel-header">
+            <span class="cfg-panel-title">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              Sanitaires
+            </span>
+            <button class="cfg-panel-close" onclick="toggleCfgAlimCard('sanit')">×</button>
+          </div>
           <div class="check-grid">
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-sanit-existants"> Toilettes existantes utilisables</label>
             <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-sanit-provisoires"> Toilettes provisoires</label>
