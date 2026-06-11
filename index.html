@@ -5981,25 +5981,7 @@ function toggleCfgAlimCard(name){
   majCardBadges();
 }
 
-function toggleCfgCard(name){
-  const panels = ['elec','ext','gaz','fibre'];
-  const cards  = ['elec','ext','gaz','fibre'];
 
-  panels.forEach(p => {
-    const panel = document.getElementById('cfg-panel-'+p);
-    const card  = document.getElementById('cfg-card-'+p);
-    if(!panel || !card) return;
-
-    if(p === name){
-      const isOpen = panel.style.display !== 'none';
-      panel.style.display = isOpen ? 'none' : 'block';
-      card.classList.toggle('active', !isOpen);
-    } else {
-      panel.style.display = 'none';
-      card.classList.remove('active');
-    }
-  });
-}
 function selectEtatLocalCfg(type, el){
   // Mettre à jour les cartes
   document.querySelectorAll('.cfg-card[id^="cfg-type"]').forEach(c => c.classList.remove('active'));
