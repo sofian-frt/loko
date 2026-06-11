@@ -5182,66 +5182,15 @@ function majChampsBailCles(){
 
 
 // ── CONFIG BÂTIMENT — 4 CARTES ────────────────────────────────
-function toggleCfgBatCard(name){
-  const panels = ['batiment','localisation','environnement','acces'];
-  panels.forEach(p => {
-    const panel = document.getElementById('cfg-bat-panel-'+p);
-    const card  = document.getElementById('cfg-bat-card-'+p);
-    if(!panel || !card) return;
-    if(p === name){
-      const isOpen = panel.style.display !== 'none';
-      panel.style.display = isOpen ? 'none' : 'block';
-      const hdr = panel.previousElementSibling;
-      if(hdr) hdr.style.background = isOpen ? '' : 'var(--primary-light)';
-      card.classList.toggle('active', !isOpen);
-    } else {
-      panel.style.display = 'none';
-      card.classList.remove('active');
-    }
-  });
-}
+
 
 
 // ── CONTRAINTES DE CHANTIER — 3 CARTES ───────────────────────
-function toggleCfgContrCard(name){
-  const panels = ['acces','organisation'];
-  panels.forEach(p => {
-    const panel = document.getElementById('cfg-contr-panel-'+p);
-    const card  = document.getElementById('cfg-contr-card-'+p);
-    if(!panel || !card) return;
-    if(p === name){
-      const isOpen = panel.style.display !== 'none';
-      panel.style.display = isOpen ? 'none' : 'block';
-      const hdr = panel.previousElementSibling;
-      if(hdr) hdr.style.background = isOpen ? '' : 'var(--primary-light)';
-      card.classList.toggle('active', !isOpen);
-    } else {
-      panel.style.display = 'none';
-      card.classList.remove('active');
-    }
-  });
-}
+
 
 
 // ── ALIMENTATION PROVISOIRE — 3 CARTES ───────────────────────
-function toggleCfgAlimCard(name){
-  const panels = ['eau','elec','sanit'];
-  panels.forEach(p => {
-    const panel = document.getElementById('cfg-alim-panel-'+p);
-    const card  = document.getElementById('cfg-alim-card-'+p);
-    if(!panel || !card) return;
-    if(p === name){
-      const isOpen = panel.style.display !== 'none';
-      panel.style.display = isOpen ? 'none' : 'block';
-      const hdr = panel.previousElementSibling;
-      if(hdr) hdr.style.background = isOpen ? '' : 'var(--primary-light)';
-      card.classList.toggle('active', !isOpen);
-    } else {
-      panel.style.display = 'none';
-      card.classList.remove('active');
-    }
-  });
-}
+
 
 // ── CONFIG LOCAL — EXTRACTION ─────────────────────────────────
 function toggleCfgExtSection(radio){
@@ -5864,27 +5813,7 @@ function selectEtatLocalCfg(type, el){
 }
 
 // ══ CONFIG LOCAL — 4 CARTES NAVIGATION ═══════════════════════
-function toggleCfgCard(name){
-  const panels = ['elec','ext','gaz','fibre'];
-  const cards  = ['elec','ext','gaz','fibre'];
 
-  panels.forEach(p => {
-    const panel = document.getElementById('cfg-panel-'+p);
-    const card  = document.getElementById('cfg-card-'+p);
-    if(!panel || !card) return;
-
-    if(p === name){
-      const isOpen = panel.style.display !== 'none';
-      panel.style.display = isOpen ? 'none' : 'block';
-      const hdr = panel.previousElementSibling;
-      if(hdr) hdr.style.background = isOpen ? '' : 'var(--primary-light)';
-      card.classList.toggle('active', !isOpen);
-    } else {
-      panel.style.display = 'none';
-      card.classList.remove('active');
-    }
-  });
-}
 
 function majTarifElec(){
   const kva = parseFloat(document.getElementById('cfg-elec-puissance')?.value) || 0;
@@ -5969,6 +5898,87 @@ function majResumeConfig(){
     badge.style.background = '#FEF3C7';
     badge.style.color = '#D97706';
   }
+}
+
+
+function toggleCfgCard(name){
+  ['elec','ext','gaz','fibre'].forEach(p => {
+    const body = document.getElementById('cfg-panel-'+p+'-body');
+    const hdr  = body ? body.previousElementSibling : null;
+    const arrow = document.getElementById('cfg-card-'+p+'-arrow');
+    if(!body) return;
+    const isOpen = body.style.display !== 'none';
+    if(p === name){
+      body.style.display = isOpen ? 'none' : 'block';
+      if(hdr) hdr.style.background = isOpen ? '' : 'var(--primary-light)';
+      if(arrow) arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+    } else {
+      body.style.display = 'none';
+      if(hdr) hdr.style.background = '';
+      if(arrow) arrow.style.transform = '';
+    }
+  });
+  majCardBadges();
+}
+
+function toggleCfgBatCard(name){
+  ['batiment','acces'].forEach(p => {
+    const body = document.getElementById('cfg-bat-panel-'+p+'-body');
+    const hdr  = body ? body.previousElementSibling : null;
+    const arrow = document.getElementById('cfg-bat-card-'+p+'-arrow');
+    if(!body) return;
+    const isOpen = body.style.display !== 'none';
+    if(p === name){
+      body.style.display = isOpen ? 'none' : 'block';
+      if(hdr) hdr.style.background = isOpen ? '' : 'var(--primary-light)';
+      if(arrow) arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+    } else {
+      body.style.display = 'none';
+      if(hdr) hdr.style.background = '';
+      if(arrow) arrow.style.transform = '';
+    }
+  });
+  majCardBadges();
+}
+
+function toggleCfgContrCard(name){
+  ['acces','organisation'].forEach(p => {
+    const body = document.getElementById('cfg-contr-panel-'+p+'-body');
+    const hdr  = body ? body.previousElementSibling : null;
+    const arrow = document.getElementById('cfg-contr-card-'+p+'-arrow');
+    if(!body) return;
+    const isOpen = body.style.display !== 'none';
+    if(p === name){
+      body.style.display = isOpen ? 'none' : 'block';
+      if(hdr) hdr.style.background = isOpen ? '' : 'var(--primary-light)';
+      if(arrow) arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+    } else {
+      body.style.display = 'none';
+      if(hdr) hdr.style.background = '';
+      if(arrow) arrow.style.transform = '';
+    }
+  });
+  majCardBadges();
+}
+
+function toggleCfgAlimCard(name){
+  ['eau','elec','sanit'].forEach(p => {
+    const body = document.getElementById('cfg-alim-panel-'+p+'-body');
+    const hdr  = body ? body.previousElementSibling : null;
+    const arrow = document.getElementById('cfg-alim-card-'+p+'-arrow');
+    if(!body) return;
+    const isOpen = body.style.display !== 'none';
+    if(p === name){
+      body.style.display = isOpen ? 'none' : 'block';
+      if(hdr) hdr.style.background = isOpen ? '' : 'var(--primary-light)';
+      if(arrow) arrow.style.transform = isOpen ? '' : 'rotate(180deg)';
+    } else {
+      body.style.display = 'none';
+      if(hdr) hdr.style.background = '';
+      if(arrow) arrow.style.transform = '';
+    }
+  });
+  majCardBadges();
 }
 
 function toggleCfgCard(name){
