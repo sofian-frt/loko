@@ -1653,22 +1653,11 @@ input[type=number]{-moz-appearance:textfield}
         <!-- CONFIGURATION DU BÂTIMENT -->
         <div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Configuration du bâtiment</div>
 
-        <!-- 4 cartes bâtiment -->
-        <div class="cfg-grid-4" id="cfg-bat-cards-grid">
+        <div class="cfg-grid-2">
 
           <div class="cfg-card" id="cfg-bat-card-batiment" onclick="toggleCfgBatCard('batiment')">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><rect x="9" y="14" width="6" height="7"/></svg>
             <span class="cfg-card-label">Bâtiment</span>
-          </div>
-
-          <div class="cfg-card" id="cfg-bat-card-localisation" onclick="toggleCfgBatCard('localisation')">
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span class="cfg-card-label">Localisation</span>
-          </div>
-
-          <div class="cfg-card" id="cfg-bat-card-environnement" onclick="toggleCfgBatCard('environnement')">
-            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-            <span class="cfg-card-label">Environnement</span>
           </div>
 
           <div class="cfg-card" id="cfg-bat-card-acces" onclick="toggleCfgBatCard('acces')">
@@ -1678,7 +1667,6 @@ input[type=number]{-moz-appearance:textfield}
 
         </div>
 
-        <!-- Panneau Bâtiment -->
         <div id="cfg-bat-panel-batiment" class="cfg-panel" style="display:none">
           <div class="cfg-panel-header">
             <span class="cfg-panel-title">
@@ -1716,65 +1704,6 @@ input[type=number]{-moz-appearance:textfield}
           </div>
         </div>
 
-        <!-- Panneau Localisation -->
-        <div id="cfg-bat-panel-localisation" class="cfg-panel" style="display:none">
-          <div class="cfg-panel-header">
-            <span class="cfg-panel-title">
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Localisation du local
-            </span>
-            <button class="cfg-panel-close" onclick="toggleCfgBatCard('localisation')">×</button>
-          </div>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="radio" name="bat-localisation" value="rdc" checked> RDC</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="radio" name="bat-localisation" value="sous-sol"> Sous-sol</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="radio" name="bat-localisation" value="etage"> Étage</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:13px;cursor:pointer"><input type="radio" name="bat-localisation" value="mezzanine"> Mezzanine</label>
-          </div>
-        </div>
-
-        <!-- Panneau Environnement -->
-        <div id="cfg-bat-panel-environnement" class="cfg-panel" style="display:none">
-          <div class="cfg-panel-header">
-            <span class="cfg-panel-title">
-              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-              Environnement
-            </span>
-            <button class="cfg-panel-close" onclick="toggleCfgBatCard('environnement')">×</button>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px">
-            <div class="form-group">
-              <label class="form-label">Voisins au-dessus</label>
-              <div style="display:flex;gap:12px;margin-top:6px">
-                <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="oui"> Oui</label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="non" checked> Non</label>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Voisins en dessous</label>
-              <div style="display:flex;gap:12px;margin-top:6px">
-                <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="oui"> Oui</label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="non" checked> Non</label>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Voisins mitoyens</label>
-              <div style="display:flex;gap:12px;margin-top:6px">
-                <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="oui"> Oui</label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="non" checked> Non</label>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Copropriété</label>
-              <div style="display:flex;gap:12px;margin-top:6px">
-                <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-copropriete" value="oui"> Oui</label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-copropriete" value="non" checked> Non</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Panneau Accès techniques -->
         <div id="cfg-bat-panel-acces" class="cfg-panel" style="display:none">
           <div class="cfg-panel-header">
             <span class="cfg-panel-title">
@@ -1783,37 +1712,27 @@ input[type=number]{-moz-appearance:textfield}
             </span>
             <button class="cfg-panel-close" onclick="toggleCfgBatCard('acces')">×</button>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px">
-            <div class="form-group">
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+            <div class="form-group" style="margin:0">
               <label class="form-label">Accès toiture</label>
               <div style="display:flex;gap:12px;margin-top:6px">
                 <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-toiture" value="oui"> Oui</label>
                 <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-toiture" value="non" checked> Non</label>
               </div>
             </div>
-            <div class="form-group">
-              <label class="form-label">Local technique</label>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Accès local technique</label>
               <div style="display:flex;gap:12px;margin-top:6px">
                 <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-local-tech" value="oui"> Oui</label>
                 <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-local-tech" value="non" checked> Non</label>
               </div>
             </div>
-            <div class="form-group">
-              <label class="form-label">Escalier existant</label>
+            <div class="form-group" style="margin:0">
+              <label class="form-label">Accès sous-sol</label>
               <div style="display:flex;gap:12px;margin-top:6px">
-                <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-escalier" value="oui"> Oui</label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-escalier" value="non" checked> Non</label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-sous-sol" value="oui"> Oui</label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="radio" name="bat-sous-sol" value="non" checked> Non</label>
               </div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">État escalier</label>
-              <select id="bat-esc-etat" class="form-select" style="margin-top:4px">
-                <option value="">— Sélectionner —</option>
-                <option value="conserve">Conservé</option>
-                <option value="renover">À rénover</option>
-                <option value="remplacer">À remplacer</option>
-                <option value="supprimer">À supprimer</option>
-              </select>
             </div>
           </div>
         </div>
