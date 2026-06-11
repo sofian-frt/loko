@@ -1792,45 +1792,70 @@ input[type=number]{-moz-appearance:textfield}
 
 
 <div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Alimentation provisoire de chantier</div>
-<div style="font-size:12px;color:var(--muted);margin-bottom:10px">Anticiper les installations temporaires pour le préchiffrage des frais de chantier</div>
 
-        <!-- Eau / Élec / Sanitaires -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px">
-          <div class="form-group">
-            <label class="form-label">Eau</label>
-            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="site" onchange="toggleVeoliaInfo()"> Disponible sur site</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="souscomptage" onchange="toggleVeoliaInfo()"> Sous-comptage</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="raccord" onchange="toggleVeoliaInfo()"> Raccordement provisoire Veolia</label>
-              <div id="prov-eau-veolia-info" style="display:none;margin-top:6px;padding:8px 10px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:7px;font-size:11px;color:#1E40AF;line-height:1.6">
-                <strong>À la charge du client :</strong> La demande de branchement provisoire eau doit être effectuée directement par le client auprès de Veolia (ou du distributeur d'eau local selon la commune). Le client doit contacter son agence Veolia pour une demande de branchement chantier.<br><br>
-                <span style="color:#1D4ED8">Délai moyen : 2 à 4 semaines · Coût : 500 à 1 500 € selon distance au réseau · À anticiper avant démarrage du chantier</span>
-              </div>
-            </div>
+        <div class="cfg-grid-2" style="margin-bottom:4px">
+
+          <div class="cfg-card" id="cfg-alim-card-eau" onclick="toggleCfgAlimCard('eau')">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2C6 8 4 12 4 15a8 8 0 0016 0c0-3-2-7-8-13z"/></svg>
+            <span class="cfg-card-label">Eau</span>
           </div>
-          <div class="form-group">
-            <label class="form-label">Électricité</label>
-            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="site" onchange="toggleEnedisInfo()"> Disponible sur site</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="souscomptage" onchange="toggleEnedisInfo()"> Sous-comptage</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="raccord" onchange="toggleEnedisInfo()"> Raccordement provisoire Enedis</label>
-              <div id="prov-elec-enedis-info" style="display:none;margin-top:6px;padding:8px 10px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:7px;font-size:11px;color:#92400E;line-height:1.6">
-                <strong>Puissance recommandée pour un chantier : 9 kVA</strong> (alimentation outillage, éclairage, compresseur, chargeurs...)<br><br>
-                <strong>À la charge du client :</strong> La demande de raccordement provisoire doit être effectuée par le client auprès de son fournisseur d'énergie (EDF ou autre fournisseur). C'est le fournisseur qui mandate Enedis pour réaliser le raccordement — le client ne contacte pas Enedis directement.<br><br>
-                <span style="color:#B45309">Délai moyen : 3 à 6 semaines · Coût : 1 500 à 4 000 € selon puissance · À anticiper avant démarrage du chantier</span>
-              </div>
-            </div>
+
+          <div class="cfg-card" id="cfg-alim-card-elec" onclick="toggleCfgAlimCard('elec')">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <span class="cfg-card-label">Électricité</span>
+          </div>
+
+          <div class="cfg-card" id="cfg-alim-card-sanit" onclick="toggleCfgAlimCard('sanit')">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            <span class="cfg-card-label">Sanitaires</span>
+          </div>
+
+        </div>
+
+        <div id="cfg-alim-panel-eau" class="cfg-panel" style="display:none">
+          <div class="cfg-panel-header">
+            <span class="cfg-panel-title">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2C6 8 4 12 4 15a8 8 0 0016 0c0-3-2-7-8-13z"/></svg>
+              Eau
+            </span>
+            <button class="cfg-panel-close" onclick="toggleCfgAlimCard('eau')">×</button>
+          </div>
+          <div class="check-grid">
+            <label class="check-item" onclick="toggleCheck(this);calculerFraisProvisoires()"><input type="checkbox" id="prov-eau-site"> Alimentation existante dans le local</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerFraisProvisoires()"><input type="checkbox" id="prov-eau-souscomptage"> Sous-comptage depuis le bâtiment</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerFraisProvisoires()"><input type="checkbox" id="prov-eau-raccord"> Raccordement provisoire</label>
           </div>
         </div>
 
-        <div class="form-group" style="margin-bottom:10px">
-          <label class="form-label">Sanitaires de chantier</label>
-          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="existants"> Toilettes existantes utilisables</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="provisoires"> Toilettes provisoires à prévoir</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="base-vie"> Base vie complète à prévoir</label>
+        <div id="cfg-alim-panel-elec" class="cfg-panel" style="display:none">
+          <div class="cfg-panel-header">
+            <span class="cfg-panel-title">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Électricité
+            </span>
+            <button class="cfg-panel-close" onclick="toggleCfgAlimCard('elec')">×</button>
+          </div>
+          <div class="check-grid">
+            <label class="check-item" onclick="toggleCheck(this);calculerFraisProvisoires()"><input type="checkbox" id="prov-elec-site"> Alimentation existante dans le local</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerFraisProvisoires()"><input type="checkbox" id="prov-elec-souscomptage"> Sous-comptage depuis le bâtiment</label>
+            <label class="check-item" onclick="toggleCheck(this);calculerFraisProvisoires()"><input type="checkbox" id="prov-elec-raccord"> Raccordement provisoire</label>
           </div>
         </div>
+
+        <div id="cfg-alim-panel-sanit" class="cfg-panel" style="display:none">
+          <div class="cfg-panel-header">
+            <span class="cfg-panel-title">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              Sanitaires
+            </span>
+            <button class="cfg-panel-close" onclick="toggleCfgAlimCard('sanit')">×</button>
+          </div>
+          <div class="check-grid">
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-sanit-existants"> Toilettes existantes utilisables</label>
+            <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="prov-sanit-provisoires"> Toilettes provisoires</label>
+          </div>
+        </div>
+
 
 
 
@@ -4873,11 +4898,11 @@ function calculerFraisProvisoires(){
   let somme = 0;
 
   // Eau
-  if(radio('prov-eau')==='raccord'){ lignes.push({l:'Raccordement eau provisoire',m:800,u:'forfait'}); somme+=800; }
+  if(document.getElementById('prov-eau-raccord')?.checked){ lignes.push({l:'Raccordement eau provisoire',m:800,u:'forfait'}); somme+=800; }
 
 
   // Élec
-  if(radio('prov-elec')==='raccord'){ lignes.push({l:'Raccordement élec provisoire',m:1500,u:'forfait'}); somme+=1500; }
+  if(document.getElementById('prov-elec-raccord')?.checked){ lignes.push({l:'Raccordement élec provisoire',m:1500,u:'forfait'}); somme+=1500; }
 
   // Sanitaires
 
@@ -5591,6 +5616,25 @@ function toggleCfgContrCard(name){
   panels.forEach(p => {
     const panel = document.getElementById('cfg-contr-panel-'+p);
     const card  = document.getElementById('cfg-contr-card-'+p);
+    if(!panel || !card) return;
+    if(p === name){
+      const isOpen = panel.style.display !== 'none';
+      panel.style.display = isOpen ? 'none' : 'block';
+      card.classList.toggle('active', !isOpen);
+    } else {
+      panel.style.display = 'none';
+      card.classList.remove('active');
+    }
+  });
+}
+
+
+// ── ALIMENTATION PROVISOIRE — 3 CARTES ───────────────────────
+function toggleCfgAlimCard(name){
+  const panels = ['eau','elec','sanit'];
+  panels.forEach(p => {
+    const panel = document.getElementById('cfg-alim-panel-'+p);
+    const card  = document.getElementById('cfg-alim-card-'+p);
     if(!panel || !card) return;
     if(p === name){
       const isOpen = panel.style.display !== 'none';
