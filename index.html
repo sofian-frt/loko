@@ -1646,6 +1646,203 @@ input[type=number]{-moz-appearance:textfield}
           </div>
         </div>
 
+        
+
+        <!-- SÉPARATEUR -->
+        <div style="border-top:1px solid #F3F4F6;margin:16px 0 12px"></div>
+        <!-- CONFIGURATION DU BÂTIMENT -->
+        <div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Configuration du bâtiment</div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div class="form-group">
+            <label class="form-label">Type de bâtiment</label>
+            <select id="bat-type" class="form-select" style="margin-top:4px">
+              <option value="immeuble">Immeuble collectif</option>
+              <option value="centre-comm">Centre commercial</option>
+              <option value="entrepot">Entrepôt</option>
+              <option value="maison">Maison individuelle</option>
+              <option value="industriel">Bâtiment industriel</option>
+              <option value="tertiaire">Bâtiment tertiaire</option>
+              <option value="autre">Autre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ancienneté</label>
+            <select id="bat-anciennete" class="form-select" style="margin-top:4px">
+              <option value="inconnu">Inconnu</option>
+              <option value="ancien">Ancien bâtiment</option>
+              <option value="recent">Bâtiment récent</option>
+              <option value="neuf">Bâtiment neuf</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre total d'étages</label>
+            <input type="number" id="bat-nb-etages" class="form-input" placeholder="0" min="0" style="font-size:14px;margin-top:4px">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Localisation du local</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="rdc" checked> RDC</label>
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="sous-sol"> Sous-sol</label>
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="etage"> Étage</label>
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="mezzanine"> Mezzanine</label>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px">
+          <div class="form-group">
+            <label class="form-label">Voisins au-dessus</label>
+            <div style="display:flex;gap:8px;margin-top:4px">
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="oui"> Oui</label>
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="non" checked> Non</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Voisins en dessous</label>
+            <div style="display:flex;gap:8px;margin-top:4px">
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="oui"> Oui</label>
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="non" checked> Non</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Voisins mitoyens</label>
+            <div style="display:flex;gap:8px;margin-top:4px">
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="oui"> Oui</label>
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="non" checked> Non</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Copropriété</label>
+            <div style="display:flex;gap:8px;margin-top:4px">
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-copropriete" value="oui"> Oui</label>
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-copropriete" value="non" checked> Non</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Accès toiture</label>
+            <div style="display:flex;gap:8px;margin-top:4px">
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-toiture" value="oui"> Oui</label>
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-toiture" value="non" checked> Non</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Local technique</label>
+            <div style="display:flex;gap:8px;margin-top:4px">
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-local-tech" value="oui"> Oui</label>
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-local-tech" value="non" checked> Non</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Escaliers -->
+        <div style="border-top:1px solid #F3F4F6;margin:10px 0 8px"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="form-group">
+            <label class="form-label">Escalier existant</label>
+            <div style="display:flex;gap:8px;margin-top:4px">
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-escalier" value="oui"> Oui</label>
+              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-escalier" value="non" checked> Non</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">État</label>
+            <select id="bat-esc-etat" class="form-select" style="margin-top:4px">
+              <option value="">— Sélectionner —</option>
+              <option value="conserve">Conservé</option>
+              <option value="renover">À rénover</option>
+              <option value="remplacer">À remplacer</option>
+              <option value="supprimer">À supprimer</option>
+            </select>
+          </div>
+        </div>
+  
+
+<div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div>
+<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Contraintes de chantier</div>
+<div style="font-size:12px;color:var(--muted);margin-bottom:14px">Anticiper les coûts, accès et contraintes logistiques</div>
+
+        <div class="form-section-title" style="margin-bottom:8px">Accès</div>
+        <div class="check-grid" style="margin-bottom:14px">
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-poids-lourd"> Accès poids lourd</label>
+                    <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-camion-20"> Accès camion 20 m³</label>
+                    <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-pietonne"> Zone piétonne</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-rue-comm"> Rue commerçante</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-centre-comm"> Centre commercial</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-site-occupe"> Travaux en site occupé</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-local-tech"> Accès local technique</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-sous-sol"> Accès sous-sol</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-toiture"> Accès toiture</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-cour"> Accès cour intérieure</label>
+          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-nacelle"> Accès façade par nacelle</label>
+        </div>
+
+        <div class="form-section-title" style="margin-bottom:8px">Stationnement & Logistique</div>
+        <div class="check-grid" style="margin-bottom:14px">
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-parking-dispo"> Place stationnement disponible</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-place-payante"> Place payante</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-zone-livraison"> Zone livraison</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-voirie"> Autorisation de voirie</label>
+          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-stockage"> Stockage matériel sur site</label>
+                    <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-benne-site"> Benne possible sur site</label>
+                  </div>
+  
+
+<div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div>
+<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Alimentation provisoire de chantier</div>
+<div style="font-size:12px;color:var(--muted);margin-bottom:10px">Anticiper les installations temporaires pour le préchiffrage des frais de chantier</div>
+
+        <!-- Eau / Élec / Sanitaires -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px">
+          <div class="form-group">
+            <label class="form-label">Eau</label>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="site" onchange="toggleVeoliaInfo()"> Disponible sur site</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="souscomptage" onchange="toggleVeoliaInfo()"> Sous-comptage</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="raccord" onchange="toggleVeoliaInfo()"> Raccordement provisoire Veolia</label>
+              <div id="prov-eau-veolia-info" style="display:none;margin-top:6px;padding:8px 10px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:7px;font-size:11px;color:#1E40AF;line-height:1.6">
+                <strong>À la charge du client :</strong> La demande de branchement provisoire eau doit être effectuée directement par le client auprès de Veolia (ou du distributeur d'eau local selon la commune). Le client doit contacter son agence Veolia pour une demande de branchement chantier.<br><br>
+                <span style="color:#1D4ED8">Délai moyen : 2 à 4 semaines · Coût : 500 à 1 500 € selon distance au réseau · À anticiper avant démarrage du chantier</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Électricité</label>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="site" onchange="toggleEnedisInfo()"> Disponible sur site</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="souscomptage" onchange="toggleEnedisInfo()"> Sous-comptage</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="raccord" onchange="toggleEnedisInfo()"> Raccordement provisoire Enedis</label>
+              <div id="prov-elec-enedis-info" style="display:none;margin-top:6px;padding:8px 10px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:7px;font-size:11px;color:#92400E;line-height:1.6">
+                <strong>Puissance recommandée pour un chantier : 9 kVA</strong> (alimentation outillage, éclairage, compresseur, chargeurs...)<br><br>
+                <strong>À la charge du client :</strong> La demande de raccordement provisoire doit être effectuée par le client auprès de son fournisseur d'énergie (EDF ou autre fournisseur). C'est le fournisseur qui mandate Enedis pour réaliser le raccordement — le client ne contacte pas Enedis directement.<br><br>
+                <span style="color:#B45309">Délai moyen : 3 à 6 semaines · Coût : 1 500 à 4 000 € selon puissance · À anticiper avant démarrage du chantier</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:10px">
+          <label class="form-label">Sanitaires de chantier</label>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="existants"> Toilettes existantes utilisables</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="provisoires"> Toilettes provisoires à prévoir</label>
+            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="base-vie"> Base vie complète à prévoir</label>
+          </div>
+        </div>
+
+
+
+        <input type="hidden" id="prov-duree-mois" value="0">
+        <input type="hidden" id="prov-nb-intervenants" value="0">
+        <div id="prov-estimation-hint" style="display:none"></div>
+        <!-- Résultat calcul automatique -->
+        <div id="prov-frais-result" style="display:none;padding:12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Estimation frais de chantier provisoires</div>
+          <div id="prov-frais-detail" style="font-size:12px;color:var(--ink2);line-height:2"></div>
+          <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px;display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:12px;font-weight:700;color:var(--ink)">Total estimé</span>
+            <span id="prov-frais-total" style="font-size:14px;font-weight:800;color:var(--primary)">0 €</span>
+
         <div class="init-section">
   <div class="init-section-header" onclick="toggleInitSection('init-acc-travaux')">
     <div class="init-section-title">
@@ -1897,204 +2094,7 @@ input[type=number]{-moz-appearance:textfield}
     <!-- ══ COL DROITE ══ -->
     <div>
 
-
-
-
-        <!-- CONFIGURATION DU BÂTIMENT -->
-        <div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Configuration du bâtiment</div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
-          <div class="form-group">
-            <label class="form-label">Type de bâtiment</label>
-            <select id="bat-type" class="form-select" style="margin-top:4px">
-              <option value="immeuble">Immeuble collectif</option>
-              <option value="centre-comm">Centre commercial</option>
-              <option value="entrepot">Entrepôt</option>
-              <option value="maison">Maison individuelle</option>
-              <option value="industriel">Bâtiment industriel</option>
-              <option value="tertiaire">Bâtiment tertiaire</option>
-              <option value="autre">Autre</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Ancienneté</label>
-            <select id="bat-anciennete" class="form-select" style="margin-top:4px">
-              <option value="inconnu">Inconnu</option>
-              <option value="ancien">Ancien bâtiment</option>
-              <option value="recent">Bâtiment récent</option>
-              <option value="neuf">Bâtiment neuf</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Nombre total d'étages</label>
-            <input type="number" id="bat-nb-etages" class="form-input" placeholder="0" min="0" style="font-size:14px;margin-top:4px">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Localisation du local</label>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="rdc" checked> RDC</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="sous-sol"> Sous-sol</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="etage"> Étage</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-localisation" value="mezzanine"> Mezzanine</label>
-            </div>
-          </div>
-        </div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px">
-          <div class="form-group">
-            <label class="form-label">Voisins au-dessus</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessus" value="non" checked> Non</label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Voisins en dessous</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-voisins-dessous" value="non" checked> Non</label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Voisins mitoyens</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-mitoyens" value="non" checked> Non</label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Copropriété</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-copropriete" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-copropriete" value="non" checked> Non</label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Accès toiture</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-toiture" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-toiture" value="non" checked> Non</label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Local technique</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-local-tech" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-local-tech" value="non" checked> Non</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Escaliers -->
-        <div style="border-top:1px solid #F3F4F6;margin:10px 0 8px"></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <div class="form-group">
-            <label class="form-label">Escalier existant</label>
-            <div style="display:flex;gap:8px;margin-top:4px">
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-escalier" value="oui"> Oui</label>
-              <label style="display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer"><input type="radio" name="bat-escalier" value="non" checked> Non</label>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">État</label>
-            <select id="bat-esc-etat" class="form-select" style="margin-top:4px">
-              <option value="">— Sélectionner —</option>
-              <option value="conserve">Conservé</option>
-              <option value="renover">À rénover</option>
-              <option value="remplacer">À remplacer</option>
-              <option value="supprimer">À supprimer</option>
-            </select>
-          </div>
-        </div>
-  
-
-<div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div>
-<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Contraintes de chantier</div>
-<div style="font-size:12px;color:var(--muted);margin-bottom:14px">Anticiper les coûts, accès et contraintes logistiques</div>
-
-        <div class="form-section-title" style="margin-bottom:8px">Accès</div>
-        <div class="check-grid" style="margin-bottom:14px">
-          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-poids-lourd"> Accès poids lourd</label>
-                    <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-camion-20"> Accès camion 20 m³</label>
-                    <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-pietonne"> Zone piétonne</label>
-          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-rue-comm"> Rue commerçante</label>
-          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-centre-comm"> Centre commercial</label>
-          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-site-occupe"> Travaux en site occupé</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-local-tech"> Accès local technique</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-sous-sol"> Accès sous-sol</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-toiture"> Accès toiture</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-cour"> Accès cour intérieure</label>
-          <label class="check-item" onclick="toggleCheck(this);estimerDureeEtCompagnons()"><input type="checkbox" id="ch-nacelle"> Accès façade par nacelle</label>
-        </div>
-
-        <div class="form-section-title" style="margin-bottom:8px">Stationnement & Logistique</div>
-        <div class="check-grid" style="margin-bottom:14px">
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-parking-dispo"> Place stationnement disponible</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-place-payante"> Place payante</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-zone-livraison"> Zone livraison</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-voirie"> Autorisation de voirie</label>
-          <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-stockage"> Stockage matériel sur site</label>
-                    <label class="check-item" onclick="toggleCheck(this)"><input type="checkbox" id="ch-benne-site"> Benne possible sur site</label>
-                  </div>
-  
-
-<div style="border-top:1px solid #F3F4F6;margin:14px 0 10px"></div>
-<div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Alimentation provisoire de chantier</div>
-<div style="font-size:12px;color:var(--muted);margin-bottom:10px">Anticiper les installations temporaires pour le préchiffrage des frais de chantier</div>
-
-        <!-- Eau / Élec / Sanitaires -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px">
-          <div class="form-group">
-            <label class="form-label">Eau</label>
-            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="site" onchange="toggleVeoliaInfo()"> Disponible sur site</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="souscomptage" onchange="toggleVeoliaInfo()"> Sous-comptage</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-eau" value="raccord" onchange="toggleVeoliaInfo()"> Raccordement provisoire Veolia</label>
-              <div id="prov-eau-veolia-info" style="display:none;margin-top:6px;padding:8px 10px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:7px;font-size:11px;color:#1E40AF;line-height:1.6">
-                <strong>À la charge du client :</strong> La demande de branchement provisoire eau doit être effectuée directement par le client auprès de Veolia (ou du distributeur d'eau local selon la commune). Le client doit contacter son agence Veolia pour une demande de branchement chantier.<br><br>
-                <span style="color:#1D4ED8">Délai moyen : 2 à 4 semaines · Coût : 500 à 1 500 € selon distance au réseau · À anticiper avant démarrage du chantier</span>
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Électricité</label>
-            <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="site" onchange="toggleEnedisInfo()"> Disponible sur site</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="souscomptage" onchange="toggleEnedisInfo()"> Sous-comptage</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-elec" value="raccord" onchange="toggleEnedisInfo()"> Raccordement provisoire Enedis</label>
-              <div id="prov-elec-enedis-info" style="display:none;margin-top:6px;padding:8px 10px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:7px;font-size:11px;color:#92400E;line-height:1.6">
-                <strong>Puissance recommandée pour un chantier : 9 kVA</strong> (alimentation outillage, éclairage, compresseur, chargeurs...)<br><br>
-                <strong>À la charge du client :</strong> La demande de raccordement provisoire doit être effectuée par le client auprès de son fournisseur d'énergie (EDF ou autre fournisseur). C'est le fournisseur qui mandate Enedis pour réaliser le raccordement — le client ne contacte pas Enedis directement.<br><br>
-                <span style="color:#B45309">Délai moyen : 3 à 6 semaines · Coût : 1 500 à 4 000 € selon puissance · À anticiper avant démarrage du chantier</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group" style="margin-bottom:10px">
-          <label class="form-label">Sanitaires de chantier</label>
-          <div style="display:flex;flex-direction:column;gap:5px;margin-top:6px">
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="existants"> Toilettes existantes utilisables</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="provisoires"> Toilettes provisoires à prévoir</label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="radio" name="prov-sanit" value="base-vie"> Base vie complète à prévoir</label>
-          </div>
-        </div>
-
-
-
-        <input type="hidden" id="prov-duree-mois" value="0">
-        <input type="hidden" id="prov-nb-intervenants" value="0">
-        <div id="prov-estimation-hint" style="display:none"></div>
-        <!-- Résultat calcul automatique -->
-        <div id="prov-frais-result" style="display:none;padding:12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
-          <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Estimation frais de chantier provisoires</div>
-          <div id="prov-frais-detail" style="font-size:12px;color:var(--ink2);line-height:2"></div>
-          <div style="border-top:1px solid var(--border);margin-top:8px;padding-top:8px;display:flex;justify-content:space-between;align-items:center">
-            <span style="font-size:12px;font-weight:700;color:var(--ink)">Total estimé</span>
-            <span id="prov-frais-total" style="font-size:14px;font-weight:800;color:var(--primary)">0 €</span>
-
-
-<div class="init-section">
+        <div class="init-section">
   <div class="init-section-header" onclick="toggleInitSection('init-acc-prest')">
     <div class="init-section-title">
       <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
